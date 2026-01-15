@@ -4,58 +4,58 @@
 
 @layer base {
   :root {
-    --background: 0 0% 96%;
-    --foreground: 224 71.4% 4.1%;
+    --background: 0 0% 98%;
+    --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 275 100% 26%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 220 13% 91%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 220 13% 91%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 240 67% 97%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 45 90% 55%;
+    --primary-foreground: 45 90% 15%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 224 71.4% 4.1%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 45 90% 55%;
     --radius: 0.8rem;
-    --chart-1: 275 100% 26%;
-    --chart-2: 275 80% 50%;
-    --chart-3: 275 70% 65%;
-    --chart-4: 275 60% 75%;
-    --chart-5: 275 50% 85%;
+    --chart-1: 45 90% 55%;
+    --chart-2: 45 80% 65%;
+    --chart-3: 45 70% 75%;
+    --chart-4: 45 60% 85%;
+    --chart-5: 45 50% 95%;
   }
 
   .dark {
-    --background: 240 5% 12%;
+    --background: 240 5% 10%;
     --foreground: 0 0% 98%;
-    --card: 240 5% 18%;
+    --card: 240 5% 14%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 5% 12%;
+    --popover: 240 5% 10%;
     --popover-foreground: 0 0% 98%;
-    --primary: 275 90% 65%;
-    --primary-foreground: 275 100% 15%;
-    --secondary: 240 5% 24%;
+    --primary: 45 90% 65%;
+    --primary-foreground: 45 90% 25%;
+    --secondary: 240 5% 18%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 240 5% 24%;
+    --muted: 240 5% 18%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: 240 5% 24%;
+    --accent: 240 5% 18%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5% 24%;
-    --input: 240 5% 24%;
-    --ring: 275 90% 65%;
-    --chart-1: 275 90% 65%;
-    --chart-2: 275 80% 55%;
-    --chart-3: 275 70% 45%;
-    --chart-4: 275 60% 35%;
-    --chart-5: 275 50% 25%;
+    --border: 240 5% 18%;
+    --input: 240 5% 18%;
+    --ring: 45 90% 65%;
+    --chart-1: 45 90% 65%;
+    --chart-2: 45 80% 55%;
+    --chart-3: 45 70% 45%;
+    --chart-4: 45 60% 35%;
+    --chart-5: 45 50% 25%;
   }
 }
 
