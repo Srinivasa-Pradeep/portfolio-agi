@@ -13,11 +13,13 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
-        <About />
-        <Blogs />
-        <LeetCode />
-        <Projects />
-        <Contact />
+        <div className="relative z-10 bg-background">
+          <About />
+          <Blogs />
+          <LeetCode />
+          <Projects />
+          <Contact />
+        </div>
       </main>
       <Footer />
     </div>

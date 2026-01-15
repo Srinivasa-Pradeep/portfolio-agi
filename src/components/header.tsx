@@ -1,7 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { ThemeToggle } from './theme-toggle';
@@ -78,7 +78,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 w-full transition-all duration-300',
+        'fixed top-0 z-50 w-full transition-all duration-300',
         isScrolled
           ? 'border-b border-border/40 bg-background/80 backdrop-blur-lg'
           : 'bg-transparent'
