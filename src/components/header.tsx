@@ -1,19 +1,25 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { Menu } from 'lucide-react';
+import { Menu, Home, Code, User, Send, NotebookText, Star } from 'lucide-react';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { ThemeToggle } from './theme-toggle';
 import { Button } from './ui/button';
 import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 const navItems = [
-  { id: 'about', label: 'About' },
-  { id: 'blogs', label: 'Blogs' },
-  { id: 'leetcode', label: 'LeetCode' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'about', label: 'About', icon: User },
+  { id: 'blogs', label: 'Blogs', icon: NotebookText },
+  { id: 'leetcode', label: 'LeetCode', icon: Code },
+  { id: 'projects', label: 'Projects', icon: Star },
+  { id: 'contact', label: 'Contact', icon: Send },
 ];
 
 export function Header() {
@@ -24,7 +30,6 @@ export function Header() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
-
       const sections = ['hero', ...navItems.map(item => item.id)];
       let currentSection = 'hero';
 
@@ -42,7 +47,7 @@ export function Header() {
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); 
+    handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -50,66 +55,73 @@ export function Header() {
   const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => (
     <nav
       className={cn(
-        'flex items-center gap-1',
-        isMobile ? 'flex-col space-y-4 pt-8' : 'hidden md:flex'
+        'flex items-center gap-2',
+        isMobile ? 'flex-col space-y-2' : 'hidden md:flex'
       )}
     >
-      {navItems.map((item) => (
-        <Link href={`#${item.id}`} key={item.id} passHref>
-          <Button
-            variant="ghost"
-            className={cn(
-              'rounded-full px-4 transition-colors',
-              'hover:bg-accent hover:text-accent-foreground',
-              activeSection === item.id
-                ? 'bg-secondary text-secondary-foreground font-semibold'
-                : '',
-              isMobile ? 'w-full text-lg' : ''
-            )}
-            onClick={() => isMobile && setIsMobileMenuOpen(false)}
-          >
-            {item.label}
-          </Button>
-        </Link>
-      ))}
+      <TooltipProvider>
+        {navItems.map(item => (
+          <Tooltip key={item.id}>
+            <TooltipTrigger asChild>
+              <Link href={`#${item.id}`} passHref>
+                <Button
+                  variant={activeSection === item.id ? 'secondary' : 'ghost'}
+                  size="icon"
+                  className="rounded-full"
+                  onClick={() => isMobile && setIsMobileMenuOpen(false)}
+                  aria-label={item.label}
+                >
+                  <item.icon className="h-5 w-5" />
+                </Button>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{item.label}</p>
+            </TooltipContent>
+          </Tooltip>
+        ))}
+      </TooltipProvider>
     </nav>
   );
 
   return (
-    <header
-      className={cn(
-        'fixed top-0 z-50 w-full transition-all duration-300',
-        isScrolled
-          ? 'border-b border-border/40 bg-background/80 backdrop-blur-lg'
-          : 'bg-transparent'
-      )}
-    >
-      <div className="container flex h-20 items-center justify-between">
-        <Link href="#hero" className="flex items-center gap-2" passHref>
-          <span className="text-xl font-bold font-headline tracking-wider text-primary">
-            Srini
-          </span>
-        </Link>
-
-        <div className="hidden items-center gap-2 md:flex">
-          <NavLinks />
-          <ThemeToggle />
-        </div>
-
-        <div className="flex items-center gap-2 md:hidden">
-            <ThemeToggle />
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
+    <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
+      <div
+        className={cn(
+          'transition-all duration-300',
+          isScrolled
+            ? 'rounded-full border border-border/40 bg-background/80 shadow-lg backdrop-blur-lg'
+            : ''
+        )}
+      >
+        <div className="container flex h-16 items-center justify-between gap-4 p-3">
+            <Link href="#hero" className="flex items-center gap-2" passHref>
+                <Button variant={activeSection === 'hero' ? 'secondary' : 'ghost'} size="icon" className="rounded-full">
+                    <Home className="h-5 w-5" />
                 </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-full">
-                <div className="flex flex-col items-center justify-center h-full">
-                    <NavLinks isMobile={true} />
+            </Link>
+
+            <div className="hidden md:flex items-center gap-2">
+                <NavLinks />
+            </div>
+
+            <div className="flex items-center gap-2">
+                <ThemeToggle />
+                <div className="md:hidden">
+                    <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                        <SheetTrigger asChild>
+                            <Button variant="ghost" size="icon" className="rounded-full">
+                            <Menu className="h-5 w-5" />
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="bottom" className="w-full rounded-t-lg">
+                            <div className="flex flex-col items-center justify-center p-8">
+                                <NavLinks isMobile={true} />
+                            </div>
+                        </SheetContent>
+                    </Sheet>
                 </div>
-            </SheetContent>
-            </Sheet>
+            </div>
         </div>
       </div>
     </header>
