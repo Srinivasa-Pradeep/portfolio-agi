@@ -13,25 +13,32 @@ import {
 const SapLogo = ({ className }: { className?: string }) => (
     <svg viewBox="0 0 50 25" xmlns="http://www.w3.org/2000/svg" className={className}>
         <title>SAP</title>
-        <text x="0" y="20" fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif" fontSize="24" fontWeight="bold" fill="currentColor">SAP</text>
+        <path fill="currentColor" d="M12.3 14.6c0-1.7 1-3.1 3.3-3.1 1.4 0 2.2.6 2.8 1.2l-1.6 1c-.4-.4-.9-.7-1.4-.7-.9 0-1.6.6-1.6 1.6s.7 1.6 1.6 1.6c.5 0 1-.3 1.4-.7l1.6 1c-.6.6-1.4 1.2-2.8 1.2-2.3 0-3.3-1.4-3.3-3.1zm14 2.5c-.5.6-1.4 1.1-2.6 1.1-2 0-3.3-1.4-3.3-3.2s1.3-3.2 3.3-3.2c1.2 0 2 .5 2.6 1.1l-1.5 1.1c-.4-.4-.8-.7-1.2-.7-.8 0-1.4.6-1.4 1.6s.6 1.6 1.4 1.6c.4 0 .8-.3 1.2-.7l1.5 1.1zm7-2.5c0-1.8-1.2-3.2-3.3-3.2s-3.3 1.4-3.3 3.2 1.2 3.2 3.3 3.2 3.3-1.4 3.3-3.2zm-2 0c0 1.1-.6 1.7-1.3 1.7s-1.3-.6-1.3-1.7.6-1.7 1.3-1.7 1.3.6 1.3 1.7z"/>
     </svg>
 );
 
 const AmazonLogo = ({ className }: { className?: string }) => (
-    <svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <svg viewBox="0 0 106.3 31.9" xmlns="http://www.w3.org/2000/svg" className={className}>
         <title>Amazon</title>
-        <path d="M 12,13 A 19.6,19.6,0,0,0,38.5,13" stroke="currentColor" fill="none" strokeWidth="3" strokeLinecap="round"/>
-        <path d="M 33,14 l 5.5,-2.5" stroke="currentColor" fill="none" strokeWidth="3" strokeLinecap="round"/>
+        <path fill="currentColor" d="M25.7 18.2c-4.3 0-8.3-2.3-8.3-7.5 0-5.3 4.1-7.5 8.2-7.5 4 0 7.2 2.1 7.2 5.3 0 2.2-1.3 3.5-3.1 3.5-1.1 0-2.3-.6-2.3-1.8 0-.8.8-1.3 1.8-1.3.6 0 1.2.2 1.2.8 0 .4-.6.6-1.2.6-.6 0-1.2-.2-1.2-1C20 9.2 21.6 8 24.3 8c2.4 0 4.9 1.4 4.9 4.8 0 3.6-2.9 5.4-5.5 5.4zm-1-2.1c1.3 0 2.7-.6 2.7-2.3 0-1.6-1.5-2.2-2.8-2.2-1.6 0-2.8.8-2.8 2.3 0 1.6 1.3 2.2 2.9 2.2z"/>
+        <path fill="currentColor" d="M37.8 18.2c-3.2 0-5.4-1.8-5.4-4.5 0-2.6 2-4.4 5.3-4.4 3.3 0 5.4 1.8 5.4 4.4 0 2.7-2.1 4.5-5.3 4.5zm0-1.8c1.8 0 3.1-1.1 3.1-2.7 0-1.5-1.3-2.7-3.1-2.7-1.8 0-3.1 1.2-3.1 2.7 0 1.6 1.3 2.7 3.1 2.7z"/>
+        <path fill="currentColor" d="M51.9 18.2c-3.2 0-5.4-1.8-5.4-4.5 0-2.6 2-4.4 5.3-4.4 3.3 0 5.4 1.8 5.4 4.4 0 2.7-2.1 4.5-5.3 4.5zm0-1.8c1.8 0 3.1-1.1 3.1-2.7 0-1.5-1.3-2.7-3.1-2.7-1.8 0-3.1 1.2-3.1 2.7 0 1.6 1.3 2.7 3.1 2.7z"/>
+        <path fill="currentColor" d="M62.3 9.5h2.4l4.3 8.7-2.4 1.1-2.5-5.4-2.4 5.4-2.4-1.1 4.9-8.7z"/>
+        <path fill="currentColor" d="M72.9 18.2c-1.8 0-3.2-1-3.2-2.7V9.5h2.3v5.6c0 1 .8 1.6 1.8 1.6s1.8-.6 1.8-1.6V9.5h2.3v6c0 1.7-1.4 2.7-3.2 2.7z"/>
+        <path fill="currentColor" d="M85.5 14.8c0 2.2 1.5 3.4 3.5 3.4 1.8 0 2.9-1.1 2.9-2.6 0-1.7-1.2-2.3-3.2-2.8l-1.6-.4c-.7-.2-1.1-.4-1.1-.9s.5-.8 1.2-.8c.8 0 1.2.3 1.2.9h2.2c0-1.8-1.5-2.6-3.4-2.6-1.9 0-3.2 1-3.2 2.5 0 1.5 1 2.2 2.8 2.7l1.8.5c.9.2 1.3.5 1.3 1 0 .6-.6.9-1.4.9-.9 0-1.4-.3-1.5-1h-2.3z"/>
+        <path fill="currentColor" d="M102.3 13.9c.2-2.8-1.6-4.6-4.9-4.6-3.1 0-5.8 2.1-5.8 5.4 0 3.2 2.5 5.3 5.7 5.3 2.9 0 4.9-1.9 5.2-4.5h-2.3c-.2 1.4-1.3 2.4-2.9 2.4-1.9 0-3.3-1.3-3.3-3.2 0-1.9 1.3-3.2 3.2-3.2 2 0 2.8 1.3 2.8 2.9h-2.9v1.9h5.1z"/>
+        <path fill="#FF9900" d="M89.3 23.4c6.1 0 11-1.9 14.5-5.1-1.3 3.6-4.6 6.1-9.1 6.1-4.9 0-8.9-2.9-10.4-6.9 1.5 2.1 3.5 3.9 6.2 4.9.7.3 1.5.5 2.3.7.8.2 1.6.3 2.5.3z"/>
+        <path d="M91.8 18.5c-.5.4-1.1.9-1.7 1.3-2.1 1.5-4.5 2.4-7.2 2.4-2.8 0-5.4-1-7.5-2.6-.9-.7-1.7-1.4-2.3-2.3.4-.4.8-.8 1.2-1.1 2-1.6 4.3-2.5 6.9-2.5 2.4 0 4.6.8 6.5 2.2.7.5 1.3 1.1 1.8 1.7.1.1.2.2.3.3z" fill="#FF9900"/>
     </svg>
 );
 
 const MercedesBenzLogo = ({ className }: { className?: string }) => (
   <svg viewBox="0 0 24 24" className={className} xmlns="http://www.w3.org/2000/svg">
     <title>Mercedes-Benz</title>
-    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-    <path d="M12 2V12" stroke="currentColor" strokeWidth="1.5"/>
-    <path d="M3.34 17L12 12" stroke="currentColor" strokeWidth="1.5"/>
-    <path d="M20.66 17L12 12" stroke="currentColor" strokeWidth="1.5"/>
+    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
+    <path d="M12 2V12" stroke="currentColor" strokeWidth="2"/>
+    <path d="M3.34 17L12 12" stroke="currentColor" strokeWidth="2"/>
+    <path d="M20.66 17L12 12" stroke="currentColor" strokeWidth="2"/>
   </svg>
 );
 
