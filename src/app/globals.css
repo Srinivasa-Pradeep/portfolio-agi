@@ -63,7 +63,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border transition-colors duration-700 ease-in-out;
   }
   body {
     @apply bg-background text-foreground;
