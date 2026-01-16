@@ -123,7 +123,10 @@ export function LeetCode() {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
               <div className="md:col-span-3 relative h-64 md:h-80">
                 <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                    <PieChart
+                      onMouseEnter={() => setIsHovering(true)}
+                      onMouseLeave={() => setIsHovering(false)}
+                    >
                         <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent)/0.5)' }}/>
                         <Pie
                         data={pieData}
@@ -142,13 +145,6 @@ export function LeetCode() {
                         </Pie>
                     </PieChart>
                 </ResponsiveContainer>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div
-                    className="h-[65%] aspect-square rounded-full"
-                    onMouseEnter={() => setIsHovering(true)}
-                    onMouseLeave={() => setIsHovering(false)}
-                  />
-                </div>
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
                   {/* Default state */}
                   <div className={cn(
