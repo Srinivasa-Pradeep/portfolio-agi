@@ -16,10 +16,7 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
+        setIsVisible(entry.isIntersecting);
       },
       {
         threshold: 0.15, // Animate when 15% of the element is visible
