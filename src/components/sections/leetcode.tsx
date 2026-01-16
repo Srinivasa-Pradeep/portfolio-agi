@@ -14,7 +14,8 @@ import {
   ResponsiveContainer,
   PieChart,
   Pie,
-  Cell
+  Cell,
+  Tooltip,
 } from "recharts";
 
 const leetCodeProgress = {
@@ -26,16 +27,45 @@ const leetCodeProgress = {
   hard: { solved: 124, total: 900 },
 };
 
-const progressData = [
-  { name: 'Easy', value: leetCodeProgress.easy.solved, color: 'hsl(var(--easy))' },
-  { name: 'Medium', value: leetCodeProgress.medium.solved, color: 'hsl(var(--primary))' },
-  { name: 'Hard', value: leetCodeProgress.hard.solved, color: 'hsl(var(--destructive))' },
+const easyProgress = [
+  { name: 'Solved', value: leetCodeProgress.easy.solved, color: 'hsl(var(--easy))' },
+  { name: 'Remaining', value: leetCodeProgress.easy.total - leetCodeProgress.easy.solved, color: 'hsl(var(--easy)/0.2)' },
+];
+const mediumProgress = [
+  { name: 'Solved', value: leetCodeProgress.medium.solved, color: 'hsl(var(--primary))' },
+  { name: 'Remaining', value: leetCodeProgress.medium.total - leetCodeProgress.medium.solved, color: 'hsl(var(--primary)/0.2)' },
+];
+const hardProgress = [
+  { name: 'Solved', value: leetCodeProgress.hard.solved, color: 'hsl(var(--destructive))' },
+  { name: 'Remaining', value: leetCodeProgress.hard.total - leetCodeProgress.hard.solved, color: 'hsl(var(--destructive)/0.2)' },
 ];
 
-const totalSolved = progressData.reduce((acc, curr) => acc + curr.value, 0);
-const remaining = leetCodeProgress.totalProblems - totalSolved;
 
-const pieData = [...progressData, { name: 'Remaining', value: remaining, color: 'hsl(var(--muted-foreground)/0.1)' }];
+const CustomTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    const data = payload[0];
+    const pieProps = data.payload?.pie;
+    const pieName = pieProps?.props?.name;
+    
+    if (!pieName) return null;
+    
+    const difficulty = pieName.toLowerCase() as 'easy' | 'medium' | 'hard';
+    const progress = leetCodeProgress[difficulty];
+
+    const color = pieProps.data.find((d: any) => d.name === 'Solved')?.color || data.payload.fill;
+    
+    return (
+      <div className="rounded-lg border bg-background/80 backdrop-blur-sm p-3 shadow-sm min-w-[120px]">
+        <div className="flex justify-between items-center gap-4">
+          <span className="font-semibold">{pieName}</span>
+          <span className="text-sm font-bold" style={{color: color}}>{progress.solved} <span className="text-muted-foreground text-xs">/ {progress.total}</span></span>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
 
 
 const featuredSolutions = [
@@ -75,39 +105,66 @@ export function LeetCode() {
         <div className="mt-12">
           <Card className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
-              <div className="md:col-span-3 relative h-64">
+              <div className="md:col-span-3 relative h-64 md:h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
+                    <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent)/0.5)' }}/>
                     <Pie
-                      data={pieData}
+                      data={easyProgress}
                       dataKey="value"
-                      nameKey="name"
+                      name="Easy"
                       cx="50%"
                       cy="50%"
-                      innerRadius="80%"
                       outerRadius="100%"
+                      innerRadius="80%"
                       startAngle={90}
                       endAngle={-270}
-                      cornerRadius={50}
-                      paddingAngle={2}
-                      strokeWidth={0}
+                      stroke="none"
                     >
-                      {pieData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      {easyProgress.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} cornerRadius={index === 0 && entry.value > 0 ? 8 : 0} />
+                      ))}
+                    </Pie>
+                    <Pie
+                      data={mediumProgress}
+                      dataKey="value"
+                      name="Medium"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius="75%"
+                      innerRadius="55%"
+                      startAngle={90}
+                      endAngle={-270}
+                      stroke="none"
+                    >
+                      {mediumProgress.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} cornerRadius={index === 0 && entry.value > 0 ? 8 : 0}/>
+                      ))}
+                    </Pie>
+                    <Pie
+                      data={hardProgress}
+                      dataKey="value"
+                      name="Hard"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius="50%"
+                      innerRadius="30%"
+                      startAngle={90}
+                      endAngle={-270}
+                      stroke="none"
+                    >
+                      {hardProgress.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} cornerRadius={index === 0 && entry.value > 0 ? 8 : 0}/>
                       ))}
                     </Pie>
                   </PieChart>
                 </ResponsiveContainer>
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
                   <p className="text-4xl font-bold tracking-tight">
                     {leetCodeProgress.totalSolved}
-                    <span className="text-xl font-normal text-muted-foreground">/{leetCodeProgress.totalProblems}</span>
                   </p>
-                  <p className="flex items-center gap-1.5 mt-2 text-sm font-medium text-easy">
-                      <CheckCircle className="h-4 w-4" /> Solved
-                  </p>
-                  <p className="mt-4 text-sm text-muted-foreground">
-                      {leetCodeProgress.attempting} Attempting
+                   <p className="flex items-center gap-1.5 mt-2 text-sm font-medium text-muted-foreground">
+                      Solved
                   </p>
                 </div>
               </div>
@@ -116,7 +173,7 @@ export function LeetCode() {
                 <Card className="bg-card-foreground/5">
                   <CardContent className="p-4">
                     <div className="flex justify-between items-baseline">
-                      <p className="text-sm font-medium text-easy">Easy</p>
+                      <p className="text-sm font-medium" style={{color: 'hsl(var(--easy))'}}>Easy</p>
                       <p className="text-lg font-bold">{leetCodeProgress.easy.solved}<span className="text-sm font-normal text-muted-foreground">/{leetCodeProgress.easy.total}</span></p>
                     </div>
                   </CardContent>
@@ -124,7 +181,7 @@ export function LeetCode() {
                 <Card className="bg-card-foreground/5">
                    <CardContent className="p-4">
                     <div className="flex justify-between items-baseline">
-                      <p className="text-sm font-medium text-primary">Medium</p>
+                      <p className="text-sm font-medium" style={{color: 'hsl(var(--primary))'}}>Medium</p>
                       <p className="text-lg font-bold">{leetCodeProgress.medium.solved}<span className="text-sm font-normal text-muted-foreground">/{leetCodeProgress.medium.total}</span></p>
                     </div>
                   </CardContent>
@@ -132,7 +189,7 @@ export function LeetCode() {
                 <Card className="bg-card-foreground/5">
                    <CardContent className="p-4">
                     <div className="flex justify-between items-baseline">
-                      <p className="text-sm font-medium text-destructive">Hard</p>
+                      <p className="text-sm font-medium" style={{color: 'hsl(var(--destructive))'}}>Hard</p>
                       <p className="text-lg font-bold">{leetCodeProgress.hard.solved}<span className="text-sm font-normal text-muted-foreground">/{leetCodeProgress.hard.total}</span></p>
                     </div>
                   </CardContent>
