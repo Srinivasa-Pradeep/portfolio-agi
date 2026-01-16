@@ -1,11 +1,27 @@
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Download } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export function Hero() {
+  const [offsetY, setOffsetY] = useState(0);
+  const handleScroll = () => setOffsetY(window.scrollY);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
     <section id="hero" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 z-0">
+      <div 
+        className="absolute inset-0 z-0"
+        style={{ transform: `translateY(${offsetY * 0.5}px)` }}
+      >
         <div className="absolute inset-0 bg-background" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.1),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,hsl(var(--accent)/0.1),transparent_40%)]" />
@@ -15,7 +31,7 @@ export function Hero() {
         </div>
       </div>
       
-      <div className="container relative z-10 flex flex-col items-center text-center">
+      <div className="container relative z-10 flex animate-fade-in flex-col items-center text-center">
         <h1 className="font-headline text-5xl font-bold tracking-tighter text-primary sm:text-7xl md:text-8xl lg:text-9xl">
           Srini
         </h1>

@@ -22,18 +22,18 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
         }
       },
       {
-        threshold: 0.1, // Animate when 10% of the element is visible
+        threshold: 0.15, // Animate when 15% of the element is visible
       }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    const currentRef = ref.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
     return () => {
-      if (ref.current) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        observer.unobserve(ref.current);
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
   }, []);
@@ -42,8 +42,8 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
     <div
       ref={ref}
       className={cn(
-        'transition-all duration-1000 ease-out will-change-transform',
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10',
+        'transition-all duration-1000 ease-[cubic-bezier(0.25,0.1,0.25,1)] will-change-transform',
+        isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-95',
         className
       )}
       style={{ transitionDelay: `${delay}ms` }}
