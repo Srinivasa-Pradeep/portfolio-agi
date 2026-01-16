@@ -137,8 +137,7 @@ export function LeetCode() {
                         outerRadius="100%"
                         innerRadius="65%"
                         paddingAngle={2}
-                        stroke="hsl(var(--background))"
-                        strokeWidth={3}
+                        stroke="transparent"
                         >
                         {pieData.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
