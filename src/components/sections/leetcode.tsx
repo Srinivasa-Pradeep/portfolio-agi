@@ -3,7 +3,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BarChart, Github, Link as LinkIcon } from "lucide-react";
+import { BarChart, Github, Link as LinkIcon, Code } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { 
   Area,
@@ -353,7 +353,7 @@ export function LeetCode() {
                 <CardFooter>
                     <Button asChild variant="outline" className="w-full">
                       <a href={solution.link} target="_blank" rel="noopener noreferrer">
-                        <Github className="mr-2 h-4 w-4" /> View Solution
+                        <Code className="mr-2 h-4 w-4" /> View Solution
                       </a>
                     </Button>
                 </CardFooter>
