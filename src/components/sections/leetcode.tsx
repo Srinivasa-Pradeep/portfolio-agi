@@ -27,38 +27,45 @@ const leetCodeProgress = {
   hard: { solved: 124, total: 900 },
 };
 
-const easyProgress = [
-  { name: 'Solved', value: leetCodeProgress.easy.solved, color: 'hsl(var(--easy))' },
-  { name: 'Remaining', value: leetCodeProgress.easy.total - leetCodeProgress.easy.solved, color: 'hsl(var(--easy)/0.2)' },
-];
-const mediumProgress = [
-  { name: 'Solved', value: leetCodeProgress.medium.solved, color: 'hsl(var(--primary))' },
-  { name: 'Remaining', value: leetCodeProgress.medium.total - leetCodeProgress.medium.solved, color: 'hsl(var(--primary)/0.2)' },
-];
-const hardProgress = [
-  { name: 'Solved', value: leetCodeProgress.hard.solved, color: 'hsl(var(--destructive))' },
-  { name: 'Remaining', value: leetCodeProgress.hard.total - leetCodeProgress.hard.solved, color: 'hsl(var(--destructive)/0.2)' },
+const pieData = [
+    { name: 'Easy Solved', value: leetCodeProgress.easy.solved, color: 'hsl(var(--easy))', difficulty: 'easy' },
+    { name: 'Easy Remaining', value: leetCodeProgress.easy.total - leetCodeProgress.easy.solved, color: 'hsl(var(--easy)/0.2)', difficulty: 'easy'},
+    { name: 'Medium Solved', value: leetCodeProgress.medium.solved, color: 'hsl(var(--primary))', difficulty: 'medium' },
+    { name: 'Medium Remaining', value: leetCodeProgress.medium.total - leetCodeProgress.medium.solved, color: 'hsl(var(--primary)/0.2)', difficulty: 'medium' },
+    { name: 'Hard Solved', value: leetCodeProgress.hard.solved, color: 'hsl(var(--destructive))', difficulty: 'hard' },
+    { name: 'Hard Remaining', value: leetCodeProgress.hard.total - leetCodeProgress.hard.solved, color: 'hsl(var(--destructive)/0.2)', difficulty: 'hard' },
 ];
 
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0];
-    const pieProps = data.payload?.pie;
-    const pieName = pieProps?.props?.name;
+    const difficultyData = payload[0].payload;
+    const difficulty = difficultyData.difficulty as 'easy' | 'medium' | 'hard';
     
-    if (!pieName) return null;
+    if (!difficulty) return null;
     
-    const difficulty = pieName.toLowerCase() as 'easy' | 'medium' | 'hard';
     const progress = leetCodeProgress[difficulty];
 
-    const color = pieProps.data.find((d: any) => d.name === 'Solved')?.color || data.payload.fill;
+    let color;
+    let name;
+
+    if (difficulty === 'easy') {
+      name = 'Easy';
+      color = 'hsl(var(--easy))';
+    } else if (difficulty === 'medium') {
+      name = 'Medium';
+      color = 'hsl(var(--primary))';
+    } else { // hard
+      name = 'Hard';
+      color = 'hsl(var(--destructive))';
+    }
     
     return (
       <div className="rounded-lg border bg-background/80 backdrop-blur-sm p-3 shadow-sm min-w-[120px]">
         <div className="flex justify-between items-center gap-4">
-          <span className="font-semibold">{pieName}</span>
-          <span className="text-sm font-bold" style={{color: color}}>{progress.solved} <span className="text-muted-foreground text-xs">/ {progress.total}</span></span>
+          <span className="font-semibold" style={{ color: color }}>{name}</span>
+          <span className="text-sm font-bold" style={{ color: color }}>{progress.solved} <span className="text-muted-foreground text-xs">/ {progress.total}</span></span>
         </div>
       </div>
     );
@@ -107,57 +114,25 @@ export function LeetCode() {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
               <div className="md:col-span-3 relative h-64 md:h-80">
                 <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent)/0.5)' }}/>
-                    <Pie
-                      data={easyProgress}
-                      dataKey="value"
-                      name="Easy"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius="100%"
-                      innerRadius="80%"
-                      startAngle={90}
-                      endAngle={-270}
-                      stroke="none"
-                    >
-                      {easyProgress.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} cornerRadius={index === 0 && entry.value > 0 ? 8 : 0} />
-                      ))}
-                    </Pie>
-                    <Pie
-                      data={mediumProgress}
-                      dataKey="value"
-                      name="Medium"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius="75%"
-                      innerRadius="55%"
-                      startAngle={90}
-                      endAngle={-270}
-                      stroke="none"
-                    >
-                      {mediumProgress.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} cornerRadius={index === 0 && entry.value > 0 ? 8 : 0}/>
-                      ))}
-                    </Pie>
-                    <Pie
-                      data={hardProgress}
-                      dataKey="value"
-                      name="Hard"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius="50%"
-                      innerRadius="30%"
-                      startAngle={90}
-                      endAngle={-270}
-                      stroke="none"
-                    >
-                      {hardProgress.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} cornerRadius={index === 0 && entry.value > 0 ? 8 : 0}/>
-                      ))}
-                    </Pie>
-                  </PieChart>
+                    <PieChart>
+                        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent)/0.5)' }}/>
+                        <Pie
+                        data={pieData}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius="100%"
+                        innerRadius="65%"
+                        paddingAngle={2}
+                        stroke="hsl(var(--background))"
+                        strokeWidth={3}
+                        >
+                        {pieData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                        </Pie>
+                    </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
                   <p className="text-4xl font-bold tracking-tight">
