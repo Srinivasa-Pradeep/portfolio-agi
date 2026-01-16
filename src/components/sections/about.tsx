@@ -24,7 +24,7 @@ export function About() {
       <div className="container">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-16">
           <div className="md:col-span-1 flex justify-center items-start">
-            <div className="relative h-48 w-48 md:h-64 md:w-64">
+            <div className="relative h-40 w-40 md:h-64 md:w-64">
                 {sriniAvatar && (
                     <Image
                     src={sriniAvatar.imageUrl}
