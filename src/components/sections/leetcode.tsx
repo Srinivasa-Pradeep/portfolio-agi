@@ -6,8 +6,8 @@ import { Button } from "@/components/ui/button";
 import { BarChart, Github, Link as LinkIcon, CheckCircle } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { 
-  BarChart as RechartsBarChart, 
   Bar as RechartsBar, 
+  BarChart as RechartsBarChart,
   XAxis, 
   YAxis, 
   CartesianGrid, 
@@ -17,6 +17,7 @@ import {
   Cell,
   Tooltip,
 } from "recharts";
+import { useState } from "react";
 
 const leetCodeProgress = {
   totalSolved: 1058,
@@ -25,15 +26,17 @@ const leetCodeProgress = {
   easy: { solved: 417, total: 922 },
   medium: { solved: 517, total: 1986 },
   hard: { solved: 124, total: 900 },
+  acceptanceRate: "65.3%",
+  submissions: "2.8k",
 };
 
 const pieData = [
-    { name: 'Easy Solved', value: leetCodeProgress.easy.solved, color: 'hsl(var(--easy))', difficulty: 'easy' },
-    { name: 'Easy Remaining', value: leetCodeProgress.easy.total - leetCodeProgress.easy.solved, color: 'hsl(var(--easy)/0.2)', difficulty: 'easy'},
-    { name: 'Medium Solved', value: leetCodeProgress.medium.solved, color: 'hsl(var(--primary))', difficulty: 'medium' },
-    { name: 'Medium Remaining', value: leetCodeProgress.medium.total - leetCodeProgress.medium.solved, color: 'hsl(var(--primary)/0.2)', difficulty: 'medium' },
     { name: 'Hard Solved', value: leetCodeProgress.hard.solved, color: 'hsl(var(--destructive))', difficulty: 'hard' },
     { name: 'Hard Remaining', value: leetCodeProgress.hard.total - leetCodeProgress.hard.solved, color: 'hsl(var(--destructive)/0.2)', difficulty: 'hard' },
+    { name: 'Medium Solved', value: leetCodeProgress.medium.solved, color: 'hsl(var(--primary))', difficulty: 'medium' },
+    { name: 'Medium Remaining', value: leetCodeProgress.medium.total - leetCodeProgress.medium.solved, color: 'hsl(var(--primary)/0.2)', difficulty: 'medium' },
+    { name: 'Easy Solved', value: leetCodeProgress.easy.solved, color: 'hsl(var(--easy))', difficulty: 'easy' },
+    { name: 'Easy Remaining', value: leetCodeProgress.easy.total - leetCodeProgress.easy.solved, color: 'hsl(var(--easy)/0.2)', difficulty: 'easy'},
 ];
 
 
@@ -99,6 +102,7 @@ const chartConfig = {
 };
 
 export function LeetCode() {
+  const [isHovering, setIsHovering] = useState(false);
   return (
     <section id="leetcode" className="py-20 md:py-32">
       <div className="container">
@@ -114,7 +118,10 @@ export function LeetCode() {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
               <div className="md:col-span-3 relative h-64 md:h-80">
                 <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
+                    <PieChart
+                      onMouseEnter={() => setIsHovering(true)}
+                      onMouseLeave={() => setIsHovering(false)}
+                    >
                         <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent)/0.5)' }}/>
                         <Pie
                         data={pieData}
@@ -135,12 +142,25 @@ export function LeetCode() {
                     </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
-                  <p className="text-4xl font-bold tracking-tight">
-                    {leetCodeProgress.totalSolved}
-                  </p>
-                   <p className="flex items-center gap-1.5 mt-2 text-sm font-medium text-muted-foreground">
-                      Solved
-                  </p>
+                  {isHovering ? (
+                    <>
+                       <p className="text-4xl font-bold tracking-tight">
+                        {leetCodeProgress.acceptanceRate}
+                      </p>
+                      <p className="flex items-center gap-1.5 mt-2 text-sm font-medium text-muted-foreground">
+                        {leetCodeProgress.submissions} Submissions
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <p className="text-4xl font-bold tracking-tight">
+                        {leetCodeProgress.totalSolved}
+                      </p>
+                      <p className="flex items-center gap-1.5 mt-2 text-sm font-medium text-muted-foreground">
+                          Solved
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
 
