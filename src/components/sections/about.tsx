@@ -34,8 +34,8 @@ export function About() {
                     className="rounded-full object-cover shadow-lg transition-transform duration-300 hover:scale-105"
                     />
                 )}
-                <div className="absolute -bottom-2 -right-2 rounded-full bg-primary p-3 shadow-md">
-                   <span className="text-2xl" role="img" aria-label="wave">👋</span>
+                <div className="absolute bottom-0 right-0 rounded-full bg-primary p-2 shadow-md">
+                   <span className="text-xl" role="img" aria-label="wave">👋</span>
                 </div>
             </div>
           </div>
