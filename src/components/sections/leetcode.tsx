@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BarChart, Github, Link as LinkIcon, CheckCircle } from "lucide-react";
+import { BarChart, Github, Link as LinkIcon } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { 
   Bar as RechartsBar, 
@@ -18,6 +18,7 @@ import {
   Tooltip,
 } from "recharts";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const leetCodeProgress = {
   totalSolved: 1058,
@@ -37,12 +38,11 @@ const pieData = [
     { name: 'Medium Remaining', value: leetCodeProgress.medium.total - leetCodeProgress.medium.solved, color: 'hsl(var(--primary)/0.2)', difficulty: 'medium' },
     { name: 'Easy Solved', value: leetCodeProgress.easy.solved, color: 'hsl(var(--easy))', difficulty: 'easy' },
     { name: 'Easy Remaining', value: leetCodeProgress.easy.total - leetCodeProgress.easy.solved, color: 'hsl(var(--easy)/0.2)', difficulty: 'easy'},
-];
+].reverse(); // Reverse to have Hard, Medium, Easy
 
 
 const CustomTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
-    const data = payload[0];
     const difficultyData = payload[0].payload;
     const difficulty = difficultyData.difficulty as 'easy' | 'medium' | 'hard';
     
@@ -64,11 +64,16 @@ const CustomTooltip = ({ active, payload }: any) => {
       color = 'hsl(var(--destructive))';
     }
     
+    const solvedPercentage = (progress.solved / progress.total * 100).toFixed(1);
+
     return (
-      <div className="rounded-lg border bg-background/80 backdrop-blur-sm p-3 shadow-sm min-w-[120px]">
+      <div className="rounded-lg border bg-background/80 backdrop-blur-sm p-3 shadow-sm min-w-[140px]">
         <div className="flex justify-between items-center gap-4">
           <span className="font-semibold" style={{ color: color }}>{name}</span>
           <span className="text-sm font-bold" style={{ color: color }}>{progress.solved} <span className="text-muted-foreground text-xs">/ {progress.total}</span></span>
+        </div>
+        <div className="mt-1 text-xs text-muted-foreground">
+            Solved {solvedPercentage}%
         </div>
       </div>
     );
@@ -142,25 +147,37 @@ export function LeetCode() {
                     </PieChart>
                 </ResponsiveContainer>
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
-                  {isHovering ? (
-                    <>
-                       <p className="text-4xl font-bold tracking-tight">
-                        {leetCodeProgress.acceptanceRate}
-                      </p>
-                      <p className="flex items-center gap-1.5 mt-2 text-sm font-medium text-muted-foreground">
-                        {leetCodeProgress.submissions} Submissions
-                      </p>
-                    </>
-                  ) : (
-                    <>
+                  {/* Default state */}
+                  <div className={cn(
+                      "flex flex-col items-center justify-center transition-all duration-300",
+                      isHovering ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                  )}>
                       <p className="text-4xl font-bold tracking-tight">
-                        {leetCodeProgress.totalSolved}
+                          {leetCodeProgress.totalSolved}
                       </p>
-                      <p className="flex items-center gap-1.5 mt-2 text-sm font-medium text-muted-foreground">
+                      <p className="flex items-center justify-center gap-1.5 mt-1 text-sm font-medium text-muted-foreground">
                           Solved
                       </p>
-                    </>
-                  )}
+                      <p className="mt-2 text-xs text-muted-foreground">
+                          {leetCodeProgress.attempting} Attempting
+                      </p>
+                  </div>
+
+                  {/* Hover state */}
+                  <div className={cn(
+                      "absolute flex flex-col items-center justify-center transition-all duration-300",
+                      isHovering ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                  )}>
+                      <p className="text-4xl font-bold tracking-tight">
+                          {leetCodeProgress.acceptanceRate}
+                      </p>
+                      <p className="flex items-center justify-center gap-1.5 mt-1 text-sm font-medium text-muted-foreground">
+                          Acceptance
+                      </p>
+                      <p className="mt-2 text-xs text-muted-foreground">
+                          {leetCodeProgress.submissions} Submissions
+                      </p>
+                  </div>
                 </div>
               </div>
 
