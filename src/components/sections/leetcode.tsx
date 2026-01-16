@@ -134,7 +134,7 @@ export function LeetCode() {
                         nameKey="name"
                         cx="50%"
                         cy="50%"
-                        outerRadius="100%"
+                        outerRadius="90%"
                         innerRadius="65%"
                         paddingAngle={2}
                         stroke="transparent"
