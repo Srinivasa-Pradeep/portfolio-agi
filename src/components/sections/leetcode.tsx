@@ -6,11 +6,12 @@ import { Button } from "@/components/ui/button";
 import { BarChart, Github, Link as LinkIcon } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { 
+  Area,
+  AreaChart,
   Bar as RechartsBar, 
   BarChart as RechartsBarChart,
   XAxis, 
   YAxis, 
-  CartesianGrid, 
   ResponsiveContainer,
   PieChart,
   Pie,
@@ -83,27 +84,47 @@ const CustomTooltip = ({ active, payload }: any) => {
 };
 
 
-const featuredSolutions = [
-  { name: "Longest Palindromic Substring", topics: ["DP", "String"], difficulty: "Medium", link: "#" },
-  { name: "Number of Islands", topics: ["Graphs", "DFS", "BFS"], difficulty: "Medium", link: "#" },
-  { name: "Coin Change", topics: ["DP", "Memoization"], difficulty: "Medium", link: "#" },
-  { name: "Merge K Sorted Lists", topics: ["Heap", "Linked List"], difficulty: "Hard", link: "#" },
+const contestStats = {
+  rating: 1826,
+  globalRanking: "52,752",
+  totalRanked: "813,046",
+  attended: 18,
+  topPercentage: 6.68,
+};
+
+const ratingHistory = [
+  { index: 0, rating: 1700 },
+  { index: 1, rating: 1780 },
+  { index: 2, rating: 1740 },
+  { index: 3, rating: 1760 },
+  { index: 4, rating: 1810 },
+  { index: 5, rating: 1830 },
+  { index: 6, rating: 1820 },
+  { index: 7, rating: 1825 },
+  { index: 8, rating: 1850 },
+  { index: 9, rating: 1841 },
+  { index: 10, rating: 1835 },
 ];
 
-const chartData = [
-  { month: "Jan", problems: 20 },
-  { month: "Feb", problems: 25 },
-  { month: "Mar", problems: 35 },
-  { month: "Apr", problems: 30 },
-  { month: "May", problems: 45 },
-  { month: "Jun", problems: 50 },
+const ratingDistribution = [
+  { rating: 1500, count: 2 }, { rating: 1550, count: 4 },
+  { rating: 1600, count: 8 }, { rating: 1650, count: 15 },
+  { rating: 1700, count: 25 }, { rating: 1750, count: 35 },
+  { rating: 1800, count: 28 }, { rating: 1850, count: 18 },
+  { rating: 1900, count: 12 }, { rating: 1950, count: 7 },
+  { rating: 2000, count: 4 }, { rating: 2050, count: 2 },
+  { rating: 2100, count: 1 },
 ];
 
-const chartConfig = {
-  problems: {
-    label: "Problems",
-    color: "hsl(var(--primary))",
-  },
+const RatingTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-md border bg-background/90 backdrop-blur-sm p-2 shadow-lg">
+        <p className="font-bold text-sm">{payload[0].value}</p>
+      </div>
+    );
+  }
+  return null;
 };
 
 export function LeetCode() {
@@ -210,55 +231,84 @@ export function LeetCode() {
           </Card>
         </div>
 
-
-        <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <h3 className="font-headline text-2xl font-semibold text-primary mb-4">Monthly Progress</h3>
-            <Card>
-              <CardContent className="pt-6">
-                <ChartContainer config={chartConfig} className="h-[250px] w-full">
+        <div className="mt-16">
+          <h3 className="font-headline text-2xl font-semibold text-primary mb-6 text-center">Contest Performance</h3>
+          <Card className="p-4 md:p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-3 gap-y-8 gap-x-4">
+              <div className="lg:col-span-3 xl:col-span-2">
+                <div className="grid grid-cols-3 gap-4 text-center md:text-left mb-8">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Contest Rating</p>
+                    <p className="text-2xl font-bold text-foreground">{contestStats.rating}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Global Ranking</p>
+                    <p className="text-2xl font-bold text-foreground">{contestStats.globalRanking}<span className="text-sm text-muted-foreground">/{contestStats.totalRanked}</span></p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Attended</p>
+                    <p className="text-2xl font-bold text-foreground">{contestStats.attended}</p>
+                  </div>
+                </div>
+                <div className="h-60">
                   <ResponsiveContainer width="100%" height="100%">
-                    <RechartsBarChart data={chartData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
-                      <CartesianGrid vertical={false} strokeDasharray="3 3" />
-                      <XAxis dataKey="month" tickLine={false} axisLine={false} />
-                      <YAxis tickLine={false} axisLine={false} />
-                      <ChartTooltip
-                        cursor={false}
-                        content={<ChartTooltipContent indicator="dot" />}
+                    <AreaChart data={ratingHistory} margin={{ top: 5, right: 10, left: 10, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorRating" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
+                          <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <XAxis 
+                        dataKey="index"
+                        type="number"
+                        domain={[0, 11]}
+                        ticks={[0.5, 10.5]}
+                        tickFormatter={(value) => value < 5 ? '2024' : '2025'}
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ dy: 10 }}
                       />
-                      <RechartsBar dataKey="problems" fill="var(--color-problems)" radius={8} />
+                      <YAxis domain={['dataMin - 50', 'dataMax + 50']} hide />
+                      <Tooltip content={<RatingTooltip />} cursor={{ stroke: 'hsl(var(--border))', strokeWidth: 1, strokeDasharray: '4 4' }} />
+                      <Area type="monotone" dataKey="rating" stroke="hsl(var(--primary))" strokeWidth={2} fill="url(#colorRating)" dot={false} activeDot={{ r: 6, style: { fill: 'hsl(var(--primary))', stroke: 'hsl(var(--background))', strokeWidth: 2 } }} />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+              
+              <div className="lg:col-span-2 xl:col-span-1 lg:border-l lg:pl-6">
+                <div className="mb-8">
+                  <p className="text-sm text-muted-foreground">Top</p>
+                  <p className="text-2xl font-bold text-foreground">{contestStats.topPercentage}%</p>
+                </div>
+                <div className="h-60">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RechartsBarChart data={ratingDistribution} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+                      <XAxis dataKey="rating" hide />
+                      <YAxis hide />
+                      <Tooltip cursor={{ fill: 'hsl(var(--accent)/0.5)' }} content={({ active, payload }) => {
+                        if (active && payload && payload.length) {
+                          return (
+                            <div className="rounded-lg border bg-background/80 backdrop-blur-sm p-2 shadow-sm">
+                              <p className="text-sm text-muted-foreground">Rating: ~{payload[0].payload.rating}</p>
+                              <p className="text-sm font-medium">{payload[0].value} users</p>
+                            </div>
+                          )
+                        }
+                        return null
+                      }} />
+                      <RechartsBar dataKey="count" radius={[4, 4, 0, 0]}>
+                        {ratingDistribution.map((entry) => (
+                          <Cell key={`cell-${entry.rating}`} fill={entry.rating >= 1800 && entry.rating < 1850 ? 'hsl(var(--primary))' : 'hsl(var(--muted))'} />
+                        ))}
+                      </RechartsBar>
                     </RechartsBarChart>
                   </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div>
-            <h3 className="font-headline text-2xl font-semibold text-primary mb-4">Featured Solutions</h3>
-            <div className="space-y-4">
-              {featuredSolutions.map((solution) => (
-                <Card key={solution.name} className="flex items-center justify-between p-4 transition-shadow duration-300 hover:shadow-md">
-                  <div>
-                    <p className="font-semibold">{solution.name}</p>
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      {solution.topics.map(topic => <Badge key={topic} variant="secondary">{topic}</Badge>)}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant={solution.difficulty === 'Hard' ? 'destructive' : 'default'} className={solution.difficulty === 'Medium' ? 'bg-primary/80' : ''}>
-                      {solution.difficulty}
-                    </Badge>
-                    <Button variant="ghost" size="icon" asChild>
-                      <a href={solution.link} target="_blank" rel="noopener noreferrer">
-                        <LinkIcon className="h-4 w-4" />
-                      </a>
-                    </Button>
-                  </div>
-                </Card>
-              ))}
+                </div>
+              </div>
             </div>
-          </div>
+          </Card>
         </div>
         
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
