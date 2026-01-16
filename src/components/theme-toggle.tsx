@@ -10,13 +10,20 @@ export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [rotation, setRotation] = React.useState(0);
 
-  const toggleTheme = () => {
+  const toggleTheme = (event: React.MouseEvent<HTMLButtonElement>) => {
     setRotation((prev) => prev + 360);
+    
+    const x = event.clientX;
+    const y = event.clientY;
+
     // Graceful fallback for browsers that don't support the View Transitions API
     if (!document.startViewTransition) {
       setTheme(theme === 'dark' ? 'light' : 'dark');
       return;
     }
+
+    document.documentElement.style.setProperty('--x', `${x}px`);
+    document.documentElement.style.setProperty('--y', `${y}px`);
 
     document.startViewTransition(() => {
       setTheme(theme === 'dark' ? 'light' : 'dark');

@@ -30,6 +30,10 @@
     --chart-4: 45 60% 85%;
     --chart-5: 45 50% 95%;
     --easy: 165 80% 35%;
+
+    /* For theme transition */
+    --x: 50%;
+    --y: 50%;
   }
 
   .dark {
@@ -82,10 +86,10 @@
 
 @keyframes theme-reveal {
   from {
-    clip-path: circle(0% at center);
+    clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
   }
   to {
-    clip-path: circle(150% at center);
+    clip-path: circle(150% at var(--x, 50%) var(--y, 50%));
   }
 }
 
