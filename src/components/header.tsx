@@ -26,6 +26,12 @@ export function Header() {
   const [activeSection, setActiveSection] = useState('hero');
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -107,20 +113,22 @@ export function Header() {
 
             <div className="flex items-center gap-2">
                 <ThemeToggle />
-                <div className="md:hidden">
-                    <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                        <SheetTrigger asChild>
-                            <Button variant="ghost" size="icon" className="rounded-full">
-                            <Menu className="h-5 w-5" />
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent side="bottom" className="w-full rounded-t-lg">
-                            <div className="flex flex-col items-center justify-center p-8">
-                                <NavLinks isMobile={true} />
-                            </div>
-                        </SheetContent>
-                    </Sheet>
-                </div>
+                {isMounted && (
+                  <div className="md:hidden">
+                      <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                          <SheetTrigger asChild>
+                              <Button variant="ghost" size="icon" className="rounded-full">
+                              <Menu className="h-5 w-5" />
+                              </Button>
+                          </SheetTrigger>
+                          <SheetContent side="bottom" className="w-full rounded-t-lg">
+                              <div className="flex flex-col items-center justify-center p-8">
+                                  <NavLinks isMobile={true} />
+                              </div>
+                          </SheetContent>
+                      </Sheet>
+                  </div>
+                )}
             </div>
         </div>
       </div>
