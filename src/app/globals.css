@@ -79,3 +79,22 @@
     text-wrap: balance;
   }
 }
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(0% at center);
+  }
+  to {
+    clip-path: circle(150% at center);
+  }
+}
+
+::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  animation: theme-reveal 0.5s ease-in-out;
+  mix-blend-mode: normal;
+}

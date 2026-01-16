@@ -10,7 +10,15 @@ export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    // Graceful fallback for browsers that don't support the View Transitions API
+    if (!document.startViewTransition) {
+      setTheme(theme === 'dark' ? 'light' : 'dark');
+      return;
+    }
+
+    document.startViewTransition(() => {
+      setTheme(theme === 'dark' ? 'light' : 'dark');
+    });
   };
 
   return (
