@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { BarChart, Github, Link as LinkIcon } from "lucide-react";
@@ -126,6 +126,27 @@ const RatingTooltip = ({ active, payload }: any) => {
   }
   return null;
 };
+
+const featuredSolutions = [
+  {
+    title: "Median of Two Sorted Arrays",
+    difficulty: "Hard",
+    topics: ["Array", "Binary Search", "Divide and Conquer"],
+    link: "https://github.com/srinivas-dev/solutions/blob/main/median-of-two-sorted-arrays.py"
+  },
+  {
+    title: "Longest Palindromic Substring",
+    difficulty: "Medium",
+    topics: ["String", "Dynamic Programming"],
+    link: "https://github.com/srinivas-dev/solutions/blob/main/longest-palindromic-substring.py"
+  },
+  {
+    title: "Regular Expression Matching",
+    difficulty: "Hard",
+    topics: ["String", "Dynamic Programming", "Recursion"],
+    link: "https://github.com/srinivas-dev/solutions/blob/main/regular-expression-matching.py"
+  }
+];
 
 export function LeetCode() {
   const [isHovering, setIsHovering] = useState(false);
@@ -309,6 +330,36 @@ export function LeetCode() {
               </div>
             </div>
           </Card>
+        </div>
+
+        <div className="mt-16">
+          <h3 className="font-headline text-2xl font-semibold text-primary mb-6 text-center">Featured Solutions</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredSolutions.map((solution) => (
+              <Card key={solution.title} className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <CardTitle className="text-lg font-semibold">{solution.title}</CardTitle>
+                    <Badge variant={solution.difficulty === 'Hard' ? 'destructive' : solution.difficulty === 'Medium' ? 'default' : 'secondary'} className="capitalize">
+                      {solution.difficulty}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                    <div className="flex flex-wrap gap-2">
+                        {solution.topics.map(topic => <Badge key={topic} variant="outline">{topic}</Badge>)}
+                    </div>
+                </CardContent>
+                <CardFooter>
+                    <Button asChild variant="outline" className="w-full">
+                      <a href={solution.link} target="_blank" rel="noopener noreferrer">
+                        <Github className="mr-2 h-4 w-4" /> View Solution
+                      </a>
+                    </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
         </div>
         
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
