@@ -24,14 +24,13 @@ export function About() {
       <div className="container">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-16">
           <div className="md:col-span-1 flex justify-center items-start">
-            <div className="relative h-28 w-28 md:h-48 md:w-48 lg:h-64 lg:w-64">
+            <div className="relative h-24 w-24 md:h-40 md:w-40 lg:h-48 lg:w-48">
                 {sriniAvatar && (
                     <Image
                     src={sriniAvatar.imageUrl}
                     alt={sriniAvatar.description}
                     data-ai-hint={sriniAvatar.imageHint}
-                    width={256}
-                    height={256}
+                    fill
                     className="rounded-full object-cover shadow-lg transition-transform duration-300 hover:scale-105"
                     />
                 )}
