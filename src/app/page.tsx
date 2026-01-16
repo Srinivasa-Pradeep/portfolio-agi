@@ -6,6 +6,7 @@ import { Hero } from '@/components/sections/hero';
 import { LeetCode } from '@/components/sections/leetcode';
 import { Projects } from '@/components/sections/projects';
 import { Footer } from '@/components/footer';
+import { ScrollAnimationWrapper } from '@/components/scroll-animation-wrapper';
 
 export default function Home() {
   return (
@@ -14,11 +15,21 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <div className="relative z-10 bg-background">
-          <About />
-          <Blogs />
-          <LeetCode />
-          <Projects />
-          <Contact />
+          <ScrollAnimationWrapper>
+            <About />
+          </ScrollAnimationWrapper>
+          <ScrollAnimationWrapper>
+            <Blogs />
+          </ScrollAnimationWrapper>
+          <ScrollAnimationWrapper>
+            <LeetCode />
+          </ScrollAnimationWrapper>
+          <ScrollAnimationWrapper>
+            <Projects />
+          </ScrollAnimationWrapper>
+          <ScrollAnimationWrapper>
+            <Contact />
+          </ScrollAnimationWrapper>
         </div>
       </main>
       <Footer />
