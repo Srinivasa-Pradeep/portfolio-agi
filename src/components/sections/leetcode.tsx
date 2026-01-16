@@ -3,16 +3,40 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BarChart, Github, Link as LinkIcon } from "lucide-react";
+import { BarChart, Github, Link as LinkIcon, CheckCircle } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { BarChart as RechartsBarChart, Bar as RechartsBar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import { 
+  BarChart as RechartsBarChart, 
+  Bar as RechartsBar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell
+} from "recharts";
 
-const leetCodeStats = {
-  "Total Solved": { value: "350+", icon: "🏆" },
-  "Easy": { value: "100+", icon: "🟢" },
-  "Medium": { value: "200+", icon: "🟠" },
-  "Hard": { value: "50+", icon: "🔴" },
+const leetCodeProgress = {
+  totalSolved: 1058,
+  totalProblems: 3808,
+  attempting: 25,
+  easy: { solved: 417, total: 922 },
+  medium: { solved: 517, total: 1986 },
+  hard: { solved: 124, total: 900 },
 };
+
+const progressData = [
+  { name: 'Easy', value: leetCodeProgress.easy.solved, color: 'hsl(var(--easy))' },
+  { name: 'Medium', value: leetCodeProgress.medium.solved, color: 'hsl(var(--primary))' },
+  { name: 'Hard', value: leetCodeProgress.hard.solved, color: 'hsl(var(--destructive))' },
+];
+
+const totalSolved = progressData.reduce((acc, curr) => acc + curr.value, 0);
+const remaining = leetCodeProgress.totalProblems - totalSolved;
+
+const pieData = [...progressData, { name: 'Remaining', value: remaining, color: 'hsl(var(--muted-foreground)/0.1)' }];
+
 
 const featuredSolutions = [
   { name: "Longest Palindromic Substring", topics: ["DP", "String"], difficulty: "Medium", link: "#" },
@@ -48,18 +72,76 @@ export function LeetCode() {
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {Object.entries(leetCodeStats).map(([label, { value, icon }]) => (
-            <Card key={label} className="text-center transition-shadow duration-300 hover:shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-base font-medium text-muted-foreground">{label}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-4xl font-bold">{value}</p>
-              </CardContent>
-            </Card>
-          ))}
+        <div className="mt-12">
+          <Card className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+              <div className="md:col-span-3 relative h-64">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius="80%"
+                      outerRadius="100%"
+                      startAngle={90}
+                      endAngle={-270}
+                      cornerRadius={50}
+                      paddingAngle={2}
+                      strokeWidth={0}
+                    >
+                      {pieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                  <p className="text-4xl font-bold tracking-tight">
+                    {leetCodeProgress.totalSolved}
+                    <span className="text-xl font-normal text-muted-foreground">/{leetCodeProgress.totalProblems}</span>
+                  </p>
+                  <p className="flex items-center gap-1.5 mt-2 text-sm font-medium text-easy">
+                      <CheckCircle className="h-4 w-4" /> Solved
+                  </p>
+                  <p className="mt-4 text-sm text-muted-foreground">
+                      {leetCodeProgress.attempting} Attempting
+                  </p>
+                </div>
+              </div>
+
+              <div className="md:col-span-2 space-y-4">
+                <Card className="bg-card-foreground/5">
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-baseline">
+                      <p className="text-sm font-medium text-easy">Easy</p>
+                      <p className="text-lg font-bold">{leetCodeProgress.easy.solved}<span className="text-sm font-normal text-muted-foreground">/{leetCodeProgress.easy.total}</span></p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="bg-card-foreground/5">
+                   <CardContent className="p-4">
+                    <div className="flex justify-between items-baseline">
+                      <p className="text-sm font-medium text-primary">Medium</p>
+                      <p className="text-lg font-bold">{leetCodeProgress.medium.solved}<span className="text-sm font-normal text-muted-foreground">/{leetCodeProgress.medium.total}</span></p>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="bg-card-foreground/5">
+                   <CardContent className="p-4">
+                    <div className="flex justify-between items-baseline">
+                      <p className="text-sm font-medium text-destructive">Hard</p>
+                      <p className="text-lg font-bold">{leetCodeProgress.hard.solved}<span className="text-sm font-normal text-muted-foreground">/{leetCodeProgress.hard.total}</span></p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </Card>
         </div>
+
 
         <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
@@ -96,7 +178,7 @@ export function LeetCode() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Badge variant={solution.difficulty === 'Hard' ? 'destructive' : 'default'} className={solution.difficulty === 'Medium' ? 'bg-orange-500' : ''}>
+                    <Badge variant={solution.difficulty === 'Hard' ? 'destructive' : 'default'} className={solution.difficulty === 'Medium' ? 'bg-primary/80' : ''}>
                       {solution.difficulty}
                     </Badge>
                     <Button variant="ghost" size="icon" asChild>
