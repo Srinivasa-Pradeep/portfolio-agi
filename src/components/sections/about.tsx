@@ -1,7 +1,40 @@
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+// SVG Logos for the "My Journey" section
+const SapLogo = ({ className }: { className?: string }) => (
+    <svg viewBox="0 0 50 25" xmlns="http://www.w3.org/2000/svg" className={className}>
+        <title>SAP</title>
+        <text x="0" y="20" fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif" fontSize="24" fontWeight="bold" fill="currentColor">SAP</text>
+    </svg>
+);
+
+const AmazonLogo = ({ className }: { className?: string }) => (
+    <svg viewBox="0 0 80 20" xmlns="http://www.w3.org/2000/svg" className={className}>
+        <title>Amazon</title>
+        <path d="M 12,13 A 19.6,19.6,0,0,0,38.5,13" stroke="currentColor" fill="none" strokeWidth="3" strokeLinecap="round"/>
+        <path d="M 33,14 l 5.5,-2.5" stroke="currentColor" fill="none" strokeWidth="3" strokeLinecap="round"/>
+    </svg>
+);
+
+const MercedesBenzLogo = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} xmlns="http://www.w3.org/2000/svg">
+    <title>Mercedes-Benz</title>
+    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+    <path d="M12 2V12" stroke="currentColor" strokeWidth="1.5"/>
+    <path d="M3.34 17L12 12" stroke="currentColor" strokeWidth="1.5"/>
+    <path d="M20.66 17L12 12" stroke="currentColor" strokeWidth="1.5"/>
+  </svg>
+);
+
 
 const skills = {
   Languages: ["Python", "SQL"],
@@ -17,6 +50,13 @@ const stats = [
 ];
 
 const sriniAvatar = PlaceHolderImages.find(p => p.id === 'srini-avatar');
+
+const companies = [
+  { name: 'SAP', logo: SapLogo, className: 'blur-sm scale-75 opacity-50 hover:blur-none hover:opacity-100 hover:scale-90' },
+  { name: 'Amazon', logo: AmazonLogo, className: 'blur-[1.5px] scale-90 opacity-75 hover:blur-none hover:opacity-100 hover:scale-100' },
+  { name: 'Mercedes-Benz', logo: MercedesBenzLogo, className: 'blur-0 scale-100 opacity-100' },
+];
+
 
 export function About() {
   return (
@@ -45,7 +85,27 @@ export function About() {
               A Computer Science graduate with internship experience at Amazon. I specialize in building clean, efficient user interfaces and have a strong passion for algorithmic problem-solving. My focus is on creating software that is both powerful and a pleasure to use.
             </p>
             
-            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-12">
+              <h3 className="font-headline text-2xl font-semibold text-primary">My Journey</h3>
+              <TooltipProvider>
+                <div className="mt-8 flex items-center justify-center gap-8 md:gap-12 text-muted-foreground/80">
+                  {companies.map((company) => (
+                    <Tooltip key={company.name}>
+                      <TooltipTrigger>
+                        <div className={`transition-all duration-300 ${company.className}`}>
+                          <company.logo className="h-10 w-auto md:h-12" />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>{company.name}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  ))}
+                </div>
+              </TooltipProvider>
+            </div>
+
+            <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {stats.map((stat) => (
                 <Card key={stat.title} className="transform-gpu transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                   <CardHeader>
