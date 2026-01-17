@@ -161,7 +161,7 @@ export function LeetCode() {
         </div>
 
         <div className="mt-12">
-          <Card className="p-6">
+          <Card className="p-6 transition-shadow duration-300 hover:shadow-xl">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
               <div className="md:col-span-3 relative h-64 md:h-80">
                 <ResponsiveContainer width="100%" height="100%">
@@ -254,7 +254,7 @@ export function LeetCode() {
 
         <div className="mt-16">
           <h3 className="font-headline text-2xl font-semibold text-primary mb-6 text-center">Contest Performance</h3>
-          <Card className="p-4 md:p-6">
+          <Card className="p-4 md:p-6 transition-shadow duration-300 hover:shadow-xl">
             <div className="grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-3 gap-y-8 gap-x-4">
               <div className="lg:col-span-3 xl:col-span-2">
                 <div className="grid grid-cols-3 gap-4 text-center md:text-left mb-8">
