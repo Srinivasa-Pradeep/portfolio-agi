@@ -3,13 +3,13 @@
     {
       "id": "srini-avatar-light",
       "description": "A minimal abstract avatar for Srini in light mode",
-      "imageUrl": "/images/srini-avatar-light.png",
+      "imageUrl": "/images/srini-avatar-dark.png",
       "imageHint": "abstract portrait light"
     },
     {
       "id": "srini-avatar-dark",
       "description": "A minimal abstract avatar for Srini in dark mode",
-      "imageUrl": "/images/srini-avatar-dark.png",
+      "imageUrl": "/images/srini-avatar-light.png",
       "imageHint": "abstract portrait dark"
     },
     {

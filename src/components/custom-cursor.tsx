@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // --- Configuration ---
 const TRAIL_COUNT = 8; // Number of dots in the trail
@@ -11,15 +12,20 @@ const LERP_FACTOR = 0.4; // Smoothing factor. Higher is less "drag".
 const createInitialPositions = () => Array(TRAIL_COUNT).fill({ x: -100, y: -100 });
 
 export function CustomCursor() {
+  const isMobile = useIsMobile();
   const trailRefs = useRef<HTMLDivElement[]>([]);
   const [isPointer, setIsPointer] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
   
   const mousePos = useRef({ x: -100, y: -100 });
   const trailPositions = useRef(createInitialPositions());
 
   useEffect(() => {
-    setIsMounted(true);
+    // If mobile status is not determined yet, or if it is mobile, do nothing.
+    if (isMobile === undefined || isMobile) {
+      // In case the class was added before mobile status was determined
+      document.documentElement.classList.remove('no-cursor');
+      return;
+    }
 
     const onMouseMove = (e: MouseEvent) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
@@ -60,9 +66,10 @@ export function CustomCursor() {
       document.documentElement.classList.remove('no-cursor');
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isMobile]);
 
-  if (!isMounted) {
+  // Don't render anything if we're on mobile or if the mobile status isn't known yet.
+  if (isMobile === undefined || isMobile) {
     return null;
   }
 
