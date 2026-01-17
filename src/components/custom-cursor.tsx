@@ -79,11 +79,11 @@ export function CustomCursor() {
             key={i}
             ref={(el) => { if (el) trailRefs.current[i] = el; }}
             className={cn(
-              'pointer-events-none fixed top-0 left-0 z-[9999] rounded-full bg-foreground/80 transition-all duration-300 ease-out',
+              'pointer-events-none fixed top-0 left-0 z-[9999] rounded-full bg-primary/80 dark:bg-foreground/80 transition-all duration-300 ease-out',
               size,
               {
                 // Glassy hover effect for the head
-                'scale-[3] bg-foreground/10 backdrop-blur-sm': isHead && isPointer,
+                'scale-[3] bg-primary/10 dark:bg-foreground/10 backdrop-blur-sm': isHead && isPointer,
                 // Fade out the tail on hover
                 'scale-0': !isHead && isPointer,
               }
