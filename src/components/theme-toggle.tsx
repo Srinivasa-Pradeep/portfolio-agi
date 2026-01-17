@@ -11,7 +11,7 @@ export function ThemeToggle() {
   const [rotation, setRotation] = React.useState(0);
 
   const toggleTheme = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setRotation((prev) => prev + 2160);
+    setRotation((prev) => prev + 360);
     
     const x = event.clientX;
     const y = event.clientY;
@@ -33,7 +33,7 @@ export function ThemeToggle() {
   return (
     <Button variant="ghost" size="icon" onClick={toggleTheme}>
       <div
-        className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-[2000ms] ease-in-out"
+        className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-700 ease-in-out"
         style={{ transform: `rotate(${rotation}deg)` }}
       >
         <Sun className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
