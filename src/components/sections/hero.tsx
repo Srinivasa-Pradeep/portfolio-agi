@@ -35,9 +35,12 @@ export function Hero() {
         <h1 className="font-headline text-5xl font-bold tracking-tighter text-primary sm:text-7xl md:text-8xl lg:text-9xl">
           Srini
         </h1>
-        <p className="mt-4 flex max-w-2xl flex-wrap items-center justify-center gap-x-3 text-lg font-medium text-foreground/80 md:text-xl">
-          <span>Software Engineer • Problem Solver • Builder</span>
-          <span className="ml-2 inline-block h-2 w-2 animate-breathing rounded-full bg-[#00FF00]" />
+        <p className="mt-4 max-w-2xl text-center text-lg font-medium text-foreground/80 md:text-xl">
+          Software Engineer • Problem Solver •
+          <span className="whitespace-nowrap">
+            {' '}Builder
+            <span className="ml-2 inline-block h-2 w-2 animate-breathing rounded-full bg-[#00FF00]" />
+          </span>
         </p>
         <p className="mt-6 max-w-xl text-balance text-muted-foreground md:text-lg">
           I craft elegant software and solve hard problems with clarity.
