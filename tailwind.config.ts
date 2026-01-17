@@ -109,12 +109,12 @@ export default {
           '0%, 100%': {
             transform: 'scale(1)',
             opacity: 0.8,
-            boxShadow: '0 0 8px 3px hsl(var(--easy) / 0.7)'
+            boxShadow: '0 0 8px 3px rgba(0, 255, 0, 0.7)'
           },
           '50%': {
             transform: 'scale(1.6)',
             opacity: 1,
-            boxShadow: '0 0 16px 6px hsl(var(--easy) / 0.7)'
+            boxShadow: '0 0 16px 6px rgba(0, 255, 0, 0.7)'
           },
         },
       },
