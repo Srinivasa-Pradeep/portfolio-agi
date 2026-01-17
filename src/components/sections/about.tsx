@@ -70,15 +70,12 @@ export function About() {
                         <TooltipTrigger>
                           <div className={company.className}>
                             {logoImage ? (
-                               <div className="relative h-10 w-24 md:h-12 md:w-32">
-                                <Image
+                               <img
                                   src={logoImage.imageUrl}
                                   alt={logoImage.description}
                                   data-ai-hint={logoImage.imageHint}
-                                  fill
-                                  className="object-contain"
+                                  className="h-10 w-24 object-contain md:h-12 md:w-32"
                                 />
-                               </div>
                             ) : (
                               <div className="h-10 w-24 md:h-12 md:w-32 bg-muted rounded-md" />
                             )}
