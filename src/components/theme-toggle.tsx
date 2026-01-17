@@ -11,12 +11,13 @@ export function ThemeToggle() {
   const [rotation, setRotation] = React.useState(0);
 
   const toggleTheme = (event: React.MouseEvent<HTMLButtonElement>) => {
+    // Add 360 degrees to the current rotation to make it spin
     setRotation((prev) => prev + 360);
     
     const x = event.clientX;
     const y = event.clientY;
 
-    // Graceful fallback for browsers that don't support the View Transitions API
+    // Use the View Transitions API for a smooth theme change animation
     if (!document.startViewTransition) {
       setTheme(theme === 'dark' ? 'light' : 'dark');
       return;
@@ -31,13 +32,15 @@ export function ThemeToggle() {
   };
 
   return (
-    <Button variant="ghost" size="icon" onClick={toggleTheme}>
+    <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
       <div
         className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-700 ease-in-out"
         style={{ transform: `rotate(${rotation}deg)` }}
       >
-        <Sun className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-700 dark:-rotate-180 dark:scale-0" />
-        <Moon className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-180 scale-0 transition-all duration-700 dark:rotate-0 dark:scale-100" />
+        {/* Sun icon: visible in light mode, fades and scales out in dark mode */}
+        <Sun className="absolute inset-0 h-[1.2rem] w-[1.2rem] scale-100 opacity-100 transition-all duration-300 dark:scale-0 dark:opacity-0" />
+        {/* Moon icon: hidden in light mode, fades and scales in in dark mode */}
+        <Moon className="absolute inset-0 h-[1.2rem] w-[1.2rem] scale-0 opacity-0 transition-all duration-300 dark:scale-100 dark:opacity-100" />
       </div>
       <span className="sr-only">Toggle theme</span>
     </Button>
