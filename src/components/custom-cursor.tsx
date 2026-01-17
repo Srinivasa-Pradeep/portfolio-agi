@@ -37,8 +37,8 @@ export function CustomCursor() {
         if(ringRef.current) {
             const currentRingPos = ringPos.current;
             const newRingPos = {
-                x: currentRingPos.x + (mousePos.current.x - currentRingPos.x) * 0.2,
-                y: currentRingPos.y + (mousePos.current.y - currentRingPos.y) * 0.2,
+                x: currentRingPos.x + (mousePos.current.x - currentRingPos.x) * 0.4,
+                y: currentRingPos.y + (mousePos.current.y - currentRingPos.y) * 0.4,
             };
             ringPos.current = newRingPos;
             ringRef.current.style.transform = `translate(-50%, -50%) translate(${newRingPos.x}px, ${newRingPos.y}px)`;
@@ -64,7 +64,7 @@ export function CustomCursor() {
       <div
         ref={ringRef}
         className={cn(
-          'pointer-events-none fixed top-0 left-0 z-[9999] h-10 w-10 rounded-full border-2 border-foreground/40 transition-all duration-200 ease-out',
+          'pointer-events-none fixed top-0 left-0 z-[9999] h-10 w-10 rounded-full border-2 border-foreground/40 transition-all duration-150 ease-out',
           { 'scale-150 border-transparent bg-foreground/10 backdrop-blur-sm': isPointer }
         )}
       />
