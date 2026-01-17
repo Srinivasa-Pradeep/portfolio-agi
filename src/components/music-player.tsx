@@ -23,6 +23,7 @@ export function MusicPlayer() {
     
     const onSongEnd = () => {
       setIsPlaying(false);
+      setRotation((prev) => prev + 360);
     };
 
     audio.addEventListener('ended', onSongEnd);
