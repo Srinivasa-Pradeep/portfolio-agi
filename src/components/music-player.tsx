@@ -20,12 +20,20 @@ export function MusicPlayer() {
     setIsMounted(true);
     // You should place your music file in `public/music/background-music.mp3`
     const audio = new Audio('/music/background-music.mp3');
-    audio.loop = true;
+    
+    const onSongEnd = () => {
+      setIsPlaying(false);
+    };
+
+    audio.addEventListener('ended', onSongEnd);
     audioRef.current = audio;
 
     return () => {
       // Cleanup audio element on component unmount
-      audioRef.current?.pause();
+      if (audioRef.current) {
+        audioRef.current.removeEventListener('ended', onSongEnd);
+        audioRef.current.pause();
+      }
       audioRef.current = null;
     }
   }, []);
