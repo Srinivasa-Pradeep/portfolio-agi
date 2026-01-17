@@ -79,7 +79,7 @@ export function About() {
       <div className="container">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-16">
           <div className="md:col-span-1 flex justify-center items-start">
-            <div className="relative h-24 w-24 md:h-40 md:w-40 lg:h-48 lg:w-48 pt-16">
+            <div className="relative h-24 w-24 md:h-40 md:w-40 lg:h-48 lg:w-48">
               {avatar && (
                 <Image
                   src={avatar.imageUrl}
