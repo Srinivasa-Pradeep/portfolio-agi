@@ -32,19 +32,21 @@ export function CustomCursor() {
     return null;
   }
 
+  const scale = isPointer ? 2.5 : 1;
+
   return (
     <div
       className={cn(
-        'pointer-events-none fixed z-[9999] rounded-full transition-all duration-300 ease-in-out',
+        'pointer-events-none fixed z-[9999] h-4 w-4 rounded-full transition-transform duration-300 ease-in-out',
         {
-          'h-10 w-10 bg-foreground/10 backdrop-blur-sm': isPointer,
-          'h-4 w-4 bg-foreground/40': !isPointer,
+          'bg-foreground/10 backdrop-blur-sm': isPointer,
+          'bg-foreground/40': !isPointer,
         }
       )}
       style={{
         left: `${position.x}px`,
         top: `${position.y}px`,
-        transform: 'translate(-50%, -50%)',
+        transform: `translate(-50%, -50%) scale(${scale})`,
       }}
     />
   );
