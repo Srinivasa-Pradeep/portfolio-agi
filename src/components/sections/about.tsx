@@ -86,7 +86,7 @@ export function About() {
                   alt={avatar.description}
                   data-ai-hint={avatar.imageHint}
                   fill
-                  className="rounded-full object-cover object-top shadow-lg transition-all duration-300 hover:scale-105"
+                  className="rounded-full object-cover shadow-lg transition-all duration-300 hover:scale-105"
                   key={avatar.id}
                 />
               )}
