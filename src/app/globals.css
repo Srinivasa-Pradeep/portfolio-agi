@@ -76,6 +76,10 @@
   html {
     @apply scroll-smooth;
   }
+  /* Hide default cursor */
+  .no-cursor, .no-cursor * {
+    cursor: none;
+  }
 }
 
 @layer utilities {

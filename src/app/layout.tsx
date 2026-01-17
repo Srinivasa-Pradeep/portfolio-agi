@@ -3,6 +3,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
+import { CustomCursor } from '@/components/custom-cursor';
 
 export const metadata: Metadata = {
   title: 'Srini Portfolio',
@@ -32,6 +33,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+            <CustomCursor />
             {children}
             <Toaster />
         </ThemeProvider>
