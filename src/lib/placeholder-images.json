@@ -1,10 +1,16 @@
 {
   "placeholderImages": [
     {
-      "id": "srini-avatar",
-      "description": "A minimal abstract avatar for Srini",
-      "imageUrl": "https://images.unsplash.com/photo-1527630941-4a229fd674ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxhYnN0cmFjdCUyMHBvcnRyYWl0fGVufDB8fHx8MTc2ODQwNTI5NXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract portrait"
+      "id": "srini-avatar-light",
+      "description": "A minimal abstract avatar for Srini in light mode",
+      "imageUrl": "https://images.unsplash.com/photo-1603092074767-c6468028de4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhYnN0cmFjdCUyMHBvcnRyYWl0JTIwbGlnaHR8ZW58MHx8fHwxNzY4NjQ1MzcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract portrait light"
+    },
+    {
+      "id": "srini-avatar-dark",
+      "description": "A minimal abstract avatar for Srini in dark mode",
+      "imageUrl": "https://images.unsplash.com/photo-1745365089718-485192353e2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhYnN0cmFjdCUyMHBvcnRyYWl0JTIwZGFya3xlbnwwfHx8fDE3Njg2NDUzNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract portrait dark"
     },
     {
       "id": "sap-logo",
@@ -15,13 +21,13 @@
     {
       "id": "amazon-logo",
       "description": "Amazon company logo",
-      "imageUrl": "https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhbWF6b24lMjBsb2dvfGVufDB8fHx8MTc2ODU3NDE3OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev/capra/attachedImages/c15e341a-55f1-429c-afb2-a000fab745d5/image_039a7e7a-0d78-4039-8ad0-df59d95c78dc.png",
       "imageHint": "amazon logo"
     },
     {
       "id": "mercedes-logo",
       "description": "Mercedes-Benz company logo",
-      "imageUrl": "https://images.unsplash.com/photo-1563694983011-6f4d90358083?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtZXJjZWRlcyUyMGxvZ298ZW58MHx8fHwxNzY4NjQzOTIyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev/capra/attachedImages/c15e341a-55f1-429c-afb2-a000fab745d5/image_b2abecc5-7180-4d38-b24a-241098dd11fb.png",
       "imageHint": "mercedes logo"
     }
   ]
