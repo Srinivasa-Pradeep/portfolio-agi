@@ -2,7 +2,7 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Github, ExternalLink } from "lucide-react";
+import { Github } from "lucide-react";
 
 const projects = [
   {
@@ -10,21 +10,18 @@ const projects = [
     description: "The very site you are on. A modern, performant portfolio built with Next.js and Tailwind CSS.",
     stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Shadcn UI"],
     github: "https://github.com/srinivas-dev/portfolio",
-    live: "#",
   },
   {
     name: "LeetCode Tracker Dashboard",
     description: "A dashboard to visualize LeetCode progress, track streaks, and analyze performance.",
     stack: ["React", "Chart.js", "Firebase", "Node.js", "Express"],
     github: "https://github.com/srinivas-dev/leetcode-tracker",
-    live: "#",
   },
   {
     name: "System Design Notes Hub",
     description: "A collaborative platform for creating and sharing system design notes and diagrams.",
     stack: ["Next.js", "Supabase", "Tiptap Editor", "WebSockets"],
     github: "https://github.com/srinivas-dev/system-design-hub",
-    live: "#",
   },
 ];
 
@@ -54,7 +51,7 @@ export function Projects() {
                 </div>
               </CardContent>
               <CardFooter className="flex gap-4">
-                <Button asChild variant="outline" className="w-full">
+                <Button asChild className="w-full">
                   <a href={project.github} target="_blank" rel="noopener noreferrer">
                     <Github className="mr-2 h-4 w-4" /> GitHub
                   </a>
