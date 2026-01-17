@@ -88,8 +88,10 @@ export function Blogs() {
         </div>
         
         <div className="mt-16 text-center">
-          <Button size="lg" variant="outline">
-            View All Blogs <ArrowRight className="ml-2 h-4 w-4" />
+          <Button size="lg" variant="outline" asChild>
+            <a href="https://medium.com/@writtenbysrini" target="_blank" rel="noopener noreferrer">
+              View All Blogs <ArrowRight className="ml-2 h-4 w-4" />
+            </a>
           </Button>
         </div>
       </div>
