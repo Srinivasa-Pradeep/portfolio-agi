@@ -106,15 +106,23 @@ export default {
           },
         },
         'breathing': {
-          '0%, 100%': { transform: 'scale(1)', opacity: 0.8 },
-          '50%': { transform: 'scale(1.6)', opacity: 1 },
+          '0%, 100%': {
+            transform: 'scale(1)',
+            opacity: 0.8,
+            boxShadow: '0 0 8px 3px hsl(var(--easy) / 0.7)'
+          },
+          '50%': {
+            transform: 'scale(1.6)',
+            opacity: 1,
+            boxShadow: '0 0 16px 6px hsl(var(--easy) / 0.7)'
+          },
         },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         "fade-in": "fade-in 0.5s ease-out forwards",
-        'breathing': 'breathing 4s ease-in-out infinite',
+        'breathing': 'breathing 3s ease-in-out infinite',
       },
     },
   },
