@@ -10,6 +10,7 @@ const blogPosts = [
     date: "July 15, 2024",
     readTime: "5 min read",
     tag: "Career",
+    link: "https://medium.com/",
   },
   {
     title: "From Doubt to Discipline: My DSA Journey",
@@ -17,6 +18,7 @@ const blogPosts = [
     date: "June 28, 2024",
     readTime: "7 min read",
     tag: "DSA",
+    link: "https://medium.com/",
   },
   {
     title: "How I Actually Learn New Algorithms",
@@ -24,6 +26,7 @@ const blogPosts = [
     date: "June 10, 2024",
     readTime: "6 min read",
     tag: "Learning",
+    link: "https://medium.com/",
   },
   {
     title: "Building a Minimal Portfolio That Feels Premium",
@@ -31,6 +34,7 @@ const blogPosts = [
     date: "May 22, 2024",
     readTime: "8 min read",
     tag: "Web Dev",
+    link: "https://medium.com/",
   },
   {
     title: "Mistakes I Made In My First Tech Interviews",
@@ -38,6 +42,7 @@ const blogPosts = [
     date: "May 5, 2024",
     readTime: "4 min read",
     tag: "Interviews",
+    link: "https://medium.com/",
   },
   {
     title: "How to Think in Patterns (DP/Graphs)",
@@ -45,6 +50,7 @@ const blogPosts = [
     date: "April 18, 2024",
     readTime: "10 min read",
     tag: "DSA",
+    link: "https://medium.com/",
   },
 ];
 
@@ -61,21 +67,23 @@ export function Blogs() {
 
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {blogPosts.map((post) => (
-            <Card key={post.title} className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                    <CardTitle className="text-lg font-semibold">{post.title}</CardTitle>
-                    <Badge variant="outline">{post.tag}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <p className="text-muted-foreground">{post.summary}</p>
-              </CardContent>
-              <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
-                <span>{post.date}</span>
-                <span>{post.readTime}</span>
-              </CardFooter>
-            </Card>
+            <a key={post.title} href={post.link} target="_blank" rel="noopener noreferrer" className="block h-full">
+              <Card className="flex h-full flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                      <CardTitle className="text-lg font-semibold">{post.title}</CardTitle>
+                      <Badge variant="outline">{post.tag}</Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <p className="text-muted-foreground">{post.summary}</p>
+                </CardContent>
+                <CardFooter className="flex justify-between items-center text-sm text-muted-foreground">
+                  <span>{post.date}</span>
+                  <span>{post.readTime}</span>
+                </CardFooter>
+              </Card>
+            </a>
           ))}
         </div>
         
