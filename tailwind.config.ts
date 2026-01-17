@@ -112,9 +112,9 @@ export default {
             boxShadow: '0 0 8px 3px rgba(0, 255, 0, 0.7)'
           },
           '50%': {
-            transform: 'scale(1.6)',
+            transform: 'scale(1.25)',
             opacity: 1,
-            boxShadow: '0 0 16px 6px rgba(0, 255, 0, 0.7)'
+            boxShadow: '0 0 12px 4px rgba(0, 255, 0, 0.7)'
           },
         },
       },
