@@ -11,7 +11,7 @@ export function ThemeToggle() {
   const [rotation, setRotation] = React.useState(0);
 
   const toggleTheme = (event: React.MouseEvent<HTMLButtonElement>) => {
-    // Rotate multiple times for better visibility
+    // Rotate multiple times for visibility
     setRotation((prev) => prev + 1080);
     
     const x = event.clientX;
@@ -34,13 +34,13 @@ export function ThemeToggle() {
   return (
     <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
       <div
-        className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-1000 ease-in-out"
+        className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-1000 ease-out"
         style={{ transform: `rotate(${rotation}deg)` }}
       >
-        {/* Sun icon: visible in light mode, fades and scales out in dark mode */}
-        <Sun className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-1000 dark:-rotate-90 dark:scale-0" />
-        {/* Moon icon: hidden in light mode, fades and scales in in dark mode */}
-        <Moon className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all duration-1000 dark:rotate-0 dark:scale-100" />
+        {/* Sun icon: visible in light mode, fades and scales out in dark mode. NO ROTATION HERE. */}
+        <Sun className="absolute inset-0 h-[1.2rem] w-[1.2rem] scale-100 opacity-100 transition-all duration-500 dark:scale-0 dark:opacity-0" />
+        {/* Moon icon: hidden in light mode, fades and scales in in dark mode. NO ROTATION HERE. */}
+        <Moon className="absolute inset-0 h-[1.2rem] w-[1.2rem] scale-0 opacity-0 transition-all duration-500 dark:scale-100 dark:opacity-100" />
       </div>
       <span className="sr-only">Toggle theme</span>
     </Button>
