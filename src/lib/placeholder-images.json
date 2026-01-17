@@ -2,15 +2,15 @@
   "placeholderImages": [
     {
       "id": "srini-avatar-light",
-      "description": "A minimal abstract avatar for Srini in light mode",
-      "imageUrl": "https://images.unsplash.com/photo-1622318615276-b3f997fd306f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhYnN0cmFjdCUyMHBvcnRyYWl0JTIwbGlnaHR8ZW58MHx8fHwxNzY4NjQ1MzcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract portrait light"
+      "description": "Srini's avatar for light mode",
+      "imageUrl": "/images/avatar-light.png",
+      "imageHint": "srini avatar"
     },
     {
       "id": "srini-avatar-dark",
-      "description": "A minimal abstract avatar for Srini in dark mode",
-      "imageUrl": "https://images.unsplash.com/photo-1505859170952-491ac75e6750?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMHBvcnRyYWl0JTIwZGFya3xlbnwwfHx8fDE3Njg2NDUzNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "abstract portrait dark"
+      "description": "Srini's avatar for dark mode",
+      "imageUrl": "/images/avatar-dark.png",
+      "imageHint": "srini avatar"
     },
     {
       "id": "sap-logo",
