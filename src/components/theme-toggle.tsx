@@ -38,9 +38,9 @@ export function ThemeToggle() {
         style={{ transform: `rotate(${rotation}deg)` }}
       >
         {/* Sun icon: visible in light mode, fades and scales out in dark mode */}
-        <Sun className="absolute inset-0 h-[1.2rem] w-[1.2rem] scale-100 opacity-100 transition-all duration-300 dark:scale-0 dark:opacity-0" />
+        <Sun className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
         {/* Moon icon: hidden in light mode, fades and scales in in dark mode */}
-        <Moon className="absolute inset-0 h-[1.2rem] w-[1.2rem] scale-0 opacity-0 transition-all duration-300 dark:scale-100 dark:opacity-100" />
+        <Moon className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
       </div>
       <span className="sr-only">Toggle theme</span>
     </Button>
