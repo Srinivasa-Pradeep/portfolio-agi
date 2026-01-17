@@ -14,6 +14,7 @@ export function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
     setIsMounted(true);
@@ -39,6 +40,7 @@ export function MusicPlayer() {
         });
       }
       setIsPlaying(!isPlaying);
+      setRotation((prev) => prev + 360);
     }
   };
 
@@ -57,7 +59,13 @@ export function MusicPlayer() {
             onClick={togglePlayPause}
             aria-label={isPlaying ? 'Pause music' : 'Play music'}
           >
-            {isPlaying ? <Pause className="h-5 w-5" /> : <Music className="h-5 w-5" />}
+            <div
+              className="relative h-5 w-5 transition-transform duration-700 ease-in-out"
+              style={{ transform: `rotate(${rotation}deg)` }}
+            >
+              <Pause className={`absolute inset-0 h-5 w-5 transition-all ${ isPlaying ? 'rotate-0 scale-100' : '-rotate-90 scale-0' }`} />
+              <Music className={`absolute inset-0 h-5 w-5 transition-all ${ isPlaying ? 'rotate-90 scale-0' : 'rotate-0 scale-100' }`} />
+            </div>
           </Button>
         </TooltipTrigger>
         <TooltipContent>
