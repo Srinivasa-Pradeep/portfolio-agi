@@ -13,6 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { MusicPlayer } from './music-player';
 
 const navItems = [
   { id: 'about', label: 'About', icon: User },
@@ -112,6 +113,7 @@ export function Header() {
             </div>
 
             <div className="flex items-center gap-2">
+                <MusicPlayer />
                 <ThemeToggle />
                 {isMounted && (
                   <div className="md:hidden">

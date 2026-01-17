@@ -1,0 +1,3 @@
+Please place your music file in this directory and name it `background-music.mp3`.
+
+The MusicPlayer component will automatically pick it up.
