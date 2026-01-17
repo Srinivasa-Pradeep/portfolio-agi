@@ -3,13 +3,13 @@
     {
       "id": "srini-avatar-light",
       "description": "A minimal abstract avatar for Srini in light mode",
-      "imageUrl": "https://images.unsplash.com/photo-1603092074767-c6468028de4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxhYnN0cmFjdCUyMHBvcnRyYWl0JTIwbGlnaHR8ZW58MHx8fHwxNzY4NjQ1MzcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "/images/srini-avatar-light.png",
       "imageHint": "abstract portrait light"
     },
     {
       "id": "srini-avatar-dark",
       "description": "A minimal abstract avatar for Srini in dark mode",
-      "imageUrl": "https://images.unsplash.com/photo-1745365089718-485192353e2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhYnN0cmFjdCUyMHBvcnRyYWl0JTIwZGFya3xlbnwwfHx8fDE3Njg2NDUzNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "/images/srini-avatar-dark.png",
       "imageHint": "abstract portrait dark"
     },
     {
