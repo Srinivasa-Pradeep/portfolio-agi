@@ -91,11 +91,24 @@ export function About() {
                   key={avatar.id}
                 />
               )}
-              <div className="absolute bottom-0 right-0 rounded-full bg-primary p-2 shadow-md">
-                <span className="text-xl" role="img" aria-label="wave">
-                  👋
-                </span>
-              </div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="absolute bottom-0 right-0 cursor-pointer p-1">
+                      <span
+                        className="text-3xl drop-shadow-lg"
+                        role="img"
+                        aria-label="focus"
+                      >
+                        🎯
+                      </span>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Focusing</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
           </div>
           <div className="md:col-span-2">
