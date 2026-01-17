@@ -35,8 +35,11 @@ export function CustomCursor() {
   return (
     <div
       className={cn(
-        'pointer-events-none fixed z-[9999] h-3 w-3 rounded-full bg-primary transition-[transform,width,height] duration-200',
-        { 'h-8 w-8 bg-primary/50': isPointer }
+        'pointer-events-none fixed z-[9999] rounded-full transition-all duration-300 ease-in-out',
+        {
+          'h-10 w-10 bg-foreground/10 backdrop-blur-sm': isPointer,
+          'h-4 w-4 bg-foreground/40': !isPointer,
+        }
       )}
       style={{
         left: `${position.x}px`,
