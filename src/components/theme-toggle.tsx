@@ -7,12 +7,29 @@ import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
   const [rotation, setRotation] = React.useState(0);
 
-  const toggleTheme = () => {
+  const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // This triggers the icon rotation
     setRotation((prev) => prev + 360);
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+
+    const isDark = document.documentElement.classList.contains('dark');
+
+    // This is the experimental View Transitions API for the page-wide effect
+    if (!document.startViewTransition) {
+      setTheme(isDark ? 'light' : 'dark');
+      return;
+    }
+
+    const x = e.clientX;
+    const y = e.clientY;
+    document.documentElement.style.setProperty('--x', `${x}px`);
+    document.documentElement.style.setProperty('--y', `${y}px`);
+
+    document.startViewTransition(() => {
+      setTheme(isDark ? 'light' : 'dark');
+    });
   };
 
   return (
