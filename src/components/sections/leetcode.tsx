@@ -3,7 +3,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BarChart, Github, Link as LinkIcon, Code } from "lucide-react";
+import { BarChart, Github, Link as LinkIcon, Code, Shuffle } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { 
   Area,
@@ -18,7 +18,7 @@ import {
   Cell,
   Tooltip,
 } from "recharts";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const leetCodeProgress = {
@@ -148,8 +148,38 @@ const featuredSolutions = [
   }
 ];
 
+const allProblems = [
+    { title: 'Two Sum', difficulty: 'Easy', link: 'https://leetcode.com/problems/two-sum/', topics: ["Array", "Hash Table"] },
+    { title: 'Add Two Numbers', difficulty: 'Medium', link: 'https://leetcode.com/problems/add-two-numbers/', topics: ["Linked List", "Math"] },
+    { title: 'Longest Substring Without Repeating Characters', difficulty: 'Medium', link: 'https://leetcode.com/problems/longest-substring-without-repeating-characters/', topics: ["Hash Table", "String", "Sliding Window"] },
+    { title: 'Median of Two Sorted Arrays', difficulty: 'Hard', link: 'https://leetcode.com/problems/median-of-two-sorted-arrays/', topics: ["Array", "Binary Search"] },
+    { title: 'Reverse Integer', difficulty: 'Easy', link: 'https://leetcode.com/problems/reverse-integer/', topics: ["Math"] },
+    { title: 'Container With Most Water', difficulty: 'Medium', link: 'https://leetcode.com/problems/container-with-most-water/', topics: ["Array", "Two Pointers"] },
+    { title: 'Trapping Rain Water', difficulty: 'Hard', link: 'https://leetcode.com/problems/trapping-rain-water/', topics: ["Array", "Two Pointers", "DP", "Stack"] },
+    { title: '3Sum', difficulty: 'Medium', link: 'https://leetcode.com/problems/3sum/', topics: ["Array", "Two Pointers", "Sorting"] },
+    { title: 'Valid Parentheses', difficulty: 'Easy', link: 'https://leetcode.com/problems/valid-parentheses/', topics: ["String", "Stack"] },
+    { title: 'Merge k Sorted Lists', difficulty: 'Hard', link: 'https://leetcode.com/problems/merge-k-sorted-lists/', topics: ["Linked List", "Heap", "Merge Sort"] },
+    { title: 'Climbing Stairs', difficulty: 'Easy', link: 'https://leetcode.com/problems/climbing-stairs/', topics: ["Dynamic Programming"] },
+    { title: 'House Robber', difficulty: 'Medium', link: 'https://leetcode.com/problems/house-robber/', topics: ["Dynamic Programming", "Array"] },
+    { title: 'Coin Change', difficulty: 'Medium', link: 'https://leetcode.com/problems/coin-change/', topics: ["Dynamic Programming", "Array"] },
+    { title: 'Word Ladder', difficulty: 'Hard', link: 'https://leetcode.com/problems/word-ladder/', topics: ["Breadth-First Search", "Hash Table", "String"] },
+];
+type Problem = typeof allProblems[0];
+
 export function LeetCode() {
   const [isHovering, setIsHovering] = useState(false);
+  const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
+
+  const shuffleProblem = () => {
+    const randomIndex = Math.floor(Math.random() * allProblems.length);
+    setRandomProblem(allProblems[randomIndex]);
+  };
+
+  useEffect(() => {
+    // Set initial random problem on client-side to prevent hydration mismatch
+    shuffleProblem();
+  }, []);
+
   return (
     <section id="leetcode" className="py-20 md:py-32">
       <div className="container">
@@ -331,6 +361,54 @@ export function LeetCode() {
             </div>
           </Card>
         </div>
+
+        <div className="mt-16">
+          <h3 className="font-headline text-2xl font-semibold text-primary mb-6 text-center">Try a Random Problem</h3>
+            {randomProblem ? (
+              <Card className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl max-w-lg mx-auto">
+                <CardHeader className="flex flex-row items-center justify-between gap-4">
+                  <CardTitle className="text-lg font-semibold">{randomProblem.title}</CardTitle>
+                  <Button variant="outline" size="icon" onClick={shuffleProblem} aria-label="Shuffle problem">
+                    <Shuffle className="h-5 w-5" />
+                  </Button>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <div className="flex flex-wrap gap-2">
+                    <Badge 
+                      variant={randomProblem.difficulty === 'Hard' ? 'destructive' : randomProblem.difficulty === 'Medium' ? 'default' : 'secondary'}
+                      className="capitalize"
+                    >
+                      {randomProblem.difficulty}
+                    </Badge>
+                    {randomProblem.topics.map(topic => <Badge key={topic} variant="outline">{topic}</Badge>)}
+                  </div>
+                </CardContent>
+                <CardFooter>
+                    <Button asChild className="w-full">
+                      <a href={randomProblem.link} target="_blank" rel="noopener noreferrer">
+                        <Code className="mr-2 h-4 w-4" /> Go to Problem
+                      </a>
+                    </Button>
+                </CardFooter>
+              </Card>
+            ) : (
+              <Card className="flex flex-col items-center justify-center p-6 max-w-lg mx-auto">
+                  <div className="animate-pulse flex flex-col space-y-4 w-full">
+                      <div className="flex justify-between items-center">
+                          <div className="h-6 bg-muted rounded w-3/4"></div>
+                          <div className="h-8 w-8 bg-muted rounded-full"></div>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                          <div className="h-5 bg-muted rounded w-16"></div>
+                          <div className="h-5 bg-muted rounded w-24"></div>
+                          <div className="h-5 bg-muted rounded w-20"></div>
+                      </div>
+                      <div className="h-10 bg-muted rounded w-full mt-4"></div>
+                  </div>
+              </Card>
+            )}
+        </div>
+
 
         <div className="mt-16">
           <h3 className="font-headline text-2xl font-semibold text-primary mb-6 text-center">Featured Solutions</h3>
