@@ -433,7 +433,7 @@ export function LeetCode() {
                 <CardContent className="flex-grow">
                   <div className="flex flex-wrap gap-2">
                     <Badge 
-                      variant={randomProblem.difficulty === 'Hard' ? 'destructive' : randomProblem.difficulty === 'Medium' ? 'default' : 'secondary'}
+                      variant={randomProblem.difficulty === 'Hard' ? 'destructive' : randomProblem.difficulty === 'Medium' ? 'default' : 'easy'}
                       className="capitalize"
                     >
                       {randomProblem.difficulty}
@@ -476,7 +476,7 @@ export function LeetCode() {
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <CardTitle className="text-lg font-semibold">{solution.title}</CardTitle>
-                    <Badge variant={solution.difficulty === 'Hard' ? 'destructive' : solution.difficulty === 'Medium' ? 'default' : 'secondary'} className="capitalize">
+                    <Badge variant={solution.difficulty === 'Hard' ? 'destructive' : solution.difficulty === 'Medium' ? 'default' : 'easy'} className="capitalize">
                       {solution.difficulty}
                     </Badge>
                   </div>
