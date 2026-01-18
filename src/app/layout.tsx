@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { CustomCursor } from '@/components/custom-cursor';
+import { LiveClock } from '@/components/live-clock';
 
 export const metadata: Metadata = {
   title: 'Srini Portfolio',
@@ -34,6 +35,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
             <CustomCursor />
+            <LiveClock />
             {children}
             <Toaster />
         </ThemeProvider>

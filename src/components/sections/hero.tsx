@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, Download } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { LiveClock } from "../live-clock";
 
 export function Hero() {
   const [offsetY, setOffsetY] = useState(0);
@@ -19,7 +18,6 @@ export function Hero() {
 
   return (
     <section id="hero" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
-      <LiveClock />
       <div 
         className="absolute inset-0 z-0"
         style={{ transform: `translateY(${offsetY * 0.5}px)` }}
