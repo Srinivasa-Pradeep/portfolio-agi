@@ -237,13 +237,13 @@ export function About() {
               <div className="mt-4 space-y-4">
                 {Object.entries(skills).map(([category, items]) => (
                   <div key={category}>
-                    <h4 className="mb-2 font-semibold">{category}</h4>
+                    <h4 className="mb-2 font-medium">{category}</h4>
                     <div className="flex flex-wrap gap-2">
                       {items.map((item) => (
                         <Badge
                           key={item}
                           variant="secondary"
-                          className="px-3 py-1 text-sm transition-all duration-200 hover:scale-105 hover:shadow-md hover:bg-primary/10"
+                          className="px-3 py-1 text-sm font-medium transition-all duration-200 hover:scale-105 hover:shadow-md hover:bg-primary/10"
                         >
                           {item}
                         </Badge>
