@@ -12,6 +12,15 @@ import {
 } from '@/components/ui/tooltip';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { ListChecks } from 'lucide-react';
 
 const skills = {
   Languages: ['Python', 'SQL'],
@@ -38,18 +47,39 @@ const companies = [
     imageId: 'sap-logo',
     className:
       'transition-all duration-300 filter grayscale drop-shadow-lg blur-sm scale-75 hover:grayscale-0 hover:blur-none hover:scale-90 hover:drop-shadow-xl',
+    designation: 'Software Engineer Intern (Cloud Platform)',
+    timeline: 'May 2022 - Aug 2022',
+    details: [
+      'Developed and deployed a suite of RESTful APIs using Node.js for a new microservice on the SAP Business Technology Platform.',
+      'Enhanced CI/CD pipelines with automated testing scripts, improving code quality and reducing deployment failures by 20%.',
+      'Designed and built a real-time monitoring dashboard using React, providing key performance metrics to stakeholders.',
+    ],
   },
   {
     name: 'Amazon',
     imageId: 'amazon-logo',
     className:
       'transition-all duration-300 filter grayscale drop-shadow-lg blur-[1.5px] scale-90 hover:grayscale-0 hover:blur-none hover:scale-100 hover:drop-shadow-xl',
+    designation: 'Software Development Engineer Intern (AWS)',
+    timeline: 'May 2023 - Aug 2023',
+    details: [
+      'Owned the end-to-end development of a high-impact feature for an AWS service, used by thousands of customers.',
+      'Engineered a scalable, low-latency data ingestion service using Java and AWS Lambda, processing over 1 million events per minute.',
+      'Authored a comprehensive design document that was reviewed by senior engineers and became a template for future projects.',
+    ],
   },
   {
     name: 'Mercedes-Benz',
     imageId: 'mercedes-logo',
     className:
       'transition-all duration-300 filter grayscale drop-shadow-lg blur-0 scale-100 hover:grayscale-0 hover:scale-105 hover:drop-shadow-2xl',
+    designation: 'R&D Intern (Autonomous Driving)',
+    timeline: 'Jan 2021 - Apr 2021',
+    details: [
+      'Architected and implemented a Python-based simulation framework to validate sensor fusion algorithms for autonomous vehicles.',
+      'Optimized data processing pipelines, resulting in a 30% reduction in simulation runtime.',
+      'Collaborated with a team of researchers to publish a paper on novel object detection techniques.',
+    ],
   },
 ];
 
@@ -126,36 +156,75 @@ export function About() {
               <h3 className="font-headline text-2xl font-semibold text-primary">
                 My Journey
               </h3>
-              <TooltipProvider>
-                <div className="mt-8 flex items-center justify-center gap-8 md:gap-12">
-                  {companies.map((company) => {
-                    const logoImage = PlaceHolderImages.find(
-                      (p) => p.id === company.imageId
-                    );
-                    return (
-                      <Tooltip key={company.name}>
-                        <TooltipTrigger>
-                          <div className={company.className}>
-                            {logoImage ? (
+              <div className="mt-8 flex items-center justify-center gap-8 md:gap-12">
+                {companies.map((company) => {
+                  const logoImage = PlaceHolderImages.find(
+                    (p) => p.id === company.imageId
+                  );
+                  return (
+                    <Dialog key={company.name}>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <DialogTrigger asChild>
+                              <div
+                                className={`${company.className} cursor-pointer`}
+                              >
+                                {logoImage ? (
+                                  <img
+                                    src={logoImage.imageUrl}
+                                    alt={logoImage.description}
+                                    data-ai-hint={logoImage.imageHint}
+                                    className="h-10 w-24 object-contain md:h-12 md:w-32"
+                                  />
+                                ) : (
+                                  <div className="h-10 w-24 md:h-12 md:w-32 bg-muted rounded-md" />
+                                )}
+                              </div>
+                            </DialogTrigger>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>View my experience at {company.name}</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      <DialogContent className="sm:max-w-[525px]">
+                        <DialogHeader>
+                          <DialogTitle className="flex items-center gap-4">
+                            {logoImage && (
                               <img
                                 src={logoImage.imageUrl}
                                 alt={logoImage.description}
                                 data-ai-hint={logoImage.imageHint}
-                                className="h-10 w-24 object-contain md:h-12 md:w-32"
+                                className="h-8 w-auto rounded-sm"
                               />
-                            ) : (
-                              <div className="h-10 w-24 md:h-12 md:w-32 bg-muted rounded-md" />
                             )}
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>{company.name}</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    );
-                  })}
-                </div>
-              </TooltipProvider>
+                            {company.name}
+                          </DialogTitle>
+                          <DialogDescription>
+                            {company.designation} &bull; {company.timeline}
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="pt-4">
+                          <ul className="space-y-3">
+                            {company.details.map((detail, index) => (
+                              <li
+                                key={index}
+                                className="flex items-start gap-3"
+                              >
+                                <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                                <span className="text-sm text-muted-foreground">
+                                  {detail}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  );
+                })}
+              </div>
             </div>
 
             <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
