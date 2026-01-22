@@ -31,16 +31,11 @@ const skills = {
 };
 
 const stats = [
-  {
-    title: 'Amazon SDE Intern',
-    description: 'Gained valuable industry experience.',
-  },
-  { title: 'Python + DSA', description: 'Strong foundation in algorithms.' },
-  {
-    title: 'LeetCode Enthusiast',
-    description: 'Competitive programming mindset.',
-  },
-  { title: 'Quant Interest', description: 'Exploring quantitative finance.' },
+  { title: 'Amazon ML Summer School' },
+  { title: 'Top 6.68% on LeetCode' },
+  { title: 'NSS Team Lead' },
+  { title: 'Content Creator' },
+  { title: 'Solution & Blog Writer' },
 ];
 
 const companies = [
