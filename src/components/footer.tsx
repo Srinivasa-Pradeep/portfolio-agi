@@ -4,9 +4,6 @@ export function Footer() {
   return (
     <footer className="border-t">
       <div className="container flex flex-col items-center justify-between gap-4 py-8 md:flex-row">
-        <p className="text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Srini. All rights reserved.
-        </p>
         <p className="text-sm text-muted-foreground italic">
           "Dreams won't work until you work"
         </p>
