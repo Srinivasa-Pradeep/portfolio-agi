@@ -39,9 +39,12 @@ export default function InterviewExperiencePage({ params }: Props) {
           </div>
 
           <div className="space-y-4 text-center mb-12">
-            <h1 className="font-headline text-4xl font-extrabold tracking-tight lg:text-5xl">
-              {experience.company} - {experience.role}
+            <h1 className="font-headline text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
+              {experience.title ? experience.title : `${experience.company} - ${experience.role}`}
             </h1>
+            {experience.title && (
+                 <p className="text-lg text-muted-foreground">{experience.company} - {experience.role}</p>
+            )}
             <p className="text-muted-foreground">{experience.date}</p>
             <div className="flex flex-wrap justify-center gap-2">
               {experience.tags.map(tag => (
@@ -52,7 +55,7 @@ export default function InterviewExperiencePage({ params }: Props) {
             </div>
           </div>
 
-          <div className="leading-relaxed text-foreground/90">
+          <div className="prose prose-lg dark:prose-invert mx-auto leading-relaxed text-foreground/90">
             {experience.content}
           </div>
         </article>
