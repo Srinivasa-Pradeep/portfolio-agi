@@ -155,7 +155,7 @@ export function About() {
 
             <div className="mt-12">
               <h3 className="font-headline text-2xl font-semibold text-primary">
-                My Journey
+                Experience
               </h3>
               <div className="mt-8 flex items-center justify-center gap-8 md:gap-12">
                 {companies.map((company) => {
