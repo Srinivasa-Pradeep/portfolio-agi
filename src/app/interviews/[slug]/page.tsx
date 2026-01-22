@@ -45,7 +45,15 @@ export default function InterviewExperiencePage({ params }: Props) {
             {experience.title && (
                  <p className="text-lg text-muted-foreground">{experience.company} - {experience.role}</p>
             )}
-            <p className="text-muted-foreground">{experience.date}</p>
+            <div className="flex items-center justify-center gap-2">
+              <p className="text-muted-foreground">{experience.date}</p>
+              <Badge
+                variant={experience.status === 'selected' ? 'easy' : 'destructive'}
+                className="capitalize"
+              >
+                {experience.status}
+              </Badge>
+            </div>
             <div className="flex flex-wrap justify-center gap-2">
               {experience.tags.map(tag => (
                 <Badge key={tag} variant="secondary">

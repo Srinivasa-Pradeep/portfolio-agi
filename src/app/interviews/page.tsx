@@ -42,7 +42,15 @@ export default function InterviewsPage() {
                       <CardTitle className="text-lg font-semibold group-hover:text-primary transition-colors">
                         {exp.company} - {exp.role}
                       </CardTitle>
-                      <CardDescription>{exp.date}</CardDescription>
+                      <div className="flex items-center gap-2">
+                        <CardDescription>{exp.date}</CardDescription>
+                        <Badge
+                          variant={exp.status === 'selected' ? 'easy' : 'destructive'}
+                          className="capitalize"
+                        >
+                          {exp.status}
+                        </Badge>
+                      </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <p className="text-muted-foreground">{exp.summary}</p>

@@ -9,6 +9,7 @@ export type InterviewExperience = {
   summary: string;
   content: React.ReactNode;
   tags: string[];
+  status: 'selected' | 'rejected';
 };
 
 export const interviewExperiences: InterviewExperience[] = [
@@ -20,6 +21,7 @@ export const interviewExperiences: InterviewExperience[] = [
     title: 'My Google SAD Apprenticeship Journey: What I Learned from Getting Very Close (Twice)',
     summary: 'A detailed story of my application, preparation, two interviews, and the lessons learned from the Google SAD Apprenticeship.',
     tags: ['Google', 'Apprenticeship', 'Interview', 'FAANG', 'Personal Story'],
+    status: 'rejected',
     content: (
         <div className="space-y-6">
             <p className="lead text-lg text-muted-foreground">Some rejections don’t just hurt - they <strong>rearrange your life</strong>.</p>
@@ -221,6 +223,7 @@ export const interviewExperiences: InterviewExperience[] = [
     date: 'Fall 2024',
     summary: 'My experience interviewing for the Software Development Engineer Internship at Amazon for the 2025 season.',
     tags: ['FAANG', 'Internship', 'New Grad'],
+    status: 'selected',
     content: (
         <div className="space-y-6">
             <div>
@@ -253,6 +256,7 @@ export const interviewExperiences: InterviewExperience[] = [
     date: 'Spring 2023',
     summary: 'A look into the interview process for the Software Developer Internship at SAP Labs India.',
     tags: ['Enterprise', 'Internship'],
+    status: 'selected',
     content: (
         <div className="space-y-6">
             <div>
