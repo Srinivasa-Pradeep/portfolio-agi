@@ -31,11 +31,11 @@ const skills = {
 };
 
 const stats = [
-  { title: 'Amazon ML Summer School' },
   { title: 'Top 6.68% on LeetCode' },
-  { title: 'NSS Team Lead' },
-  { title: 'Content Creator' },
+  { title: 'Amazon ML Summer School' },
   { title: 'Solution & Blog Writer' },
+  { title: 'Content Creator' },
+  { title: 'NSS Team Lead' },
 ];
 
 const companies = [
