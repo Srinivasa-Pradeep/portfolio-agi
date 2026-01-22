@@ -3,7 +3,7 @@ import React from 'react';
 export function Footer() {
   return (
     <footer className="border-t">
-      <div className="container flex flex-col items-center justify-between gap-4 py-8 md:flex-row">
+      <div className="container flex flex-col items-center justify-center gap-4 py-8">
         <p className="text-sm text-muted-foreground italic">
           "Dreams won't work until you work"
         </p>
