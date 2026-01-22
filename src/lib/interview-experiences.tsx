@@ -421,8 +421,8 @@ export const interviewExperiences: InterviewExperience[] = [
   {
     slug: 'amazon-sde-intern-2025',
     company: 'Amazon',
-    role: 'SDE Intern',
-    date: 'Fall 2024',
+    role: 'SDE Internship',
+    date: 'Nov 2025',
     title: 'Amazon SDE Intern Interview Experience (India)',
     subtitle: 'From a Bottle to a Breakthrough',
     summary: 'This is my Amazon SDE Intern interview experience - the rounds, the questions, and what actually helped me crack it.',
@@ -446,7 +446,7 @@ export const interviewExperiences: InterviewExperience[] = [
 
             <hr className="my-8" />
 
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Pre-Placement Talk (18-11-2024)</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Pre-Placement Talk</h2>
             <p>Amazon’s pre-placement talk was hands down one of my favourites among the 40+ company sessions I attended.</p>
             <p>It wasn’t just a presentation - it was interactive. They involved the audience, asked questions, and even gave away goodies to people who responded.</p>
             <p>I got a bottle.</p>
@@ -633,8 +633,343 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>If I can push through rejection, self-doubt, and repeated failures and still make it, I believe with all my heart you can too.</p>
             <p>Don’t give up.</p>
             <p>Keep believing. Keep fighting.</p>
-            <p>Your time will come.</p>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <p style={{ textAlign: 'center' }}><i>Your time will come.</i></p>
+            </div>
         </div>
+    ),
+  },
+  {
+    slug: 'google-swe-univ-grad-2024',
+    company: 'Google',
+    role: 'SWE University Graduate',
+    date: 'July 2024',
+    title: 'Google SWE Univ Grad Interview Experience (2024)',
+    subtitle: 'Not just an experience. A turning point.',
+    summary:
+      'My Google SWE University Graduate interview journey - the coding challenge, two interview rounds, and the lessons learned.',
+    tags: ['Google', 'FAANG', 'New Grad', 'Interview'],
+    status: 'rejected',
+    content: (
+      <div className="space-y-6">
+        <p className="lead text-lg text-muted-foreground">
+          Not just an experience. A turning point.
+        </p>
+        <p>
+          This was my Google <strong>SWE University Graduate</strong> interview
+          journey - the coding challenge, two interview rounds on the same day,
+          the unexpected twists, and what I learned even though I didn’t make
+          it.
+        </p>
+
+        <hr className="my-8" />
+
+        <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">
+          Timeline (quick view)
+        </h2>
+        <ul className="list-disc list-inside space-y-2 mb-6 pl-4 text-muted-foreground">
+          <li>
+            <strong>13 July 2024</strong> - Round 1: Coding Challenge
+            (HackerEarth)
+          </li>
+          <li>
+            <strong>20 July 2024</strong> - Shortlisted mail (Round 2)
+          </li>
+          <li>
+            <strong>22 July 2024</strong> - Round 2: Coding Interview I (Easy)
+          </li>
+          <li>
+            <strong>22 July 2024</strong> - Round 3: Coding Interview II (Medium)
+          </li>
+        </ul>
+
+        <hr className="my-8" />
+
+        <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">
+          Round 1: Coding Challenge (HackerEarth)
+        </h2>
+        <p>
+          <strong>Difficulty:</strong> Medium
+          <br />
+          <strong>Date:</strong> 13th July 2024
+        </p>
+        <p>
+          It was Google’s coding challenge hosted on <strong>HackerEarth</strong>
+          .
+        </p>
+        <p>
+          The test had <strong>two problems</strong>:
+        </p>
+        <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+          <li>
+            one related to <strong>strings</strong>
+          </li>
+          <li>
+            one involving a <strong>multi-dimensional matrix</strong>
+          </li>
+        </ul>
+        <p>
+          Each question had <strong>10 test cases</strong>, and the total time
+          limit was <strong>1 hour</strong>.
+        </p>
+
+        <h3 className="text-xl font-bold mt-6 mb-2">What happened</h3>
+        <p>I initially went with a brute-force approach.</p>
+        <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+          <li>
+            For the <strong>first problem</strong>, my solution passed{' '}
+            <strong>4/10</strong> test cases.
+          </li>
+          <li>
+            For the <strong>second problem</strong>, it passed only{' '}
+            <strong>3/10</strong> test cases.
+          </li>
+        </ul>
+        <p>At that moment, I realised something important:</p>
+        <p>
+          Brute force wasn’t going to scale.
+          <br />
+          And spending the rest of the hour might not change the outcome.
+        </p>
+        <p>So I stopped.</p>
+        <p>
+          I ended the test within <strong>4 minutes</strong>, leaving{' '}
+          <strong>56 minutes</strong> unused.
+        </p>
+        <p>
+          With <strong>3000+ students</strong> taking the test, I assumed I was
+          done.
+        </p>
+        <p>I moved on and focused on other placement preparation.</p>
+        <p>But God had another plan.</p>
+
+        <hr className="my-8" />
+
+        <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">
+          The surprise email (20 July 2024)
+        </h2>
+        <p>
+          On <strong>20th July</strong>, I received an email from Google.
+        </p>
+        <p>I was shortlisted for Round 2.</p>
+        <p>I was genuinely shocked.</p>
+        <p>
+          Even more surprising - my name was the{' '}
+          <strong>first on the list</strong> in both tech and iTech categories.
+        </p>
+        <p>
+          I still don’t know the exact reason, but here is my honest guess:
+        </p>
+        <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+          <li>
+            they might have considered my <strong>time spent</strong>
+          </li>
+          <li>
+            and possibly my <strong>resume quality</strong>
+          </li>
+        </ul>
+        <p>
+          In my case, my resume had an <strong>ATS score of 92</strong>, and I
+          believe it played a role.
+        </p>
+        <h3 className="text-xl font-bold mt-6 mb-2">The selection numbers</h3>
+        <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+          <li>3000+ participated</li>
+          <li>
+            only <strong>74 shortlisted</strong> for Round 2
+          </li>
+          <li>
+            <strong>13 from tech</strong> and <strong>3 from iTech</strong>
+          </li>
+        </ul>
+        <p>
+          That email didn’t just make me happy.
+          <br />
+          It revived my confidence.
+        </p>
+
+        <hr className="my-8" />
+
+        <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">
+          Round 2: Coding Interview I
+        </h2>
+        <p>
+          <strong>Difficulty:</strong> Easy
+          <br />
+          <strong>Date:</strong> 22nd July 2024
+        </p>
+        <p>
+          Only 3 of us were shortlisted from my side, and we received interview
+          details.
+        </p>
+        <p>
+          My interview was scheduled at <strong>9:00 AM</strong>.
+        </p>
+        <p>But it didn’t happen.</p>
+        <p>I got a call from HR:</p>
+        <p>
+          The interviewer was unavailable.
+          <br />
+          They needed to reschedule.
+        </p>
+        <p>I agreed.</p>
+        <p>Then I waited.</p>
+        <h3 className="text-xl font-bold mt-6 mb-2">The long wait</h3>
+        <p>
+          After <strong>1.5 hours</strong>, there was still no update.
+          <br />
+          So I called HR again.
+        </p>
+        <p>
+          They rescheduled it to <strong>12:00 PM</strong>.
+        </p>
+        <p>I stayed in the same place till noon, waiting.</p>
+        <p>Meanwhile, my two peers finished their interviews.</p>
+        <p>I remember thinking:</p>
+        <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg italic">
+          “Okay Srini, it’s a gone case. Shut your Google dream and move on.”
+        </blockquote>
+        <p>Still, I didn’t leave.</p>
+        <p>I held on to a little hope.</p>
+        <h3 className="text-xl font-bold mt-6 mb-2">The interview</h3>
+        <p>When it finally started, it was relatively straightforward.</p>
+        <p>They gave me:</p>
+        <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+          <li>
+            one <strong>easy-level</strong> question
+          </li>
+          <li>with specific conditions</li>
+        </ul>
+        <p>The key thing here was communication.</p>
+        <p>
+          I kept explaining my thoughts, step by step, to the interviewer.
+        </p>
+        <p>
+          The interview lasted around <strong>50 minutes</strong>.
+        </p>
+        <p>At the end, I asked a few questions.</p>
+        <p>And then I waited.</p>
+        <h3 className="text-xl font-bold mt-6 mb-2">Result</h3>
+        <p>
+          Just <strong>15 minutes later</strong>, I received the mail:
+        </p>
+        <p>I was selected for Round 3.</p>
+
+        <hr className="my-8" />
+
+        <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">
+          Round 3: Coding Interview II
+        </h2>
+        <p>
+          <strong>Difficulty:</strong> Medium
+          <br />
+          <strong>Date:</strong> 22nd July 2024
+        </p>
+        <p>Round 3 happened on the same day.</p>
+        <p>This time, the question wasn’t straightforward.</p>
+        <p>It was medium - but it took time to fully understand.</p>
+        <p>
+          I tried.
+          <br />I kept trying.
+        </p>
+        <p>And then… after 40 minutes, I went blank.</p>
+        <p>
+          No reason.
+          <br />
+          No explanation.
+        </p>
+        <p>I couldn’t continue.</p>
+        <p>
+          So when the interviewer asked if I wanted to end the session, I said:
+        </p>
+        <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">
+          “Yaa, I’m done, sir.”
+        </blockquote>
+        <p>He thanked me.</p>
+        <p>He asked if I had questions.</p>
+        <p>I asked about his college placements.</p>
+        <p>And I told him something I truly believed:</p>
+        <p>Even if I didn’t succeed today, I’ll work at Google one day.</p>
+        <p>He smiled and said:</p>
+        <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg italic">
+          “See you at Google at some point in our lives.”
+        </blockquote>
+        <p>That line stayed with me.</p>
+
+        <hr className="my-8" />
+
+        <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">
+          What I felt after
+        </h2>
+        <p>I was sad.</p>
+        <p>I regretted not preparing more thoroughly.</p>
+        <p>But I also realised something:</p>
+        <p>This was going to become a powerful point in my life.</p>
+        <p>
+          Even though I wasn’t selected,
+          <br />I gained:
+        </p>
+        <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+          <li>experience</li>
+          <li>exposure</li>
+          <li>confidence</li>
+        </ul>
+        <p>I am grateful to Google for this opportunity.</p>
+        <p>
+          Thank you, Google.
+          <br />
+          See you one day.
+        </p>
+
+        <hr className="my-8" />
+
+        <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">
+          Key takeaways
+        </h2>
+        <p>Here are the things I want to highlight from this journey:</p>
+
+        <h3 className="text-xl font-bold mt-6 mb-2">1) Commit to DSA</h3>
+        <p>
+          If you want Google, DSA is not optional.
+          <br />
+          Solve as much as you can.
+        </p>
+
+        <h3 className="text-xl font-bold mt-6 mb-2">2) Stay resilient</h3>
+        <p>
+          Don’t get discouraged.
+          <br />
+          Everyone gets their own chance.
+        </p>
+
+        <h3 className="text-xl font-bold mt-6 mb-2">3) Be humble</h3>
+        <p>
+          Be humble with yourself.
+          <br />
+          Build skill over scrolling.
+        </p>
+
+        <h3 className="text-xl font-bold mt-6 mb-2">4) Take it seriously</h3>
+        <p>
+          This phase decides your future path.
+          <br />
+          Treat it with respect.
+        </p>
+
+        <hr className="my-8" />
+
+        <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">
+          Final line I live by
+        </h2>
+        <p>
+          <strong>“Dreams won’t work, until you work.”</strong>
+        </p>
+        <p>
+          <strong>
+            “Someday, when the time is right, we’ll be together.”
+          </strong>
+        </p>
+      </div>
     ),
   },
   {
