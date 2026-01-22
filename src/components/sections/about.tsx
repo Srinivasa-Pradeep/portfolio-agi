@@ -47,12 +47,12 @@ const companies = [
     imageId: 'sap-logo',
     className:
       'transition-all duration-300 filter grayscale drop-shadow-lg blur-sm scale-75 hover:grayscale-0 hover:blur-none hover:scale-90 hover:drop-shadow-xl',
-    designation: 'Software Engineer Intern (Cloud Platform)',
-    timeline: 'May 2022 - Aug 2022',
+    designation: 'Software Developer Intern',
+    timeline: 'Apr 2023 - May 2023',
     details: [
-      'Developed and deployed a suite of RESTful APIs using Node.js for a new microservice on the SAP Business Technology Platform.',
-      'Enhanced CI/CD pipelines with automated testing scripts, improving code quality and reducing deployment failures by 20%.',
-      'Designed and built a real-time monitoring dashboard using React, providing key performance metrics to stakeholders.',
+      'Built an expense processing application from the ground up using React.js, Spring Boot, and MongoDB.',
+      'Implemented core REST APIs and gained hands-on experience with enterprise development practices.',
+      'Actively participated in code reviews, adhering to industry-standard methodologies for high-quality software.',
     ],
   },
   {
@@ -60,12 +60,13 @@ const companies = [
     imageId: 'amazon-logo',
     className:
       'transition-all duration-300 filter grayscale drop-shadow-lg blur-[1.5px] scale-90 hover:grayscale-0 hover:blur-none hover:scale-100 hover:drop-shadow-xl',
-    designation: 'Software Development Engineer Intern (AWS)',
-    timeline: 'May 2023 - Aug 2023',
+    designation: 'Software Development Engineer Intern',
+    timeline: 'Jan 2025 - Jun 2025',
     details: [
-      'Owned the end-to-end development of a high-impact feature for an AWS service, used by thousands of customers.',
-      'Engineered a scalable, low-latency data ingestion service using Java and AWS Lambda, processing over 1 million events per minute.',
-      'Authored a comprehensive design document that was reviewed by senior engineers and became a template for future projects.',
+      'Improved system performance by 35% (request latency) by migrating a distributed, high-traffic service from Java to C++.',
+      'Enhanced service reliability across multiple microservices by architecting solutions for legacy system modernization.',
+      'Increased code coverage from 60% to 92% by developing comprehensive testing frameworks using C++ and Python.',
+      'Accelerated stakeholder decision-making by clearly articulating technical challenges and solutions through documentation and presentations.',
     ],
   },
   {
@@ -73,12 +74,12 @@ const companies = [
     imageId: 'mercedes-logo',
     className:
       'transition-all duration-300 filter grayscale drop-shadow-lg blur-0 scale-100 hover:grayscale-0 hover:scale-105 hover:drop-shadow-2xl',
-    designation: 'R&D Intern (Autonomous Driving)',
-    timeline: 'Jan 2021 - Apr 2021',
+    designation: 'Graduate Apprentice Trainee - Software Engineer',
+    timeline: 'Nov 2025 - Present',
     details: [
-      'Architected and implemented a Python-based simulation framework to validate sensor fusion algorithms for autonomous vehicles.',
-      'Optimized data processing pipelines, resulting in a 30% reduction in simulation runtime.',
-      'Collaborated with a team of researchers to publish a paper on novel object detection techniques.',
+      'Reduced manual workflow intervention by 40% by designing and implementing scalable Python automation solutions for manufacturing operations.',
+      'Optimized process efficiency by building innovative automation technologies on a distributed computing infrastructure.',
+      'Delivered production monitoring solutions within rapid 2-week sprint cycles in a cross-disciplinary agile team.',
     ],
   },
 ];
