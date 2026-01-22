@@ -85,7 +85,7 @@ const CustomTooltip = ({ active, payload }: any) => {
 
 
 const contestStats = {
-  rating: 1826,
+  rating: 1828,
   globalRanking: "52,752",
   totalRanked: "813,046",
   attended: 18,
@@ -107,13 +107,12 @@ const ratingHistory = [
 ];
 
 const ratingDistribution = [
-  { rating: 1500, count: 2 }, { rating: 1550, count: 4 },
-  { rating: 1600, count: 8 }, { rating: 1650, count: 15 },
-  { rating: 1700, count: 25 }, { rating: 1750, count: 35 },
-  { rating: 1800, count: 28 }, { rating: 1850, count: 18 },
-  { rating: 1900, count: 12 }, { rating: 1950, count: 7 },
-  { rating: 2000, count: 4 }, { rating: 2050, count: 2 },
-  { rating: 2100, count: 1 },
+  { rating: 1300, count: 29072 }, { rating: 1400, count: 68390 },
+  { rating: 1450, count: 194259 }, { rating: 1550, count: 104875 },
+  { rating: 1650, count: 49283 }, { rating: 1750, count: 19368 },
+  { rating: 1850, count: 14491 }, { rating: 1950, count: 9092 },
+  { rating: 2050, count: 5015 }, { rating: 2150, count: 2692 },
+  { rating: 2200, count: 2337 }, { rating: 2250, count: 1806 },
 ];
 
 const RatingTooltip = ({ active, payload }: any) => {
@@ -408,8 +407,8 @@ export function LeetCode() {
                         return null
                       }} />
                       <RechartsBar dataKey="count" radius={[4, 4, 0, 0]}>
-                        {ratingDistribution.map((entry) => (
-                          <Cell key={`cell-${entry.rating}`} fill={entry.rating >= 1800 && entry.rating < 1850 ? 'hsl(var(--primary))' : 'hsl(var(--muted))'} />
+                        {ratingDistribution.map((entry, index) => (
+                          <Cell key={`cell-${entry.rating}`} fill={contestStats.rating > (ratingDistribution[index - 1]?.rating ?? 0) && contestStats.rating <= entry.rating ? 'hsl(var(--primary))' : 'hsl(var(--muted))'} />
                         ))}
                       </RechartsBar>
                     </RechartsBarChart>
