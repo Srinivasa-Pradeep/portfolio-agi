@@ -22,13 +22,13 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const leetCodeProgress = {
-  totalSolved: 1058,
-  totalProblems: 3808,
+  totalSolved: 1064,
+  totalProblems: 3817,
   attempting: 25,
-  easy: { solved: 417, total: 922 },
-  medium: { solved: 517, total: 1986 },
-  hard: { solved: 124, total: 900 },
-  acceptanceRate: "65.3%",
+  easy: { solved: 419, total: 922 },
+  medium: { solved: 521, total: 1993 },
+  hard: { solved: 124, total: 902 },
+  acceptanceRate: "65.48%",
   submissions: "2.8k",
 };
 
@@ -132,19 +132,19 @@ const featuredSolutions = [
     title: "Count Odd Numbers in an Interval Range",
     difficulty: "Easy",
     topics: ["Math"],
-    link: "https://github.com/srinivas-dev/solutions/blob/main/count-odd-numbers-in-an-interval-range.py"
+    link: "https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/solutions/7396711/o1-math-trick-python-c-java-by-srinivasa-r8pl"
   },
   {
-    title: "Longest Palindromic Substring",
+    title: "Maximize Happiness of Selected Children",
     difficulty: "Medium",
-    topics: ["String", "Dynamic Programming"],
-    link: "https://github.com/srinivas-dev/solutions/blob/main/longest-palindromic-substring.py"
+    topics: ["Array", "Greedy", "Sorting"],
+    link: "https://leetcode.com/problems/maximize-happiness-of-selected-children/solutions/7436813/sorting-greedy-python-c-by-srinivasa_pra-4nlj"
   },
   {
-    title: "Regular Expression Matching",
+    title: "Minimum One Bit Operations to Make Integers Zero",
     difficulty: "Hard",
-    topics: ["String", "Dynamic Programming", "Recursion"],
-    link: "https://github.com/srinivas-dev/solutions/blob/main/regular-expression-matching.py"
+    topics: ["Math","Dynamic Programming","Bit Manipulation","Recursion","Memoization"],
+    link: "https://leetcode.com/problems/minimum-one-bit-operations-to-make-integers-zero/solutions/7333658/bit-manipulation-gray-code-logic-python-kwkii"
   }
 ];
 
@@ -500,7 +500,7 @@ export function LeetCode() {
         
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Button size="lg" asChild>
-              <a href="https://leetcode.com/u/srinivas-dev/" target="_blank" rel="noopener noreferrer">
+              <a href="https://leetcode.com/u/srinivasa_pradeep_/" target="_blank" rel="noopener noreferrer">
                 <BarChart className="mr-2 h-4 w-4" /> Visit LeetCode Profile
               </a>
             </Button>
