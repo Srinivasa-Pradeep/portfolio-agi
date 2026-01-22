@@ -15,6 +15,204 @@ export type InterviewExperience = {
 
 export const interviewExperiences: InterviewExperience[] = [
   {
+    slug: 'mbrdi-apprenticeship-journey',
+    company: 'MBRDI',
+    role: 'Apprentice',
+    date: 'Fall 2023',
+    title: 'MBRDI Interview Journey',
+    subtitle: 'When I Had Nothing Left, Life Still Found a Way',
+    summary: 'A personal story of landing an apprenticeship at MBRDI during a tough phase of life, reinforcing the belief that some things are meant to be.',
+    tags: ['MBRDI', 'Apprenticeship', 'Interview', 'Personal Story', 'Comeback'],
+    status: 'selected',
+    content: (
+        <div className="space-y-6">
+            <p className="lead text-lg text-muted-foreground">There was a phase in my life where I had nothing to point to and say, “This is mine.”</p>
+            <p>I wasn’t just unemployed. I was empty.</p>
+            <p>I lost my dad. I lost my PPO at Amazon. I lost people I trusted. And in many ways, I lost myself.</p>
+            <p>My confidence didn’t drop. It hit zero.</p>
+            <p>In that phase, I did what many people do when life starts collapsing silently.</p>
+            <p>I bled online. I wrote on Reddit. I reached out to a lot of people on LinkedIn. I tried to open doors.</p>
+            <p>But nothing worked.</p>
+            <p>And after a point, you get tired of chasing hope.</p>
+            <p>So I stopped.</p>
+            <p>Not because I became fearless. Because I became exhausted.</p>
+            <p>I decided I would just do what I could control.</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>I did LeetCode every day, aggressively.</li>
+                <li>I read books.</li>
+                <li>I watched Formula 1 for the first time.</li>
+            </ul>
+            <p>Still, I felt like my life might get screwed in that same room, forever.</p>
+            <p>And then, one fine day, I received a mail from my college.</p>
+            <p><strong>Mercedes-Benz came for hiring.</strong></p>
+            <p>An apprenticeship role.</p>
+            <p>Normally people treat apprenticeships like “less.” But when you are nothing, even a small chance feels like oxygen.</p>
+            <p>And somewhere in my gut, I felt something unusual:</p>
+            <p className="italic">This might be mine.</p>
+            <p>So I opted in. No overthinking. I sat with my full focus in it.</p>
+            <hr className="my-8" />
+
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Timeline (so it’s easy to follow)</h2>
+            <ul className="list-disc list-inside space-y-2 mb-6 pl-4 text-muted-foreground">
+                <li><strong>Oct 2</strong> - MBRDI apprenticeship role came to our college portal</li>
+                <li><strong>Oct 4</strong> - Online Assessment (OA)</li>
+                <li><strong>Oct 8</strong> - Interview Round 1</li>
+                <li><strong>Oct 9</strong> - Managerial Round</li>
+                <li><strong>Oct 14</strong> - Final HR Round</li>
+            </ul>
+            <hr className="my-8" />
+
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Round 1: OA - simple, but it mattered</h2>
+            <p>The first round was an Online Assessment.</p>
+            <p>It had:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>a simple DSA problem</li>
+                <li>computer science objective questions</li>
+            </ul>
+            <p>I cleared it successfully.</p>
+            <p>After that, they arranged an online meeting for everyone who cleared the OA.</p>
+            <p>The HR explained:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>the process</li>
+                <li>the stipend</li>
+                <li>the structure</li>
+            </ul>
+            <p>It felt real.</p>
+            <p>And then I received the mail for the first interview.</p>
+            <hr className="my-8" />
+            
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Interview 1: I had nothing to lose, so I spoke like myself</h2>
+            <p>This time, I wasn’t nervous.</p>
+            <p>I kept telling myself:</p>
+            <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg italic">If I have nothing to lose, why not give everything I have?</blockquote>
+            <p>The interview started with:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>self introduction</li>
+            </ul>
+            <p>Then it became:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>projects I worked on</li>
+                <li>my Amazon internship</li>
+            </ul>
+            <p>I spoke really well.</p>
+            <p>I also felt I overshared. But it was honest.</p>
+            <p>The interview went around <strong>45 minutes to 1 hour</strong>.</p>
+            <p>I said thanks. The call ended.</p>
+            <p>It was around 11 AM.</p>
+            <p>And then I went for a walk.</p>
+            <hr className="my-8" />
+            
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">The walk: when a Mercedes car felt like a sign</h2>
+            <p>On that walk, a Mercedes car passed right in front of me.</p>
+            <p>Until that day, I never noticed.</p>
+            <p>But on that day, it hit differently.</p>
+            <p>It felt like the universe was trying to whisper:</p>
+            <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">“Look. You’re closer than you think.”</blockquote>
+            <p>Around 5 PM, I received the result.</p>
+            <p>I cleared it.</p>
+            <p>And they scheduled a managerial round the next day.</p>
+            <hr className="my-8" />
+
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Managerial Round: I spoke from my life</h2>
+            <p>The managerial round was around 11 AM.</p>
+            <p>I entered the call confident. Because by now, I knew my own story.</p>
+            <p>The interviewer asked:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>some technical questions</li>
+                <li>role-related questions</li>
+            </ul>
+            <p>I tried to convince him with every angle I had.</p>
+            <p>At one point, I remember saying:</p>
+            <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">“Every day is a learning. Even if we fail, what better way to live?”</blockquote>
+            <p>He found it beautiful.</p>
+            <p>And that round ended.</p>
+            <p>Again I went for a walk.</p>
+            <p>Again I noticed Mercedes cars.</p>
+            <p>And now my gut was craving one thing:</p>
+            <p>A good Day 1.</p>
+            <p>Because my Amazon Day 1 had been a traumatized experience.</p>
+            <p>I didn’t want a dramatic beginning this time.</p>
+            <p>I wanted smoothness. Peace.</p>
+            <hr className="my-8" />
+            
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">The silence that broke me</h2>
+            <p>After the managerial round, there was no email.</p>
+            <p>Nothing.</p>
+            <p>They said HR round would happen on Friday.</p>
+            <p>But Friday came.</p>
+            <p>No mail.</p>
+            <p>And when you’ve already been through loss, your brain doesn’t say “maybe.”</p>
+            <p>Your brain says:</p>
+            <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">“It’s over.”</blockquote>
+            <p>I cried. Like real crying.</p>
+            <p>That night I wrote in my diary.</p>
+            <p>I thought I’m going to start again from scratch.</p>
+            <hr className="my-8" />
+
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Hope, in the strangest form</h2>
+            <p>Even then, every time I went for my walk, I kept seeing Mercedes cars.</p>
+            <p>A lot of them.</p>
+            <p>It felt like they were saying:</p>
+            <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">“We’re still here.”</blockquote>
+            <p>And I felt something I hadn’t felt in a while:</p>
+            <p>Gratitude.</p>
+            <p>I felt like the universe hadn’t given up on me.</p>
+            <p>So I held on.</p>
+            <p>Not to certainty.</p>
+            <p>To blind hope.</p>
+            <hr className="my-8" />
+
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">The Tuesday mail: the universe didn’t forget</h2>
+            <p>On Tuesday, I received the mail.</p>
+            <p>HR round.</p>
+            <p>The moment I saw it, I whispered:</p>
+            <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">“God please… just hand this over to me.”</blockquote>
+            <p>The call was scheduled around 1:30 PM.</p>
+            <p>This time I was nervous. Not because I was weak.</p>
+            <p>Because I knew how much I needed this.</p>
+            <p>I prayed.</p>
+            <p>And I entered.</p>
+            <hr className="my-8" />
+            
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">The biggest surprise: it wasn’t an interview</h2>
+            <p>It was a meeting.</p>
+            <p>Around <strong>30 people</strong> were inside.</p>
+            <p>Everyone who cleared the loops.</p>
+            <p>In that moment I realized:</p>
+            <p>I made it.</p>
+            <p>The HR discussed:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>compensation</li>
+                <li>background verification</li>
+                <li>expectations</li>
+            </ul>
+            <p>And the call ended.</p>
+            <p>I was deeply surrendered.</p>
+            <hr className="my-8" />
+            
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Waiting for the “Congratulations” mail</h2>
+            <p>After that, I went to Coimbatore for collecting my marksheet.</p>
+            <p>I came back home.</p>
+            <p>And I waited.</p>
+            <p>No offer letter. No confirmation.</p>
+            <p>It kept me waiting for so long.</p>
+            <p>So I shifted my focus.</p>
+            <p>And then one fine day, the mail came.</p>
+            <p><strong>Day 1 is on November 20.</strong></p>
+            <hr className="my-8" />
+            
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">What this journey taught me</h2>
+            <p>This experience made me believe something very deeply:</p>
+            <p>If something is meant for you, it will find a way to come to you.</p>
+            <p>But your job is different.</p>
+            <p>Your job is to become ready to receive it.</p>
+            <p>Even when you’re broken. Even when you’re tired. Even when you feel like you have nothing.</p>
+            <p>Because life can change in one email.</p>
+            <p>And sometimes… it changes exactly when you stopped begging for it.</p>
+        </div>
+    ),
+  },
+  {
     slug: 'google-sad-apprenticeship-journey',
     company: 'Google',
     role: 'SAD Apprenticeship',
