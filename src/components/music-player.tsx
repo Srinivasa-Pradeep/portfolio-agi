@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Music, Pause } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -9,49 +9,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useMusic } from '@/context/music-context';
 
 export function MusicPlayer() {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { isPlaying, togglePlayPause, rotation } = useMusic();
   const [isMounted, setIsMounted] = useState(false);
-  const [rotation, setRotation] = useState(0);
 
   useEffect(() => {
     setIsMounted(true);
-    // You should place your music file in `public/music/background-music.mp3`
-    const audio = new Audio('/music/background-music.mp3');
-    
-    const onSongEnd = () => {
-      setIsPlaying(false);
-      setRotation((prev) => prev + 360);
-    };
-
-    audio.addEventListener('ended', onSongEnd);
-    audioRef.current = audio;
-
-    return () => {
-      // Cleanup audio element on component unmount
-      if (audioRef.current) {
-        audioRef.current.removeEventListener('ended', onSongEnd);
-        audioRef.current.pause();
-      }
-      audioRef.current = null;
-    }
   }, []);
-
-  const togglePlayPause = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play().catch(error => {
-          console.error("Audio play failed:", error);
-        });
-      }
-      setIsPlaying(!isPlaying);
-      setRotation((prev) => prev + 360);
-    }
-  };
 
   if (!isMounted) {
     return null;

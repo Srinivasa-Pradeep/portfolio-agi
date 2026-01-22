@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { CustomCursor } from '@/components/custom-cursor';
 import { LiveClock } from '@/components/live-clock';
+import { MusicProvider } from '@/context/music-context';
 
 export const metadata: Metadata = {
   title: 'Srini Portfolio',
@@ -34,10 +35,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <MusicProvider>
             <CustomCursor />
             <LiveClock />
             {children}
             <Toaster />
+          </MusicProvider>
         </ThemeProvider>
       </body>
     </html>
