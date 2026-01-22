@@ -236,7 +236,8 @@ export const interviewExperiences: InterviewExperience[] = [
             <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Timeline (so it’s easy to follow)</h2>
             <ul className="list-disc list-inside space-y-2 mb-6 pl-4 text-muted-foreground">
                 <li><strong>Aug</strong> - Google SAD Apprenticeship opened</li>
-                <li><strong>Sep 12</strong> - Google Online Challenge (2 questions, ~75 minutes)</li>
+                <li><strong>Sep 12</strong> - I applied</li>
+                <li><strong>GOC</strong> - Online Challenge (2 questions, ~75 minutes)</li>
                 <li><strong>Oct 23</strong> - Telephonic round</li>
                 <li><strong>Nov 14</strong> - Interview 1 (rescheduled from Nov 8)</li>
                 <li><strong>Dec 9</strong> - Mail for Interview 2</li>
@@ -245,10 +246,10 @@ export const interviewExperiences: InterviewExperience[] = [
             </ul>
             <hr className="my-8" />
 
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Application: when Google showed up exactly when I needed hope</h2>
-            <p>I applied on <strong>Augest</strong>.</p>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Application: when Google showed up exactly when I needed hope</h2>
+            <p>I applied on <strong>September 12</strong>.</p>
             <p>At that moment, this wasn’t “just another application.” I applied with my whole heart - because for me, Google represented more than a brand. It represented a way back.</p>
-            <p>A few days later, On September 12 I received the <strong>GOC link (Google Online Challenge)</strong>.</p>
+            <p>A few days later, I received the <strong>GOC link (Google Online Challenge)</strong>.</p>
             <h3 className="text-xl font-bold mt-6 mb-2">The Online Challenge</h3>
             <ul className="list-disc list-inside space-y-2 mb-6 pl-4 text-muted-foreground">
                 <li><strong>2 problems</strong></li>
@@ -262,7 +263,7 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>The kind where you refresh your inbox so much you start memorising the font.</p>
             <hr className="my-8" />
 
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Telephonic Round: “Why apprenticeship?” matters more than you think</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Telephonic Round (Oct 23): “Why apprenticeship?” matters more than you think</h2>
             <p>After many days, I received the email:</p>
             <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">
                 “We are moving forward with your candidature.”
@@ -278,17 +279,17 @@ export const interviewExperiences: InterviewExperience[] = [
             </ul>
             <p>This round is not about algorithms. It’s about <strong>intent</strong>.</p>
             <p>They are trying to understand:</p>
-            <p className="font-semibold">Do you truly know why you’re here?</p>
+            <p><strong>Do you truly know why you’re here?</strong></p>
             <p>I answered honestly. I moved forward.</p>
             <hr className="my-8" />
             
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Interview 1: Google surprised me asusual</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Interview 1 (Nov 14): Google surprised me</h2>
             <p>This was my <strong>second time</strong> in Google’s process, so I was confident.</p>
             <p>The interview was originally scheduled for <strong>Nov 8</strong>, but I had a <strong>severe headache</strong> that week. I didn’t want to show up at 50% and regret it later, so I requested a reschedule.</p>
             <p>Google was supportive and moved it to <strong>Nov 14</strong>.</p>
             <p>That support mattered. It reminded me that professionalism can still be human.</p>
             <h3 className="text-xl font-bold mt-6 mb-2">The twist</h3>
-            <p>I entered the Meet ready for coding. But the interviewer started with <strong>Googlyness questions</strong>.</p>
+            <p>I entered the Meet ready for coding. But the interviewer started with <strong>behavioral questions</strong>.</p>
             <p>I was surprised because I expected:</p>
             <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
                 <li>coding</li>
@@ -302,13 +303,12 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>And I genuinely felt it was over.</p>
             <hr className="my-8" />
 
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Life continued: I joined MBRDI</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Life continued: I joined MBRDI</h2>
             <p>Around this time, I got another apprenticeship opportunity at <strong>MBRDI (Mercedes-Benz Research & Development India)</strong>.</p>
             <p>I joined. You can read that interview experience <Link href="/interviews/mbrdi-apprenticeship-journey" className="font-medium underline underline-offset-4 hover:text-primary">here</Link>.</p>
-            <p>I didn’t stop dreaming about Google - but I stopped pausing my life for it.</p>
             <hr className="my-8" />
             
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Interview 2 call: the callback I didn’t expect</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Interview 2 call (Dec 9): the comeback I didn’t expect</h2>
             <p>On <strong>Dec 9</strong>, I received a mail:</p>
             <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">
                 “Your next interview is scheduled for Dec 17.”
@@ -319,7 +319,7 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>I even changed my environment (moved to another floor) just to stay focused.</p>
             <hr className="my-8" />
 
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Interview 2: the real Google interview</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Interview 2 (Dec 17): the real Google interview</h2>
             <p>This time, it was a standard Google-style interview.</p>
             <p>The question was <strong>easy to understand</strong>, and I started with an intuitive approach.</p>
             <p>Then I experienced something I’ll never forget.</p>
@@ -349,7 +349,7 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>Silence again.</p>
             <hr className="my-8" />
 
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Waiting for a miracle</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Waiting for a miracle</h2>
             <p>Deep down, I knew I didn’t deliver perfectly.</p>
             <p>But when you get close, you start bargaining with reality:</p>
             <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg italic">
@@ -358,7 +358,7 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>I waited.</p>
             <hr className="my-8" />
             
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Final call: the decision</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Final call (Jan 19): the decision</h2>
             <p>On <strong>Jan 19</strong>, I got the call from the recruiting team.</p>
             <p>They started politely. And then came the sentence:</p>
             <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">
@@ -415,8 +415,6 @@ export const interviewExperiences: InterviewExperience[] = [
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <p style={{ textAlign: 'center' }}><i>“Someday, when the time is right, we’ll be together.”</i></p>
             </div>
-
-
         </div>
     ),
   },
@@ -425,31 +423,217 @@ export const interviewExperiences: InterviewExperience[] = [
     company: 'Amazon',
     role: 'SDE Intern',
     date: 'Fall 2024',
-    summary: 'My experience interviewing for the Software Development Engineer Internship at Amazon for the 2025 season.',
+    title: 'Amazon SDE Intern Interview Experience (India)',
+    subtitle: 'From a Bottle to a Breakthrough',
+    summary: 'This is my Amazon SDE Intern interview experience - the rounds, the questions, and what actually helped me crack it.',
     tags: ['FAANG', 'Internship', 'New Grad'],
     status: 'selected',
     content: (
         <div className="space-y-6">
-            <div>
-                <h2 className="text-2xl font-bold mb-4 border-b pb-2">The Process</h2>
-                <p className="mb-4">The interview process consisted of three main stages:</p>
-                <ol className="list-decimal list-inside space-y-2 mb-6 pl-4">
-                    <li><strong>Online Assessment (OA):</strong> Two coding questions on a platform like HackerRank.</li>
-                    <li><strong>Phone Interview:</strong> A 45-minute technical screen with an Amazon engineer.</li>
-                    <li><strong>Final On-site (Virtual):</strong> Three 45-minute interviews back-to-back.</li>
-                </ol>
-            </div>
+            <p className="lead text-lg text-muted-foreground">
+                This is my Amazon SDE Intern interview experience - the rounds, the questions, and what actually helped me crack it.
+            </p>
+            
+            <hr className="my-8" />
 
-            <div>
-                <h3 className="text-xl font-bold mb-2">Online Assessment</h3>
-                <p className="mb-6">The OA had two coding problems to be solved in 90 minutes. The problems were medium-level LeetCode style questions. I focused on explaining my thought process clearly in the code comments.</p>
-            </div>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Timeline (so it’s easy to follow)</h2>
+            <ul className="list-disc list-inside space-y-2 mb-6 pl-4 text-muted-foreground">
+                <li><strong>18-11-2024</strong> - Pre-Placement Talk (PPT)</li>
+                <li><strong>Round 1</strong> - Online Assessment (Coding + Workstyle + Behavioural + Feedback)</li>
+                <li><strong>20-11-2024</strong> - Round 2 Virtual Interview (Amazon Chime)</li>
+                <li><strong>21-11-2024</strong> - Results announced</li>
+            </ul>
 
-            <div>
-                <h3 className="text-xl font-bold mb-2">Final Interviews</h3>
-                <p className="mb-4">The virtual on-site was intense. Each round had a mix of behavioral questions based on Amazon's Leadership Principles and a coding problem on a shared editor.</p>
-                <p className="p-4 bg-secondary rounded-lg border"><strong>Key takeaway:</strong> Practice your Leadership Principle stories! They are just as important as the coding.</p>
-            </div>
+            <hr className="my-8" />
+
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Pre-Placement Talk (18-11-2024)</h2>
+            <p>Amazon’s pre-placement talk was hands down one of my favourites among the 40+ company sessions I attended.</p>
+            <p>It wasn’t just a presentation - it was interactive. They involved the audience, asked questions, and even gave away goodies to people who responded.</p>
+            <p>I got a bottle.</p>
+            <p>It sounds small, but in that moment, something switched inside me.</p>
+            <p>I remember thinking:</p>
+            <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">
+                “I need to crack Round 1 no matter what.”
+            </blockquote>
+
+            <hr className="my-8" />
+            
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Round 1: Online Assessment (Not just a Coding Test)</h2>
+            <p>Many people assume this round is only about coding. It’s not.</p>
+            <p>This assessment was divided into <strong>four sections</strong>, and each one mattered.</p>
+            
+            <h3 className="text-xl font-bold mt-6 mb-2">1) Coding (HackerRank) - 70 minutes</h3>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li><strong>2 coding questions</strong></li>
+                <li><strong>70 minutes</strong></li>
+            </ul>
+            <p>The questions were challenging but fair. They tested core DSA and problem-solving.</p>
+            <p><strong>Topics to be solid in:</strong></p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>Array manipulation</li>
+                <li>String manipulation</li>
+                <li>Dynamic programming</li>
+            </ul>
+            <p>My advice: practice writing clean code fast, because timing matters.</p>
+
+            <h3 className="text-xl font-bold mt-6 mb-2">2) Workstyle Assessment (No time limit)</h3>
+            <p>Don’t take this lightly.</p>
+            <p>Amazon cares about technical skills, yes - but they care equally about how you work. This section takes roughly <strong>15 minutes</strong>, and it measures how your responses align with Amazon culture.</p>
+            <p>The best way to approach this is by understanding Amazon’s <strong>Leadership Principles</strong>.</p>
+            <p>They say “be yourself”, but you should still answer in a way that reflects:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>ownership</li>
+                <li>customer obsession</li>
+                <li>bias for action</li>
+                <li>learn and be curious</li>
+                <li>and other principles</li>
+            </ul>
+
+            <h3 className="text-xl font-bold mt-6 mb-2">3) Behavioural Questions</h3>
+            <p>Expect a few behavioural questions.</p>
+            <p>Amazon wants examples of:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>leadership</li>
+                <li>collaboration</li>
+                <li>problem-solving</li>
+                <li>handling conflict</li>
+            </ul>
+            <p>Prepare 4-5 strong stories from your life/projects and structure them using STAR.</p>
+            
+            <h3 className="text-xl font-bold mt-6 mb-2">4) Feedback Question</h3>
+            <p>Amazon loves feedback. Answer honestly and thoughtfully.</p>
+            
+            <hr className="my-8" />
+
+            <h3 className="text-xl font-bold mt-6 mb-2">Result of Round 1</h3>
+            <p>Out of <strong>185 candidates</strong>, only <strong>38</strong> were selected for the next round.</p>
+            <p>I was one of them.</p>
+
+            <hr className="my-8" />
+            
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Round 2: Virtual Interview (20-11-2024)</h2>
+            <p>
+                Having previously attended Google’s interview process
+                (<a href="https://medium.com/@writtenbysrini/google-interview-experience-c9d59cf88175" target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4 hover:text-primary">link</a>), 
+                Amazon’s format felt familiar - but it still required full focus.
+            </p>
+            <p>This interview was held on <strong>Amazon Chime</strong>.</p>
+            <p>There were <strong>two interviewers</strong>:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>one observed my behaviour and engagement</li>
+                <li>one focused on technical problem solving</li>
+            </ul>
+            <p>They shared a <strong>live coding link</strong>, posted the questions there, and expected me to:</p>
+            <ol className="list-decimal list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>explain my approach clearly</li>
+                <li>code it</li>
+                <li>justify complexity</li>
+            </ol>
+            <p>They encouraged STAR-style communication, even in technical explanations.</p>
+            
+            <hr className="my-8" />
+            
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Technical Questions I Faced</h2>
+            <ol className="list-decimal list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li><strong>LeetCode Medium</strong> (String-based)</li>
+                <li><strong>LeetCode Hard</strong> (Tree-based)</li>
+            </ol>
+            <p>What helped me most was mock interview practice.</p>
+            <p>I’m grateful to:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li><a href="https://in.linkedin.com/in/kamal-chander-r-508b25251?trk=people-guest_people_search-card" target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4 hover:text-primary">Kamal Chander</a></li>
+                <li><a href="https://in.linkedin.com/in/sridhar-r-" target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4 hover:text-primary">Sridhar</a></li>
+                <li><a href="https://in.linkedin.com/in/ram-kumar-ramanathan-5a489a231" target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4 hover:text-primary">Ram Kumar</a></li>
+                <li>Isaac Abraham Thottathil</li>
+            </ul>
+            <p>Because of those mocks, I was comfortable with:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>thinking aloud</li>
+                <li>forming intuition quickly</li>
+                <li>converting it into a structured solution</li>
+                <li>explaining time and space complexity</li>
+            </ul>
+            <p>I completed both questions in around <strong>35 minutes</strong>.</p>
+            
+            <hr className="my-8" />
+            
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">End-of-Interview Q&A</h2>
+            <p>After solving the problems, the interviewers asked if I had any questions.</p>
+            <p>I asked about:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>team dynamics</li>
+                <li>expectations for interns</li>
+            </ul>
+            <p>That conversation felt constructive. They appreciated the engagement.</p>
+            <p>They informed me I’d receive results in a few days.</p>
+            
+            <hr className="my-8" />
+
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">The Result</h2>
+            <p>The results came the <strong>next morning</strong>.</p>
+            <p>Only <strong>6 candidates</strong> were selected.</p>
+            <p>And I was one of them.</p>
+            <p>2 were from PSG iTech.</p>
+            <p>I still remember the weight of that moment.</p>
+            <p>Because it took me <strong>131 long days</strong> to get there.</p>
+            <p>Days of:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>doubt</li>
+                <li>rejection</li>
+                <li>exhaustion</li>
+                <li>moments where I thought I wouldn’t make it</li>
+            </ul>
+            <p>I got rejected by <strong>36 companies in Round 1</strong>.</p>
+            <p>And yet, I had the privilege of interviewing at:</p>
+            <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
+                <li>Google (dream)</li>
+                <li>AstraZeneca (my favourite)</li>
+            </ul>
+            <p>That season changed me.</p>
+
+            <hr className="my-8" />
+
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">What I learned</h2>
+            <p>If you’re preparing for placements, here are the lessons I want to leave you with.</p>
+            
+            <h3 className="text-xl font-bold mt-6 mb-2">1) Everyone has their own time</h3>
+            <p>Success isn’t a race. Some reach faster. But good things take time.</p>
+
+            <h3 className="text-xl font-bold mt-6 mb-2">2) Placement season is tough for everyone</h3>
+            <p>This phase tests your resilience. You’ll feel every emotion. But each day makes you stronger.</p>
+            
+            <h3 className="text-xl font-bold mt-6 mb-2">3) Don’t rush - stay steady</h3>
+            <p>The goal isn’t just to land a job. It’s to be ready for it.</p>
+            
+            <h3 className="text-xl font-bold mt-6 mb-2">4) Trust the process</h3>
+            <p>Some things are beyond explanation. If something is meant for you, it will find its way.</p>
+
+            <h3 className="text-xl font-bold mt-6 mb-2">5) Your efforts will not go in vain</h3>
+            <p>Every hour you put in counts. Every failure is shaping you.</p>
+
+            <h3 className="text-xl font-bold mt-6 mb-2">6) Remember the legends: Dhoni, Messi, Edison</h3>
+            <p>Greatness isn’t about never losing. It’s about rising after each fall.</p>
+            
+            <h3 className="text-xl font-bold mt-6 mb-2">7) Stay humble and never settle</h3>
+            <p>Stay grounded. Keep learning. Keep climbing.</p>
+            
+            <hr className="my-8" />
+
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Resource</h2>
+            <p>
+                I also compiled a Notion resource for placement preparation (DSA + interview prep).{' '}
+                <a href="https://deeply-squash-6db.notion.site/Placement-Preparation-CSE-7f7e6a7208e64ef68bc8511e40d5b5ce?source=copy_link" target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4 hover:text-primary">
+                    Link
+                </a>
+            </p>
+            
+            <hr className="my-8" />
+            
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Closing</h2>
+            <p>If I can push through rejection, self-doubt, and repeated failures and still make it, I believe with all my heart you can too.</p>
+            <p>Don’t give up.</p>
+            <p>Keep believing. Keep fighting.</p>
+            <p>Your time will come.</p>
         </div>
     ),
   },
