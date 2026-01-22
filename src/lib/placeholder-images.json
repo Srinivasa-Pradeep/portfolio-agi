@@ -19,10 +19,16 @@
       "imageHint": "sap logo"
     },
     {
-      "id": "amazon-logo",
-      "description": "Amazon company logo",
+      "id": "amazon-logo-light",
+      "description": "Amazon company logo for light mode",
       "imageUrl": "https://6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev/capra/attachedImages/c15e341a-55f1-429c-afb2-a000fab745d5/image_039a7e7a-0d78-4039-8ad0-df59d95c78dc.png",
       "imageHint": "amazon logo"
+    },
+    {
+      "id": "amazon-logo-dark",
+      "description": "Amazon company logo for dark mode",
+      "imageUrl": "https://6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev/capra/attachedImages/c15e341a-55f1-429c-afb2-a000fab745d5/image_e5a2f5b1-3d7c-4a3a-8b8d-9b6f8a8f1b1c.png",
+      "imageHint": "amazon logo white"
     },
     {
       "id": "mercedes-logo",

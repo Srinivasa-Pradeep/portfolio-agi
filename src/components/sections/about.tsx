@@ -53,7 +53,7 @@ const companies = [
   },
   {
     name: 'Amazon',
-    imageId: 'amazon-logo',
+    imageId: 'amazon-logo-light',
     className:
       'transition-all duration-300 filter grayscale drop-shadow-lg blur-[1.5px] scale-90 hover:grayscale-0 hover:blur-none hover:scale-100 hover:drop-shadow-xl',
     designation: 'Software Development Engineer Intern',
@@ -85,6 +85,7 @@ export function About() {
   const [avatar, setAvatar] = useState<ImagePlaceholder | undefined>(
     PlaceHolderImages.find((p) => p.id === 'srini-avatar-light')
   );
+  const [amazonLogoId, setAmazonLogoId] = useState('amazon-logo-light');
 
   useEffect(() => {
     const lightAvatar = PlaceHolderImages.find(
@@ -96,8 +97,10 @@ export function About() {
 
     if (resolvedTheme === 'dark') {
       setAvatar(darkAvatar);
+      setAmazonLogoId('amazon-logo-dark');
     } else {
       setAvatar(lightAvatar);
+      setAmazonLogoId('amazon-logo-light');
     }
   }, [resolvedTheme]);
 
@@ -155,8 +158,9 @@ export function About() {
               </h3>
               <div className="mt-8 flex items-center justify-center gap-8 md:gap-12">
                 {companies.map((company) => {
+                  const logoId = company.name === 'Amazon' ? amazonLogoId : company.imageId;
                   const logoImage = PlaceHolderImages.find(
-                    (p) => p.id === company.imageId
+                    (p) => p.id === logoId
                   );
                   return (
                     <Dialog key={company.name}>
