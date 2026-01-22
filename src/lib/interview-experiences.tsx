@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 export type InterviewExperience = {
   slug: string;
@@ -17,16 +18,16 @@ export const interviewExperiences: InterviewExperience[] = [
   {
     slug: 'mbrdi-apprenticeship-journey',
     company: 'MBRDI',
-    role: 'Apprentice',
-    date: 'Fall 2023',
+    role: 'Graduate Apprentice Trainee',
+    date: 'Oct 2025 - Nov 2025',
     title: 'MBRDI Interview Journey',
     subtitle: 'When I Had Nothing Left, Life Still Found a Way',
     summary: 'A personal story of landing an apprenticeship at MBRDI during a tough phase of life, reinforcing the belief that some things are meant to be.',
-    tags: ['MBRDI', 'Apprenticeship', 'Interview', 'Personal Story', 'Comeback'],
+    tags: ['MBRDI', 'Apprenticeship', 'Interview', 'Personal Story','Hope'],
     status: 'selected',
     content: (
         <div className="space-y-6">
-            <p className="lead text-lg text-muted-foreground">There was a phase in my life where I had nothing to point to and say, “This is mine.”</p>
+            <p className="lead text-lg text-muted-foreground">There was a phase in my life where I had nothing to point to and say,“This is mine.”</p>
             <p>I wasn’t just unemployed. I was empty.</p>
             <p>I lost my dad. I lost my PPO at Amazon. I lost people I trusted. And in many ways, I lost myself.</p>
             <p>My confidence didn’t drop. It hit zero.</p>
@@ -303,7 +304,7 @@ export const interviewExperiences: InterviewExperience[] = [
 
             <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Life continued: I joined MBRDI</h2>
             <p>Around this time, I got another apprenticeship opportunity at <strong>MBRDI (Mercedes-Benz Research & Development India)</strong>.</p>
-            <p>I joined. You can read that interview experience here</p>
+            <p>I joined. You can read that interview experience <Link href="/interviews/mbrdi-apprenticeship-journey" className="font-medium underline underline-offset-4 hover:text-primary">here</Link>.</p>
             <p>I didn’t stop dreaming about Google - but I stopped pausing my life for it.</p>
             <hr className="my-8" />
             
