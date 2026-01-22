@@ -156,7 +156,7 @@ export function About() {
               <h3 className="font-headline text-2xl font-semibold text-primary">
                 Experience
               </h3>
-              <div className="mt-8 flex items-center justify-center gap-8 md:gap-12">
+              <div className="mt-8 flex items-center justify-center gap-12 md:gap-16">
                 {companies.map((company) => {
                   const logoId = company.name === 'Amazon' ? amazonLogoId : company.imageId;
                   const logoImage = PlaceHolderImages.find(
