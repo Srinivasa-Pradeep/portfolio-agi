@@ -23,9 +23,11 @@ import {
 import { ListChecks } from 'lucide-react';
 
 const skills = {
-  Languages: ['Python', 'SQL'],
-  Fundamentals: ['DSA', 'OOP', 'DBMS', 'OS', 'CN'],
-  Tools: ['Git', 'Linux', 'AWS Basics'],
+  Languages: ['Java', 'C/C++', 'Python', 'JavaScript', 'Bash', 'SQL'],
+  'Frameworks & Libraries': ['React.js', 'Spring Boot', 'Node.js', 'Flask', 'Pandas', 'NumPy'],
+  Databases: ['MySQL', 'PostgreSQL', 'MongoDB', 'SQLite'],
+  'Tools & Platforms': ['Git', 'Docker', 'Jenkins', 'AWS', 'Azure', 'Linux/Unix'],
+  Concepts: ['Data Structures', 'Algorithms', 'System Design', 'Distributed Systems', 'Performance Optimization'],
 };
 
 const stats = [
