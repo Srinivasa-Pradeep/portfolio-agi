@@ -50,9 +50,9 @@ const companies = [
     designation: 'Software Developer Intern',
     timeline: 'Apr 2023 - May 2023',
     details: [
-      'Built an expense processing application from the ground up using React.js, Spring Boot, and MongoDB.',
-      'Implemented core REST APIs and gained hands-on experience with enterprise development practices.',
-      'Actively participated in code reviews, adhering to industry-standard methodologies for high-quality software.',
+      <>Built an expense processing application from the ground up using <strong className="font-semibold text-foreground/90">React.js, Spring Boot, and MongoDB.</strong></>,
+      <>Implemented core <strong className="font-semibold text-foreground/90">REST APIs</strong> and gained hands-on experience with enterprise development practices.</>,
+      <>Actively participated in code reviews, adhering to <strong className="font-semibold text-foreground/90">industry-standard methodologies</strong> for high-quality software.</>,
     ],
   },
   {
@@ -63,10 +63,10 @@ const companies = [
     designation: 'Software Development Engineer Intern',
     timeline: 'Jan 2025 - Jun 2025',
     details: [
-      'Improved system performance by 35% (request latency) by migrating a distributed, high-traffic service from Java to C++.',
-      'Enhanced service reliability across multiple microservices by architecting solutions for legacy system modernization.',
-      'Increased code coverage from 60% to 92% by developing comprehensive testing frameworks using C++ and Python.',
-      'Accelerated stakeholder decision-making by clearly articulating technical challenges and solutions through documentation and presentations.',
+      <>Improved system performance by <strong className="font-semibold text-foreground/90">35% (request latency)</strong> by migrating a distributed, high-traffic service from <strong className="font-semibold text-foreground/90">Java to C++.</strong></>,
+      <>Enhanced service reliability across multiple microservices by architecting solutions for <strong className="font-semibold text-foreground/90">legacy system modernization.</strong></>,
+      <>Increased code coverage from <strong className="font-semibold text-foreground/90">60% to 92%</strong> by developing comprehensive testing frameworks using <strong className="font-semibold text-foreground/90">C++ and Python.</strong></>,
+      <>Accelerated stakeholder decision-making by <strong className="font-semibold text-foreground/90">clearly articulating technical challenges</strong> and solutions through documentation and presentations.</>,
     ],
   },
   {
@@ -77,9 +77,9 @@ const companies = [
     designation: 'Graduate Apprentice Trainee - Software Engineer',
     timeline: 'Nov 2025 - Present',
     details: [
-      'Reduced manual workflow intervention by 40% by designing and implementing scalable Python automation solutions for manufacturing operations.',
-      'Optimized process efficiency by building innovative automation technologies on a distributed computing infrastructure.',
-      'Delivered production monitoring solutions within rapid 2-week sprint cycles in a cross-disciplinary agile team.',
+      <>Reduced manual workflow intervention by <strong className="font-semibold text-foreground/90">40%</strong> by designing and implementing scalable <strong className="font-semibold text-foreground/90">Python automation solutions</strong> for manufacturing operations.</>,
+      <>Optimized process efficiency by building innovative automation technologies on a <strong className="font-semibold text-foreground/90">distributed computing infrastructure.</strong></>,
+      <>Delivered production monitoring solutions within rapid <strong className="font-semibold text-foreground/90">2-week sprint cycles</strong> in a cross-disciplinary agile team.</>,
     ],
   },
 ];
