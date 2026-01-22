@@ -35,7 +35,6 @@ const stats = [
   { title: 'Amazon ML Summer School' },
   { title: 'Solution & Blog Writer' },
   { title: 'Content Creator' },
-  { title: 'NSS Team Lead' },
 ];
 
 const companies = [
