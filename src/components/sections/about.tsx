@@ -229,21 +229,8 @@ export function About() {
                 })}
               </div>
             </div>
-
-            <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {stats.map((stat) => (
-                <Card
-                  key={stat.title}
-                  className="transform-gpu transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-                >
-                  <CardHeader>
-                    <CardTitle className="text-base">{stat.title}</CardTitle>
-                  </CardHeader>
-                </Card>
-              ))}
-            </div>
-
-            <div className="mt-12">
+            
+            <div className="mt-16">
               <h3 className="font-headline text-2xl font-semibold text-primary">
                 Skills
               </h3>
@@ -265,6 +252,19 @@ export function About() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {stats.map((stat) => (
+                <Card
+                  key={stat.title}
+                  className="transform-gpu transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                >
+                  <CardHeader>
+                    <CardTitle className="text-base">{stat.title}</CardTitle>
+                  </CardHeader>
+                </Card>
+              ))}
             </div>
           </div>
         </div>
