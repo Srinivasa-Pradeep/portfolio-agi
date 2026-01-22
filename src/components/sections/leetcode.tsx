@@ -129,10 +129,10 @@ const RatingTooltip = ({ active, payload }: any) => {
 
 const featuredSolutions = [
   {
-    title: "Median of Two Sorted Arrays",
-    difficulty: "Hard",
-    topics: ["Array", "Binary Search", "Divide and Conquer"],
-    link: "https://github.com/srinivas-dev/solutions/blob/main/median-of-two-sorted-arrays.py"
+    title: "Count Odd Numbers in an Interval Range",
+    difficulty: "Easy",
+    topics: ["Math"],
+    link: "https://github.com/srinivas-dev/solutions/blob/main/count-odd-numbers-in-an-interval-range.py"
   },
   {
     title: "Longest Palindromic Substring",
