@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 export type InterviewExperience = {
@@ -212,30 +211,11 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>But this rejection isn’t the end. It’s training. It’s sharpening.</p>
             <p>I’ll come back stronger and wiser than before.</p>
             <p>Until then - Take care, Google.</p>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                textAlign: 'center',
-                padding: '24px 30px',
-                maxWidth: '650px',
-                margin: '30px auto',
-                border: '2px dashed rgba(255, 255, 255, 0.25)',
-                borderRadius: '18px',
-                background: 'rgba(255, 255, 255, 0.06)',
-                boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(10px)',
-            }}>
-              <p style={{
-                    margin: 0,
-                    fontSize: '20px',
-                    lineHeight: 1.6,
-                    color: 'white',
-                    letterSpacing: '0.2px',
-              }}>
-                <strong><em>“Someday, when the time is right, we’ll be together.”</em></strong>
-              </p>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+              <p style={{ textAlign: 'center' }}><strong><em>“Someday, when the time is right, we’ll be together.”</em></strong></p>
             </div>
+
+
         </div>
     ),
   },
