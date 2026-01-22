@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 export type InterviewExperience = {
@@ -17,14 +18,14 @@ export const interviewExperiences: InterviewExperience[] = [
     slug: 'google-sad-apprenticeship-journey',
     company: 'Google',
     role: 'SAD Apprenticeship',
-    date: 'Aug 2023 - Jan 2024',
+    date: 'Aug 2025 - Jan 2026',
     title: 'My Google SAD Apprenticeship Journey: What I Learned from Getting Very Close (Twice)',
     summary: 'A detailed story of my application, preparation, two interviews, and the lessons learned from the Google SAD Apprenticeship.',
     tags: ['Google', 'Apprenticeship', 'Interview', 'FAANG', 'Personal Story'],
     status: 'rejected',
     content: (
         <div className="space-y-6">
-            <p className="lead text-lg text-muted-foreground">Some rejections don’t just hurt - they <strong>rearrange your life</strong>.</p>
+            <p className="lead text-lg text-muted-foreground">Some rejections don’t just hurt, they <strong>rearrange your life</strong>.</p>
             <p>When I lost my PPO, I didn’t just lose an offer. I lost certainty. I lost a path that looked “safe.” Overnight, I was back at zero - staring at job portals like they were oxygen tanks, hoping something would finally pull me out.</p>
             <p>That phase wasn’t normal job hunting. It felt like I was <strong>drowning for an opportunity</strong>.</p>
             <p>And then Google opened applications for the <strong>SAD (Software Application Development) Apprenticeship</strong>.</p>
@@ -35,8 +36,7 @@ export const interviewExperiences: InterviewExperience[] = [
             <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Timeline (so it’s easy to follow)</h2>
             <ul className="list-disc list-inside space-y-2 mb-6 pl-4 text-muted-foreground">
                 <li><strong>Aug</strong> - Google SAD Apprenticeship opened</li>
-                <li><strong>Sep 12</strong> - I applied</li>
-                <li><strong>GOC</strong> - Online Challenge (2 questions, ~75 minutes)</li>
+                <li><strong>Sep 12</strong> - Google Online Challenge (2 questions, ~75 minutes)</li>
                 <li><strong>Oct 23</strong> - Telephonic round</li>
                 <li><strong>Nov 14</strong> - Interview 1 (rescheduled from Nov 8)</li>
                 <li><strong>Dec 9</strong> - Mail for Interview 2</li>
@@ -45,10 +45,10 @@ export const interviewExperiences: InterviewExperience[] = [
             </ul>
             <hr className="my-8" />
 
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">1) Application: when Google showed up exactly when I needed hope</h2>
-            <p>I applied on <strong>September 12</strong>.</p>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Application: when Google showed up exactly when I needed hope</h2>
+            <p>I applied on <strong>Augest</strong>.</p>
             <p>At that moment, this wasn’t “just another application.” I applied with my whole heart - because for me, Google represented more than a brand. It represented a way back.</p>
-            <p>A few days later, I received the <strong>GOC link (Google Online Challenge)</strong>.</p>
+            <p>A few days later, On September 12 I received the <strong>GOC link (Google Online Challenge)</strong>.</p>
             <h3 className="text-xl font-bold mt-6 mb-2">The Online Challenge</h3>
             <ul className="list-disc list-inside space-y-2 mb-6 pl-4 text-muted-foreground">
                 <li><strong>2 problems</strong></li>
@@ -62,7 +62,7 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>The kind where you refresh your inbox so much you start memorising the font.</p>
             <hr className="my-8" />
 
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">2) Telephonic Round (Oct 23): “Why apprenticeship?” matters more than you think</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Telephonic Round: “Why apprenticeship?” matters more than you think</h2>
             <p>After many days, I received the email:</p>
             <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">
                 “We are moving forward with your candidature.”
@@ -82,13 +82,13 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>I answered honestly. I moved forward.</p>
             <hr className="my-8" />
             
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">3) Interview 1 (Nov 14): Google surprised me</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Interview 1: Google surprised me asusual</h2>
             <p>This was my <strong>second time</strong> in Google’s process, so I was confident.</p>
             <p>The interview was originally scheduled for <strong>Nov 8</strong>, but I had a <strong>severe headache</strong> that week. I didn’t want to show up at 50% and regret it later, so I requested a reschedule.</p>
             <p>Google was supportive and moved it to <strong>Nov 14</strong>.</p>
             <p>That support mattered. It reminded me that professionalism can still be human.</p>
             <h3 className="text-xl font-bold mt-6 mb-2">The twist</h3>
-            <p>I entered the Meet ready for coding. But the interviewer started with <strong>behavioral questions</strong>.</p>
+            <p>I entered the Meet ready for coding. But the interviewer started with <strong>Googlyness questions</strong>.</p>
             <p>I was surprised because I expected:</p>
             <ul className="list-disc list-inside space-y-2 my-4 pl-4 text-muted-foreground">
                 <li>coding</li>
@@ -102,13 +102,13 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>And I genuinely felt it was over.</p>
             <hr className="my-8" />
 
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">4) Life continued: I joined MBRDI</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Life continued: I joined MBRDI</h2>
             <p>Around this time, I got another apprenticeship opportunity at <strong>MBRDI (Mercedes-Benz Research & Development India)</strong>.</p>
-            <p>I joined.</p>
+            <p>I joined. You can read that interview experience here</p>
             <p>I didn’t stop dreaming about Google - but I stopped pausing my life for it.</p>
             <hr className="my-8" />
             
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">5) Interview 2 call (Dec 9): the comeback I didn’t expect</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Interview 2 call: the callback I didn’t expect</h2>
             <p>On <strong>Dec 9</strong>, I received a mail:</p>
             <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">
                 “Your next interview is scheduled for Dec 17.”
@@ -119,7 +119,7 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>I even changed my environment (moved to another floor) just to stay focused.</p>
             <hr className="my-8" />
 
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">6) Interview 2 (Dec 17): the real Google interview</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Interview 2: the real Google interview</h2>
             <p>This time, it was a standard Google-style interview.</p>
             <p>The question was <strong>easy to understand</strong>, and I started with an intuitive approach.</p>
             <p>Then I experienced something I’ll never forget.</p>
@@ -149,7 +149,7 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>Silence again.</p>
             <hr className="my-8" />
 
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">7) Waiting for a miracle</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Waiting for a miracle</h2>
             <p>Deep down, I knew I didn’t deliver perfectly.</p>
             <p>But when you get close, you start bargaining with reality:</p>
             <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg italic">
@@ -158,7 +158,7 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>I waited.</p>
             <hr className="my-8" />
             
-            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">8) Final call (Jan 19): the decision</h2>
+            <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2"> Final call: the decision</h2>
             <p>On <strong>Jan 19</strong>, I got the call from the recruiting team.</p>
             <p>They started politely. And then came the sentence:</p>
             <blockquote className="p-4 my-4 border-l-4 bg-muted text-muted-foreground rounded-r-lg">
@@ -211,8 +211,31 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>Google still didn’t show me what it feels like to be on the other side of the loop.</p>
             <p>But this rejection isn’t the end. It’s training. It’s sharpening.</p>
             <p>I’ll come back stronger and wiser than before.</p>
-            <p>Until then -</p>
-            <p>Take care, Google. I’ll meet you again.</p>
+            <p>Until then - Take care, Google.</p>
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                textAlign: 'center',
+                padding: '24px 30px',
+                maxWidth: '650px',
+                margin: '30px auto',
+                border: '2px dashed rgba(255, 255, 255, 0.25)',
+                borderRadius: '18px',
+                background: 'rgba(255, 255, 255, 0.06)',
+                boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(10px)',
+            }}>
+              <p style={{
+                    margin: 0,
+                    fontSize: '20px',
+                    lineHeight: 1.6,
+                    color: 'white',
+                    letterSpacing: '0.2px',
+              }}>
+                <strong><em>“Someday, when the time is right, we’ll be together.”</em></strong>
+              </p>
+            </div>
         </div>
     ),
   },
