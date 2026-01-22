@@ -621,7 +621,7 @@ export const interviewExperiences: InterviewExperience[] = [
 
             <h2 className="text-2xl font-bold pt-4 mb-4 border-b pb-2">Resource</h2>
             <p>
-                I also compiled a Notion resource for placement preparation (DSA + interview prep).{' '}
+                I also compiled a Notion resou.rce for placement preparation (DSA + interview prep).{' '}
                 <a href="https://deeply-squash-6db.notion.site/Placement-Preparation-CSE-7f7e6a7208e64ef68bc8511e40d5b5ce?source=copy_link" target="_blank" rel="noopener noreferrer" className="font-medium underline underline-offset-4 hover:text-primary">
                     Link
                 </a>
@@ -644,8 +644,8 @@ export const interviewExperiences: InterviewExperience[] = [
     company: 'Google',
     role: 'SWE University Graduate',
     date: 'July 2024',
-    title: 'Google SWE Univ Grad Interview Experience (2024)',
-    subtitle: 'Not just an experience. A turning point.',
+    title: 'Google SWE Univ Grad Interview Experience (2025)',
+    subtitle: 'Not just an experience.',
     summary:
       'My Google SWE University Graduate interview journey - the coding challenge, two interview rounds, and the lessons learned.',
     tags: ['Google', 'FAANG', 'New Grad', 'Interview'],
@@ -653,7 +653,7 @@ export const interviewExperiences: InterviewExperience[] = [
     content: (
       <div className="space-y-6">
         <p className="lead text-lg text-muted-foreground">
-          Not just an experience. A turning point.
+          Not just an experience. 
         </p>
         <p>
           This was my Google <strong>SWE University Graduate</strong> interview
@@ -690,8 +690,6 @@ export const interviewExperiences: InterviewExperience[] = [
         </h2>
         <p>
           <strong>Difficulty:</strong> Medium
-          <br />
-          <strong>Date:</strong> 13th July 2024
         </p>
         <p>
           It was Google’s coding challenge hosted on <strong>HackerEarth</strong>
@@ -795,11 +793,9 @@ export const interviewExperiences: InterviewExperience[] = [
         </h2>
         <p>
           <strong>Difficulty:</strong> Easy
-          <br />
-          <strong>Date:</strong> 22nd July 2024
         </p>
         <p>
-          Only 3 of us were shortlisted from my side, and we received interview
+          Only 3 of us were shortlisted from my college, and we received interview
           details.
         </p>
         <p>
@@ -862,8 +858,6 @@ export const interviewExperiences: InterviewExperience[] = [
         </h2>
         <p>
           <strong>Difficulty:</strong> Medium
-          <br />
-          <strong>Date:</strong> 22nd July 2024
         </p>
         <p>Round 3 happened on the same day.</p>
         <p>This time, the question wasn’t straightforward.</p>
@@ -871,6 +865,7 @@ export const interviewExperiences: InterviewExperience[] = [
         <p>
           I tried.
           <br />I kept trying.
+          <br /> I started with an intuitive approch and navigated through the solution
         </p>
         <p>And then… after 40 minutes, I went blank.</p>
         <p>
@@ -902,7 +897,8 @@ export const interviewExperiences: InterviewExperience[] = [
           What I felt after
         </h2>
         <p>I was sad.</p>
-        <p>I regretted not preparing more thoroughly.</p>
+        <p>People laughed at me for not being able to complete the code. 
+            <br />I regretted not preparing more thoroughly. </p>
         <p>But I also realised something:</p>
         <p>This was going to become a powerful point in my life.</p>
         <p>
@@ -962,13 +958,13 @@ export const interviewExperiences: InterviewExperience[] = [
           Final line I live by
         </h2>
         <p>
-          <strong>“Dreams won’t work, until you work.”</strong>
+          <strong><i>“Dreams won’t work, until you work.”</i></strong>
         </p>
-        <p>
-          <strong>
-            “Someday, when the time is right, we’ll be together.”
-          </strong>
-        </p>
+
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <p style={{ textAlign: 'center' }}><i>“Someday, when the time is right, we’ll be together.”</i></p>
+            </div>
+     
       </div>
     ),
   },

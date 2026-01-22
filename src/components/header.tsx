@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils';
 import { Menu, Home, Code, User, Send, NotebookText, Star } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { ThemeToggle } from './theme-toggle';
 import { Button } from './ui/button';
@@ -28,6 +29,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setIsMounted(true);
@@ -37,6 +39,12 @@ export function Header() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
+
+      if (pathname !== '/') {
+        setActiveSection('');
+        return;
+      }
+      
       const sections = ['hero', ...navItems.map(item => item.id)];
       let currentSection = 'hero';
 
@@ -57,7 +65,7 @@ export function Header() {
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [pathname]);
 
   const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => (
     <nav
@@ -70,7 +78,7 @@ export function Header() {
         {navItems.map(item => (
           <Tooltip key={item.id}>
             <TooltipTrigger asChild>
-              <Link href={`#${item.id}`} passHref>
+              <Link href={`/#${item.id}`} passHref>
                 <Button
                   variant={activeSection === item.id ? 'secondary' : 'ghost'}
                   size="icon"
@@ -102,7 +110,7 @@ export function Header() {
         )}
       >
         <div className="container flex h-16 items-center justify-between gap-4 p-3">
-            <Link href="#hero" className="flex items-center gap-2" passHref>
+            <Link href="/#hero" className="flex items-center gap-2" passHref>
                 <Button variant={activeSection === 'hero' ? 'secondary' : 'ghost'} size="icon" className="rounded-full">
                     <Home className="h-5 w-5" />
                 </Button>
