@@ -1,7 +1,8 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, BookOpenCheck } from "lucide-react";
+import Link from "next/link";
 
 const blogPosts = [
   {
@@ -87,11 +88,16 @@ export function Blogs() {
           ))}
         </div>
         
-        <div className="mt-16 text-center">
+        <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
           <Button size="lg" variant="outline" asChild>
             <a href="https://medium.com/@writtenbysrini" target="_blank" rel="noopener noreferrer">
               View All Blogs <ArrowRight className="ml-2 h-4 w-4" />
             </a>
+          </Button>
+          <Button size="lg" asChild>
+            <Link href="/interviews">
+              Interview Experiences <BookOpenCheck className="ml-2 h-4 w-4" />
+            </Link>
           </Button>
         </div>
       </div>
