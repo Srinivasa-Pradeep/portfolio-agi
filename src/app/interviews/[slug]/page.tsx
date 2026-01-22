@@ -42,6 +42,11 @@ export default function InterviewExperiencePage({ params }: Props) {
             <h1 className="font-headline text-4xl font-extrabold tracking-tight text-balance lg:text-5xl">
               {experience.title ? experience.title : `${experience.company} - ${experience.role}`}
             </h1>
+            {experience.subtitle && (
+              <p className="text-2xl text-muted-foreground text-balance">
+                {experience.subtitle}
+              </p>
+            )}
             {experience.title && (
                  <p className="text-lg text-muted-foreground">{experience.company} - {experience.role}</p>
             )}

@@ -6,6 +6,7 @@ export type InterviewExperience = {
   role: string;
   date: string;
   title?: string;
+  subtitle?: string;
   summary: string;
   content: React.ReactNode;
   tags: string[];
@@ -18,7 +19,8 @@ export const interviewExperiences: InterviewExperience[] = [
     company: 'Google',
     role: 'SAD Apprenticeship',
     date: 'Aug 2025 - Jan 2026',
-    title: 'My Google SAD Apprenticeship Journey: What I Learned from Getting Very Close (Twice)',
+    title: 'Google SAD Apprenticeship Interview Journey',
+    subtitle: 'What I Learned from Getting Very Close (Twice)',
     summary: 'A detailed story of my application, preparation, two interviews, and the lessons learned from the Google SAD Apprenticeship.',
     tags: ['Google', 'Apprenticeship', 'Interview', 'FAANG', 'Personal Story'],
     status: 'rejected',
@@ -211,8 +213,8 @@ export const interviewExperiences: InterviewExperience[] = [
             <p>But this rejection isn’t the end. It’s training. It’s sharpening.</p>
             <p>I’ll come back stronger and wiser than before.</p>
             <p>Until then - Take care, Google.</p>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-              <p style={{ textAlign: 'center' }}><strong><em>“Someday, when the time is right, we’ll be together.”</em></strong></p>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <p style={{ textAlign: 'center' }}><i>“Someday, when the time is right, we’ll be together.”</i></p>
             </div>
 
 
