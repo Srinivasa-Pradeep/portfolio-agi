@@ -45,7 +45,7 @@ export function Projects() {
           {projects.map((project) => {
             const projectImage = PlaceHolderImages.find(p => p.id === project.imageId);
             return (
-            <Card key={project.name} className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl overflow-hidden">
+            <Card key={project.name} className="group flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl overflow-hidden">
               {projectImage && (
                   <div className="relative h-48 w-full">
                       <Image
@@ -53,7 +53,7 @@ export function Projects() {
                           alt={projectImage.description}
                           data-ai-hint={projectImage.imageHint}
                           fill
-                          className="object-cover"
+                          className="object-cover grayscale transition-all duration-300 group-hover:grayscale-0"
                       />
                   </div>
                 )}
