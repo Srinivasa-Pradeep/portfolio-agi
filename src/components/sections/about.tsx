@@ -20,7 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks, Code, Database, GitBranch, Binary, Workflow, Component, Network, Gauge, Terminal, Wind } from 'lucide-react';
+import { ListChecks, Database, GitBranch, Terminal, Wind, ListTree, FunctionSquare, Cog } from 'lucide-react';
 
 const stats = [
   { title: 'Top 6.68% on LeetCode' },
@@ -74,7 +74,7 @@ const companies = [
 
 // SVG Icon components
 const PythonIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-10 w-10"><path d="M13.5 9l3 3-3 3M10.5 15l-3-3 3-3M20 12h-5M9 12H4M12 20v-5M12 9V4"/></svg>;
-const JavaIcon = () => <svg viewBox="0 0 24 24" fill="currentColor" className="h-10 w-10"><path d="M10 4.25c.01-.01 0 0 0 0v2.24c0 .35.19.67.5.84.58.32 1.34.42 2.1.31.7-.1 1.39-.41 2.03-.89.5-.37.9-.84 1.16-1.39.08-.18.14-.36.18-.55h-2.58c-.46 0-.89-.25-1.11-.64-.29-.53-.29-1.22.01-1.75.24-.43.7-.69 1.2-.69H18c.45 0 .82.37.82.82v5.82c0 .45-.37.82-.82.82h-2.07c-.45 0-.82-.37-.82-.82v-2.05c0-.35-.2-.67-.5-.84-.58-.32-1.34-.42-2.1-.31-.7.1-1.39.41-2.03.89-.5.37-.9.84-1.16 1.39-.08.18-.14.36-.18.55h2.58c.46 0 .89.25 1.11.64.29.53.29 1.22-.01 1.75-.24.43-.7.69-1.2.69H6c-.45 0-.82-.37-.82-.82V6.04c0-.45.37-.82.82-.82h2.07c.45 0 .82.37.82.82z"/></svg>;
+const JavaIcon = () => <svg viewBox="0 0 24 24" fill="currentColor" className="h-10 w-10"><path d="M10 4.25c.01-.01 0 0 0 0v2.24c0 .35.19.67.5.84.58.32 1.34.42 2.1.31.7-.1 1.39-.41 2.03-.89.5-.37.9-.84 1.16-1.39.08-.18.14-.36.18-.55h-2.58c-.46 0-.89-.25-1.11-.64-.29-.53-.29-1.22.01-1.75.24-.43.7-.69 1.2-.69H18c.45 0 .82.37.82.82v5.82c0 .45-.37.82-.82.82h-2.07c-.45 0-.82-.37-.82-.82v-2.05c0-.35-.2-.67-.5-.84-.58-.32-1.34-.42-2.1-.31-.7.1-1.39.41-2.03.89-.5.37-.9.84-1.16 1.39-.08.18-.14-.36-.18-.55h2.58c.46 0 .89.25 1.11-.64.29.53.29 1.22-.01-1.75-.24-.43-.7-.69-1.2-.69H6c-.45 0-.82-.37-.82-.82V6.04c0-.45.37-.82.82-.82h2.07c.45 0 .82.37.82.82z"/></svg>;
 const CppIcon = () => <svg viewBox="0 0 24 24" fill="currentColor" className="h-10 w-10"><text x="0" y="18" fontSize="16px" fontWeight="bold">C++</text></svg>;
 const JsIcon = () => <svg viewBox="0 0 24 24" fill="currentColor" className="h-10 w-10"><path d="M1,1V23H23V1H1ZM21,21H3V3H21V21ZM10.2,16.5H7.5V9.3H10.2V10.8H8.4V12.3H10.2V13.8H8.4V15.6H10.2V16.5ZM16.5,12.3H14.7V13.8H16.5V15.6H13.8V9.3H16.5V10.8H14.7V12.3Z"/></svg>;
 const ReactIcon = () => <svg viewBox="-11.5 -10.23174 23 20.46348" fill="currentColor" className="h-10 w-10 text-cyan-400"><circle cx="0" cy="0" r="2.05" fill="currentColor"></circle><g stroke="currentColor" strokeWidth="1" fill="none"><ellipse rx="11" ry="4.2"></ellipse><ellipse rx="11" ry="4.2" transform="rotate(60)"></ellipse><ellipse rx="11" ry="4.2" transform="rotate(120)"></ellipse></g></svg>;
@@ -87,27 +87,28 @@ const DockerIcon = () => <svg viewBox="0 0 24 24" fill="currentColor" className=
 const LinuxIcon = () => <svg viewBox="0 0 24 24" fill="currentColor" className="h-10 w-10"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10s10-4.5,10-10S17.5,2,12,2z M12,20c-4.4,0-8-3.6-8-8s3.6-8,8-8s8,3.6,8,8 S16.4,20,12,20z M12.5,13.8v2.7h-1v-2.7c-1.3-0.2-2.3-1.4-2.3-2.8c0-1.6,1.3-2.8,2.8-2.8s2.8,1.3,2.8,2.8 C14.8,12.5,13.8,13.6,12.5,13.8z M12,10c-0.6,0-1,0.4-1,1s0.4,1,1,1s1-0.4,1-1S12.6,10,12,10z"/></svg>;
 
 const skillIcons = [
-  { name: 'Python', icon: PythonIcon },
-  { name: 'Java', icon: JavaIcon },
-  { name: 'C/C++', icon: CppIcon },
-  { name: 'JavaScript', icon: JsIcon },
-  { name: 'React.js', icon: ReactIcon },
-  { name: 'Spring Boot', icon: SpringIcon },
-  { name: 'Node.js', icon: NodeIcon },
-  { name: 'Bash', icon: Terminal },
-  { name: 'SQL', icon: Database },
-  { name: 'MongoDB', icon: MongoIcon },
-  { name: 'Git', icon: GitBranch },
-  { name: 'Docker', icon: DockerIcon },
-  { name: 'AWS', icon: AwsIcon },
-  { name: 'Azure', icon: AzureIcon },
-  { name: 'Linux', icon: LinuxIcon },
-  { name: 'Data Structures', icon: Binary },
-  { name: 'Algorithms', icon: Workflow },
-  { name: 'System Design', icon: Component },
-  { name: 'Distributed Systems', icon: Network },
-  { name: 'Performance Optimization', icon: Gauge },
-  { name: 'Flask', icon: Wind },
+    { name: 'Python', icon: PythonIcon },
+    { name: 'Java', icon: JavaIcon },
+    { name: 'C/C++', icon: CppIcon },
+    { name: 'JavaScript', icon: JsIcon },
+    { name: 'Bash', icon: Terminal },
+    { name: 'SQL', icon: Database },
+    { name: 'React.js', icon: ReactIcon },
+    { name: 'Spring Boot', icon: SpringIcon },
+    { name: 'Node.js', icon: NodeIcon },
+    { name: 'Flask', icon: Wind },
+    { name: 'Pandas', icon: ListTree },
+    { name: 'NumPy', icon: FunctionSquare },
+    { name: 'MySQL', icon: Database },
+    { name: 'PostgreSQL', icon: Database },
+    { name: 'MongoDB', icon: MongoIcon },
+    { name: 'SQLite', icon: Database },
+    { name: 'Git', icon: GitBranch },
+    { name: 'Docker', icon: DockerIcon },
+    { name: 'Jenkins', icon: Cog },
+    { name: 'AWS', icon: AwsIcon },
+    { name: 'Azure', icon: AzureIcon },
+    { name: 'Linux/Unix', icon: LinuxIcon },
 ];
 
 
@@ -266,7 +267,7 @@ export function About() {
               <div
                 className="relative mt-8 w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]"
               >
-                <div className="flex w-max animate-infinite-scroll hover:[animation-play-state:paused]">
+                <div className="flex w-max animate-infinite-scroll">
                   {[...skillIcons, ...skillIcons].map((skill, index) => (
                     <TooltipProvider key={index}>
                       <Tooltip>
