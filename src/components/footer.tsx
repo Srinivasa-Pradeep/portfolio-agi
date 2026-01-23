@@ -22,10 +22,7 @@ export function Footer() {
           </div>
         </div>
 
-        <p className={cn(
-          "absolute right-0 text-sm text-muted-foreground italic transition-all duration-300 hover:text-primary",
-          isPlaying ? "opacity-0 scale-95 pointer-events-none" : "opacity-100 scale-100"
-        )}>
+        <p className="absolute right-0 text-sm text-muted-foreground italic transition-colors duration-300 hover:text-primary">
          Dreams won't work until you work {"<3"}
         </p>
       </div>
