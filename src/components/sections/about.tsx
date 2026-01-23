@@ -193,14 +193,13 @@ export function About() {
                 Education
               </h3>
               <div className="mt-6 flex items-center gap-6 rounded-lg border bg-secondary/30 p-6 transition-all duration-300 hover:shadow-lg hover:border-primary/20">
-                <div className="flex-shrink-0">
+                <div className="relative h-20 w-20 flex-shrink-0">
                   {psgLogo && (
                     <Image
                       src={psgLogo.imageUrl}
                       alt={psgLogo.description}
                       data-ai-hint={psgLogo.imageHint}
-                      width={80}
-                      height={80}
+                      fill
                       className="object-contain"
                     />
                   )}
