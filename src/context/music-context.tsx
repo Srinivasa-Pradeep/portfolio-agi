@@ -18,8 +18,8 @@ type MusicContextType = {
 const MusicContext = createContext<MusicContextType | undefined>(undefined);
 
 const song: Song = {
-  title: 'Lost in the City Lights',
-  artist: 'After-dusk',
+  title: 'Day 1',
+  artist: 'Hans Zimmer',
   url: '/music/background-music.mp3',
 };
 
