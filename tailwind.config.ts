@@ -117,7 +117,7 @@ export default {
             boxShadow: '0 0 12px 4px rgba(0, 255, 0, 0.7)'
           },
         },
-        'infinite-scroll': {
+        'marquee': {
           from: { transform: 'translateX(0)' },
           to: { transform: 'translateX(-50%)' },
         },
@@ -127,7 +127,7 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         "fade-in": "fade-in 0.5s ease-out forwards",
         'breathing': 'breathing 3s ease-in-out infinite',
-        'infinite-scroll': 'infinite-scroll 60s linear infinite',
+        'marquee': 'marquee 22s linear infinite',
       },
     },
   },
