@@ -192,29 +192,90 @@ export function About() {
               <h3 className="font-headline text-2xl font-semibold text-primary">
                 Education
               </h3>
-              <div className="mt-6 flex items-center gap-6 rounded-lg border bg-secondary/30 p-6 transition-all duration-300 hover:shadow-lg hover:border-primary/20">
-                <div className="h-20 w-20 flex-shrink-0">
-                  {psgLogo && (
-                    <img
-                      src={psgLogo.imageUrl}
-                      alt={psgLogo.description}
-                      data-ai-hint={psgLogo.imageHint}
-                      className="h-full w-full object-contain"
-                    />
-                  )}
-                </div>
-                <div className="flex-grow">
-                  <h4 className="text-lg font-semibold text-foreground/90">
-                    PSG Institute of Technology and Applied Research
-                  </h4>
-                  <p className="text-muted-foreground">
-                    Bachelor of Engineering - Computer Science
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    2021 - 2025 | CGPA: 8.28
-                  </p>
-                </div>
-              </div>
+              <Dialog>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <DialogTrigger asChild>
+                        <div className="mt-6 group cursor-pointer flex items-center gap-6 rounded-lg border bg-secondary/30 p-6 transition-all duration-300 hover:shadow-lg hover:border-primary/20">
+                          <div className="h-20 w-20 flex-shrink-0">
+                            {psgLogo && (
+                              <img
+                                src={psgLogo.imageUrl}
+                                alt={psgLogo.description}
+                                data-ai-hint={psgLogo.imageHint}
+                                className="h-full w-full object-contain filter grayscale transition-all duration-300 group-hover:grayscale-0"
+                              />
+                            )}
+                          </div>
+                          <div className="flex-grow">
+                            <h4 className="text-lg font-semibold text-foreground/90">
+                              PSG Institute of Technology and Applied Research
+                            </h4>
+                            <p className="text-muted-foreground">
+                              B.E. Computer Science and Engineering
+                            </p>
+                            <p className="text-sm text-muted-foreground">
+                              2021 - 2025 | CGPA: 8.28
+                            </p>
+                          </div>
+                        </div>
+                      </DialogTrigger>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>View Notable Achievements</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+
+                <DialogContent className="sm:max-w-[525px]">
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center gap-4">
+                      {psgLogo && (
+                        <img
+                          src={psgLogo.imageUrl}
+                          alt={psgLogo.description}
+                          data-ai-hint={psgLogo.imageHint}
+                          className="h-8 w-auto rounded-sm"
+                        />
+                      )}
+                      PSG Institute of Technology and Applied Research
+                    </DialogTitle>
+                    <DialogDescription>
+                      B.E. Computer Science and Engineering | 2021 - 2025 | CGPA: 8.28
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="pt-4">
+                    <h4 className="font-semibold text-foreground mb-3">Notable Achievements</h4>
+                    <ul className="space-y-3">
+                        <li className="flex items-start gap-3">
+                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                            <span className="text-sm text-muted-foreground">
+                            Secured 1st place in Intra-College Hackathon 'Hack-a-Venture' 2024.
+                            </span>
+                        </li>
+                         <li className="flex items-start gap-3">
+                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                            <span className="text-sm text-muted-foreground">
+                            Published a research paper on "Efficient Text-to-SQL Models for Medical Domain" in a Tier-2 conference.
+                            </span>
+                        </li>
+                         <li className="flex items-start gap-3">
+                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                            <span className="text-sm text-muted-foreground">
+                            Received 'Best Outgoing Student' award from the Department of Computer Science and Engineering.
+                            </span>
+                        </li>
+                         <li className="flex items-start gap-3">
+                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                            <span className="text-sm text-muted-foreground">
+                             Maintained a consistent CGPA of 8.28 while actively participating in extracurricular activities and open-source contributions.
+                            </span>
+                        </li>
+                    </ul>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
 
             <div className="mt-12">
