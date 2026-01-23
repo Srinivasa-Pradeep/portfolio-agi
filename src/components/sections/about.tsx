@@ -278,7 +278,7 @@ export function About() {
                 <div className="flex w-max animate-marquee">
                   {[...techStack, ...techStack].map((skill, index) => (
                      <div key={index} className="relative group mx-6 flex h-24 w-24 items-center justify-center">
-                        <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-secondary/30 p-4 transition-transform duration-300 group-hover:scale-110 group-hover:bg-secondary/80">
+                        <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-secondary/30 p-4 transition-all duration-300 ease-in-out blur-[0.5px] group-hover:scale-110 group-hover:blur-0 group-hover:bg-secondary/80">
                             <skill.Icon className="h-10 w-10" />
                         </div>
                         <div
