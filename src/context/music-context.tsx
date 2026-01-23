@@ -2,13 +2,27 @@
 
 import React, { createContext, useContext, useState, useRef, useEffect, useCallback } from 'react';
 
+type Song = {
+  title: string;
+  artist: string;
+  url: string;
+};
+
 type MusicContextType = {
   isPlaying: boolean;
   togglePlayPause: () => void;
   rotation: number;
+  song: Omit<Song, 'url'>;
 };
 
 const MusicContext = createContext<MusicContextType | undefined>(undefined);
+
+const song: Song = {
+  title: 'Lost in the City Lights',
+  artist: 'After-dusk',
+  url: '/music/background-music.mp3',
+};
+
 
 export function MusicProvider({ children }: { children: React.ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -16,7 +30,7 @@ export function MusicProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const audio = new Audio('/music/background-music.mp3');
+    const audio = new Audio(song.url);
     audio.loop = false;
     audioRef.current = audio;
 
@@ -57,6 +71,7 @@ export function MusicProvider({ children }: { children: React.ReactNode }) {
     isPlaying,
     togglePlayPause,
     rotation,
+    song: { title: song.title, artist: song.artist },
   };
 
   return (
