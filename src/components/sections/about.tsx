@@ -124,6 +124,7 @@ export function About() {
     PlaceHolderImages.find((p) => p.id === 'srini-avatar-light')
   );
   const [amazonLogoId, setAmazonLogoId] = useState('amazon-logo-light');
+  const psgLogo = PlaceHolderImages.find((p) => p.id === 'psg-itech-logo');
 
   useEffect(() => {
     const lightAvatar = PlaceHolderImages.find(
@@ -186,6 +187,36 @@ export function About() {
             <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
             A Computer Science graduate and adaptable software engineer with a problem-solving mindset and strong analytical thinking. I actively contribute to projects, collaborate effectively in cross-functional teams and stay committed to continuous learning and growth.
             </p>
+
+            <div className="mt-12">
+              <h3 className="font-headline text-2xl font-semibold text-primary">
+                Education
+              </h3>
+              <div className="mt-6 flex items-center gap-6 rounded-lg border bg-secondary/30 p-6 transition-all duration-300 hover:shadow-lg hover:border-primary/20">
+                <div className="relative h-20 w-20 flex-shrink-0">
+                  {psgLogo && (
+                    <Image
+                      src={psgLogo.imageUrl}
+                      alt={psgLogo.description}
+                      data-ai-hint={psgLogo.imageHint}
+                      fill
+                      className="object-contain"
+                    />
+                  )}
+                </div>
+                <div className="flex-grow">
+                  <h4 className="text-lg font-semibold text-foreground/90">
+                    PSG Institute of Technology and Applied Research
+                  </h4>
+                  <p className="text-muted-foreground">
+                    Bachelor of Engineering - Computer Science
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    2021 - 2025 | CGPA: 8.28
+                  </p>
+                </div>
+              </div>
+            </div>
 
             <div className="mt-12">
               <h3 className="font-headline text-2xl font-semibold text-primary">

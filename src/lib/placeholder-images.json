@@ -37,6 +37,12 @@
       "imageHint": "mercedes logo"
     },
     {
+      "id": "psg-itech-logo",
+      "description": "PSG iTech college logo",
+      "imageUrl": "/images/psg-itech-logo.png",
+      "imageHint": "psg itech logo"
+    },
+    {
       "id": "project-medquery",
       "description": "Placeholder image for the MedQuery project",
       "imageUrl": "https://images.unsplash.com/photo-1706777268519-f7aa1898b823?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtZWRpY2FsJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NjkxNDk0MTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
