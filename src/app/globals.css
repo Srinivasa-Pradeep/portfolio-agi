@@ -34,10 +34,6 @@
     --info-foreground: 210 90% 15%;
     --feedback: 270 90% 65%;
     --feedback-foreground: 270 90% 25%;
-
-    /* For theme transition */
-    --x: 50%;
-    --y: 50%;
   }
 
   .dark {
@@ -98,10 +94,10 @@
 
 @keyframes theme-reveal {
   from {
-    clip-path: circle(0% at var(--x, 50%) var(--y, 50%));
+    clip-path: circle(0% at 50% 50%);
   }
   to {
-    clip-path: circle(150% at var(--x, 50%) var(--y, 50%));
+    clip-path: circle(150% at 50% 50%);
   }
 }
 

@@ -36,14 +36,14 @@ export function Hero() {
           Srini
         </h1>
         <p className="mt-4 max-w-2xl text-center text-lg font-medium text-foreground/80 md:text-xl">
-          Software Engineer • Problem Solver •
+          Software Engineer • Lifelong Learner •
           <span className="whitespace-nowrap">
-            {' '}Builder
+            {' '}Writer
             <span className="ml-2 inline-block h-2 w-2 animate-breathing rounded-full bg-[#00FF00]" />
           </span>
         </p>
         <p className="mt-6 max-w-xl text-balance text-muted-foreground md:text-lg">
-          I craft elegant software and solve hard problems with clarity.
+        I write to understand and build to become.
         </p>
         <div className="mt-8 flex flex-col gap-4 sm:flex-row">
           <Link href="#projects" passHref>

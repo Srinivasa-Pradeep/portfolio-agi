@@ -82,7 +82,7 @@ export function Contact() {
                               </a>
                           </TooltipTrigger>
                           <TooltipContent>
-                              <p>sspradeep2004@gmail.com</p>
+                              <p>Mail</p>
                           </TooltipContent>
                       </Tooltip>
                       <Tooltip>

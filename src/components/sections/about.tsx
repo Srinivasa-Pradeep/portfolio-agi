@@ -173,7 +173,7 @@ export function About() {
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Focusing</p>
+                    <p>Stay Humble</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -184,10 +184,7 @@ export function About() {
               About Me
             </h2>
             <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-              A Computer Science graduate with internship experience at Amazon. I
-              specialize in building clean, efficient user interfaces and have a
-              strong passion for algorithmic problem-solving. My focus is on
-              creating software that is both powerful and a pleasure to use.
+            A curious and adaptable software engineer with a problem-solving mindset and strong analytical thinking. I actively contribute to projects, collaborate effectively in cross-functional teams and stay committed to continuous learning and growth
             </p>
 
             <div className="mt-12">
