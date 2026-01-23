@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { ThemeToggle } from './theme-toggle';
 import { Button } from './ui/button';
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
 import {
   Tooltip,
   TooltipContent,
@@ -132,6 +132,9 @@ export function Header() {
                               </Button>
                           </SheetTrigger>
                           <SheetContent side="bottom" className="w-full rounded-t-lg">
+                              <SheetHeader className="sr-only">
+                                <SheetTitle>Mobile Navigation</SheetTitle>
+                              </SheetHeader>
                               <div className="flex flex-col items-center justify-center p-8">
                                   <NavLinks isMobile={true} />
                               </div>
