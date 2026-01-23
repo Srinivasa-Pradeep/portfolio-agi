@@ -184,7 +184,7 @@ export function About() {
               About Me
             </h2>
             <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-            A curious and adaptable software engineer with a problem-solving mindset and strong analytical thinking. I actively contribute to projects, collaborate effectively in cross-functional teams and stay committed to continuous learning and growth
+            A Computer Science graduate and adaptable software engineer with a problem-solving mindset and strong analytical thinking. I actively contribute to projects, collaborate effectively in cross-functional teams and stay committed to continuous learning and growth.
             </p>
 
             <div className="mt-12">
