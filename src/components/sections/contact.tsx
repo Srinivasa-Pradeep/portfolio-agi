@@ -11,6 +11,7 @@ import { useEffect, useRef, useActionState, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Github, Linkedin, Mail, Send, Briefcase, Star, HelpCircle, MailQuestion, PartyPopper, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -70,33 +71,46 @@ export function Contact() {
           <div className="lg:col-span-1 space-y-6">
              <h3 className="font-headline text-2xl font-semibold text-primary">Contact Info</h3>
              <p className="text-muted-foreground">You can also reach me directly through these channels.</p>
-              <a href="mailto:sspradeep2004@gmail.com" className="flex items-center gap-4 group transition-transform duration-200 hover:scale-[1.02]">
-                  <div className="bg-secondary p-3 rounded-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      <Mail className="h-5 w-5"/>
+              <TooltipProvider>
+                  <div className="flex gap-4 pt-2">
+                      <Tooltip>
+                          <TooltipTrigger asChild>
+                              <a href="mailto:sspradeep2004@gmail.com">
+                                  <div className="bg-secondary p-4 rounded-full transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110">
+                                      <Mail className="h-6 w-6"/>
+                                  </div>
+                              </a>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                              <p>sspradeep2004@gmail.com</p>
+                          </TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                          <TooltipTrigger asChild>
+                              <a href="https://www.linkedin.com/in/srinivasa-pradeep-s/" target="_blank" rel="noopener noreferrer">
+                                  <div className="bg-secondary p-4 rounded-full transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110">
+                                      <Linkedin className="h-6 w-6"/>
+                                  </div>
+                              </a>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                              <p>LinkedIn</p>
+                          </TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                          <TooltipTrigger asChild>
+                              <a href="https://github.com/srinivasa-pradeep" target="_blank" rel="noopener noreferrer">
+                                  <div className="bg-secondary p-4 rounded-full transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110">
+                                      <Github className="h-6 w-6"/>
+                                  </div>
+                              </a>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                              <p>GitHub</p>
+                          </TooltipContent>
+                      </Tooltip>
                   </div>
-                  <div>
-                      <p className="font-semibold">Email</p>
-                      <p className="text-muted-foreground">sspradeep2004@gmail.com</p>
-                  </div>
-              </a>
-              <a href="https://www.linkedin.com/in/srinivasa-pradeep-s/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-transform duration-200 hover:scale-[1.02]">
-                  <div className="bg-secondary p-3 rounded-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      <Linkedin className="h-5 w-5"/>
-                  </div>
-                  <div>
-                      <p className="font-semibold">LinkedIn</p>
-                      <p className="text-muted-foreground">linkedin.com/in/srinivas-pradeep-s</p>
-                  </div>
-              </a>
-              <a href="https://github.com/srinivasa-pradeep" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-transform duration-200 hover:scale-[1.02]">
-                  <div className="bg-secondary p-3 rounded-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                      <Github className="h-5 w-5"/>
-                  </div>
-                  <div>
-                      <p className="font-semibold">GitHub</p>
-                      <p className="text-muted-foreground">github.com/srinivas-pradeep</p>
-                  </div>
-              </a>
+              </TooltipProvider>
           </div>
           <div className="lg:col-span-2">
             <Card className="overflow-hidden">
