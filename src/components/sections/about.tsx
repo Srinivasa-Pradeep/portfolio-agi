@@ -251,25 +251,25 @@ export function About() {
                         <li className="flex items-start gap-3">
                             <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                             <span className="text-sm text-muted-foreground">
-                            Secured 1st place in Intra-College Hackathon 'Hack-a-Venture' 2024.
+                            Received the <strong className="font-semibold text-foreground/90">'Overall Excellence' Award</strong> from the Department of Computer Science and Engineering.
                             </span>
                         </li>
                          <li className="flex items-start gap-3">
                             <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                             <span className="text-sm text-muted-foreground">
-                            Published a research paper on "Efficient Text-to-SQL Models for Medical Domain" in a Tier-2 conference.
+                            Selected for the competitive <strong className="font-semibold text-foreground/90">Amazon ML Summer School</strong>, which led to a Software Development Engineer internship.
                             </span>
                         </li>
                          <li className="flex items-start gap-3">
                             <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                             <span className="text-sm text-muted-foreground">
-                            Received 'Best Outgoing Student' award from the Department of Computer Science and Engineering.
+                            Demonstrated leadership by progressing from an <strong className="font-semibold text-foreground/90">NSS Volunteer to Team Lead</strong> and serving as <strong className="font-semibold text-foreground/90">Joint Secretary</strong> of the Photography Club.
                             </span>
                         </li>
                          <li className="flex items-start gap-3">
                             <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                             <span className="text-sm text-muted-foreground">
-                             Maintained a consistent CGPA of 8.28 while actively participating in extracurricular activities and open-source contributions.
+                             Maintained a strong <strong className="font-semibold text-foreground/90">8.28 CGPA</strong> while actively engaging in hackathons, coding contests, and open-source contributions.
                             </span>
                         </li>
                     </ul>
