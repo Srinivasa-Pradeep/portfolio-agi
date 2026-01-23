@@ -30,6 +30,10 @@
     --chart-4: 45 60% 85%;
     --chart-5: 45 50% 95%;
     --easy: 165 80% 35%;
+    --info: 210 90% 55%;
+    --info-foreground: 210 90% 15%;
+    --feedback: 270 90% 65%;
+    --feedback-foreground: 270 90% 25%;
 
     /* For theme transition */
     --x: 50%;
@@ -62,6 +66,10 @@
     --chart-4: 45 60% 35%;
     --chart-5: 45 50% 25%;
     --easy: 165 70% 45%;
+    --info: 210 90% 65%;
+    --info-foreground: 210 90% 25%;
+    --feedback: 270 90% 75%;
+    --feedback-foreground: 270 90% 35%;
   }
 }
 

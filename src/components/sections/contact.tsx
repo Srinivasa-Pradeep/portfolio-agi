@@ -7,9 +7,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useEffect, useRef, useActionState } from 'react';
+import { useEffect, useRef, useActionState, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { Github, Linkedin, Mail, Send } from 'lucide-react';
+import { Github, Linkedin, Mail, Send, Briefcase, Star, HelpCircle, MailQuestion, PartyPopper, RefreshCw } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -21,20 +22,25 @@ function SubmitButton() {
   );
 }
 
+const categoryStyles: { [key: string]: { style: string, icon: React.ReactNode } } = {
+  'Job Opportunity': { style: 'text-easy', icon: <Briefcase className="h-12 w-12" /> },
+  'Question': { style: 'text-info', icon: <HelpCircle className="h-12 w-12" /> },
+  'Feedback': { style: 'text-feedback', icon: <Star className="h-12 w-12" /> },
+  'Other': { style: 'text-primary', icon: <MailQuestion className="h-12 w-12" /> },
+};
+
+
 export function Contact() {
   const initialState = { message: null, errors: {}, success: false, category: null };
   const [state, formAction] = useActionState(submitContactForm, initialState);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     if (state.message) {
       if (state.success) {
-        toast({
-          title: 'Message Sent!',
-          description: state.message,
-        });
-        formRef.current?.reset();
+        setIsSubmitted(true);
       } else {
         toast({
           variant: 'destructive',
@@ -44,6 +50,11 @@ export function Contact() {
       }
     }
   }, [state, toast]);
+
+  const handleReset = () => {
+    formRef.current?.reset();
+    setIsSubmitted(false);
+  }
 
   return (
     <section id="contact" className="py-20 md:py-32">
@@ -88,29 +99,43 @@ export function Contact() {
               </a>
           </div>
           <div className="lg:col-span-2">
-            <Card>
+            <Card className="overflow-hidden">
               <CardHeader>
                 <CardTitle>Send me a message</CardTitle>
               </CardHeader>
-              <CardContent>
-                <form ref={formRef} action={formAction} className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" name="name" placeholder="Your Name" />
-                    {state.errors?.name && <p className="text-sm text-destructive">{state.errors.name[0]}</p>}
+              <CardContent className="min-h-[440px] flex flex-col justify-center transition-all duration-500">
+                {!isSubmitted ? (
+                  <form ref={formRef} action={formAction} className="space-y-6 animate-fade-in">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Name</Label>
+                      <Input id="name" name="name" placeholder="Your Name" />
+                      {state.errors?.name && <p className="text-sm text-destructive">{state.errors.name[0]}</p>}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" name="email" type="email" placeholder="your.email@example.com" />
+                      {state.errors?.email && <p className="text-sm text-destructive">{state.errors.email[0]}</p>}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="message">Message</Label>
+                      <Textarea id="message" name="message" placeholder="Your message..." rows={5} />
+                      {state.errors?.message && <p className="text-sm text-destructive">{state.errors.message[0]}</p>}
+                    </div>
+                    <SubmitButton />
+                  </form>
+                ) : (
+                  <div className="text-center flex flex-col items-center justify-center gap-4 animate-fade-in">
+                      <div className={cn(categoryStyles[state.category!]?.style)}>
+                          {categoryStyles[state.category!]?.icon ?? <PartyPopper className="h-12 w-12" />}
+                      </div>
+                      <h3 className="text-2xl font-bold">Message Sent!</h3>
+                      <p className="text-muted-foreground max-w-sm">{state.message}</p>
+                      <Button onClick={handleReset} variant="outline" className="mt-4">
+                          <RefreshCw className="mr-2 h-4 w-4"/>
+                          Send another message
+                      </Button>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" name="email" type="email" placeholder="your.email@example.com" />
-                    {state.errors?.email && <p className="text-sm text-destructive">{state.errors.email[0]}</p>}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea id="message" name="message" placeholder="Your message..." rows={5} />
-                    {state.errors?.message && <p className="text-sm text-destructive">{state.errors.message[0]}</p>}
-                  </div>
-                  <SubmitButton />
-                </form>
+                )}
               </CardContent>
             </Card>
           </div>

@@ -6,22 +6,22 @@ import { Github } from "lucide-react";
 
 const projects = [
   {
-    name: "Portfolio v2",
-    description: "The very site you are on. A modern, performant portfolio built with Next.js and Tailwind CSS.",
-    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Shadcn UI"],
-    github: "https://github.com/srinivas-dev/portfolio",
+    name: "Medical Text-to-SQL using CodeT5 + LoRA/QLoRA",
+    description: "a medical text-to-SQL model that leverages the Code-T5-base LLM architecture, fine-tuned with LoRA and QLoRA techniques, to efficiently process medical queries.",
+    stack: ["Python", "Streamlit", "Ollama", "MongoDB", "CodeT5"],
+    github: "https://github.com/Srinivasa-Pradeep/MedQuery",
   },
   {
-    name: "LeetCode Tracker Dashboard",
-    description: "A dashboard to visualize LeetCode progress, track streaks, and analyze performance.",
-    stack: ["React", "Chart.js", "Firebase", "Node.js", "Express"],
-    github: "https://github.com/srinivas-dev/leetcode-tracker",
+    name: "Expense Feedback",
+    description: "Expense Feedback is an web application that streamlines employee expense submissions and reviews. Users can submit expense details, attach receipts, and preview uploaded PDFs directly inside the app. The system uses an Express backend with MongoDB for persistence and stores large receipt files efficiently using GridFS.",
+    stack: ["React", "Tailwind CSS", "Node.js", "Express", "MongoDB", "GridFS", "Axios"],
+    github: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
   },
   {
-    name: "System Design Notes Hub",
-    description: "A collaborative platform for creating and sharing system design notes and diagrams.",
-    stack: ["Next.js", "Supabase", "Tiptap Editor", "WebSockets"],
-    github: "https://github.com/srinivas-dev/system-design-hub",
+    name: "SWE Interview Preparation – A Complete Resource",
+    description: "A curated, structured collection of resources for Software Engineering interview preparation: Data Structures & Algorithms, System Design, Study Roadmaps designed for consistent and efficient prep.",
+    stack: ["Resources", "DSA", "System Design", "Books"],
+    github: "https://github.com/Srinivasa-Pradeep/Software-Engineering-Preparation-Complete-Resource-List",
   },
 ];
 
@@ -32,7 +32,7 @@ export function Projects() {
         <div className="text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Featured Projects</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            A few things I've built.
+            A few things I've built and contributed.
           </p>
         </div>
 

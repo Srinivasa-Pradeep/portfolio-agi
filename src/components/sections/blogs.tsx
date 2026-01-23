@@ -6,52 +6,52 @@ import Link from "next/link";
 
 const blogPosts = [
   {
-    title: "What My Amazon Internship Taught Me",
-    summary: "Key takeaways from working at a FAANG company.",
-    date: "July 15, 2024",
+    title: "Can’t We Just Do Things?",
+    summary: "Healing doesn’t come from waiting for life to get easier. It comes from choosing small courageous actions, living in the present, and becoming your own hope even while you’re hurting.",
+    date: "Augest 26, 2025",
+    readTime: "7 min read",
+    tag: "Life",
+    link: "https://medium.com/@writtenbysrini/cant-we-just-do-things-abf1a549124a",
+  },
+  {
+    title: "The Winner’s Mindset",
+    summary: "How Top 1% Software Developers Stand Out",
+    date: "September 8, 2025",
     readTime: "5 min read",
     tag: "Career",
-    link: "https://medium.com/",
+    link: "https://medium.com/@writtenbysrini/the-winners-mindset-a75ebef35009",
   },
   {
-    title: "From Doubt to Discipline: My DSA Journey",
-    summary: "How I built a consistent habit for problem-solving.",
-    date: "June 28, 2024",
-    readTime: "7 min read",
-    tag: "DSA",
-    link: "https://medium.com/",
-  },
-  {
-    title: "How I Actually Learn New Algorithms",
-    summary: "My framework for understanding and retaining complex algorithms.",
-    date: "June 10, 2024",
-    readTime: "6 min read",
-    tag: "Learning",
-    link: "https://medium.com/",
-  },
-  {
-    title: "Building a Minimal Portfolio That Feels Premium",
-    summary: "Design principles and tech choices behind this very site.",
-    date: "May 22, 2024",
-    readTime: "8 min read",
-    tag: "Web Dev",
-    link: "https://medium.com/",
-  },
-  {
-    title: "Mistakes I Made In My First Tech Interviews",
-    summary: "Candid reflections on what not to do during interviews.",
-    date: "May 5, 2024",
+    title: "The Mind That Solves",
+    summary: "A Soulful Manifesto for Anyone Who Wants to Solve Problems",
+    date: "September 7, 2025",
     readTime: "4 min read",
-    tag: "Interviews",
-    link: "https://medium.com/",
+    tag: "Problem Solving",
+    link: "https://medium.com/@writtenbysrini/the-mind-that-solves-6e03f86ae245",
   },
   {
-    title: "How to Think in Patterns (DP/Graphs)",
-    summary: "A mental model for recognizing and solving common problem patterns.",
-    date: "April 18, 2024",
-    readTime: "10 min read",
-    tag: "DSA",
-    link: "https://medium.com/",
+    title: "Are We Living or Just Performing?",
+    summary: "If you’re chasing dreams that aren’t even yours… this is for you.",
+    date: "July 18, 2025",
+    readTime: "3 min read",
+    tag: "Life",
+    link: "https://medium.com/@writtenbysrini/are-we-living-or-just-performing-2a1a585cadb1",
+  },
+  {
+    title: "The Million-Dollar Mistake",
+    summary: "Lessons Every Young Professional Needs to Know Before It’s Too Late",
+    date: "September 12, 2025",
+    readTime: "7 min read",
+    tag: "Career",
+    link: "https://medium.com/@writtenbysrini/the-million-dollar-mistake-2f6541cd157d",
+  },
+  {
+    title: "When Smarter Means Less",
+    summary: "An Exhaustive Deep-Dive into AI’s Near Future.",
+    date: "Augest 28, 2025",
+    readTime: "8 min read",
+    tag: "AI",
+    link: "https://medium.com/@writtenbysrini/when-smarter-means-less-db0776c1eb39",
   },
 ];
 
@@ -62,7 +62,7 @@ export function Blogs() {
         <div className="text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">From My Blog</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            Thoughts on software engineering, problem-solving, and continuous learning.
+            Thoughts on problem-solving, life and continuous learning.
           </p>
         </div>
 

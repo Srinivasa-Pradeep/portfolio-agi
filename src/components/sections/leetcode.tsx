@@ -504,7 +504,7 @@ export function LeetCode() {
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild>
-               <a href="https://github.com/srinivas-dev/solutions" target="_blank" rel="noopener noreferrer">
+               <a href="https://github.com/Srinivasa-Pradeep/Data-Structures-and-Algo" target="_blank" rel="noopener noreferrer">
                 <Github className="mr-2 h-4 w-4" /> GitHub Solutions
                </a>
             </Button>

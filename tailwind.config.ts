@@ -62,6 +62,14 @@ export default {
           '5': 'hsl(var(--chart-5))',
         },
         easy: 'hsl(var(--easy))',
+        info: {
+          DEFAULT: 'hsl(var(--info))',
+          foreground: 'hsl(var(--info-foreground))',
+        },
+        feedback: {
+          DEFAULT: 'hsl(var(--feedback))',
+          foreground: 'hsl(var(--feedback-foreground))',
+        },
         sidebar: {
           DEFAULT: 'hsl(var(--sidebar-background))',
           foreground: 'hsl(var(--sidebar-foreground))',
