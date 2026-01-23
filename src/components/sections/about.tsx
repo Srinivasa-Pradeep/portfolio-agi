@@ -267,13 +267,10 @@ export function About() {
             </div>
             
             <div className="mt-16">
-              <div className="text-center">
+              <div className="text-left">
                 <h3 className="font-headline text-2xl font-semibold text-primary">
                   Skills
                 </h3>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Hover an icon to see the skill name.
-                </p>
               </div>
               <div
                 className="relative mt-8 w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]"
