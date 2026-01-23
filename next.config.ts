@@ -33,6 +33,12 @@ const nextConfig: NextConfig = {
         hostname: '6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
