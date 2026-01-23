@@ -57,7 +57,7 @@ export async function submitContactForm(
         // NOTE: This "from" address is a verified domain on Resend.
         // You can create your own at https://resend.com/domains
         from: 'Portfolio <onboarding@resend.dev>',
-        to: ['sspradeep2004@gmail.com'],
+        to: ['drivefiles2004@gmail.com'],
         subject: `New Portfolio Message: ${category}`,
         react: ContactFormEmail({ name, email, message, category }),
         text: `Name: ${name}\nEmail: ${email}\nCategory: ${category}\nMessage: ${message}`,
