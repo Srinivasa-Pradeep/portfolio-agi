@@ -197,27 +197,29 @@ export function About() {
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <DialogTrigger asChild>
-                        <div className="mt-6 group cursor-pointer flex items-center gap-6 rounded-lg border bg-secondary/30 p-6 transition-all duration-300 hover:shadow-lg hover:border-primary/20">
-                          <div className="h-20 w-20 flex-shrink-0">
-                            {psgLogo && (
-                              <img
-                                src={psgLogo.imageUrl}
-                                alt={psgLogo.description}
-                                data-ai-hint={psgLogo.imageHint}
-                                className="h-full w-full object-contain filter grayscale transition-all duration-300 group-hover:grayscale-0"
-                              />
-                            )}
-                          </div>
-                          <div className="flex-grow">
-                            <h4 className="text-lg font-semibold text-foreground/90">
-                              PSG Institute of Technology and Applied Research
-                            </h4>
-                            <p className="text-muted-foreground">
-                              B.E. Computer Science and Engineering
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                              2021 - 2025 | CGPA: 8.28
-                            </p>
+                        <div className="mt-6 group cursor-pointer">
+                          <div className="flex items-center gap-6 rounded-lg border bg-secondary/30 p-6 transition-all duration-300 hover:shadow-lg hover:border-primary/20">
+                            <div className="h-20 w-20 flex-shrink-0">
+                              {psgLogo && (
+                                <img
+                                  src={psgLogo.imageUrl}
+                                  alt={psgLogo.description}
+                                  data-ai-hint={psgLogo.imageHint}
+                                  className="h-full w-full object-contain filter grayscale transition-all duration-300 group-hover:grayscale-0"
+                                />
+                              )}
+                            </div>
+                            <div className="flex-grow">
+                              <h4 className="text-lg font-semibold text-foreground/90">
+                                PSG Institute of Technology and Applied Research
+                              </h4>
+                              <p className="text-muted-foreground">
+                                B.E. Computer Science and Engineering
+                              </p>
+                              <p className="text-sm text-muted-foreground">
+                                2021 - 2025 | CGPA: 8.28
+                              </p>
+                            </div>
                           </div>
                         </div>
                       </DialogTrigger>
@@ -296,7 +298,7 @@ export function About() {
                             Maintained a strong <strong className="font-semibold text-foreground/90">CGPA of 8.28</strong> while actively managing a diverse range of extracurricular activities, projects, and open-source contributions.
                             </span>
                         </li>
-                        <li className="flex items-start gap-3">
+                         <li className="flex items-start gap-3">
                             <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                             <span className="text-sm text-muted-foreground">
                             Honored with the <strong className="font-semibold text-foreground/90">“Overall Excellence” Award</strong> by the Department of Computer Science and Engineering for outstanding all-around achievement.
