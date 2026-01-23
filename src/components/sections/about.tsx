@@ -22,7 +22,6 @@ import {
 import { ListChecks } from 'lucide-react';
 import {
   SiPython,
-  SiJava,
   SiCplusplus,
   SiJavascript,
   SiGnubash,
@@ -39,10 +38,10 @@ import {
   SiGit,
   SiDocker,
   SiJenkins,
-  SiAmazonaws,
-  SiMicrosoftazure,
+  SiAmazon,
   SiLinux,
 } from 'react-icons/si';
+import { FaJava, FaMicrosoft } from 'react-icons/fa';
 
 const stats = [
   { title: 'Top 6.68% on LeetCode' },
@@ -96,7 +95,7 @@ const companies = [
 
 const techStack = [
   { name: 'Python', Icon: SiPython },
-  { name: 'Java', Icon: SiJava },
+  { name: 'Java', Icon: FaJava },
   { name: 'C/C++', Icon: SiCplusplus },
   { name: 'JavaScript', Icon: SiJavascript },
   { name: 'Bash', Icon: SiGnubash },
@@ -114,8 +113,8 @@ const techStack = [
   { name: 'Git', Icon: SiGit },
   { name: 'Docker', Icon: SiDocker },
   { name: 'Jenkins', Icon: SiJenkins },
-  { name: 'AWS', Icon: SiAmazonaws },
-  { name: 'Azure', Icon: SiMicrosoftazure },
+  { name: 'AWS', Icon: SiAmazon },
+  { name: 'Azure', Icon: FaMicrosoft },
   { name: 'Linux/Unix', Icon: SiLinux },
 ];
 
