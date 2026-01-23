@@ -35,6 +35,24 @@
       "description": "Mercedes-Benz company logo",
       "imageUrl": "https://6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev/capra/attachedImages/c15e341a-55f1-429c-afb2-a000fab745d5/image_b2abecc5-7180-4d38-b24a-241098dd11fb.png",
       "imageHint": "mercedes logo"
+    },
+    {
+      "id": "project-medquery",
+      "description": "Placeholder image for the MedQuery project",
+      "imageUrl": "https://images.unsplash.com/photo-1706777268519-f7aa1898b823?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtZWRpY2FsJTIwdGVjaG5vbG9neXxlbnwwfHx8fDE3NjkxNDk0MTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "medical technology"
+    },
+    {
+      "id": "project-expense-feedback",
+      "description": "Placeholder image for the Expense Feedback project",
+      "imageUrl": "https://images.unsplash.com/photo-1645226880663-81561dcab0ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxmaW5hbmNlJTIwYXBwfGVufDB8fHx8MTc2OTA4NTEwOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "finance app"
+    },
+    {
+      "id": "project-swe-prep",
+      "description": "Placeholder image for the SWE Prep Resource project",
+      "imageUrl": "https://images.unsplash.com/photo-1763568258449-44718bd82b70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjb2RlJTIwcmVzb3VyY2V8ZW58MHx8fHwxNzY5MTU0MzI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "code resource"
     }
   ]
 }

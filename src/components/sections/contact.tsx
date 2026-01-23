@@ -79,22 +79,22 @@ export function Contact() {
                       <p className="text-muted-foreground">srinivas.dev@email.com</p>
                   </div>
               </a>
-              <a href="https://linkedin.com/in/srinivas-dev" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-transform duration-200 hover:scale-[1.02]">
+              <a href="https://www.linkedin.com/in/srinivasa-pradeep-s/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-transform duration-200 hover:scale-[1.02]">
                   <div className="bg-secondary p-3 rounded-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                       <Linkedin className="h-5 w-5"/>
                   </div>
                   <div>
                       <p className="font-semibold">LinkedIn</p>
-                      <p className="text-muted-foreground">linkedin.com/in/srinivas-dev</p>
+                      <p className="text-muted-foreground">linkedin.com/in/srinivas-pradeep-s</p>
                   </div>
               </a>
-              <a href="https://github.com/srinivas-dev" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-transform duration-200 hover:scale-[1.02]">
+              <a href="https://github.com/srinivasa-pradeep" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-transform duration-200 hover:scale-[1.02]">
                   <div className="bg-secondary p-3 rounded-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                       <Github className="h-5 w-5"/>
                   </div>
                   <div>
                       <p className="font-semibold">GitHub</p>
-                      <p className="text-muted-foreground">github.com/srinivas-dev</p>
+                      <p className="text-muted-foreground">github.com/srinivas-pradeep</p>
                   </div>
               </a>
           </div>
