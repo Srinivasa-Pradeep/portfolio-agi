@@ -70,13 +70,13 @@ export function Contact() {
           <div className="lg:col-span-1 space-y-6">
              <h3 className="font-headline text-2xl font-semibold text-primary">Contact Info</h3>
              <p className="text-muted-foreground">You can also reach me directly through these channels.</p>
-              <a href="mailto:srinivas.dev@email.com" className="flex items-center gap-4 group transition-transform duration-200 hover:scale-[1.02]">
+              <a href="mailto:sspradeep2004@gmail.com" className="flex items-center gap-4 group transition-transform duration-200 hover:scale-[1.02]">
                   <div className="bg-secondary p-3 rounded-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                       <Mail className="h-5 w-5"/>
                   </div>
                   <div>
                       <p className="font-semibold">Email</p>
-                      <p className="text-muted-foreground">srinivas.dev@email.com</p>
+                      <p className="text-muted-foreground">sspradeep2004@gmail.com</p>
                   </div>
               </a>
               <a href="https://www.linkedin.com/in/srinivasa-pradeep-s/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group transition-transform duration-200 hover:scale-[1.02]">
