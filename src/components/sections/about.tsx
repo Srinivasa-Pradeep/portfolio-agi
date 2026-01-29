@@ -56,12 +56,12 @@ const companies = [
     imageId: 'sap-logo',
     className:
       'transition-all duration-300 filter grayscale opacity-60 scale-75 hover:grayscale-0 hover:opacity-100 hover:scale-90 hover:drop-shadow-xl',
-    designation: 'Software Developer Intern',
-    timeline: 'Apr 2023 - May 2023',
+    designation: 'Project Intern (Remote)',
+    timeline: 'April 2023 - May 2023',
     details: [
-      <>Built an expense processing application from the ground up using <strong className="font-semibold text-foreground/90">React.js, Spring Boot, and MongoDB.</strong></>,
-      <>Implemented core <strong className="font-semibold text-foreground/90">REST APIs</strong> and gained hands-on experience with enterprise development practices.</>,
-      <>Actively participated in code reviews, adhering to <strong className="font-semibold text-foreground/90">industry-standard methodologies</strong> for high-quality software.</>,
+        <>Developed a full-stack expense processing application using <strong className="font-semibold text-foreground/90">React.js, Spring Boot, and MongoDB</strong> as part of a college partnership program with SAP.</>,
+        <>Gained hands-on experience with enterprise development practices under <strong className="font-semibold text-foreground/90">SAP mentorship</strong>, implementing core REST APIs.</>,
+        <>Received a <strong className="font-semibold text-foreground/90">project completion certificate</strong> for successfully delivering the application and meeting project goals.</>,
     ],
   },
   {
@@ -86,9 +86,9 @@ const companies = [
     designation: 'Graduate Apprentice Trainee - Software Engineer',
     timeline: 'Nov 2025 - Present',
     details: [
-      <>Reduced manual workflow intervention by <strong className="font-semibold text-foreground/90">40%</strong> by designing and implementing scalable <strong className="font-semibold text-foreground/90">Python automation solutions</strong> for manufacturing operations.</>,
-      <>Optimized process efficiency by building innovative automation technologies on a <strong className="font-semibold text-foreground/90">distributed computing infrastructure.</strong></>,
-      <>Delivered production monitoring solutions within rapid <strong className="font-semibold text-foreground/90">2-week sprint cycles</strong> in a cross-disciplinary agile team.</>,
+        <>Currently fetching manufacturing data using <strong className="font-semibold text-foreground/90">Python</strong> and automating processes with <strong className="font-semibold text-foreground/90">AI</strong>.</>,
+        <>Working to reduce production time by <strong className="font-semibold text-foreground/90">40%</strong> through these initiatives.</>,
+        <>My role and responsibilities are expanding, and more details will be shared in the coming days.</>,
     ],
   },
 ];
