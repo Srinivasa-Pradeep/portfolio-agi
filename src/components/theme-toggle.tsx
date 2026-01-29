@@ -3,19 +3,24 @@
 import * as React from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { usePathname } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 
 export function ThemeToggle() {
   const { setTheme } = useTheme();
   const [rotation, setRotation] = React.useState(0);
+  const pathname = usePathname();
 
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
     setRotation(r => r + 360);
     const isDark = document.documentElement.classList.contains('dark');
 
-    // This is the experimental View Transitions API for the page-wide effect
-    if (!document.startViewTransition) {
+    // This is the experimental View Transitions API for the page-wide effect.
+    // We disable it on the home page ('/') because its complex animations
+    // interfere with other animations on the page, causing the button
+    // rotation to become janky. It will still work on other pages.
+    if (pathname === '/' || !document.startViewTransition) {
       setTheme(isDark ? 'light' : 'dark');
       return;
     }
