@@ -35,7 +35,7 @@ export function MusicPlayer() {
             aria-label={isPlaying ? 'Pause music' : 'Play music'}
           >
             <div
-              className="relative h-5 w-5 transition-transform duration-700 ease-in-out"
+              className="relative h-5 w-5 transition-transform duration-700 ease-in-out will-change-transform"
               style={{ transform: `rotate(${rotation}deg)` }}
             >
               <Pause className={`absolute inset-0 h-5 w-5 transition-all ${ isPlaying ? 'rotate-0 scale-100' : '-rotate-90 scale-0' }`} />
