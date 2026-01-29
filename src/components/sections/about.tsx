@@ -20,6 +20,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { ListChecks } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   SiPython,
   SiCplusplus,
@@ -249,62 +250,64 @@ export function About() {
                   </DialogHeader>
                   <div className="pt-4">
                     <h4 className="font-semibold text-foreground mb-3">Notable Achievements</h4>
-                    <ul className="space-y-3">
-                        <li className="flex items-start gap-3">
-                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                            <span className="text-sm text-muted-foreground">
-                            Secured <strong className="font-semibold text-foreground/90">1st Prize</strong> in a competitive code debugging contest hosted by KGISL.
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                            <span className="text-sm text-muted-foreground">
-                            Showcased progressive leadership within the National Service Scheme (NSS), advancing from <strong className="font-semibold text-foreground/90">Volunteer</strong> to <strong className="font-semibold text-foreground/90">Executive Member</strong> and ultimately <strong className="font-semibold text-foreground/90">Team Lead</strong>.
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                            <span className="text-sm text-muted-foreground">
-                            Served as <strong className="font-semibold text-foreground/90">Joint Secretary</strong> for the college's Photography Club.
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                            <span className="text-sm text-muted-foreground">
-                            Successfully <strong className="font-semibold text-foreground/90">organized a major photography event</strong>, drawing 54 participants from various colleges.
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                            <span className="text-sm text-muted-foreground">
-                            Participated twice in the <strong className="font-semibold text-foreground/90">PSG iTech × SAP Hackfest</strong>, earning opportunities to work on real-world SAP projects.
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                            <span className="text-sm text-muted-foreground">
-                            Was selected for the prestigious <strong className="font-semibold text-foreground/90">Amazon ML Summer School</strong> program based on merit.
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                            <span className="text-sm text-muted-foreground">
-                            Successfully converted the summer school experience into a <strong className="font-semibold text-foreground/90">Software Development Engineer internship at Amazon</strong>.
-                            </span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                            <span className="text-sm text-muted-foreground">
-                            Maintained a strong <strong className="font-semibold text-foreground/90">CGPA of 8.28</strong> while actively managing a diverse range of extracurricular activities, projects, and open-source contributions.
-                            </span>
-                        </li>
-                         <li className="flex items-start gap-3">
-                            <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                            <span className="text-sm text-muted-foreground">
-                            Honored with the <strong className="font-semibold text-foreground/90">“Overall Excellence” Award</strong> by the Department of Computer Science and Engineering for outstanding all-around achievement.
-                            </span>
-                        </li>
-                    </ul>
+                    <ScrollArea className="h-72 pr-4">
+                      <ul className="space-y-3">
+                          <li className="flex items-start gap-3">
+                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <span className="text-sm text-muted-foreground">
+                              Secured <strong className="font-semibold text-foreground/90">1st Prize</strong> in a competitive code debugging contest hosted by KGISL.
+                              </span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <span className="text-sm text-muted-foreground">
+                              Showcased progressive leadership within the National Service Scheme (NSS), advancing from <strong className="font-semibold text-foreground/90">Volunteer</strong> to <strong className="font-semibold text-foreground/90">Executive Member</strong> and ultimately <strong className="font-semibold text-foreground/90">Team Lead</strong>.
+                              </span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <span className="text-sm text-muted-foreground">
+                              Served as <strong className="font-semibold text-foreground/90">Joint Secretary</strong> for the college's Photography Club.
+                              </span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <span className="text-sm text-muted-foreground">
+                              Successfully <strong className="font-semibold text-foreground/90">organized a major photography event</strong>, drawing 54 participants from various colleges.
+                              </span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <span className="text-sm text-muted-foreground">
+                              Participated twice in the <strong className="font-semibold text-foreground/90">PSG iTech × SAP Hackfest</strong>, earning opportunities to work on real-world SAP projects.
+                              </span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <span className="text-sm text-muted-foreground">
+                              Was selected for the prestigious <strong className="font-semibold text-foreground/90">Amazon ML Summer School</strong> program based on merit.
+                              </span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <span className="text-sm text-muted-foreground">
+                              Successfully converted the summer school experience into a <strong className="font-semibold text-foreground/90">Software Development Engineer internship at Amazon</strong>.
+                              </span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <span className="text-sm text-muted-foreground">
+                              Maintained a strong <strong className="font-semibold text-foreground/90">CGPA of 8.28</strong> while actively managing a diverse range of extracurricular activities, projects, and open-source contributions.
+                              </span>
+                          </li>
+                          <li className="flex items-start gap-3">
+                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <span className="text-sm text-muted-foreground">
+                              Honored with the <strong className="font-semibold text-foreground/90">“Overall Excellence” Award</strong> by the Department of Computer Science and Engineering for outstanding all-around achievement.
+                              </span>
+                          </li>
+                      </ul>
+                    </ScrollArea>
                   </div>
                 </DialogContent>
               </Dialog>
