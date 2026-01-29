@@ -20,9 +20,13 @@ export function ThemeToggle() {
       return;
     }
 
-    document.startViewTransition(() => {
-      setTheme(isDark ? 'light' : 'dark');
-    });
+    // A small delay to allow the button rotation to start smoothly
+    // before the more demanding page-wide transition begins.
+    setTimeout(() => {
+        document.startViewTransition(() => {
+            setTheme(isDark ? 'light' : 'dark');
+        });
+    }, 50);
   };
 
   return (
