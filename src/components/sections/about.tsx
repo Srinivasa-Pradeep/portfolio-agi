@@ -59,7 +59,7 @@ const companies = [
     designation: 'Project Intern (Remote)',
     timeline: 'April 2023 - May 2023',
     details: [
-        <>Developed a full-stack expense processing application using <strong className="font-semibold text-foreground/90">React.js, Spring Boot, and MongoDB</strong> as part of a college partnership program with SAP.</>,
+        <>Developed a full-stack expense processing application using <strong className="font-semibold text-foreground/90">React.js, Spring Boot and MongoDB</strong> as part of a college partnership program with SAP.</>,
         <>Gained hands-on experience with enterprise development practices under <strong className="font-semibold text-foreground/90">SAP mentorship</strong>, implementing core REST APIs.</>,
         <>Received a <strong className="font-semibold text-foreground/90">project completion certificate</strong> for successfully delivering the application and meeting project goals.</>,
     ],
@@ -88,7 +88,7 @@ const companies = [
     details: [
         <>Currently fetching manufacturing data using <strong className="font-semibold text-foreground/90">Python</strong> and automating processes with <strong className="font-semibold text-foreground/90">AI</strong>.</>,
         <>Working to reduce production time by <strong className="font-semibold text-foreground/90">40%</strong> through these initiatives.</>,
-        <>My role and responsibilities are expanding, and more details will be shared in the coming days.</>,
+        <>My role and responsibilities are expanding and more details will be shared in the coming days.</>,
     ],
   },
 ];
