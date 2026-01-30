@@ -87,9 +87,9 @@ const companies = [
     designation: 'Graduate Apprentice Trainee - Software Engineer',
     timeline: 'Nov 2025 - Present',
     details: [
-        <>Currently fetching manufacturing data using <strong className="font-semibold text-foreground/90">Python</strong> and automating processes with <strong className="font-semibold text-foreground/90">AI</strong>.</>,
-        <>Working to reduce production time by <strong className="font-semibold text-foreground/90">40%</strong> through these initiatives.</>,
-        <>My role and responsibilities are expanding and more details will be shared in the coming days.</>,
+        <>Building <strong className="font-semibold text-foreground/90">Python-based</strong> data extraction pipelines to automate manufacturing analytics, targeting reduction of <strong className="font-semibold text-foreground/90">15+ hours weekly</strong> in manual reporting.</>,
+        <>Integrating <strong className="font-semibold text-foreground/90">machine learning models</strong> into production monitoring systems to enable predictive maintenance and reduce equipment downtime.</>,
+        <>Analyzing production data across assembly lines to identify optimization opportunities in collaboration with manufacturing operations team.</>,
     ],
   },
 ];
@@ -175,7 +175,7 @@ export function About() {
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Stay Humble</p>
+                    <p>Stay Humble!</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -303,7 +303,7 @@ export function About() {
                           <li className="flex items-start gap-3">
                               <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                               <span className="text-sm text-muted-foreground">
-                              Honored with the <strong className="font-semibold text-foreground/90">“Overall Excellence” Award</strong> by the Department of Computer Science and Engineering for outstanding all-around achievement.
+                              Honored with the <strong className="font-semibold text-foreground/90">“Overall Excellence” </strong> Award by the Department of Computer Science and Engineering for outstanding all-around achievement.
                               </span>
                           </li>
                       </ul>
