@@ -1,31 +1,42 @@
+'use client';
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Github } from "lucide-react";
 import Image from "next/image";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 
 const projects = [
   {
-    name: "Medical Text-to-SQL using CodeT5 + LoRA/QLoRA",
-    description: "a medical text-to-SQL model that leverages the Code-T5-base LLM architecture, fine-tuned with LoRA and QLoRA techniques, to efficiently process medical queries.",
+    name: "Medical Text-to-SQL",
+    description:
+      "A Text-to-SQL model using Code-T5-base, fine-tuned with LoRA/QLoRA to efficiently process medical queries.",
     stack: ["Python", "Streamlit", "Ollama", "MongoDB", "CodeT5"],
     github: "https://github.com/Srinivasa-Pradeep/MedQuery",
     imageId: "project-medquery",
   },
   {
     name: "Expense Feedback",
-    description: "Expense Feedback is an web application that streamlines employee expense submissions and reviews. Users can submit expense details, attach receipts, and preview uploaded PDFs directly inside the app. The system uses an Express backend with MongoDB for persistence and stores large receipt files efficiently using GridFS.",
-    stack: ["React", "Tailwind CSS", "Node.js", "Express", "MongoDB", "GridFS", "Axios"],
+    description:
+      "A web app to streamline expense reports with PDF previews and GridFS for efficient receipt storage.",
+    stack: ["React", "Tailwind CSS", "Node.js", "Express", "MongoDB", "GridFS"],
     github: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     imageId: "project-expense-feedback",
   },
   {
-    name: "SWE Interview Preparation – A Complete Resource",
-    description: "A curated, structured collection of resources for Software Engineering interview preparation: Data Structures & Algorithms, System Design, Study Roadmaps designed for consistent and efficient prep.",
+    name: "SWE Interview Prep",
+    description:
+      "A curated list of resources for SWE interviews, covering DSA, System Design, and study roadmaps.",
     stack: ["Resources", "DSA", "System Design", "Books"],
-    github: "https://github.com/Srinivasa-Pradeep/Software-Engineering-Preparation-Complete-Resource-List",
+    github:
+      "https://github.com/Srinivasa-Pradeep/Software-Engineering-Preparation-Complete-Resource-List",
     imageId: "project-swe-prep",
   },
 ];
@@ -35,48 +46,118 @@ export function Projects() {
     <section id="projects" className="py-20 md:py-32 bg-secondary">
       <div className="container">
         <div className="text-center">
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Featured Projects</h2>
+          <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
+            Featured Projects
+          </h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
             A few things I've built and contributed.
           </p>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => {
-            const projectImage = PlaceHolderImages.find(p => p.id === project.imageId);
+        <div className="mt-20 flex flex-col items-center justify-center gap-8 md:flex-row md:items-start md:gap-0 lg:gap-4 [perspective:2000px]">
+          {projects.map((project, index) => {
+            const projectImage = PlaceHolderImages.find(
+              (p) => p.id === project.imageId
+            );
+
             return (
-            <Card key={project.name} className="group flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl overflow-hidden">
-              {projectImage && (
-                  <div className="relative h-48 w-full">
-                      <Image
-                          src={projectImage.imageUrl}
-                          alt={projectImage.description}
-                          data-ai-hint={projectImage.imageHint}
-                          fill
-                          className="object-cover grayscale transition-all duration-300 group-hover:grayscale-0"
-                      />
-                  </div>
+              <div
+                key={project.name}
+                className={cn(
+                  "group h-[450px] w-full max-w-sm rounded-xl transition-all duration-500 ease-in-out [transform-style:preserve-3d]",
+                  // Responsive stacking
+                  "md:h-[400px] md:w-1/3",
+                  // 3D desktop layout & hover effects
+                  "md:hover:z-20 md:hover:scale-115",
+                  index === 0 &&
+                    "md:mr-[-12%] md:[transform:rotateY(-25deg)] md:hover:[transform:rotateY(0deg)]",
+                  index === 1 && "md:z-10 md:scale-110",
+                  index === 2 &&
+                    "md:ml-[-12%] md:[transform:rotateY(25deg)] md:hover:[transform:rotateY(0deg)]"
                 )}
-              <CardHeader>
-                <CardTitle>{project.name}</CardTitle>
-                <CardDescription>{project.description}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <div className="flex flex-wrap gap-2">
-                  {project.stack.map((tech) => (
-                    <Badge key={tech} variant="secondary">{tech}</Badge>
-                  ))}
+              >
+                <div className="relative h-full w-full rounded-xl shadow-xl transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                  {/* Front Face */}
+                  <div className="absolute inset-0 rounded-xl [backface-visibility:hidden]">
+                    {projectImage && (
+                      <Image
+                        src={projectImage.imageUrl}
+                        alt={projectImage.description}
+                        data-ai-hint={projectImage.imageHint}
+                        fill
+                        className="object-cover rounded-xl"
+                      />
+                    )}
+                    <div className="absolute inset-0 rounded-xl bg-black/40 transition-colors group-hover:bg-black/60"></div>
+                    <div className="absolute bottom-0 left-0 p-6">
+                      <h3 className="text-2xl font-bold text-white shadow-black/80 [text-shadow:0_2px_4px_var(--tw-shadow-color)]">
+                        {project.name}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Back Face */}
+                  <div className="absolute inset-0 h-full w-full rounded-xl bg-card text-card-foreground [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-xl">
+                      {projectImage && (
+                        <div className="absolute inset-0">
+                          <Image
+                            src={projectImage.imageUrl}
+                            alt={projectImage.description}
+                            fill
+                            className="object-cover rounded-xl scale-110 blur-sm brightness-50"
+                          />
+                        </div>
+                      )}
+                      <div className="relative z-10 flex h-full flex-col items-center justify-center p-6 text-center text-white">
+                        <h3 className="text-xl font-bold">{project.name}</h3>
+                        <p className="mt-2 flex-grow text-sm text-white/80">
+                          {project.description}
+                        </p>
+                        <div className="mt-4 flex flex-wrap justify-center gap-2">
+                          {project.stack.map((tech) => (
+                            <Badge
+                              key={tech}
+                              variant="secondary"
+                              className="border-transparent bg-white/10 text-white backdrop-blur-sm"
+                            >
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+                        <div className="mt-6">
+                          <TooltipProvider delayDuration={100}>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button
+                                  asChild
+                                  size="sm"
+                                  className="bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 hover:text-white"
+                                >
+                                  <a
+                                    href={project.github}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    <Github className="mr-2 h-4 w-4" /> View
+                                    GitHub
+                                  </a>
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>View GitHub Repository</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </CardContent>
-              <CardFooter className="flex gap-4">
-                <Button asChild className="w-full">
-                  <a href={project.github} target="_blank" rel="noopener noreferrer">
-                    <Github className="mr-2 h-4 w-4" /> GitHub
-                  </a>
-                </Button>
-              </CardFooter>
-            </Card>
-          )})}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
