@@ -54,7 +54,7 @@ export function Projects() {
           </p>
         </div>
 
-        <div className="mt-20 flex flex-col items-center justify-center gap-8 md:flex-row md:items-start md:gap-0 lg:gap-4 [perspective:2000px]">
+        <div className="mt-20 flex flex-col items-center justify-center gap-8 md:flex-row md:items-center md:gap-0 lg:gap-4 [perspective:2000px]">
           {projects.map((project, index) => {
             const projectImage = PlaceHolderImages.find(
               (p) => p.id === project.imageId
@@ -67,13 +67,12 @@ export function Projects() {
                   "group h-[450px] w-full max-w-sm rounded-xl transition-all duration-500 ease-in-out [transform-style:preserve-3d]",
                   // Responsive stacking
                   "md:h-[400px] md:w-1/3",
-                  // 3D desktop layout & hover effects
-                  "md:hover:z-20 md:hover:scale-115",
+                  // 3D desktop layout
                   index === 0 &&
-                    "md:mr-[-12%] md:[transform:rotateY(-25deg)] md:hover:[transform:rotateY(0deg)]",
-                  index === 1 && "md:z-10 md:scale-110",
+                    "md:mr-[-12%] md:[transform:rotateY(-25deg)_translateY(-2rem)] md:hover:z-20 md:hover:[transform:rotateY(0deg)_translateY(-2rem)_scale(1.1)]",
+                  index === 1 && "md:z-10 md:scale-110 md:hover:scale-[1.15]",
                   index === 2 &&
-                    "md:ml-[-12%] md:[transform:rotateY(25deg)] md:hover:[transform:rotateY(0deg)]"
+                    "md:ml-[-12%] md:[transform:rotateY(25deg)_translateY(-2rem)] md:hover:z-20 md:hover:[transform:rotateY(0deg)_translateY(-2rem)_scale(1.1)]"
                 )}
               >
                 <div className="relative h-full w-full rounded-xl shadow-xl transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
