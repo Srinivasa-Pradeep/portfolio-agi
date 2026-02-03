@@ -31,9 +31,10 @@ export function BackgroundParticles() {
 
     const particlesMaterial = new THREE.PointsMaterial({
       size: 0.02,
-      color: 0x00ffcc,
+      color: 0xffffff,
       transparent: true,
       opacity: 0.6,
+      blending: THREE.AdditiveBlending,
     });
 
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
