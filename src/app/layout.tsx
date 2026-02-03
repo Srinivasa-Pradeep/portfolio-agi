@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { CustomCursor } from '@/components/custom-cursor';
 import { LiveClock } from '@/components/live-clock';
 import { MusicProvider } from '@/context/music-context';
+import { ConditionalParticles } from '@/components/conditional-particles';
 
 export const metadata: Metadata = {
   title: 'Srini Portfolio',
@@ -26,7 +27,7 @@ export default function RootLayout({
       </head>
       <body
         className={cn(
-          'min-h-screen bg-background font-body antialiased',
+          'min-h-screen font-body antialiased',
         )}
       >
         <ThemeProvider
@@ -36,9 +37,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <MusicProvider>
+            <ConditionalParticles />
             <CustomCursor />
             <LiveClock />
-            {children}
+            <div className="bg-background dark:bg-transparent min-h-screen">
+              {children}
+            </div>
             <Toaster />
           </MusicProvider>
         </ThemeProvider>

@@ -14,7 +14,7 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
-        <div className="relative z-10 bg-background">
+        <div className="relative z-10 bg-background dark:bg-transparent">
           <ScrollAnimationWrapper>
             <About />
           </ScrollAnimationWrapper>
