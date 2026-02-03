@@ -69,10 +69,10 @@ export function Projects() {
                   "md:h-[400px] md:w-1/3",
                   // 3D desktop layout
                   index === 0 &&
-                    "md:[transform:rotateY(-25deg)_translateY(-2rem)] md:hover:z-20 md:hover:[transform:rotateY(0deg)_translateY(-2rem)_scale(1.1)]",
-                  index === 1 && "md:z-10 md:scale-110 md:hover:scale-[1.15]",
+                    "md:[transform:rotateY(25deg)_translateY(-2rem)] md:hover:z-20 md:hover:[transform:rotateY(0deg)_translateY(-2rem)_scale(1.0)]",
+                  index === 1 && "md:z-10 md:scale-110 md:hover:scale-[1.00]",
                   index === 2 &&
-                    "md:[transform:rotateY(25deg)_translateY(-2rem)] md:hover:z-20 md:hover:[transform:rotateY(0deg)_translateY(-2rem)_scale(1.1)]"
+                    "md:[transform:rotateY(-25deg)_translateY(-2rem)] md:hover:z-20 md:hover:[transform:rotateY(0deg)_translateY(-2rem)_scale(1.0)]"
                 )}
               >
                 <div className="relative h-full w-full rounded-xl shadow-xl transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">

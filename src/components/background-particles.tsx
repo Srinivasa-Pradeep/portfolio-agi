@@ -7,6 +7,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 export default function BackgroundParticles() {
     const mountRef = useRef<HTMLDivElement>(null);
     const isMobile = useIsMobile();
+    const mouse = useRef({ x: 0, y: 0 });
 
     useEffect(() => {
         if (isMobile === true || !mountRef.current) return;
@@ -48,13 +49,27 @@ export default function BackgroundParticles() {
             camera.updateProjectionMatrix();
         };
 
+        const handleMouseMove = (event: MouseEvent) => {
+            mouse.current.x = event.clientX;
+            mouse.current.y = event.clientY;
+        };
+
         window.addEventListener('resize', handleResize);
+        window.addEventListener('mousemove', handleMouseMove);
 
         let animationFrameId: number;
         function animate() {
             animationFrameId = requestAnimationFrame(animate);
-            particlesMesh.rotation.y += 0.0003;
-            particlesMesh.rotation.x += 0.0003;
+
+            // Calculate target rotation based on normalized mouse position (-0.5 to 0.5)
+            const targetX = (mouse.current.y / window.innerHeight - 0.5) * 0.5;
+            const targetY = (mouse.current.x / window.innerWidth - 0.5) * 0.5;
+
+            // Smoothly interpolate (lerp) the particle rotation towards the target.
+            // This creates a gentle, lagging "drift" effect.
+            particlesMesh.rotation.x += (targetX - particlesMesh.rotation.x) * 0.02;
+            particlesMesh.rotation.y += (targetY - particlesMesh.rotation.y) * 0.02;
+
             renderer.render(scene, camera);
         }
         animate();
@@ -62,6 +77,7 @@ export default function BackgroundParticles() {
         const currentMount = mountRef.current;
         return () => {
             window.removeEventListener('resize', handleResize);
+            window.removeEventListener('mousemove', handleMouseMove);
             cancelAnimationFrame(animationFrameId);
             if (currentMount) {
               currentMount.removeChild(renderer.domElement);
