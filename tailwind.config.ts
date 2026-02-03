@@ -80,6 +80,7 @@ export default {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
+        'brand-dark': '#0b0f14',
       },
       borderRadius: {
         lg: 'var(--radius)',
