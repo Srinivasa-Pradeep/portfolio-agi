@@ -130,6 +130,10 @@ export default {
           from: { transform: 'translateX(0)' },
           to: { transform: 'translateX(-50%)' },
         },
+        'background-pan': {
+          '0%': { backgroundPosition: '0% 0%' },
+          '100%': { backgroundPosition: '-200% 0%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -137,6 +141,7 @@ export default {
         "fade-in": "fade-in 0.5s ease-out forwards",
         'breathing': 'breathing 3s ease-in-out infinite',
         'marquee': 'marquee 40s linear infinite',
+        'background-pan': 'background-pan 150s linear infinite',
       },
     },
   },
