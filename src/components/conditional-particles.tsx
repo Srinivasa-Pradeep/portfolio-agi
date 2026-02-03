@@ -2,6 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
+import BackgroundParticles from './background-particles';
 
 export function ConditionalParticles() {
   const { resolvedTheme } = useTheme();
@@ -13,12 +14,21 @@ export function ConditionalParticles() {
 
   if (isMounted && resolvedTheme === 'dark') {
     return (
-      <div className="fixed inset-0 z-[-1] bg-brand-dark">
-        {/* Animated Grid */}
-        <div className="absolute inset-0 animate-background-pan bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:2rem_2rem]" />
-        {/* Radial Glows */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,hsl(var(--primary)/0.1),transparent_30%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,hsl(var(--accent)/0.1),transparent_30%)]" />
+      <div className="fixed inset-0 z-[-1]">
+        {/* 1. Base Dark Background */}
+        <div className="absolute inset-0 bg-brand-dark" />
+
+        {/* 2. Radial Glow Gradient Layer */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900/50 via-brand-dark to-black opacity-80" />
+
+        {/* 3. Animated Particles */}
+        <BackgroundParticles />
+        
+        {/* 4. Subtle Grid Overlay */}
+        <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:50px_50px]" />
+        
+        {/* 5. Radial Mask Vignette */}
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-brand-dark [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
       </div>
     );
   }
