@@ -10,8 +10,9 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Github } from "lucide-react";
+import { Github, Sparkles } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const projects = [
   {
@@ -158,6 +159,16 @@ export function Projects() {
             );
           })}
         </div>
+
+        <div className="mt-16 text-center">
+            <Button size="lg" asChild>
+                <Link href="/zen">
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    Enter Zen Mode
+                </Link>
+            </Button>
+        </div>
+        
       </div>
     </section>
   );
