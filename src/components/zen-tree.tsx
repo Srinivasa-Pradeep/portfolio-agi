@@ -11,45 +11,40 @@ type ZenTreeProps = {
 
 // Each part of the tree with its drawing animation properties
 const treeParts = [
-  // Session 0: Stem
+  // Session 0: Stem (1 part)
   { path: "M 250 400 L 250 300", length: 100 },
-  // Session 1: First branches
+  // Session 1: First branches (2 parts, total 3)
   { path: "M 250 350 Q 220 330 200 300", length: 80 },
   { path: "M 250 350 Q 280 330 300 300", length: 80 },
-  // Session 2: More branches
+  // Session 2: More branches (2 parts, total 5)
   { path: "M 250 320 Q 230 300 210 270", length: 70 },
   { path: "M 250 320 Q 270 300 290 270", length: 70 },
-  // Session 3: First leaves
+  // Session 3: First leaves (4 parts, total 9)
   { cx: 190, cy: 290, r: 5 },
   { cx: 310, cy: 290, r: 5 },
   { cx: 205, cy: 260, r: 5 },
   { cx: 295, cy: 260, r: 5 },
-  // Session 4: Fruits/Flowers
+  // Session 4: Fruits/Flowers (1 part, total 10)
   { cx: 250, cy: 280, r: 7 },
-  // Session 5: More leaves
+  // Session 5: More leaves (2 parts, total 12)
   { cx: 230, cy: 370, r: 5 },
   { cx: 270, cy: 370, r: 5 },
-  // Session 6+: more complex branches
+  // Session 6+: more complex branches (2 parts, total 14)
   { path: "M 200 300 Q 180 280 170 250", length: 60 },
   { path: "M 300 300 Q 320 280 330 250", length: 60 },
 ];
+
+// Cumulative count of parts visible after each session.
+const sessionBoundaries = [1, 3, 5, 9, 10, 12, 14];
+
 
 export function ZenTree({ sessions, progress, state }: ZenTreeProps) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const getVisibleParts = () => {
-    if (sessions === 0) return treeParts.slice(0, 1);
-    if (sessions === 1) return treeParts.slice(0, 3);
-    if (sessions === 2) return treeParts.slice(0, 5);
-    if (sessions === 3) return treeParts.slice(0, 9);
-    if (sessions === 4) return treeParts.slice(0, 10);
-    if (sessions >= 5) return treeParts.slice(0, 12);
-    if (sessions >= 6) return treeParts;
-    return [];
-  };
-  
-  const visibleParts = getVisibleParts();
+  const partsToShow = sessions < sessionBoundaries.length ? sessionBoundaries[sessions] : treeParts.length;
+  const growingFromIndex = sessions > 0 ? sessionBoundaries[sessions - 1] : 0;
+  const visibleParts = treeParts.slice(0, partsToShow);
 
   if (!mounted) {
     return <div className="w-full h-full" />;
@@ -69,17 +64,18 @@ export function ZenTree({ sessions, progress, state }: ZenTreeProps) {
       
       <path d="M 200 400 H 300 L 280 380 H 220 Z" className="fill-current text-yellow-800/30 dark:text-yellow-900/40" />
 
-      {/* Tree paths */}
+      {/* Tree parts */}
       {visibleParts.map((part, index) => {
+        const isGrowingPart = index >= growingFromIndex;
+        
         if ('path' in part) {
-          const isGrowingPart = index === visibleParts.filter(p => 'path' in p).length - 1;
           const strokeDashoffset = isGrowingPart && state === 'running'
             ? part.length * (1 - progress)
             : 0;
 
           return (
             <path
-              key={index}
+              key={`path-${index}`}
               d={part.path}
               className={cn(
                 "fill-none stroke-current text-green-700/80 dark:text-green-400/80 transition-opacity",
@@ -91,27 +87,21 @@ export function ZenTree({ sessions, progress, state }: ZenTreeProps) {
                 strokeDasharray: part.length,
                 strokeDashoffset: strokeDashoffset,
                 transition: 'stroke-dashoffset 1s linear, opacity 0.5s',
-                filter: state === 'running' ? 'url(#glow)' : 'none',
+                filter: isGrowingPart && state === 'running' ? 'url(#glow)' : 'none',
               }}
             />
           );
         }
-        return null;
-      })}
-      
-      {/* Tree leaves/fruits */}
-      {visibleParts.map((part, index) => {
+        
          if ('r' in part) {
-           const isGrowingPart = index === visibleParts.length - 1;
-           const currentProgress = state === 'running' ? progress : (state === 'complete' || state === 'paused') ? 1 : 0;
-           const scale = isGrowingPart ? currentProgress : 1;
-           const opacity = isGrowingPart ? currentProgress : 1;
-
            const isFlower = 'cx' in part && part.r > 6;
+           
+           const scale = isGrowingPart && state === 'running' ? progress : 1;
+           const opacity = isGrowingPart && state === 'running' ? progress : 1;
 
            return (
             <circle
-                key={index}
+                key={`circle-${index}`}
                 cx={part.cx}
                 cy={part.cy}
                 r={part.r}
@@ -124,7 +114,7 @@ export function ZenTree({ sessions, progress, state }: ZenTreeProps) {
                     transformOrigin: `${part.cx}px ${part.cy}px`,
                     transform: `scale(${scale})`,
                     opacity: opacity,
-                    transition: 'transform 1s ease-out, opacity 1s ease-out',
+                    transition: isGrowingPart ? 'transform 0.5s ease-out, opacity 0.5s ease-out' : 'opacity 0.5s',
                 }}
             />
            )
