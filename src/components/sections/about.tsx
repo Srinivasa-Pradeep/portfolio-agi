@@ -422,7 +422,7 @@ export function About() {
               {stats.map((stat) => (
                 <Card
                   key={stat.title}
-                  className="transform-gpu transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  className="transform-gpu transition-all duration-300 hover:-translate-y-1 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20"
                 >
                   <CardHeader>
                     <CardTitle className="text-base">{stat.title}</CardTitle>
