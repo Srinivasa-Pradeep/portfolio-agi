@@ -32,7 +32,7 @@ export function Hero() {
       </div>
       
       <div className="container relative z-10 flex animate-fade-in flex-col items-center text-center">
-        <h1 className="font-headline text-5xl font-bold tracking-tighter text-primary sm:text-7xl md:text-8xl lg:text-9xl">
+        <h1 className="font-lora text-5xl font-bold tracking-tighter text-primary sm:text-7xl md:text-8xl lg:text-9xl">
           Srini
         </h1>
         <p className="mt-4 max-w-2xl text-center text-lg font-medium text-foreground/80 md:text-xl">

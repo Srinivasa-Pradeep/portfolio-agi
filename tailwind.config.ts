@@ -19,6 +19,7 @@ export default {
       fontFamily: {
         body: ['Inter', 'sans-serif'],
         headline: ['Poppins', 'sans-serif'],
+        lora: ['Lora', 'serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
