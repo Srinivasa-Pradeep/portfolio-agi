@@ -57,7 +57,7 @@ const blogPosts = [
 
 export function Blogs() {
   return (
-    <section id="blogs" className="py-20 md:py-32 bg-secondary">
+    <section id="blogs" className="py-20 md:py-32 border-y border-border/20 bg-secondary/20 backdrop-blur-md">
       <div className="container">
         <div className="text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">From My Blog</h2>
@@ -68,12 +68,12 @@ export function Blogs() {
 
         <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {blogPosts.map((post) => (
-            <a key={post.title} href={post.link} target="_blank" rel="noopener noreferrer" className="block h-full">
-              <Card className="flex h-full flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+            <a key={post.title} href={post.link} target="_blank" rel="noopener noreferrer" className="block h-full group">
+              <Card className="flex h-full flex-col transform-gpu transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-2xl bg-card/50 backdrop-blur-lg border-white/5">
                 <CardHeader>
                   <div className="flex justify-between items-center">
-                      <CardTitle className="text-lg font-semibold">{post.title}</CardTitle>
-                      <Badge variant="outline">{post.tag}</Badge>
+                      <CardTitle className="text-lg font-semibold group-hover:text-primary transition-colors duration-300">{post.title}</CardTitle>
+                      <Badge variant="secondary" className="bg-white/10 text-foreground/80 backdrop-blur-sm">{post.tag}</Badge>
                   </div>
                 </CardHeader>
                 <CardContent className="flex-grow">
@@ -89,7 +89,7 @@ export function Blogs() {
         </div>
         
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <Button size="lg" variant="outline" asChild>
+          <Button size="lg" variant="outline" className="bg-transparent backdrop-blur-sm" asChild>
             <a href="https://medium.com/@writtenbysrini" target="_blank" rel="noopener noreferrer">
               View All Blogs <ArrowRight className="ml-2 h-4 w-4" />
             </a>
