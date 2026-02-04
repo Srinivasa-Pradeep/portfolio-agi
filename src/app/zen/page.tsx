@@ -120,7 +120,7 @@ export default function ZenPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col bg-background">
+    <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex-1 pt-24 flex items-center justify-center">
         <div className="container flex flex-col items-center justify-center text-center gap-8 py-12 md:py-20">
