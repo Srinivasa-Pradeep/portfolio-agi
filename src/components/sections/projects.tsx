@@ -43,7 +43,7 @@ const projects = [
 
 export function Projects() {
   return (
-    <section id="projects" className="py-20 md:py-32 bg-secondary">
+    <section id="projects" className="py-20 md:py-32 border-y border-border/20 bg-secondary/20 backdrop-blur-md">
       <div className="container">
         <div className="text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
@@ -54,7 +54,7 @@ export function Projects() {
           </p>
         </div>
 
-        <div className="mt-20 flex flex-col items-center justify-center gap-8 md:flex-row md:items-center md:gap-8 [perspective:2000px]">
+        <div className="mt-20 flex flex-col items-center justify-center gap-8 md:flex-row md:items-start md:gap-0 lg:gap-4 [perspective:2000px]">
           {projects.map((project, index) => {
             const projectImage = PlaceHolderImages.find(
               (p) => p.id === project.imageId
@@ -69,10 +69,10 @@ export function Projects() {
                   "md:h-[400px] md:w-1/3",
                   // 3D desktop layout
                   index === 0 &&
-                    "md:[transform:rotateY(25deg)_translateY(-2rem)] md:hover:z-20 md:hover:[transform:rotateY(0deg)_translateY(-2rem)_scale(1.0)]",
-                  index === 1 && "md:z-10 md:scale-110 md:hover:scale-[1.00]",
+                    "md:[transform:translateY(2rem)_rotateY(25deg)] md:hover:z-20 md:hover:[transform:translateY(2rem)_rotateY(0deg)_scale(1.05)]",
+                  index === 1 && "md:z-10 md:scale-105 md:hover:scale-[1.10]",
                   index === 2 &&
-                    "md:[transform:rotateY(-25deg)_translateY(-2rem)] md:hover:z-20 md:hover:[transform:rotateY(0deg)_translateY(-2rem)_scale(1.0)]"
+                    "md:[transform:translateY(2rem)_rotateY(-25deg)] md:hover:z-20 md:hover:[transform:translateY(2rem)_rotateY(0deg)_scale(1.05)]"
                 )}
               >
                 <div className="relative h-full w-full rounded-xl shadow-xl transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
