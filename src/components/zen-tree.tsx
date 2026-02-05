@@ -9,118 +9,109 @@ type ZenTreeProps = {
   state: 'idle' | 'running' | 'paused' | 'complete';
 };
 
-// Each part of the tree with its drawing animation properties
-const treeParts = [
-  // Session 0: Stem (1 part)
-  { path: "M 250 400 L 250 300", length: 100 },
-  // Session 1: First branches (2 parts, total 3)
-  { path: "M 250 350 Q 220 330 200 300", length: 80 },
-  { path: "M 250 350 Q 280 330 300 300", length: 80 },
-  // Session 2: More branches (2 parts, total 5)
-  { path: "M 250 320 Q 230 300 210 270", length: 70 },
-  { path: "M 250 320 Q 270 300 290 270", length: 70 },
-  // Session 3: First leaves (4 parts, total 9)
-  { cx: 190, cy: 290, r: 5 },
-  { cx: 310, cy: 290, r: 5 },
-  { cx: 205, cy: 260, r: 5 },
-  { cx: 295, cy: 260, r: 5 },
-  // Session 4: Fruits/Flowers (1 part, total 10)
-  { cx: 250, cy: 280, r: 7 },
-  // Session 5: More leaves (2 parts, total 12)
-  { cx: 230, cy: 370, r: 5 },
-  { cx: 270, cy: 370, r: 5 },
-  // Session 6+: more complex branches (2 parts, total 14)
-  { path: "M 200 300 Q 180 280 170 250", length: 60 },
-  { path: "M 300 300 Q 320 280 330 250", length: 60 },
-];
+const PETAL_LAYERS = 5;
 
-// Cumulative count of parts visible after each session.
-const sessionBoundaries = [1, 3, 5, 9, 10, 12, 14];
+// This function calculates the rotation for a petal layer based on sessions and progress.
+const getLayerRotation = (layerIndex: number, sessions: number, progress: number, state: ZenTreeProps['state']) => {
+  const baseRotation = -15; // How much a layer opens when its session is complete
+  const activeGrowth = 20;  // How much extra it opens during the active session animation
+
+  if (sessions > layerIndex) {
+    // This layer's session is complete, so it's fully open.
+    return baseRotation;
+  }
+  
+  if (sessions === layerIndex && (state === 'running' || state === 'complete')) {
+    // This is the currently growing layer.
+    return baseRotation * progress + (state === 'running' ? Math.sin(progress * Math.PI) * -activeGrowth : 0);
+  }
+  
+  // This layer hasn't started growing yet, so it's closed.
+  return 0; 
+};
 
 
 export function ZenTree({ sessions, progress, state }: ZenTreeProps) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  const partsToShow = sessions < sessionBoundaries.length ? sessionBoundaries[sessions] : treeParts.length;
-  const growingFromIndex = sessions > 0 ? sessionBoundaries[sessions - 1] : 0;
-  const visibleParts = treeParts.slice(0, partsToShow);
-
   if (!mounted) {
     return <div className="w-full h-full" />;
   }
+  
+  const currentLayer = sessions < PETAL_LAYERS ? sessions : PETAL_LAYERS -1;
 
   return (
-    <svg viewBox="0 0 500 400" className="w-full h-full drop-shadow-lg">
+    <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-lg overflow-visible">
       <defs>
-        <filter id="glow">
-            <feGaussianBlur stdDeviation="3.5" result="coloredBlur" />
+        <radialGradient id="lotus-glow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+          <stop offset="0%" style={{ stopColor: 'hsl(var(--primary) / 0.8)', stopOpacity: 0.8 }} />
+          <stop offset="60%" style={{ stopColor: 'hsl(var(--primary) / 0.3)', stopOpacity: 0.5 }} />
+          <stop offset="100%" style={{ stopColor: 'hsl(var(--primary) / 0)', stopOpacity: 0 }} />
+        </radialGradient>
+         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
             <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
             </feMerge>
         </filter>
       </defs>
-      
-      <path d="M 200 400 H 300 L 280 380 H 220 Z" className="fill-current text-yellow-800/30 dark:text-yellow-900/40" />
 
-      {/* Tree parts */}
-      {visibleParts.map((part, index) => {
-        const isGrowingPart = index >= growingFromIndex;
-        
-        if ('path' in part) {
-          const strokeDashoffset = isGrowingPart && state === 'running'
-            ? part.length * (1 - progress)
-            : 0;
+      {/* Pulsating Glow */}
+      <circle 
+        cx="100" 
+        cy="100" 
+        r="12" 
+        fill="url(#lotus-glow)" 
+        className={cn("transition-all duration-1000", state === 'running' && 'animate-pulse')} 
+      />
 
-          return (
-            <path
-              key={`path-${index}`}
-              d={part.path}
-              className={cn(
-                "fill-none stroke-current text-green-700/80 dark:text-green-400/80 transition-opacity",
+      {/* Petal Layers */}
+      {[...Array(PETAL_LAYERS)].map((_, i) => {
+        const rotation = getLayerRotation(i, sessions, progress, state);
+        const scale = 1 + i * 0.18;
+        const opacity = sessions >= i ? 1 : 0.3;
+        const isGrowing = currentLayer === i && state === 'running';
+
+        return (
+           <g 
+            key={i}
+            transform={`translate(100 100) scale(${scale}) translate(-100 -100)`}
+            className={cn(
+                "transition-opacity duration-1000",
                 state === 'paused' && 'opacity-50'
-              )}
-              strokeWidth="5"
-              strokeLinecap="round"
-              style={{
-                strokeDasharray: part.length,
-                strokeDashoffset: strokeDashoffset,
-                transition: 'stroke-dashoffset 1s linear, opacity 0.5s',
-                filter: isGrowingPart && state === 'running' ? 'url(#glow)' : 'none',
-              }}
-            />
-          );
-        }
-        
-         if ('r' in part) {
-           const isFlower = 'cx' in part && part.r > 6;
-           
-           const scale = isGrowingPart && state === 'running' ? progress : 1;
-           const opacity = isGrowingPart && state === 'running' ? progress : 1;
-
-           return (
-            <circle
-                key={`circle-${index}`}
-                cx={part.cx}
-                cy={part.cy}
-                r={part.r}
-                className={cn(
-                    "stroke-none transition-opacity",
-                    isFlower ? "fill-current text-pink-500/80 dark:text-pink-400/80" : "fill-current text-green-600/80 dark:text-green-500/80",
-                    state === 'paused' && 'opacity-50'
-                )}
-                style={{
-                    transformOrigin: `${part.cx}px ${part.cy}px`,
-                    transform: `scale(${scale})`,
-                    opacity: opacity,
-                    transition: isGrowingPart ? 'transform 0.5s ease-out, opacity 0.5s ease-out' : 'opacity 0.5s',
-                }}
-            />
-           )
-         }
-         return null;
+            )}
+            style={{ opacity: opacity }}
+           >
+            <g style={{ 
+                transform: `rotate(${rotation}deg)`, 
+                transformOrigin: '100px 140px',
+                transition: 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)',
+                 filter: isGrowing ? 'url(#glow)' : 'none',
+             }}>
+                <path d="M100 90 C 80 80, 80 60, 100 40 C 120 60, 120 80, 100 90 Z" 
+                      className="fill-current text-pink-400/20 dark:text-pink-400/10" 
+                      transform="rotate(0 100 100)" />
+                <path d="M100 90 C 80 80, 80 60, 100 40 C 120 60, 120 80, 100 90 Z" 
+                      className="fill-current text-pink-400/40 dark:text-pink-400/20" 
+                      transform="rotate(72 100 100)" />
+                <path d="M100 90 C 80 80, 80 60, 100 40 C 120 60, 120 80, 100 90 Z" 
+                      className="fill-current text-pink-400/60 dark:text-pink-400/30" 
+                      transform="rotate(144 100 100)" />
+                <path d="M100 90 C 80 80, 80 60, 100 40 C 120 60, 120 80, 100 90 Z" 
+                      className="fill-current text-pink-400/50 dark:text-pink-400/20" 
+                      transform="rotate(216 100 100)" />
+                <path d="M100 90 C 80 80, 80 60, 100 40 C 120 60, 120 80, 100 90 Z" 
+                      className="fill-current text-pink-400/30 dark:text-pink-400/10" 
+                      transform="rotate(288 100 100)" />
+            </g>
+           </g>
+        )
       })}
+      
+      {/* Center Bud */}
+      <circle cx="100" cy="100" r="10" className="fill-current text-yellow-300/80 dark:text-yellow-200/80" />
     </svg>
   );
 }
