@@ -94,25 +94,25 @@ export default function ZenPage() {
     switch (sessionState) {
       case 'idle':
         return (
-          <Button size="lg" onClick={handleStart} className="w-48 shadow-lg">
+          <Button size="lg" onClick={handleStart} className="w-full shadow-lg">
             <Play className="mr-2 h-5 w-5" /> Start Focus
           </Button>
         );
       case 'running':
         return (
-          <Button size="lg" variant="secondary" onClick={handlePause} className="w-48">
+          <Button size="lg" variant="secondary" onClick={handlePause} className="w-full shadow-md">
             <Pause className="mr-2 h-5 w-5" /> Pause
           </Button>
         );
       case 'paused':
         return (
-          <Button size="lg" onClick={handleResume} className="w-48 shadow-lg">
+          <Button size="lg" onClick={handleResume} className="w-full shadow-lg">
             <Play className="mr-2 h-5 w-5" /> Resume
           </Button>
         );
       case 'complete':
         return (
-          <Button size="lg" onClick={handleContinue} className="w-48 shadow-lg animate-pulse">
+          <Button size="lg" onClick={handleContinue} className="w-full shadow-lg animate-pulse">
             <Sparkles className="mr-2 h-5 w-5" /> Continue Growing
           </Button>
         );
@@ -120,7 +120,7 @@ export default function ZenPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-background dark:bg-transparent">
       <Header />
       <main className="flex-1 pt-24 flex items-center justify-center">
         <div className="container flex flex-col items-center justify-center text-center gap-8 py-12 md:py-20">
@@ -149,7 +149,9 @@ export default function ZenPage() {
           </div>
 
           <div className="flex items-center gap-4">
-            {getButton()}
+            <div className="w-48 h-11">
+              {getButton()}
+            </div>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
