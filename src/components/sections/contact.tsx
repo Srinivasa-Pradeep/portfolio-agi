@@ -113,7 +113,7 @@ export function Contact() {
               </TooltipProvider>
           </div>
           <div className="lg:col-span-2">
-            <Card className="overflow-hidden">
+            <Card className="overflow-hidden bg-card/50 backdrop-blur-lg border-border/20">
               <CardHeader>
                 <CardTitle>Send me a message</CardTitle>
               </CardHeader>
