@@ -171,7 +171,7 @@ export function About() {
                       </div>
                   </div>
                 </TooltipTrigger>
-                <TooltipContent>
+                <TooltipContent side="bottom">
                   <p>Stay Humble</p>
                 </TooltipContent>
               </Tooltip>
