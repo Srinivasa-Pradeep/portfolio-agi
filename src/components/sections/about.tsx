@@ -165,7 +165,7 @@ export function About() {
                 </div>
                 <div className="pt-3 text-center">
                     <p className="font-headline text-base font-semibold text-foreground/90">Srinivasa Pradeep</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">Stay Humble, Stay Foolish</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Stay Humble</p>
                 </div>
             </div>
           </div>

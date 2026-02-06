@@ -135,6 +135,10 @@ export default {
           '0%': { backgroundPosition: '0% 0%' },
           '100%': { backgroundPosition: '-200% 0%' },
         },
+        'slow-rotate': {
+          'from': { transform: 'rotate(0deg)' },
+          'to': { transform: 'rotate(360deg)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -143,6 +147,7 @@ export default {
         'breathing': 'breathing 3s ease-in-out infinite',
         'marquee': 'marquee 40s linear infinite',
         'background-pan': 'background-pan 150s linear infinite',
+        'slow-rotate': 'slow-rotate 60s linear infinite',
       },
     },
   },
