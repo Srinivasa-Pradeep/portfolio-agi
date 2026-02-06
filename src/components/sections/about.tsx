@@ -149,37 +149,24 @@ export function About() {
       <div className="container">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-16">
           <div className="md:col-span-1 flex justify-center items-start">
-            <div className="relative h-24 w-24 md:h-40 md:w-40 lg:h-48 lg:w-48 group">
-              <div className="absolute -inset-1 bg-gradient-to-br from-primary/80 via-primary/40 to-accent/80 rounded-2xl blur-lg opacity-60 group-hover:opacity-100 transition-all duration-500 animate-background-pan" style={{ backgroundSize: '200% 200%' }}></div>
-              {avatar && (
-                <Image
-                  src={avatar.imageUrl}
-                  alt={avatar.description}
-                  data-ai-hint={avatar.imageHint}
-                  fill
-                  className="relative rounded-2xl object-cover transition-all duration-300 group-hover:scale-105"
-                  style={{ objectPosition: 'center 40%' }}
-                  key={avatar.id}
-                />
-              )}
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="absolute -bottom-2 -right-2 z-10 cursor-pointer rounded-full bg-card/80 p-1.5 shadow-lg backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
-                      <span
-                        className="text-2xl drop-shadow-lg"
-                        role="img"
-                        aria-label="focus"
-                      >
-                        🎯
-                      </span>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Stay Humble!</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+            <div className="group w-48 lg:w-56 bg-card/60 dark:bg-card/40 p-3 pb-4 backdrop-blur-sm rounded-lg border border-border/20 shadow-lg transform-gpu transition-all duration-300 hover:-translate-y-3 hover:rotate-[-4deg] hover:shadow-2xl">
+                <div className="relative aspect-[3/4] w-full bg-muted/30 rounded-md overflow-hidden">
+                    {avatar && (
+                        <Image
+                            src={avatar.imageUrl}
+                            alt={avatar.description}
+                            data-ai-hint={avatar.imageHint}
+                            fill
+                            className="object-cover transition-all duration-300 group-hover:scale-105"
+                            style={{ objectPosition: 'center 40%' }}
+                            key={avatar.id}
+                        />
+                    )}
+                </div>
+                <div className="pt-3 text-center">
+                    <p className="font-headline text-base font-semibold text-foreground/90">Srinivasa Pradeep</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">Stay Humble, Stay Foolish</p>
+                </div>
             </div>
           </div>
           <div className="md:col-span-2">
