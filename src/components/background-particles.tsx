@@ -41,7 +41,7 @@ export default function BackgroundParticles() {
         }
 
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 2000;
+        const particlesCount = 500;
         const posArray = new Float32Array(particlesCount * 3);
 
         for (let i = 0; i < particlesCount * 3; i++) {
@@ -51,7 +51,7 @@ export default function BackgroundParticles() {
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.1,
+            size: 0.15,
             map: particleTexture,
             color: 0xffffff,
             transparent: true,
