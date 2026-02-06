@@ -112,7 +112,7 @@ export default function ZenPage() {
         );
       case 'complete':
         return (
-          <Button size="lg" onClick={handleContinue} className="w-full shadow-lg">
+          <Button size="lg" onClick={handleContinue} className="w-full shadow-lg animate-slow-pulse">
             <Sparkles className="mr-2 h-5 w-5" /> Continue Growing
           </Button>
         );

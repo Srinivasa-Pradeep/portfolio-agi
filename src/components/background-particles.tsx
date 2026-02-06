@@ -21,6 +21,24 @@ export default function BackgroundParticles() {
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(window.innerWidth, window.innerHeight);
         mountRef.current.appendChild(renderer.domElement);
+        
+        // Create a circular texture
+        const canvas = document.createElement('canvas');
+        canvas.width = 64;
+        canvas.height = 64;
+        const context = canvas.getContext('2d');
+        let particleTexture: THREE.CanvasTexture | undefined;
+
+        if (context) {
+            const gradient = context.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, 'rgba(255,255,255,0.9)');
+            gradient.addColorStop(0.2, 'rgba(255,255,255,0.7)');
+            gradient.addColorStop(0.8, 'rgba(255,255,255,0.1)');
+            gradient.addColorStop(1, 'rgba(255,255,255,0)');
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, 64, 64);
+            particleTexture = new THREE.CanvasTexture(canvas);
+        }
 
         const particlesGeometry = new THREE.BufferGeometry();
         const particlesCount = 2000;
@@ -33,11 +51,12 @@ export default function BackgroundParticles() {
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.015,
-            color: 0xffffff, // Silver/White color
+            size: 0.1,
+            map: particleTexture,
+            color: 0xffffff,
             transparent: true,
-            opacity: 0.7,
-            blending: THREE.AdditiveBlending // Glow effect
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
         });
 
         const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
@@ -79,10 +98,17 @@ export default function BackgroundParticles() {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('mousemove', handleMouseMove);
             cancelAnimationFrame(animationFrameId);
-            if (currentMount) {
-              currentMount.removeChild(renderer.domElement);
+            if (currentMount && renderer.domElement) {
+                try {
+                    currentMount.removeChild(renderer.domElement);
+                } catch (e) {
+                    // Ignore if already removed
+                }
             }
             renderer.dispose();
+            if (particleTexture) {
+                particleTexture.dispose();
+            }
         }
     }, [isMobile]);
 
