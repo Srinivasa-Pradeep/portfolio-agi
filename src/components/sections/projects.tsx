@@ -71,7 +71,7 @@ export function Projects() {
                   // 3D desktop layout
                   index === 0 &&
                     "md:[transform:translateY(2rem)_rotateY(25deg)] md:hover:z-20 md:hover:[transform:translateY(2rem)_rotateY(0deg)_scale(1.02)]",
-                  index === 1 && "md:z-10 md:scale-105 md:hover:scale-105",
+                  index === 1 && "md:z-10 md:scale-95 md:translate-y-0 md:hover:scale-50",
                   index === 2 &&
                     "md:[transform:translateY(2rem)_rotateY(-25deg)] md:hover:z-20 md:hover:[transform:translateY(2rem)_rotateY(0deg)_scale(1.02)]"
                 )}

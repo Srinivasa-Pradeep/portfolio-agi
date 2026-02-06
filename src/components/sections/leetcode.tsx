@@ -346,7 +346,10 @@ export function LeetCode() {
               <div className="lg:col-span-3 xl:col-span-2">
                 <div className="grid grid-cols-3 gap-4 text-center md:text-left mb-8">
                   <div>
-                    <p className="text-sm text-muted-foreground">Contest Rating</p>
+                    <div className="flex items-center justify-center md:justify-start gap-2">
+                        <p className="text-sm text-muted-foreground">Contest Rating</p>
+                        <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight Badge" className="h-6 w-6" />
+                    </div>
                     <p className="text-2xl font-bold text-foreground">{contestStats.rating}</p>
                   </div>
                   <div>
