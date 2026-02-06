@@ -22,12 +22,12 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 const leetCodeProgress = {
-  totalSolved: 1064,
-  totalProblems: 3817,
+  totalSolved: 1084,
+  totalProblems: 3832,
   attempting: 25,
-  easy: { solved: 419, total: 922 },
-  medium: { solved: 521, total: 1993 },
-  hard: { solved: 124, total: 902 },
+  easy: { solved: 424, total: 924 },
+  medium: { solved: 530, total: 2002 },
+  hard: { solved: 130, total: 906 },
   acceptanceRate: "65.48%",
   submissions: "2.8k",
 };
