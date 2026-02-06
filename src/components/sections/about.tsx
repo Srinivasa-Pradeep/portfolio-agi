@@ -164,7 +164,7 @@ export function About() {
                     )}
                 </div>
                 <div className="pt-4 text-center">
-                    <p className="font-signature text-4xl text-foreground/90">Srinivasa Pradeep</p>
+                    <p className="font-signature text-3xl text-foreground/90">Srinivasa Pradeep</p>
                     <p className="text-xs text-muted-foreground -translate-y-1">Stay Humble</p>
                 </div>
             </div>
