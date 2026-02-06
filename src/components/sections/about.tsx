@@ -149,25 +149,33 @@ export function About() {
       <div className="container">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-16">
           <div className="md:col-span-1 flex justify-center items-start">
-            <div className="group w-48 lg:w-56 bg-card p-3 pb-4 shadow-lg rounded-lg border transform-gpu transition-all duration-300 hover:-translate-y-3 hover:rotate-[-4deg] hover:shadow-2xl">
-                <div className="relative aspect-[3/4] w-full bg-muted/30 rounded-md overflow-hidden">
-                    {avatar && (
-                        <Image
-                            src={avatar.imageUrl}
-                            alt={avatar.description}
-                            data-ai-hint={avatar.imageHint}
-                            fill
-                            className="object-cover transition-all duration-300 group-hover:scale-105"
-                            style={{ objectPosition: 'center 40%' }}
-                            key={avatar.id}
-                        />
-                    )}
-                </div>
-                <div className="pt-4 text-center">
-                    <p className="font-signature text-3xl text-foreground/90">Srinivasa Pradeep</p>
-                    <p className="text-xs text-muted-foreground -translate-y-1">Stay Humble</p>
-                </div>
-            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="group w-48 lg:w-56 bg-card p-3 pb-4 shadow-lg rounded-lg border transform-gpu transition-all duration-300 hover:-translate-y-3 hover:rotate-[-4deg] hover:shadow-2xl cursor-pointer">
+                      <div className="relative aspect-[3/4] w-full bg-muted/30 rounded-md overflow-hidden">
+                          {avatar && (
+                              <Image
+                                  src={avatar.imageUrl}
+                                  alt={avatar.description}
+                                  data-ai-hint={avatar.imageHint}
+                                  fill
+                                  className="object-cover transition-all duration-300 group-hover:scale-105"
+                                  style={{ objectPosition: 'center 40%' }}
+                                  key={avatar.id}
+                              />
+                          )}
+                      </div>
+                      <div className="pt-4 text-center">
+                          <p className="font-signature text-3xl text-foreground/90">Srinivasa Pradeep</p>
+                      </div>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Stay Humble</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
           <div className="md:col-span-2">
             <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
