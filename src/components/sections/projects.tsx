@@ -65,15 +65,15 @@ export function Projects() {
               <div
                 key={project.name}
                 className={cn(
-                  "group h-[450px] w-full max-w-sm rounded-xl transition-all duration-500 ease-in-out [transform-style:preserve-3d]",
+                  "group h-[430px] w-full max-w-sm rounded-xl transition-all duration-500 ease-in-out [transform-style:preserve-3d]",
                   // Responsive stacking
-                  "md:h-[400px] md:w-1/3",
+                  "md:h-[390px] md:w-1/3",
                   // 3D desktop layout
                   index === 0 &&
-                    "md:[transform:translateY(2rem)_rotateY(25deg)] md:hover:z-20 md:hover:[transform:translateY(2rem)_rotateY(0deg)_scale(1.05)]",
-                  index === 1 && "md:z-10 md:scale-105 md:hover:scale-[1.10]",
+                    "md:[transform:translateY(2rem)_rotateY(25deg)] md:hover:z-20 md:hover:[transform:translateY(2rem)_rotateY(0deg)_scale(1.02)]",
+                  index === 1 && "md:z-10 md:scale-105 md:hover:scale-105",
                   index === 2 &&
-                    "md:[transform:translateY(2rem)_rotateY(-25deg)] md:hover:z-20 md:hover:[transform:translateY(2rem)_rotateY(0deg)_scale(1.05)]"
+                    "md:[transform:translateY(2rem)_rotateY(-25deg)] md:hover:z-20 md:hover:[transform:translateY(2rem)_rotateY(0deg)_scale(1.02)]"
                 )}
               >
                 <div className="relative h-full w-full rounded-xl shadow-xl transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
