@@ -85,11 +85,11 @@ const CustomTooltip = ({ active, payload }: any) => {
 
 
 const contestStats = {
-  rating: 1828,
-  globalRanking: "52,752",
-  totalRanked: "813,046",
-  attended: 18,
-  topPercentage: 6.68,
+  rating: 1866,
+  globalRanking: "43,066",
+  totalRanked: "829,353",
+  attended: 19,
+  topPercentage: 5.36,
 };
 
 const ratingHistory = [
@@ -375,7 +375,7 @@ export function LeetCode() {
                         type="number"
                         domain={[0, 11]}
                         ticks={[0.5, 10.5]}
-                        tickFormatter={(value) => value < 5 ? '2024' : '2025'}
+                        tickFormatter={(value) => value < 5 ? '2024' : '2026'}
                         axisLine={false}
                         tickLine={false}
                         tick={{ dy: 10 }}
