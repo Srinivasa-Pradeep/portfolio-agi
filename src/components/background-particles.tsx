@@ -41,7 +41,7 @@ export default function BackgroundParticles() {
         }
 
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 500;
+        const particlesCount = 1000;
         const posArray = new Float32Array(particlesCount * 3);
 
         for (let i = 0; i < particlesCount * 3; i++) {
