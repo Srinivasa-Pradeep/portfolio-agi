@@ -20,6 +20,7 @@ import {
 } from "recharts";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { TooltipProvider, Tooltip as UiTooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 const leetCodeProgress = {
   totalSolved: 1084,
@@ -93,17 +94,25 @@ const contestStats = {
 };
 
 const ratingHistory = [
-  { index: 0, rating: 1700 },
-  { index: 1, rating: 1780 },
-  { index: 2, rating: 1740 },
-  { index: 3, rating: 1760 },
-  { index: 4, rating: 1810 },
-  { index: 5, rating: 1830 },
-  { index: 6, rating: 1820 },
-  { index: 7, rating: 1825 },
-  { index: 8, rating: 1850 },
-  { index: 9, rating: 1841 },
-  { index: 10, rating: 1835 },
+  { index: 0, rating: 1556 },
+  { index: 1, rating: 1657 },
+  { index: 2, rating: 1595 },
+  { index: 3, rating: 1612 },
+  { index: 4, rating: 1671 },
+  { index: 5, rating: 1700 },
+  { index: 6, rating: 1707 },
+  { index: 7, rating: 1717 },
+  { index: 8, rating: 1722 },
+  { index: 9, rating: 1731 },
+  { index: 10, rating: 1807 },
+  { index: 11, rating: 1790 },
+  { index: 12, rating: 1786 },
+  { index: 13, rating: 1794 },
+  { index: 14, rating: 1785 },
+  { index: 15, rating: 1786 },
+  { index: 16, rating: 1841 },
+  { index: 17, rating: 1826 },
+  { index: 18, rating: 1866 },
 ];
 
 const ratingDistribution = [
@@ -348,7 +357,16 @@ export function LeetCode() {
                   <div>
                     <div className="flex items-center justify-center md:justify-start gap-2">
                         <p className="text-sm text-muted-foreground">Contest Rating</p>
-                        <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight Badge" className="h-6 w-6" />
+                        <TooltipProvider>
+                          <UiTooltip>
+                            <TooltipTrigger>
+                              <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight Badge" className="h-6 w-6" />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Knight</p>
+                            </TooltipContent>
+                          </UiTooltip>
+                        </TooltipProvider>
                     </div>
                     <p className="text-2xl font-bold text-foreground">{contestStats.rating}</p>
                   </div>
