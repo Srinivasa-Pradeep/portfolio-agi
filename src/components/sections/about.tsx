@@ -149,14 +149,15 @@ export function About() {
       <div className="container">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-3 md:gap-16">
           <div className="md:col-span-1 flex justify-center items-start">
-            <div className="relative h-24 w-24 md:h-40 md:w-40 lg:h-48 lg:w-48">
+            <div className="relative h-24 w-24 md:h-40 md:w-40 lg:h-48 lg:w-48 group">
+              <div className="absolute -inset-1 bg-gradient-to-br from-primary/80 via-primary/40 to-accent/80 rounded-2xl blur-lg opacity-60 group-hover:opacity-100 transition-all duration-500 animate-background-pan" style={{ backgroundSize: '200% 200%' }}></div>
               {avatar && (
                 <Image
                   src={avatar.imageUrl}
                   alt={avatar.description}
                   data-ai-hint={avatar.imageHint}
                   fill
-                  className="rounded-full object-cover transition-all duration-300 hover:scale-105"
+                  className="relative rounded-2xl object-cover transition-all duration-300 group-hover:scale-105"
                   style={{ objectPosition: 'center 40%' }}
                   key={avatar.id}
                 />
@@ -164,9 +165,9 @@ export function About() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="absolute bottom-0 right-0 cursor-pointer p-1">
+                    <div className="absolute -bottom-2 -right-2 z-10 cursor-pointer rounded-full bg-card/80 p-1.5 shadow-lg backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
                       <span
-                        className="text-3xl drop-shadow-lg"
+                        className="text-2xl drop-shadow-lg"
                         role="img"
                         aria-label="focus"
                       >
