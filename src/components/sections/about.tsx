@@ -152,7 +152,7 @@ export function About() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className="group w-48 lg:w-56 bg-card p-3 pb-4 shadow-lg rounded-lg border transform-gpu transition-all duration-300 hover:-translate-y-3 hover:rotate-[-4deg] hover:shadow-2xl cursor-pointer">
+                  <div className="group w-48 lg:w-56 bg-card/50 backdrop-blur-lg p-3 pb-4 shadow-lg rounded-lg border border-border/20 transform-gpu transition-all duration-300 hover:-translate-y-3 hover:rotate-[-4deg] hover:shadow-2xl cursor-pointer">
                       <div className="relative aspect-[3/4] w-full bg-muted/30 rounded-md overflow-hidden">
                           {avatar && (
                               <Image
@@ -172,7 +172,7 @@ export function About() {
                   </div>
                 </TooltipTrigger>
                 <TooltipContent side="bottom">
-                  <p>Stay Humble</p>
+                  <p>Stay Humble!</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
