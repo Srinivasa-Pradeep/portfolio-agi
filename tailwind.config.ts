@@ -20,7 +20,7 @@ export default {
         body: ['Inter', 'sans-serif'],
         headline: ['Poppins', 'sans-serif'],
         lora: ['Lora', 'serif'],
-        signature: ['Great Vibes', 'cursive'],
+        signature: ['Pacifico', 'cursive'],
       },
       colors: {
         background: 'hsl(var(--background))',
