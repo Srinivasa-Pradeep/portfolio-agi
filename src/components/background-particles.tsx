@@ -51,7 +51,7 @@ export default function BackgroundParticles() {
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.15,
+            size: 0.02,
             map: particleTexture,
             color: 0xffffff,
             transparent: true,
