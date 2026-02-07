@@ -46,7 +46,7 @@ import { FaJava, FaMicrosoft } from 'react-icons/fa';
 
 const stats = [
   { 
-    title: 'Top 5.63% on LeetCode', 
+    title: 'Top 5.36% on LeetCode', 
     icon: 'https://assets.leetcode.com/static_assets/others/Knight.gif', 
     tooltip: 'Knight' 
   },
@@ -431,7 +431,7 @@ export function About() {
                             <TooltipProvider>
                                 <Tooltip>
                                 <TooltipTrigger>
-                                    <img src={stat.icon} alt={stat.tooltip} className="h-6 w-6" />
+                                    <img src={stat.icon} alt={stat.tooltip} className="h-7 w-7" />
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>{stat.tooltip}</p>
