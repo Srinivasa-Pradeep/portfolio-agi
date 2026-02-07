@@ -175,7 +175,11 @@ export function About() {
                           <TypingEffect
                             sequences={[
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
-                                { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-base text-foreground/90' }
+                                { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-base text-foreground/90' },
+                                { text: 'श्रीनिवास प्रदीप', className: 'text-base text-foreground/90' },
+                                { text: 'ശ്രീനിവാസ പ്രദീപ്', className: 'text-base text-foreground/90' },
+                                { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'text-base text-foreground/90' },
+                                { text: 'శ్రీనివాస ప్రదీప్', className: 'text-base text-foreground/90' }
                             ]}
                           />
                       </div>
