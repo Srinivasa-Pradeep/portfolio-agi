@@ -22,6 +22,10 @@ export default {
         lora: ['Lora', 'serif'],
         signature: ['Mrs Saint Delafield', 'cursive'],
         'tiro-tamil': ['"Tiro Tamil"', 'serif'],
+        'tiro-hindi': ['"Tiro Devanagari Hindi"', 'serif'],
+        'chilanka': ['Chilanka', 'cursive'],
+        'tiro-kannada': ['"Tiro Kannada"', 'serif'],
+        'tiro-telugu': ['"Tiro Telugu"', 'serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
