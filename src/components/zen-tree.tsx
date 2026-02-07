@@ -11,30 +11,33 @@ type ZenTreeProps = {
 
 const PETAL_LAYERS = 5;
 
-// This function calculates the rotation for a petal layer based on sessions and progress.
+// This function calculates the rotation and opacity for a petal layer.
+// The flower grows layer by layer with each completed session.
+// During a session, the new layer fades in, but its shape remains static.
 const getLayerStyle = (layerIndex: number, sessions: number, progress: number, state: ZenTreeProps['state']) => {
-  const baseRotation = -15; // How much a layer opens when its session is complete
-  const activeGrowth = 20;  // How much extra it opens during the active session animation
+  const baseRotation = -15; // Rotation for a fully "open" petal layer.
 
   let rotation = 0;
-  let opacity = 0.1; // Default for future layers
+  let opacity = 0.1; // Default for future layers.
 
-  // This layer's session is complete.
+  // For layers from completed sessions: fully open and visible.
   if (sessions > layerIndex) {
     rotation = baseRotation;
     opacity = 1;
   } 
-  // This is the currently growing layer.
+  // For the layer of the current session:
   else if (sessions === layerIndex) {
+    // The petals are in a fixed "open" position for the whole session.
+    rotation = baseRotation;
+    
+    // The opacity increases as the timer progresses.
     if (state === 'running' || state === 'paused') {
-        rotation = baseRotation * progress + (state === 'running' ? Math.sin(progress * Math.PI) * -activeGrowth : 0);
         opacity = 0.1 + progress * 0.9;
     } else if (state === 'complete') {
-        rotation = baseRotation;
         opacity = 1;
     }
   }
-  // Otherwise, it's a future layer, and opacity remains 0.1, rotation 0.
+  // Future layers remain dim and in their "closed" default state.
   
   return { rotation, opacity };
 };
