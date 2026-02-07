@@ -61,15 +61,11 @@ export function TypingEffect({
   const currentSequence = sequences[seqIndex];
   const currentSequenceStyle = currentSequence?.className || '';
   
-  // Show cursor only when typing or deleting
-  const isMidSequence = (isDeleting && text.length > 0) || (!isDeleting && text.length < currentSequence.text.length);
-
-  // The text is rendered inside a p tag. A sparkle span is appended.
+  // The text is rendered inside a p tag.
   return (
     <div className={cn('relative flex items-center justify-center min-h-[40px]', containerClassName)}>
         <p className={cn(currentSequenceStyle)}>
           {text}
-          {isMidSequence && <span className="sparkle-cursor" />}
         </p>
     </div>
   );

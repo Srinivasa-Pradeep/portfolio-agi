@@ -96,29 +96,6 @@
   }
 }
 
-.sparkle-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1.05em; /* Match font height */
-  background: hsl(var(--primary));
-  border-radius: 1px;
-  margin-left: 2px;
-  vertical-align: text-bottom; /* Align with bottom of text */
-  animation: sparkle 1.2s ease-in-out infinite;
-  position: relative;
-}
-
-@keyframes sparkle {
-  0%, 100% {
-    opacity: 1;
-    box-shadow: 0 0 4px hsl(var(--primary)/0.8), 0 0 8px hsl(var(--primary)/0.6);
-  }
-  50% {
-    opacity: 0.6;
-    box-shadow: 0 0 8px hsl(var(--primary)/0.8), 0 0 16px hsl(var(--primary)/0.6);
-  }
-}
-
 @keyframes ripple-in {
   from {
     clip-path: circle(0% at 50% 50%);
