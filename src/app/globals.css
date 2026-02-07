@@ -98,27 +98,24 @@
 
 .sparkle-cursor {
   display: inline-block;
-  width: 8px;
-  height: 8px;
-  background: transparent;
-  border-radius: 50%;
+  width: 2px;
+  height: 1.05em; /* Match font height */
+  background: hsl(var(--primary));
+  border-radius: 1px;
   margin-left: 2px;
-  vertical-align: middle;
-  animation: sparkle 0.7s ease-in-out infinite;
+  vertical-align: text-bottom; /* Align with bottom of text */
+  animation: sparkle 1.2s ease-in-out infinite;
   position: relative;
-  top: -2px; /* Adjust vertical alignment */
 }
 
 @keyframes sparkle {
   0%, 100% {
-    opacity: 0;
-    transform: scale(0.5);
-    box-shadow: none;
+    opacity: 1;
+    box-shadow: 0 0 4px hsl(var(--primary)/0.8), 0 0 8px hsl(var(--primary)/0.6);
   }
   50% {
-    opacity: 1;
-    transform: scale(1.5);
-    box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px hsl(var(--primary) / 0.7), 0 0 20px hsl(var(--primary) / 0.7);
+    opacity: 0.6;
+    box-shadow: 0 0 8px hsl(var(--primary)/0.8), 0 0 16px hsl(var(--primary)/0.6);
   }
 }
 
