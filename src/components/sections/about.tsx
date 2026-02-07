@@ -171,7 +171,7 @@ export function About() {
                           )}
                       </div>
                       <div className="pt-4 text-center">
-                          <p className="font-signature text-3xl text-foreground/90">Srinivasa Pradeep</p>
+                          <p className="font-tiro-tamil text-3xl italic text-foreground/90">ஸ்ரீனிவாச பிரதீப்</p>
                       </div>
                   </div>
                 </TooltipTrigger>
@@ -255,7 +255,7 @@ export function About() {
                           <li className="flex items-start gap-3">
                               <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                               <span className="text-sm text-muted-foreground">
-                              Secured <strong className="font-semibold text-foreground/90">1st Prize</strong> in a competitive code debugging contest hosted by KGISL.
+                              Secured <strong className="font-semibold text-foreground/90">1st Prize</strong> in a competitive code debugging contest hosted by IIT Palakkad.
                               </span>
                           </li>
                           <li className="flex items-start gap-3">
@@ -285,7 +285,7 @@ export function About() {
                           <li className="flex items-start gap-3">
                               <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                               <span className="text-sm text-muted-foreground">
-                              Was selected for the prestigious <strong className="font-semibold text-foreground/90">Amazon ML Summer School</strong> program based on merit.
+                              Was selected for the prestigious <strong className="font-semibold text-foreground/90">Amazon ML Summer School 2024</strong> program.
                               </span>
                           </li>
                           <li className="flex items-start gap-3">

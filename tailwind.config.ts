@@ -21,6 +21,7 @@ export default {
         headline: ['Poppins', 'sans-serif'],
         lora: ['Lora', 'serif'],
         signature: ['Mrs Saint Delafield', 'cursive'],
+        'tiro-tamil': ['"Tiro Tamil"', 'serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
