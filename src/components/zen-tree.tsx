@@ -18,27 +18,27 @@ const getLayerStyle = (layerIndex: number, sessions: number, progress: number, s
   const baseRotation = -15; // Rotation for a fully "open" petal layer.
 
   let rotation = 0;
-  let opacity = 0.1; // Default for future layers.
+  let opacity = 0; // Default for future layers, starting from 0 opacity.
 
   // For layers from completed sessions: fully open and visible.
   if (sessions > layerIndex) {
     rotation = baseRotation;
     opacity = 1;
-  } 
+  }
   // For the layer of the current session:
   else if (sessions === layerIndex) {
     // The petals are in a fixed "open" position for the whole session.
     rotation = baseRotation;
-    
-    // The opacity increases as the timer progresses.
+
+    // The opacity increases from 0 to 1 as the timer progresses.
     if (state === 'running' || state === 'paused') {
-        opacity = 0.1 + progress * 0.9;
+      opacity = progress; // Directly map progress to opacity.
     } else if (state === 'complete') {
-        opacity = 1;
+      opacity = 1;
     }
   }
-  // Future layers remain dim and in their "closed" default state.
-  
+  // Future layers (those beyond the current session) will have opacity = 0.
+
   return { rotation, opacity };
 };
 
