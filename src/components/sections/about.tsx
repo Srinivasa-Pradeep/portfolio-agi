@@ -45,7 +45,11 @@ import {
 import { FaJava, FaMicrosoft } from 'react-icons/fa';
 
 const stats = [
-  { title: 'Top 6.68% on LeetCode' },
+  { 
+    title: 'Top 5.63% on LeetCode', 
+    icon: 'https://assets.leetcode.com/static_assets/others/Knight.gif', 
+    tooltip: 'Knight' 
+  },
   { title: 'Amazon ML Summer School' },
   { title: 'Solution & Blog Writer' },
   { title: 'Content Creator' },
@@ -421,7 +425,21 @@ export function About() {
                   className="transform-gpu transition-all duration-300 hover:-translate-y-1 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20"
                 >
                   <CardHeader>
-                    <CardTitle className="text-base">{stat.title}</CardTitle>
+                    <CardTitle className="text-base flex items-center gap-2">
+                        <span>{stat.title}</span>
+                        {stat.icon && stat.tooltip && (
+                            <TooltipProvider>
+                                <Tooltip>
+                                <TooltipTrigger>
+                                    <img src={stat.icon} alt={stat.tooltip} className="h-6 w-6" />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>{stat.tooltip}</p>
+                                </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        )}
+                    </CardTitle>
                   </CardHeader>
                 </Card>
               ))}
