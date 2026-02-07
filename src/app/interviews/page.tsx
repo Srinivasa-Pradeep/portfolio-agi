@@ -1,3 +1,5 @@
+'use client';
+
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import {
@@ -7,8 +9,21 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, BookHeart, Briefcase } from 'lucide-react';
+import { ArrowLeft, BookHeart, Briefcase, KeyRound } from 'lucide-react';
 import Link from 'next/link';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
 
 const storyCategories = [
     {
@@ -16,17 +31,81 @@ const storyCategories = [
         description: "In-depth stories about my interview experiences with various companies, sharing lessons learned along the way.",
         icon: <Briefcase className="h-8 w-8 text-primary" />,
         link: "/interviews/journeys",
-        cta: "Explore Journeys"
+        cta: "Explore Journeys",
+        disabled: false,
     },
     {
         title: "Life & Reflections",
-        description: "Personal thoughts on life, growth, and the philosophies that guide me. Coming soon!",
+        description: "Personal thoughts on life, growth, and the philosophies that guide me. Access required.",
         icon: <BookHeart className="h-8 w-8 text-primary" />,
-        link: "#",
-        cta: "Coming Soon",
-        disabled: true,
+        link: "/interviews/reflections",
+        cta: "Unlock Stories",
+        disabled: false,
+        isProtected: true,
     }
-]
+];
+
+function ReflectionsPasswordDialog({ children }: { children: React.ReactNode }) {
+    const [password, setPassword] = useState('');
+    const [isOpen, setIsOpen] = useState(false);
+    const router = useRouter();
+    const { toast } = useToast();
+    const correctPassword = 'thursday';
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (password.toLowerCase() === correctPassword) {
+            toast({
+                title: "Access Granted",
+                description: "Welcome to my personal space.",
+            });
+            setIsOpen(false);
+            router.push('/interviews/reflections');
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Access Denied",
+                description: "That's not the secret word. Try again.",
+            });
+            setPassword('');
+        }
+    };
+
+    return (
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
+                {children}
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle className="flex items-center gap-3">
+                        <KeyRound className="h-6 w-6 text-primary" />
+                        Secret Section
+                    </DialogTitle>
+                    <DialogDescription>
+                       This space is for personal reflections. To enter, answer a simple question: What's my favorite day of the week?
+                    </DialogDescription>
+                </DialogHeader>
+                <form onSubmit={handleSubmit} className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                        <Label htmlFor="password-input" className="text-right">
+                            Fav Day
+                        </Label>
+                        <Input
+                            id="password-input"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="col-span-3"
+                            placeholder="Enter the magic word..."
+                        />
+                    </div>
+                    <Button type="submit">Unlock</Button>
+                </form>
+            </DialogContent>
+        </Dialog>
+    );
+}
 
 export default function PersonalStoriesHubPage() {
   return (
@@ -45,12 +124,8 @@ export default function PersonalStoriesHubPage() {
             </div>
 
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 max-w-4xl mx-auto">
-              {storyCategories.map(category => (
-                <Link
-                  key={category.title}
-                  href={category.link}
-                  className={`block h-full group ${category.disabled ? 'pointer-events-none' : ''}`}
-                >
+              {storyCategories.map(category => {
+                const cardContent = (
                   <Card className={`flex h-full flex-col transform-gpu transition-all duration-300 ${!category.disabled && 'group-hover:-translate-y-2 group-hover:shadow-2xl'}`}>
                     <CardHeader className="flex-row items-center gap-6 space-y-0">
                         <div className="p-3 bg-primary/10 rounded-full">
@@ -66,8 +141,28 @@ export default function PersonalStoriesHubPage() {
                         </div>
                     </CardHeader>
                   </Card>
-                </Link>
-              ))}
+                );
+
+                if (category.isProtected) {
+                    return (
+                        <ReflectionsPasswordDialog key={category.title}>
+                            <div className="block h-full group cursor-pointer">
+                                {cardContent}
+                            </div>
+                        </ReflectionsPasswordDialog>
+                    );
+                }
+
+                return (
+                  <Link
+                    key={category.title}
+                    href={category.link}
+                    className={`block h-full group ${category.disabled ? 'pointer-events-none' : ''}`}
+                  >
+                    {cardContent}
+                  </Link>
+                );
+              })}
             </div>
 
             <div className="mt-16 text-center">
