@@ -43,6 +43,7 @@ import {
   SiLinux,
 } from 'react-icons/si';
 import { FaJava, FaMicrosoft } from 'react-icons/fa';
+import { TypingEffect } from '@/components/typing-effect';
 
 const stats = [
   { 
@@ -171,7 +172,12 @@ export function About() {
                           )}
                       </div>
                       <div className="pt-4 text-center">
-                          <p className="font-tiro-tamil italic text-foreground/90 text-xs">ஸ்ரீனிவாச பிரதீப்</p>
+                          <TypingEffect
+                            sequences={[
+                                { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
+                                { text: 'Srinivasa Pradeep', className: 'font-body text-xs font-medium text-foreground/90' }
+                            ]}
+                          />
                       </div>
                   </div>
                 </TooltipTrigger>
