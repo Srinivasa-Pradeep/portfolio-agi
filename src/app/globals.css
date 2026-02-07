@@ -96,6 +96,32 @@
   }
 }
 
+.sparkle-cursor {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: silver;
+  border-radius: 50%;
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: sparkle 0.8s ease-in-out infinite;
+  position: relative;
+  top: -2px; /* Adjust vertical alignment */
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 2px #c0c0c0, 0 0 4px #fff, 0 0 6px #fff;
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.5);
+    box-shadow: none;
+  }
+}
+
 @keyframes ripple-in {
   from {
     clip-path: circle(0% at 50% 50%);

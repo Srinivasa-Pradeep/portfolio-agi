@@ -17,8 +17,8 @@ interface TypingEffectProps {
 export function TypingEffect({
   containerClassName,
   sequences,
-  typingSpeed = 150,
-  deleteSpeed = 100,
+  typingSpeed = 200,
+  deleteSpeed = 150,
   pauseDuration = 2000,
 }: TypingEffectProps) {
   const [seqIndex, setSeqIndex] = useState(0);
@@ -58,13 +58,18 @@ export function TypingEffect({
     return <div className={cn('relative flex items-center justify-center min-h-[40px]', containerClassName)} />;
   }
 
-  const currentSequenceStyle = sequences[seqIndex]?.className || '';
+  const currentSequence = sequences[seqIndex];
+  const currentSequenceStyle = currentSequence?.className || '';
+  
+  // Show cursor only when typing or deleting
+  const isMidSequence = (isDeleting && text.length > 0) || (!isDeleting && text.length < currentSequence.text.length);
 
-  // The text is rendered inside a p tag. There is no blinking cursor element.
+  // The text is rendered inside a p tag. A sparkle span is appended.
   return (
     <div className={cn('relative flex items-center justify-center min-h-[40px]', containerClassName)}>
         <p className={cn(currentSequenceStyle)}>
           {text}
+          {isMidSequence && <span className="sparkle-cursor" />}
         </p>
     </div>
   );
