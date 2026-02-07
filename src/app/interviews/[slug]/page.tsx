@@ -33,7 +33,7 @@ export default function InterviewExperiencePage({ params }: Props) {
               <Button asChild variant="ghost" className="-ml-4">
                 <Link href="/interviews">
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    All Experiences
+                    All Stories
                 </Link>
               </Button>
           </div>

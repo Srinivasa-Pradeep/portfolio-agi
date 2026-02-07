@@ -23,10 +23,10 @@ export default function InterviewsPage() {
           <div className="container">
             <div className="text-center mb-16">
               <h1 className="font-headline text-4xl font-bold tracking-tight text-primary md:text-5xl">
-                Interview Experiences
+                Personal Stories
               </h1>
               <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-                A collection of my interview journeys with different companies.
+                A collection of my personal stories, life lessons, and interview journeys.
               </p>
             </div>
 

@@ -91,12 +91,12 @@ export function Blogs() {
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
           <Button size="lg" variant="outline" className="bg-transparent backdrop-blur-sm" asChild>
             <a href="https://medium.com/@writtenbysrini" target="_blank" rel="noopener noreferrer">
-              View All Blogs <ArrowRight className="ml-2 h-4 w-4" />
+              View on Medium <ArrowRight className="ml-2 h-4 w-4" />
             </a>
           </Button>
           <Button size="lg" asChild>
             <Link href="/interviews">
-              Interview Experiences <BookOpenCheck className="ml-2 h-4 w-4" />
+              Personal Stories <BookOpenCheck className="ml-2 h-4 w-4" />
             </Link>
           </Button>
         </div>
