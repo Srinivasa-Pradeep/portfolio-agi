@@ -431,7 +431,7 @@ export function About() {
                             <TooltipProvider>
                                 <Tooltip>
                                 <TooltipTrigger>
-                                    <img src={stat.icon} alt={stat.tooltip} className="h-7 w-7" />
+                                    <img src={stat.icon} alt={stat.tooltip} className="h-7 w-7 object-contain" />
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p>{stat.tooltip}</p>
