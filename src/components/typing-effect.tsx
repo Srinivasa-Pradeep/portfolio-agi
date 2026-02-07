@@ -17,8 +17,8 @@ interface TypingEffectProps {
 export function TypingEffect({
   containerClassName,
   sequences,
-  typingSpeed = 100,
-  deleteSpeed = 50,
+  typingSpeed = 150,
+  deleteSpeed = 100,
   pauseDuration = 2000,
 }: TypingEffectProps) {
   const [seqIndex, setSeqIndex] = useState(0);
