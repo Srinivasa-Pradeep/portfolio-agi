@@ -9,47 +9,63 @@ interface TypingEffectProps {
     text: string;
     className: string;
   }[];
-  duration?: number;
+  typingSpeed?: number;
+  deleteSpeed?: number;
+  pauseDuration?: number;
 }
 
 export function TypingEffect({
   containerClassName,
   sequences,
-  duration = 3000,
+  typingSpeed = 100,
+  deleteSpeed = 50,
+  pauseDuration = 2000,
 }: TypingEffectProps) {
   const [seqIndex, setSeqIndex] = useState(0);
+  const [text, setText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [speed, setSpeed] = useState(typingSpeed);
 
   useEffect(() => {
-    if (!sequences || sequences.length <= 1) return;
+    if (sequences.length === 0) return;
 
-    const intervalId = setInterval(() => {
-      setSeqIndex((prevIndex) => (prevIndex + 1) % sequences.length);
-    }, duration);
+    const timer = setTimeout(() => {
+      const currentSequence = sequences[seqIndex];
+      const fullText = currentSequence.text;
 
-    return () => clearInterval(intervalId);
-  }, [sequences, duration]);
+      if (isDeleting) {
+        setText(t => t.substring(0, t.length - 1));
+        setSpeed(deleteSpeed);
+      } else {
+        setText(t => fullText.substring(0, t.length + 1));
+        setSpeed(typingSpeed);
+      }
 
+      if (!isDeleting && text === fullText) {
+        // Finished typing, pause and then start deleting
+        setTimeout(() => setIsDeleting(true), pauseDuration);
+      } else if (isDeleting && text === '') {
+        // Finished deleting, move to next sequence
+        setIsDeleting(false);
+        setSeqIndex(i => (i + 1) % sequences.length);
+      }
+    }, speed);
+
+    return () => clearTimeout(timer);
+  }, [text, isDeleting, seqIndex, sequences, typingSpeed, deleteSpeed, pauseDuration, speed]);
+  
   if (!sequences || sequences.length === 0) {
     return <div className={cn('relative flex items-center justify-center min-h-[40px]', containerClassName)} />;
   }
 
+  const currentSequenceStyle = sequences[seqIndex]?.className || '';
+
+  // The text is rendered inside a p tag. There is no blinking cursor element.
   return (
     <div className={cn('relative flex items-center justify-center min-h-[40px]', containerClassName)}>
-      {sequences.map((sequence, index) => (
-        <p
-          key={index}
-          className={cn(
-            sequence.className,
-            'absolute transition-opacity duration-1000 ease-in-out',
-            {
-              'opacity-100': index === seqIndex,
-              'opacity-0': index !== seqIndex,
-            }
-          )}
-        >
-          {sequence.text}
+        <p className={cn(currentSequenceStyle)}>
+          {text}
         </p>
-      ))}
     </div>
   );
 }
