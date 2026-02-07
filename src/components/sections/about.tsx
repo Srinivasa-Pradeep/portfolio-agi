@@ -174,8 +174,8 @@ export function About() {
                       <div className="pt-4 text-center">
                           <TypingEffect
                             sequences={[
-                                { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
-                                { text: 'Srinivasa Pradeep', className: 'font-body text-xs font-medium text-foreground/90' }
+                                { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-base text-foreground/90' },
+                                { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' }
                             ]}
                           />
                       </div>

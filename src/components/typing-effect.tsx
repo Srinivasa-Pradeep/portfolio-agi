@@ -54,7 +54,7 @@ export function TypingEffect({
   const currentSequence = sequences?.[seqIndex];
 
   return (
-    <div className={cn('flex items-center justify-center min-h-[20px]', containerClassName)}>
+    <div className={cn('flex items-center justify-center min-h-[40px]', containerClassName)}>
       <p className={cn(currentSequence?.className)}>
         {subText}
         <span className="animate-pulse">|</span>
