@@ -31,9 +31,9 @@ export default function InterviewExperiencePage({ params }: Props) {
         <article className="container max-w-3xl py-12 md:py-20">
           <div className="mb-12">
               <Button asChild variant="ghost" className="-ml-4">
-                <Link href="/interviews">
+                <Link href="/interviews/journeys">
                     <ArrowLeft className="mr-2 h-4 w-4" />
-                    All Stories
+                    All Journeys
                 </Link>
               </Button>
           </div>
