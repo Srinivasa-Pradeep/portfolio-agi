@@ -90,7 +90,7 @@ const contestStats = {
   globalRanking: "43,066",
   totalRanked: "829,353",
   attended: 19,
-  topPercentage: 5.36,
+  topPercentage: 5.35,
 };
 
 const ratingHistory = [
@@ -360,7 +360,7 @@ export function LeetCode() {
                         <TooltipProvider>
                           <UiTooltip>
                             <TooltipTrigger>
-                              <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight Badge" className="h-6 w-6" />
+                              <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight Badge" className="h-7 w-7 object-contain" />
                             </TooltipTrigger>
                             <TooltipContent>
                               <p>Knight</p>
