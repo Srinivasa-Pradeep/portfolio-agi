@@ -171,7 +171,7 @@ export function About() {
                           )}
                       </div>
                       <div className="pt-4 text-center">
-                          <p className="font-tiro-tamil text-lg italic text-foreground/90">ஸ்ரீனிவாச பிரதீப்</p>
+                          <p className="font-tiro-tamil italic text-foreground/90">ஸ்ரீனிவாச பிரதீப்</p>
                       </div>
                   </div>
                 </TooltipTrigger>
