@@ -32,7 +32,7 @@ export function Hero() {
       </div>
       
       <div className="container relative z-10 flex animate-fade-in flex-col items-center text-center">
-        <h1 className="relative cursor-default inline-block font-lora text-5xl font-bold tracking-tighter text-primary sm:text-7xl md:text-8xl lg:text-9xl">
+        <h1 className="relative cursor-default inline-block text-5xl font-medium tracking-tighter sm:text-7xl md:text-8xl lg:text-9xl">
           <span>Srini</span>
           <div className="absolute inset-0 z-20 pointer-events-none select-none" aria-hidden="true">
             <span className="will-change-[background-position] animate-shine bg-clip-text text-transparent bg-gradient-to-r from-transparent via-white/80 to-transparent bg-[length:200%_100%] block">
