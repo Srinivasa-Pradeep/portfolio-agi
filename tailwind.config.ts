@@ -149,6 +149,10 @@ export default {
           '0%, 100%': { opacity: '1', transform: 'scale(1)' },
           '50%': { opacity: '0.8', transform: 'scale(1.03)' },
         },
+        'shine': {
+          'from': { backgroundPosition: '200% center' },
+          'to': { backgroundPosition: '-200% center' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -159,6 +163,7 @@ export default {
         'background-pan': 'background-pan 150s linear infinite',
         'slow-rotate': 'slow-rotate 60s linear infinite',
         'slow-pulse': 'slow-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'shine': 'shine 8s linear infinite',
       },
     },
   },
