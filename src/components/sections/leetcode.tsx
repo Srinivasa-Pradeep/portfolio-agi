@@ -257,7 +257,7 @@ export function LeetCode() {
         </div>
 
         <div className="mt-12">
-          <Card className="p-6 transition-shadow duration-300 hover:shadow-xl">
+          <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20">
             <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
               <div className="md:col-span-3 relative h-64 md:h-80">
                 <ResponsiveContainer width="100%" height="100%">
@@ -350,7 +350,7 @@ export function LeetCode() {
 
         <div className="mt-16">
           <h3 className="font-headline text-2xl font-semibold text-primary mb-6 text-center">Contest Performance</h3>
-          <Card className="p-4 md:p-6 transition-shadow duration-300 hover:shadow-xl">
+          <Card className="p-4 md:p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20">
             <div className="grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-3 gap-y-8 gap-x-4">
               <div className="lg:col-span-3 xl:col-span-2">
                 <div className="grid grid-cols-3 gap-4 text-center md:text-left mb-8">
@@ -443,7 +443,7 @@ export function LeetCode() {
         <div className="mt-16">
           <h3 className="font-headline text-2xl font-semibold text-primary mb-6 text-center">Try a Random Problem</h3>
             {randomProblem ? (
-              <Card className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl max-w-lg mx-auto">
+              <Card className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl max-w-lg mx-auto bg-card/50 backdrop-blur-lg border-border/20">
                 <CardHeader className="flex flex-row items-center justify-between gap-4">
                   <CardTitle className="text-lg font-semibold">{randomProblem.title}</CardTitle>
                   <Button variant="outline" size="icon" onClick={shuffleProblem} aria-label="Shuffle problem">
@@ -470,7 +470,7 @@ export function LeetCode() {
                 </CardFooter>
               </Card>
             ) : (
-              <Card className="flex flex-col items-center justify-center p-6 max-w-lg mx-auto">
+              <Card className="flex flex-col items-center justify-center p-6 max-w-lg mx-auto bg-card/50 backdrop-blur-lg border-border/20">
                   <div className="animate-pulse flex flex-col space-y-4 w-full">
                       <div className="flex justify-between items-center">
                           <div className="h-6 bg-muted rounded w-3/4"></div>
@@ -492,7 +492,7 @@ export function LeetCode() {
           <h3 className="font-headline text-2xl font-semibold text-primary mb-6 text-center">Featured Solutions</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredSolutions.map((solution) => (
-              <Card key={solution.title} className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+              <Card key={solution.title} className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl bg-card/50 backdrop-blur-lg border-border/20">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <CardTitle className="text-lg font-semibold">{solution.title}</CardTitle>

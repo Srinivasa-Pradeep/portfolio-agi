@@ -97,7 +97,7 @@ export function Projects() {
                   </div>
 
                   {/* Back Face */}
-                  <div className="absolute inset-0 h-full w-full rounded-xl bg-card text-card-foreground [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                  <div className="absolute inset-0 h-full w-full rounded-xl bg-card/50 backdrop-blur-lg border border-border/20 text-card-foreground [backface-visibility:hidden] [transform:rotateY(180deg)]">
                     <div className="relative flex h-full w-full flex-col overflow-hidden rounded-xl">
                       {projectImage && (
                         <div className="absolute inset-0">
