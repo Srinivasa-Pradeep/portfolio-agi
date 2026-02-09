@@ -2,7 +2,6 @@
 
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import BackgroundParticles from './background-particles';
 
 export function ConditionalParticles() {
   const { resolvedTheme } = useTheme();
@@ -20,9 +19,6 @@ export function ConditionalParticles() {
 
         {/* 2. Radial Glow Gradient Layer */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-slate-900/50 via-brand-dark to-black opacity-80" />
-
-        {/* 3. Animated Particles */}
-        <BackgroundParticles />
         
         {/* 4. Subtle Grid Overlay */}
         <div className="absolute inset-0 bg-grid-white/[0.02] bg-[length:50px_50px]" />
