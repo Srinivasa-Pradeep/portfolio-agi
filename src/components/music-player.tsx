@@ -30,7 +30,7 @@ export function MusicPlayer() {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-125 hover:bg-accent/50"
+            className="rounded-full transition-all duration-500 ease-[cubic-bezier(0.3,1.5,0.5,1)] hover:scale-125 hover:bg-accent/50 active:scale-95"
             onClick={togglePlayPause}
             aria-label={isPlaying ? 'Pause music' : 'Play music'}
           >
