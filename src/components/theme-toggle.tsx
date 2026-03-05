@@ -34,7 +34,7 @@ export function ThemeToggle() {
       variant="ghost" 
       size="icon" 
       onClick={toggleTheme} 
-      className="relative rounded-full transition-all duration-500 ease-in-out hover:scale-125 hover:bg-accent/50"
+      className="relative rounded-full transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-125 hover:bg-accent/50"
     >
       <div
         className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-700 ease-in-out will-change-transform"

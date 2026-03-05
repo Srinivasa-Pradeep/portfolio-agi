@@ -82,7 +82,7 @@ export function Header() {
                 <Button
                   variant={activeSection === item.id ? 'secondary' : 'ghost'}
                   size="icon"
-                  className="rounded-full transition-all duration-500 ease-in-out hover:scale-125 hover:bg-accent/50"
+                  className="rounded-full transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-125 hover:bg-accent/50"
                   onClick={() => isMobile && setIsMobileMenuOpen(false)}
                   aria-label={item.label}
                 >
@@ -114,7 +114,7 @@ export function Header() {
                 <Button 
                   variant={activeSection === 'hero' ? 'secondary' : 'ghost'} 
                   size="icon" 
-                  className="rounded-full transition-all duration-500 ease-in-out hover:scale-125 hover:bg-accent/50"
+                  className="rounded-full transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-125 hover:bg-accent/50"
                 >
                     <Home className="h-5 w-5" />
                 </Button>
@@ -131,7 +131,7 @@ export function Header() {
                   <div className="md:hidden">
                       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                           <SheetTrigger asChild>
-                              <Button variant="ghost" size="icon" className="rounded-full transition-all duration-500 ease-in-out hover:scale-125">
+                              <Button variant="ghost" size="icon" className="rounded-full transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:scale-125">
                               <Menu className="h-5 w-5" />
                               </Button>
                           </SheetTrigger>
