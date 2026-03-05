@@ -82,7 +82,7 @@ export function Header() {
                 <Button
                   variant={activeSection === item.id ? 'secondary' : 'ghost'}
                   size="icon"
-                  className="rounded-full transition-all duration-500 ease-[cubic-bezier(0.3,1.5,0.5,1)] hover:scale-125 hover:bg-accent/50 active:scale-95"
+                  className="rounded-full transition-all duration-700 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-150 hover:bg-accent hover:shadow-xl hover:shadow-primary/20 active:scale-90"
                   onClick={() => isMobile && setIsMobileMenuOpen(false)}
                   aria-label={item.label}
                 >
@@ -114,7 +114,7 @@ export function Header() {
                 <Button 
                   variant={activeSection === 'hero' ? 'secondary' : 'ghost'} 
                   size="icon" 
-                  className="rounded-full transition-all duration-500 ease-[cubic-bezier(0.3,1.5,0.5,1)] hover:scale-125 hover:bg-accent/50 active:scale-95"
+                  className="rounded-full transition-all duration-700 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-150 hover:bg-accent hover:shadow-xl hover:shadow-primary/20 active:scale-90"
                 >
                     <Home className="h-5 w-5" />
                 </Button>
@@ -131,7 +131,7 @@ export function Header() {
                   <div className="md:hidden">
                       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                           <SheetTrigger asChild>
-                              <Button variant="ghost" size="icon" className="rounded-full transition-all duration-500 ease-[cubic-bezier(0.3,1.5,0.5,1)] hover:scale-125 active:scale-95">
+                              <Button variant="ghost" size="icon" className="rounded-full transition-all duration-700 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] hover:scale-150 active:scale-90">
                               <Menu className="h-5 w-5" />
                               </Button>
                           </SheetTrigger>
