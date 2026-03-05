@@ -30,7 +30,12 @@ export function ThemeToggle() {
   };
 
   return (
-    <Button variant="ghost" size="icon" onClick={toggleTheme} className="relative rounded-full">
+    <Button 
+      variant="ghost" 
+      size="icon" 
+      onClick={toggleTheme} 
+      className="relative rounded-full transition-all duration-500 ease-in-out hover:scale-125 hover:bg-accent/50"
+    >
       <div
         className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-700 ease-in-out will-change-transform"
         style={{ transform: `rotate(${rotation}deg)` }}

@@ -82,7 +82,7 @@ export function Header() {
                 <Button
                   variant={activeSection === item.id ? 'secondary' : 'ghost'}
                   size="icon"
-                  className="rounded-full"
+                  className="rounded-full transition-all duration-500 ease-in-out hover:scale-125 hover:bg-accent/50"
                   onClick={() => isMobile && setIsMobileMenuOpen(false)}
                   aria-label={item.label}
                 >
@@ -111,7 +111,11 @@ export function Header() {
       >
         <div className="container flex h-16 items-center justify-between gap-4 p-3">
             <Link href="/#hero" className="flex items-center gap-2" passHref>
-                <Button variant={activeSection === 'hero' ? 'secondary' : 'ghost'} size="icon" className="rounded-full">
+                <Button 
+                  variant={activeSection === 'hero' ? 'secondary' : 'ghost'} 
+                  size="icon" 
+                  className="rounded-full transition-all duration-500 ease-in-out hover:scale-125 hover:bg-accent/50"
+                >
                     <Home className="h-5 w-5" />
                 </Button>
             </Link>
@@ -127,7 +131,7 @@ export function Header() {
                   <div className="md:hidden">
                       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                           <SheetTrigger asChild>
-                              <Button variant="ghost" size="icon" className="rounded-full">
+                              <Button variant="ghost" size="icon" className="rounded-full transition-all duration-500 ease-in-out hover:scale-125">
                               <Menu className="h-5 w-5" />
                               </Button>
                           </SheetTrigger>
