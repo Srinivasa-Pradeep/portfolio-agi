@@ -75,16 +75,20 @@ function DockItem({
     >
       <Link href={href} passHref>
         <Button
-          variant={active ? 'secondary' : 'ghost'}
+          variant="ghost"
           size="icon"
           className={cn(
-            'rounded-full transition-colors duration-300',
-            !isMobile && 'hover:bg-accent active:scale-90'
+            'rounded-full transition-all duration-300 bg-transparent hover:bg-transparent',
+            active ? 'text-primary' : 'text-muted-foreground hover:text-primary',
+            !isMobile && 'active:scale-90'
           )}
           onClick={onClick}
           aria-label={label}
         >
-          <Icon className="h-5 w-5" />
+          <Icon className={cn(
+            "h-5 w-5 transition-all duration-300",
+            active && "drop-shadow-[0_0_8px_hsl(var(--primary)/0.6)]"
+          )} />
         </Button>
       </Link>
     </div>
@@ -98,8 +102,8 @@ function DockItem({
         <TooltipTrigger asChild>
           {content}
         </TooltipTrigger>
-        <TooltipContent side="top" sideOffset={20}>
-          <p>{label}</p>
+        <TooltipContent side="top" sideOffset={20} className="bg-black/80 backdrop-blur-md border-border/20">
+          <p className="text-primary font-medium">{label}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
@@ -108,7 +112,6 @@ function DockItem({
 
 export function Header() {
   const [activeSection, setActiveSection] = useState('hero');
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [mouseX, setMouseX] = useState<number | null>(null);
@@ -120,8 +123,6 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-
       if (pathname !== '/') {
         setActiveSection('');
         return;
@@ -158,7 +159,7 @@ export function Header() {
       <div
         className={cn(
           'transition-all duration-300 flex items-center justify-center p-2',
-          'rounded-full border border-border/40 bg-background/80 shadow-2xl backdrop-blur-xl'
+          'rounded-full border border-border/20 bg-black/80 shadow-2xl backdrop-blur-xl'
         )}
       >
         <div className="flex h-14 items-center gap-2 px-2">
@@ -190,11 +191,11 @@ export function Header() {
                   <div className="md:hidden">
                       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                           <SheetTrigger asChild>
-                              <Button variant="ghost" size="icon" className="rounded-full">
+                              <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground hover:text-primary hover:bg-transparent">
                                 <Menu className="h-5 w-5" />
                               </Button>
                           </SheetTrigger>
-                          <SheetContent side="bottom" className="w-full rounded-t-lg">
+                          <SheetContent side="bottom" className="w-full rounded-t-lg bg-black/90 backdrop-blur-xl border-border/20">
                               <SheetHeader className="sr-only">
                                 <SheetTitle>Mobile Navigation</SheetTitle>
                               </SheetHeader>
