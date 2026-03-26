@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -14,25 +14,18 @@ const createInitialPositions = () => Array(TRAIL_COUNT).fill({ x: -100, y: -100 
 export function CustomCursor() {
   const isMobile = useIsMobile();
   const trailRefs = useRef<HTMLDivElement[]>([]);
-  const [isPointer, setIsPointer] = useState(false);
-  
   const mousePos = useRef({ x: -100, y: -100 });
   const trailPositions = useRef(createInitialPositions());
 
   useEffect(() => {
     // If mobile status is not determined yet, or if it is mobile, do nothing.
     if (isMobile === undefined || isMobile) {
-      // In case the class was added before mobile status was determined
       document.documentElement.classList.remove('no-cursor');
       return;
     }
 
     const onMouseMove = (e: MouseEvent) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
-      const target = e.target as HTMLElement;
-      setIsPointer(
-        window.getComputedStyle(target).getPropertyValue('cursor') === 'pointer'
-      );
     };
     
     document.addEventListener('mousemove', onMouseMove);
@@ -77,7 +70,7 @@ export function CustomCursor() {
     <>
       {[...Array(TRAIL_COUNT)].map((_, i) => {
         const isHead = i === 0;
-        // The head is larger and handles the hover effect. The tail tapers off.
+        // The head is consistent, the tail tapers off. No scaling on hover for a consistent look.
         const scale = isHead ? 1 : Math.max(0, (TRAIL_COUNT - i) / TRAIL_COUNT - 0.2).toFixed(2);
         const size = isHead ? 'h-3 w-3' : 'h-2 w-2';
 
@@ -86,14 +79,8 @@ export function CustomCursor() {
             key={i}
             ref={(el) => { if (el) trailRefs.current[i] = el; }}
             className={cn(
-              'pointer-events-none fixed top-0 left-0 z-[9999] rounded-full bg-primary/80 dark:bg-foreground/80 transition-all duration-300 ease-out',
-              size,
-              {
-                // Glassy hover effect for the head
-                'scale-[3] bg-primary/10 dark:bg-foreground/10 backdrop-blur-sm': isHead && isPointer,
-                // Fade out the tail on hover
-                'scale-0': !isHead && isPointer,
-              }
+              'pointer-events-none fixed top-0 left-0 z-[9999] rounded-full bg-primary/80 dark:bg-foreground/80 transition-opacity duration-300 ease-out',
+              size
             )}
             style={!isHead ? { transform: `scale(${scale})` } : {}}
           />

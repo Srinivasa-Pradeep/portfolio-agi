@@ -24,8 +24,8 @@ const navItems = [
   { id: 'contact', label: 'Contact', icon: Send },
 ];
 
-const DOCK_MAGNIFICATION_DISTANCE = 150;
-const MAX_SCALE = 1.6;
+const DOCK_MAGNIFICATION_DISTANCE = 160;
+const MAX_SCALE = 1.7;
 
 function DockItem({ 
   href, 
@@ -55,9 +55,11 @@ function DockItem({
     
     if (distance > DOCK_MAGNIFICATION_DISTANCE) return 1;
     
-    // Smoothly interpolate scale between 1 and MAX_SCALE based on distance
+    // Create a smoother "liquid" proximity curve using cosine
     const proximity = 1 - distance / DOCK_MAGNIFICATION_DISTANCE;
-    return 1 + (MAX_SCALE - 1) * Math.pow(proximity, 2);
+    const smoothProximity = 0.5 * (1 - Math.cos(Math.PI * proximity));
+    
+    return 1 + (MAX_SCALE - 1) * smoothProximity;
   }, [mouseX, isMobile]);
 
   const content = (
@@ -65,7 +67,9 @@ function DockItem({
       ref={ref}
       style={{ 
         transform: `scale(${scale})`,
-        transition: 'transform 0.1s ease-out'
+        // High-end liquid easing for the magnification transition
+        transition: 'transform 450ms cubic-bezier(0.3, 1.5, 0.5, 1)',
+        transformOrigin: 'bottom center'
       }}
       className="flex items-center justify-center"
     >
