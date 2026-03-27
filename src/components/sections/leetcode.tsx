@@ -35,40 +35,36 @@ const leetCodeProgress = {
 };
 
 const codeforcesStats = {
-  rating: 1422,
-  maxRating: 1488,
-  rank: "Specialist",
-  solved: 450,
-  contests: 15,
+  rating: 1275,
+  maxRating: 1280,
+  rank: "Pupil",
+  solved: 59,
+  contests: 10,
   handle: "srinivasa_pradeep",
 };
 
+// Pupil rank color on Codeforces is green
+const PUPIL_COLOR = "#7fef77";
+
 const codeforcesRatingHistory = [
-  { index: 1, rating: 1150 },
-  { index: 2, rating: 1210 },
-  { index: 3, rating: 1180 },
-  { index: 4, rating: 1245 },
-  { index: 5, rating: 1310 },
-  { index: 6, rating: 1290 },
-  { index: 7, rating: 1350 },
-  { index: 8, rating: 1410 },
-  { index: 9, rating: 1488 }, // Max Rating
-  { index: 10, rating: 1450 },
-  { index: 11, rating: 1430 },
-  { index: 12, rating: 1460 },
-  { index: 13, rating: 1415 },
-  { index: 14, rating: 1420 },
-  { index: 15, rating: 1422 },
+  { index: 1, rating: 368 },
+  { index: 2, rating: 657 },
+  { index: 3, rating: 857 },
+  { index: 4, rating: 1027 },
+  { index: 5, rating: 1158 },
+  { index: 6, rating: 1235 },
+  { index: 7, rating: 1148 },
+  { index: 8, rating: 1280 }, // Max Rating
+  { index: 9, rating: 1278 },
+  { index: 10, rating: 1275 }, // Current Rating
 ];
 
 const codeforcesSolvedData = [
-  { rating: "800", count: 120 },
-  { rating: "1000", count: 95 },
-  { rating: "1200", count: 85 },
-  { rating: "1400", count: 70 },
-  { rating: "1600", count: 45 },
-  { rating: "1800", count: 25 },
-  { rating: "2000+", count: 10 },
+  { rating: "800", count: 30 },
+  { rating: "1000", count: 15 },
+  { rating: "1200", count: 10 },
+  { rating: "1400", count: 4 },
+  { rating: "1600", count: 0 },
 ];
 
 const pieData = [
@@ -425,7 +421,7 @@ export function LeetCode() {
                   <div className="grid grid-cols-3 gap-4 text-center md:text-left">
                     <div>
                       <p className="text-sm text-muted-foreground">Current Rating</p>
-                      <p className="text-2xl font-bold text-[#1f8ac0]">{codeforcesStats.rating}</p>
+                      <p className="text-2xl font-bold" style={{ color: PUPIL_COLOR }}>{codeforcesStats.rating}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Max Rating</p>
@@ -444,17 +440,17 @@ export function LeetCode() {
                         <AreaChart data={codeforcesRatingHistory}>
                           <defs>
                             <linearGradient id="cfRatingColor" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="#1f8ac0" stopOpacity={0.3}/>
-                              <stop offset="95%" stopColor="#1f8ac0" stopOpacity={0}/>
+                              <stop offset="5%" stopColor={PUPIL_COLOR} stopOpacity={0.3}/>
+                              <stop offset="95%" stopColor={PUPIL_COLOR} stopOpacity={0}/>
                             </linearGradient>
                           </defs>
                           <XAxis dataKey="index" hide />
                           <YAxis domain={['dataMin - 100', 'dataMax + 100']} hide />
                           <Tooltip 
                             contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px' }}
-                            itemStyle={{ color: '#1f8ac0' }}
+                            itemStyle={{ color: PUPIL_COLOR }}
                           />
-                          <Area type="stepAfter" dataKey="rating" stroke="#1f8ac0" fill="url(#cfRatingColor)" strokeWidth={2} />
+                          <Area type="stepAfter" dataKey="rating" stroke={PUPIL_COLOR} fill="url(#cfRatingColor)" strokeWidth={2} />
                         </AreaChart>
                       </ResponsiveContainer>
                     </div>
@@ -468,7 +464,7 @@ export function LeetCode() {
                             cursor={{ fill: 'rgba(255,255,255,0.05)' }}
                             contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px' }}
                           />
-                          <RechartsBar dataKey="count" fill="#1f8ac0" radius={[4, 4, 0, 0]} />
+                          <RechartsBar dataKey="count" fill={PUPIL_COLOR} radius={[4, 4, 0, 0]} />
                         </RechartsBarChart>
                       </ResponsiveContainer>
                     </div>
@@ -480,10 +476,10 @@ export function LeetCode() {
 
           {/* Right Summary Column */}
           <div className="space-y-8">
-            <Card className="p-6 transition-all duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20 border-l-4 border-l-[#1f8ac0]">
+            <Card className="p-6 transition-all duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20 border-l-4" style={{ borderLeftColor: PUPIL_COLOR }}>
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 rounded-lg bg-[#1f8ac0]/10">
-                  <SiCodeforces className="h-6 w-6 text-[#1f8ac0]" />
+                <div className="p-2 rounded-lg bg-emerald-500/10">
+                  <SiCodeforces className="h-6 w-6" style={{ color: PUPIL_COLOR }} />
                 </div>
                 <div>
                   <h3 className="font-semibold">Codeforces</h3>
@@ -492,17 +488,17 @@ export function LeetCode() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground">Max Rating</p>
-                  <p className="font-bold text-lg">{codeforcesStats.maxRating}</p>
+                  <p className="text-xs text-muted-foreground">Rank</p>
+                  <p className="font-bold text-lg" style={{ color: PUPIL_COLOR }}>{codeforcesStats.rank}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground">Solved</p>
-                  <p className="font-bold text-lg">{codeforcesStats.solved}+</p>
+                  <p className="font-bold text-lg">{codeforcesStats.solved}</p>
                 </div>
               </div>
               <Button asChild variant="outline" className="w-full mt-6 group">
                 <a href={`https://codeforces.com/profile/${codeforcesStats.handle}`} target="_blank" rel="noopener noreferrer">
-                  View Profile <SiCodeforces className="ml-2 h-4 w-4 group-hover:text-[#1f8ac0] transition-colors" />
+                  View Profile <SiCodeforces className="ml-2 h-4 w-4 group-hover:text-emerald-400 transition-colors" />
                 </a>
               </Button>
             </Card>
@@ -547,7 +543,7 @@ export function LeetCode() {
                 Milestone Reached
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Successfully solved 1,500+ problems across platforms, maintaining a global top 5% rank on LeetCode.
+                Successfully solved {leetCodeProgress.totalSolved + codeforcesStats.solved}+ problems across platforms, maintaining a global top 5% rank on LeetCode.
               </p>
             </div>
           </div>
