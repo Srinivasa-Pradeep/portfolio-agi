@@ -43,6 +43,34 @@ const codeforcesStats = {
   handle: "srinivasa_pradeep",
 };
 
+const codeforcesRatingHistory = [
+  { index: 1, rating: 1150 },
+  { index: 2, rating: 1210 },
+  { index: 3, rating: 1180 },
+  { index: 4, rating: 1245 },
+  { index: 5, rating: 1310 },
+  { index: 6, rating: 1290 },
+  { index: 7, rating: 1350 },
+  { index: 8, rating: 1410 },
+  { index: 9, rating: 1488 }, // Max Rating
+  { index: 10, rating: 1450 },
+  { index: 11, rating: 1430 },
+  { index: 12, rating: 1460 },
+  { index: 13, rating: 1415 },
+  { index: 14, rating: 1420 },
+  { index: 15, rating: 1422 },
+];
+
+const codeforcesSolvedData = [
+  { rating: "800", count: 120 },
+  { rating: "1000", count: 95 },
+  { rating: "1200", count: 85 },
+  { rating: "1400", count: 70 },
+  { rating: "1600", count: 45 },
+  { rating: "1800", count: 25 },
+  { rating: "2000+", count: 10 },
+];
+
 const pieData = [
     { name: 'Hard Solved', value: leetCodeProgress.hard.solved, color: 'hsl(var(--destructive))', difficulty: 'hard' },
     { name: 'Hard Remaining', value: leetCodeProgress.hard.total - leetCodeProgress.hard.solved, color: 'hsl(var(--destructive)/0.2)', difficulty: 'hard' },
@@ -396,22 +424,53 @@ export function LeetCode() {
                 <TabsContent value="codeforces" className="space-y-6">
                   <div className="grid grid-cols-3 gap-4 text-center md:text-left">
                     <div>
-                      <p className="text-sm text-muted-foreground">Rating</p>
-                      <p className="text-2xl font-bold text-primary">{codeforcesStats.rating}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Rank</p>
-                      <p className="text-2xl font-bold text-[#77ff77]">{codeforcesStats.rank}</p>
+                      <p className="text-sm text-muted-foreground">Current Rating</p>
+                      <p className="text-2xl font-bold text-[#1f8ac0]">{codeforcesStats.rating}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Max Rating</p>
                       <p className="text-2xl font-bold">{codeforcesStats.maxRating}</p>
                     </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Problems Solved</p>
+                      <p className="text-2xl font-bold">{codeforcesStats.solved}+</p>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-center h-60 border-2 border-dashed rounded-xl bg-muted/20">
-                    <div className="text-center">
-                      <SiCodeforces className="h-12 w-12 mx-auto mb-2 text-primary/40" />
-                      <p className="text-sm text-muted-foreground italic">Codeforces progression visualization coming soon...</p>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-64">
+                    <div className="space-y-2">
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Rating Progression</p>
+                      <ResponsiveContainer width="100%" height="90%">
+                        <AreaChart data={codeforcesRatingHistory}>
+                          <defs>
+                            <linearGradient id="cfRatingColor" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#1f8ac0" stopOpacity={0.3}/>
+                              <stop offset="95%" stopColor="#1f8ac0" stopOpacity={0}/>
+                            </linearGradient>
+                          </defs>
+                          <XAxis dataKey="index" hide />
+                          <YAxis domain={['dataMin - 100', 'dataMax + 100']} hide />
+                          <Tooltip 
+                            contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px' }}
+                            itemStyle={{ color: '#1f8ac0' }}
+                          />
+                          <Area type="stepAfter" dataKey="rating" stroke="#1f8ac0" fill="url(#cfRatingColor)" strokeWidth={2} />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Solved by Difficulty</p>
+                      <ResponsiveContainer width="100%" height="90%">
+                        <RechartsBarChart data={codeforcesSolvedData}>
+                          <XAxis dataKey="rating" fontSize={10} axisLine={false} tickLine={false} />
+                          <Tooltip 
+                            cursor={{ fill: 'rgba(255,255,255,0.05)' }}
+                            contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px' }}
+                          />
+                          <RechartsBar dataKey="count" fill="#1f8ac0" radius={[4, 4, 0, 0]} />
+                        </RechartsBarChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
                 </TabsContent>
