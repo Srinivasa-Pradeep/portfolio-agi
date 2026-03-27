@@ -42,9 +42,6 @@ const codeforcesStats = {
   handle: "srinivasa_pradeep",
 };
 
-// Pupil rank color on Codeforces is green
-const PUPIL_COLOR = "#7fef77";
-
 // Precise rating history calculated from user deltas:
 // +368, +289 (657), +200 (857), +170 (1027), +131 (1158), +77 (1235), -87 (1148), +132 (1280), -2 (1278), -3 (1275)
 const codeforcesRatingHistory = [
@@ -412,7 +409,7 @@ export function LeetCode() {
                   <div className="grid grid-cols-3 gap-4 text-center md:text-left">
                     <div>
                       <p className="text-sm text-muted-foreground">Current Rating</p>
-                      <p className="text-2xl font-bold" style={{ color: PUPIL_COLOR }}>{codeforcesStats.rating}</p>
+                      <p className="text-2xl font-bold text-primary">{codeforcesStats.rating}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">Max Rating</p>
@@ -431,17 +428,17 @@ export function LeetCode() {
                         <AreaChart data={codeforcesRatingHistory}>
                           <defs>
                             <linearGradient id="cfRatingColor" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor={PUPIL_COLOR} stopOpacity={0.3}/>
-                              <stop offset="95%" stopColor={PUPIL_COLOR} stopOpacity={0}/>
+                              <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
+                              <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
                             </linearGradient>
                           </defs>
                           <XAxis dataKey="index" hide />
                           <YAxis domain={['0', 'dataMax + 100']} hide />
                           <Tooltip 
                             contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px' }}
-                            itemStyle={{ color: PUPIL_COLOR }}
+                            itemStyle={{ color: 'hsl(var(--primary))' }}
                           />
-                          <Area type="monotone" dataKey="rating" stroke={PUPIL_COLOR} fill="url(#cfRatingColor)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="rating" stroke="hsl(var(--primary))" fill="url(#cfRatingColor)" strokeWidth={2} />
                         </AreaChart>
                       </ResponsiveContainer>
                     </div>
@@ -455,7 +452,7 @@ export function LeetCode() {
                             cursor={{ fill: 'rgba(255,255,255,0.05)' }}
                             contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px' }}
                           />
-                          <RechartsBar dataKey="count" fill={PUPIL_COLOR} radius={[4, 4, 0, 0]} />
+                          <RechartsBar dataKey="count" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
                         </RechartsBarChart>
                       </ResponsiveContainer>
                     </div>
@@ -467,10 +464,10 @@ export function LeetCode() {
 
           {/* Right Summary Column */}
           <div className="space-y-8">
-            <Card className="p-6 transition-all duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20 border-l-4" style={{ borderLeftColor: PUPIL_COLOR }}>
+            <Card className="p-6 transition-all duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20 border-l-4 border-primary">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 rounded-lg bg-emerald-500/10">
-                  <SiCodeforces className="h-6 w-6" style={{ color: PUPIL_COLOR }} />
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <SiCodeforces className="h-6 w-6 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-semibold">Codeforces</h3>
@@ -480,7 +477,7 @@ export function LeetCode() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground">Rank</p>
-                  <p className="font-bold text-lg" style={{ color: PUPIL_COLOR }}>{codeforcesStats.rank}</p>
+                  <p className="font-bold text-lg text-primary">{codeforcesStats.rank}</p>
                 </div>
                 <div className="space-y-1">
                   <p className="text-xs text-muted-foreground">Solved</p>
@@ -489,7 +486,7 @@ export function LeetCode() {
               </div>
               <Button asChild variant="outline" className="w-full mt-6 group">
                 <a href={`https://codeforces.com/profile/${codeforcesStats.handle}`} target="_blank" rel="noopener noreferrer">
-                  View Profile <SiCodeforces className="ml-2 h-4 w-4 group-hover:text-emerald-400 transition-colors" />
+                  View Profile <SiCodeforces className="ml-2 h-4 w-4 group-hover:text-primary transition-colors" />
                 </a>
               </Button>
             </Card>
