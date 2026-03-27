@@ -3,8 +3,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BarChart, Github, Link as LinkIcon, Code, Shuffle } from "lucide-react";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { BarChart, Github, Code, Shuffle, Trophy, TrendingUp } from "lucide-react";
 import { 
   Area,
   AreaChart,
@@ -21,6 +20,8 @@ import {
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { TooltipProvider, Tooltip as UiTooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { SiLeetcode, SiCodeforces } from 'react-icons/si';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const leetCodeProgress = {
   totalSolved: 1084,
@@ -33,6 +34,15 @@ const leetCodeProgress = {
   submissions: "2.8k",
 };
 
+const codeforcesStats = {
+  rating: 1422,
+  maxRating: 1488,
+  rank: "Specialist",
+  solved: 450,
+  contests: 15,
+  handle: "srinivasa_pradeep",
+};
+
 const pieData = [
     { name: 'Hard Solved', value: leetCodeProgress.hard.solved, color: 'hsl(var(--destructive))', difficulty: 'hard' },
     { name: 'Hard Remaining', value: leetCodeProgress.hard.total - leetCodeProgress.hard.solved, color: 'hsl(var(--destructive)/0.2)', difficulty: 'hard' },
@@ -40,7 +50,7 @@ const pieData = [
     { name: 'Medium Remaining', value: leetCodeProgress.medium.total - leetCodeProgress.medium.solved, color: 'hsl(var(--primary)/0.2)', difficulty: 'medium' },
     { name: 'Easy Solved', value: leetCodeProgress.easy.solved, color: 'hsl(var(--easy))', difficulty: 'easy' },
     { name: 'Easy Remaining', value: leetCodeProgress.easy.total - leetCodeProgress.easy.solved, color: 'hsl(var(--easy)/0.2)', difficulty: 'easy'},
-].reverse(); // Reverse to have Hard, Medium, Easy
+].reverse();
 
 
 const CustomTooltip = ({ active, payload }: any) => {
@@ -242,254 +252,250 @@ export function LeetCode() {
   };
 
   useEffect(() => {
-    // Set initial random problem on client-side to prevent hydration mismatch
     shuffleProblem();
   }, []);
 
   return (
     <section id="leetcode" className="py-20 md:py-32">
       <div className="container">
-        <div className="text-center">
+        <div className="text-center mb-12">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Problem Solving</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            A snapshot of my dedication to honing algorithmic skills on LeetCode.
+            A snapshot of my dedication to honing algorithmic skills across top competitive platforms.
           </p>
         </div>
 
-        <div className="mt-12">
-          <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20">
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
-              <div className="md:col-span-3 relative h-64 md:h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                    <PieChart
-                      onMouseEnter={() => setIsHovering(true)}
-                      onMouseLeave={() => setIsHovering(false)}
-                    >
-                        <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent)/0.5)' }}/>
-                        <Pie
-                        data={pieData}
-                        dataKey="value"
-                        nameKey="name"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius="90%"
-                        innerRadius="65%"
-                        paddingAngle={2}
-                        stroke="transparent"
-                        >
-                        {pieData.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                        </Pie>
-                    </PieChart>
-                </ResponsiveContainer>
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
-                  {/* Default state */}
-                  <div className={cn(
-                      "flex flex-col items-center justify-center transition-all duration-300",
-                      isHovering ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
-                  )}>
-                      <p className="text-4xl font-bold tracking-tight">
-                          {leetCodeProgress.totalSolved}
-                      </p>
-                      <p className="flex items-center justify-center gap-1.5 mt-1 text-sm font-medium text-muted-foreground">
-                          Solved
-                      </p>
-                      <p className="mt-2 text-xs text-muted-foreground">
-                          {leetCodeProgress.attempting} Attempting
-                      </p>
-                  </div>
-
-                  {/* Hover state */}
-                  <div className={cn(
-                      "absolute flex flex-col items-center justify-center transition-all duration-300",
-                      isHovering ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-                  )}>
-                      <p className="text-4xl font-bold tracking-tight">
-                          {leetCodeProgress.acceptanceRate}
-                      </p>
-                      <p className="flex items-center justify-center gap-1.5 mt-1 text-sm font-medium text-muted-foreground">
-                          Acceptance
-                      </p>
-                      <p className="mt-2 text-xs text-muted-foreground">
-                          {leetCodeProgress.submissions} Submissions
-                      </p>
-                  </div>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Dashboard Column */}
+          <div className="lg:col-span-2 space-y-8">
+            <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20">
+              <div className="flex items-center gap-2 mb-6">
+                <SiLeetcode className="h-6 w-6 text-[#FFA116]" />
+                <h3 className="font-headline text-xl font-semibold">LeetCode Journey</h3>
               </div>
-
-              <div className="md:col-span-2 space-y-4">
-                <Card className="bg-card-foreground/5">
-                  <CardContent className="p-4">
-                    <div className="flex justify-between items-baseline">
-                      <p className="text-sm font-medium" style={{color: 'hsl(var(--easy))'}}>Easy</p>
-                      <p className="text-lg font-bold">{leetCodeProgress.easy.solved}<span className="text-sm font-normal text-muted-foreground">/{leetCodeProgress.easy.total}</span></p>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-card-foreground/5">
-                   <CardContent className="p-4">
-                    <div className="flex justify-between items-baseline">
-                      <p className="text-sm font-medium" style={{color: 'hsl(var(--primary))'}}>Medium</p>
-                      <p className="text-lg font-bold">{leetCodeProgress.medium.solved}<span className="text-sm font-normal text-muted-foreground">/{leetCodeProgress.medium.total}</span></p>
-                    </div>
-                  </CardContent>
-                </Card>
-                <Card className="bg-card-foreground/5">
-                   <CardContent className="p-4">
-                    <div className="flex justify-between items-baseline">
-                      <p className="text-sm font-medium" style={{color: 'hsl(var(--destructive))'}}>Hard</p>
-                      <p className="text-lg font-bold">{leetCodeProgress.hard.solved}<span className="text-sm font-normal text-muted-foreground">/{leetCodeProgress.hard.total}</span></p>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </Card>
-        </div>
-
-        <div className="mt-16">
-          <h3 className="font-headline text-2xl font-semibold text-primary mb-6 text-center">Contest Performance</h3>
-          <Card className="p-4 md:p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20">
-            <div className="grid grid-cols-1 lg:grid-cols-5 xl:grid-cols-3 gap-y-8 gap-x-4">
-              <div className="lg:col-span-3 xl:col-span-2">
-                <div className="grid grid-cols-3 gap-4 text-center md:text-left mb-8">
-                  <div>
-                    <div className="flex items-center justify-center md:justify-start gap-2">
-                        <p className="text-sm text-muted-foreground">Contest Rating</p>
-                        <TooltipProvider>
-                          <UiTooltip>
-                            <TooltipTrigger>
-                              <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight Badge" className="h-7 w-7 object-contain" />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>Knight</p>
-                            </TooltipContent>
-                          </UiTooltip>
-                        </TooltipProvider>
-                    </div>
-                    <p className="text-2xl font-bold text-foreground">{contestStats.rating}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Global Ranking</p>
-                    <p className="text-2xl font-bold text-foreground">{contestStats.globalRanking}<span className="text-sm text-muted-foreground">/{contestStats.totalRanked}</span></p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Attended</p>
-                    <p className="text-2xl font-bold text-foreground">{contestStats.attended}</p>
-                  </div>
-                </div>
-                <div className="h-60">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
+                <div className="md:col-span-3 relative h-64 md:h-80">
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={ratingHistory} margin={{ top: 5, right: 10, left: 10, bottom: 0 }}>
-                      <defs>
-                        <linearGradient id="colorRating" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
-                          <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <XAxis 
-                        dataKey="index"
-                        type="number"
-                        domain={[0, 11]}
-                        ticks={[0.5, 10.5]}
-                        tickFormatter={(value) => value < 5 ? '2024' : '2026'}
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ dy: 10 }}
-                      />
-                      <YAxis domain={['dataMin - 50', 'dataMax + 50']} hide />
-                      <Tooltip content={<RatingTooltip />} cursor={{ stroke: 'hsl(var(--border))', strokeWidth: 1, strokeDasharray: '4 4' }} />
-                      <Area type="monotone" dataKey="rating" stroke="hsl(var(--primary))" strokeWidth={2} fill="url(#colorRating)" dot={false} activeDot={{ r: 6, style: { fill: 'hsl(var(--primary))', stroke: 'hsl(var(--background))', strokeWidth: 2 } }} />
-                    </AreaChart>
+                      <PieChart
+                        onMouseEnter={() => setIsHovering(true)}
+                        onMouseLeave={() => setIsHovering(false)}
+                      >
+                          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent)/0.5)' }}/>
+                          <Pie
+                          data={pieData}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius="90%"
+                          innerRadius="65%"
+                          paddingAngle={2}
+                          stroke="transparent"
+                          >
+                          {pieData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                          </Pie>
+                      </PieChart>
                   </ResponsiveContainer>
-                </div>
-              </div>
-              
-              <div className="lg:col-span-2 xl:col-span-1 lg:border-l lg:pl-6">
-                <div className="mb-8">
-                  <p className="text-sm text-muted-foreground">Top</p>
-                  <p className="text-2xl font-bold text-foreground">{contestStats.topPercentage}%</p>
-                </div>
-                <div className="h-60">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RechartsBarChart data={ratingDistribution} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
-                      <XAxis dataKey="rating" hide />
-                      <YAxis hide />
-                      <Tooltip cursor={{ fill: 'hsl(var(--accent)/0.5)' }} content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          return (
-                            <div className="rounded-lg border bg-background/80 backdrop-blur-sm p-2 shadow-sm">
-                              <p className="text-sm text-muted-foreground">Rating: ~{payload[0].payload.rating}</p>
-                              <p className="text-sm font-medium">{payload[0].value} users</p>
-                            </div>
-                          )
-                        }
-                        return null
-                      }} />
-                      <RechartsBar dataKey="count" radius={[4, 4, 0, 0]}>
-                        {ratingDistribution.map((entry, index) => (
-                          <Cell key={`cell-${entry.rating}`} fill={contestStats.rating > (ratingDistribution[index - 1]?.rating ?? 0) && contestStats.rating <= entry.rating ? 'hsl(var(--primary))' : 'hsl(var(--muted))'} />
-                        ))}
-                      </RechartsBar>
-                    </RechartsBarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+                    <div className={cn(
+                        "flex flex-col items-center justify-center transition-all duration-300",
+                        isHovering ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
+                    )}>
+                        <p className="text-4xl font-bold tracking-tight">
+                            {leetCodeProgress.totalSolved}
+                        </p>
+                        <p className="flex items-center justify-center gap-1.5 mt-1 text-sm font-medium text-muted-foreground">
+                            Solved
+                        </p>
+                    </div>
 
-        <div className="mt-16">
-          <h3 className="font-headline text-2xl font-semibold text-primary mb-6 text-center">Try a Random Problem</h3>
-            {randomProblem ? (
-              <Card className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl max-w-lg mx-auto bg-card/50 backdrop-blur-lg border-border/20">
-                <CardHeader className="flex flex-row items-center justify-between gap-4">
-                  <CardTitle className="text-lg font-semibold">{randomProblem.title}</CardTitle>
-                  <Button variant="outline" size="icon" onClick={shuffleProblem} aria-label="Shuffle problem">
-                    <Shuffle className="h-5 w-5" />
-                  </Button>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <div className="flex flex-wrap gap-2">
+                    <div className={cn(
+                        "absolute flex flex-col items-center justify-center transition-all duration-300",
+                        isHovering ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                    )}>
+                        <p className="text-4xl font-bold tracking-tight">
+                            {leetCodeProgress.acceptanceRate}
+                        </p>
+                        <p className="flex items-center justify-center gap-1.5 mt-1 text-sm font-medium text-muted-foreground">
+                            Acceptance
+                        </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="md:col-span-2 space-y-4">
+                  {[
+                    { label: 'Easy', value: leetCodeProgress.easy, color: 'var(--easy)' },
+                    { label: 'Medium', value: leetCodeProgress.medium, color: 'var(--primary)' },
+                    { label: 'Hard', value: leetCodeProgress.hard, color: 'var(--destructive)' }
+                  ].map((lvl) => (
+                    <Card key={lvl.label} className="bg-card-foreground/5">
+                      <CardContent className="p-4">
+                        <div className="flex justify-between items-baseline">
+                          <p className="text-sm font-medium" style={{color: `hsl(${lvl.color})`}}>{lvl.label}</p>
+                          <p className="text-lg font-bold">{lvl.value.solved}<span className="text-sm font-normal text-muted-foreground">/{lvl.value.total}</span></p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20">
+              <Tabs defaultValue="leetcode" className="w-full">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="h-5 w-5 text-primary" />
+                    <h3 className="font-headline text-xl font-semibold">Performance</h3>
+                  </div>
+                  <TabsList className="bg-background/50">
+                    <TabsTrigger value="leetcode">LeetCode</TabsTrigger>
+                    <TabsTrigger value="codeforces">Codeforces</TabsTrigger>
+                  </TabsList>
+                </div>
+
+                <TabsContent value="leetcode" className="space-y-6">
+                  <div className="grid grid-cols-3 gap-4 text-center md:text-left">
+                    <div>
+                      <div className="flex items-center justify-center md:justify-start gap-2">
+                          <p className="text-sm text-muted-foreground">Rating</p>
+                          <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight" className="h-6 w-6" />
+                      </div>
+                      <p className="text-2xl font-bold">{contestStats.rating}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Global Rank</p>
+                      <p className="text-2xl font-bold">{contestStats.globalRanking}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Top</p>
+                      <p className="text-2xl font-bold">{contestStats.topPercentage}%</p>
+                    </div>
+                  </div>
+                  <div className="h-60">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={ratingHistory} margin={{ top: 5, right: 10, left: 10, bottom: 0 }}>
+                        <defs>
+                          <linearGradient id="colorRating" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
+                            <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <XAxis dataKey="index" hide />
+                        <YAxis domain={['dataMin - 50', 'dataMax + 50']} hide />
+                        <Tooltip content={<RatingTooltip />} />
+                        <Area type="monotone" dataKey="rating" stroke="hsl(var(--primary))" strokeWidth={2} fill="url(#colorRating)" dot={false} />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="codeforces" className="space-y-6">
+                  <div className="grid grid-cols-3 gap-4 text-center md:text-left">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Rating</p>
+                      <p className="text-2xl font-bold text-primary">{codeforcesStats.rating}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Rank</p>
+                      <p className="text-2xl font-bold text-[#77ff77]">{codeforcesStats.rank}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Max Rating</p>
+                      <p className="text-2xl font-bold">{codeforcesStats.maxRating}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-center h-60 border-2 border-dashed rounded-xl bg-muted/20">
+                    <div className="text-center">
+                      <SiCodeforces className="h-12 w-12 mx-auto mb-2 text-primary/40" />
+                      <p className="text-sm text-muted-foreground italic">Codeforces progression visualization coming soon...</p>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </Card>
+          </div>
+
+          {/* Right Summary Column */}
+          <div className="space-y-8">
+            <Card className="p-6 transition-all duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20 border-l-4 border-l-[#1f8ac0]">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-[#1f8ac0]/10">
+                  <SiCodeforces className="h-6 w-6 text-[#1f8ac0]" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">Codeforces</h3>
+                  <p className="text-xs text-muted-foreground">@{codeforcesStats.handle}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <p className="text-xs text-muted-foreground">Max Rating</p>
+                  <p className="font-bold text-lg">{codeforcesStats.maxRating}</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-xs text-muted-foreground">Solved</p>
+                  <p className="font-bold text-lg">{codeforcesStats.solved}+</p>
+                </div>
+              </div>
+              <Button asChild variant="outline" className="w-full mt-6 group">
+                <a href={`https://codeforces.com/profile/${codeforcesStats.handle}`} target="_blank" rel="noopener noreferrer">
+                  View Profile <SiCodeforces className="ml-2 h-4 w-4 group-hover:text-[#1f8ac0] transition-colors" />
+                </a>
+              </Button>
+            </Card>
+
+            <div className="space-y-4">
+              <h3 className="font-headline text-lg font-semibold flex items-center gap-2 px-1">
+                <Shuffle className="h-4 w-4 text-primary" />
+                Quick Challenge
+              </h3>
+              {randomProblem ? (
+                <Card className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl bg-card/50 backdrop-blur-lg border-border/20">
+                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                    <CardTitle className="text-base font-semibold line-clamp-1">{randomProblem.title}</CardTitle>
+                    <Button variant="ghost" size="icon" onClick={shuffleProblem} className="h-8 w-8">
+                      <Shuffle className="h-4 w-4" />
+                    </Button>
+                  </CardHeader>
+                  <CardContent className="pb-4">
                     <Badge 
                       variant={randomProblem.difficulty === 'Hard' ? 'destructive' : randomProblem.difficulty === 'Medium' ? 'default' : 'easy'}
-                      className="capitalize"
+                      className="text-[10px] py-0 h-5"
                     >
                       {randomProblem.difficulty}
                     </Badge>
-                    {randomProblem.topics.map(topic => <Badge key={topic} variant="outline">{topic}</Badge>)}
-                  </div>
-                </CardContent>
-                <CardFooter>
-                    <Button asChild className="w-full">
-                      <a href={randomProblem.link} target="_blank" rel="noopener noreferrer">
-                        <Code className="mr-2 h-4 w-4" /> Go to Problem
-                      </a>
-                    </Button>
-                </CardFooter>
-              </Card>
-            ) : (
-              <Card className="flex flex-col items-center justify-center p-6 max-w-lg mx-auto bg-card/50 backdrop-blur-lg border-border/20">
-                  <div className="animate-pulse flex flex-col space-y-4 w-full">
-                      <div className="flex justify-between items-center">
-                          <div className="h-6 bg-muted rounded w-3/4"></div>
-                          <div className="h-8 w-8 bg-muted rounded-full"></div>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                          <div className="h-5 bg-muted rounded w-16"></div>
-                          <div className="h-5 bg-muted rounded w-24"></div>
-                          <div className="h-5 bg-muted rounded w-20"></div>
-                      </div>
-                      <div className="h-10 bg-muted rounded w-full mt-4"></div>
-                  </div>
-              </Card>
-            )}
+                  </CardContent>
+                  <CardFooter>
+                      <Button asChild size="sm" className="w-full">
+                        <a href={randomProblem.link} target="_blank" rel="noopener noreferrer">
+                          <Code className="mr-2 h-3 w-3" /> Solve Now
+                        </a>
+                      </Button>
+                  </CardFooter>
+                </Card>
+              ) : (
+                <div className="h-32 bg-muted/20 animate-pulse rounded-xl" />
+              )}
+            </div>
+
+            <div className="p-4 rounded-xl bg-primary/5 border border-primary/10">
+              <div className="flex items-center gap-2 text-primary mb-2 text-sm font-semibold">
+                <Trophy className="h-4 w-4" />
+                Milestone Reached
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Successfully solved 1,500+ problems across platforms, maintaining a global top 5% rank on LeetCode.
+              </p>
+            </div>
+          </div>
         </div>
 
-
         <div className="mt-16">
-          <h3 className="font-headline text-2xl font-semibold text-primary mb-6 text-center">Featured Solutions</h3>
+          <h3 className="font-headline text-2xl font-semibold text-primary mb-8 text-center">Featured Solutions</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredSolutions.map((solution) => (
               <Card key={solution.title} className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl bg-card/50 backdrop-blur-lg border-border/20">
@@ -503,11 +509,11 @@ export function LeetCode() {
                 </CardHeader>
                 <CardContent className="flex-grow">
                     <div className="flex flex-wrap gap-2">
-                        {solution.topics.map(topic => <Badge key={topic} variant="outline">{topic}</Badge>)}
+                        {solution.topics.map(topic => <Badge key={topic} variant="outline" className="text-[10px]">{topic}</Badge>)}
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button asChild variant="outline" className="w-full">
+                    <Button asChild variant="outline" className="w-full group">
                       <a href={solution.link} target="_blank" rel="noopener noreferrer">
                         <Code className="mr-2 h-4 w-4" /> View Solution
                       </a>
@@ -519,14 +525,14 @@ export function LeetCode() {
         </div>
         
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Button size="lg" asChild>
+            <Button size="lg" asChild className="min-w-[200px]">
               <a href="https://leetcode.com/u/srinivasa_pradeep_/" target="_blank" rel="noopener noreferrer">
-                <BarChart className="mr-2 h-4 w-4" /> Visit LeetCode Profile
+                <SiLeetcode className="mr-2 h-5 w-5" /> LeetCode Profile
               </a>
             </Button>
-            <Button size="lg" variant="outline" asChild>
+            <Button size="lg" variant="outline" asChild className="min-w-[200px]">
                <a href="https://github.com/Srinivasa-Pradeep/Data-Structures-and-Algo" target="_blank" rel="noopener noreferrer">
-                <Github className="mr-2 h-4 w-4" /> GitHub Solutions
+                <Github className="mr-2 h-5 w-5" /> GitHub Solutions
                </a>
             </Button>
         </div>
