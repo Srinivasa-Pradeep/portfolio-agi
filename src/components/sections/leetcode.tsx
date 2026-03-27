@@ -3,7 +3,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BarChart, Github, Code, Shuffle, Trophy, TrendingUp } from "lucide-react";
+import { Shuffle, Trophy, TrendingUp, Code, Github } from "lucide-react";
 import { 
   Area,
   AreaChart,
@@ -19,7 +19,6 @@ import {
 } from "recharts";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { TooltipProvider, Tooltip as UiTooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { SiLeetcode, SiCodeforces } from 'react-icons/si';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -46,6 +45,8 @@ const codeforcesStats = {
 // Pupil rank color on Codeforces is green
 const PUPIL_COLOR = "#7fef77";
 
+// Precise rating history calculated from user deltas:
+// +368, +289 (657), +200 (857), +170 (1027), +131 (1158), +77 (1235), -87 (1148), +132 (1280), -2 (1278), -3 (1275)
 const codeforcesRatingHistory = [
   { index: 1, rating: 368 },
   { index: 2, rating: 657 },
@@ -54,9 +55,9 @@ const codeforcesRatingHistory = [
   { index: 5, rating: 1158 },
   { index: 6, rating: 1235 },
   { index: 7, rating: 1148 },
-  { index: 8, rating: 1280 }, // Max Rating
+  { index: 8, rating: 1280 }, 
   { index: 9, rating: 1278 },
-  { index: 10, rating: 1275 }, // Current Rating
+  { index: 10, rating: 1275 },
 ];
 
 const codeforcesSolvedData = [
@@ -64,7 +65,6 @@ const codeforcesSolvedData = [
   { rating: "1000", count: 15 },
   { rating: "1200", count: 10 },
   { rating: "1400", count: 4 },
-  { rating: "1600", count: 0 },
 ];
 
 const pieData = [
@@ -147,15 +147,6 @@ const ratingHistory = [
   { index: 16, rating: 1841 },
   { index: 17, rating: 1826 },
   { index: 18, rating: 1866 },
-];
-
-const ratingDistribution = [
-  { rating: 1300, count: 29072 }, { rating: 1400, count: 68390 },
-  { rating: 1450, count: 194259 }, { rating: 1550, count: 104875 },
-  { rating: 1650, count: 49283 }, { rating: 1750, count: 19368 },
-  { rating: 1850, count: 14491 }, { rating: 1950, count: 9092 },
-  { rating: 2050, count: 5015 }, { rating: 2150, count: 2692 },
-  { rating: 2200, count: 2337 }, { rating: 2250, count: 1806 },
 ];
 
 const RatingTooltip = ({ active, payload }: any) => {
@@ -283,9 +274,9 @@ export function LeetCode() {
     <section id="leetcode" className="py-20 md:py-32">
       <div className="container">
         <div className="text-center mb-12">
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Problem Solving</h2>
+          <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Problem Solving Hub</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            A snapshot of my dedication to honing algorithmic skills across top competitive platforms.
+            A real-time snapshot of my dedication to honing algorithmic skills across top competitive platforms.
           </p>
         </div>
 
@@ -445,12 +436,12 @@ export function LeetCode() {
                             </linearGradient>
                           </defs>
                           <XAxis dataKey="index" hide />
-                          <YAxis domain={['dataMin - 100', 'dataMax + 100']} hide />
+                          <YAxis domain={['0', 'dataMax + 100']} hide />
                           <Tooltip 
                             contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px' }}
                             itemStyle={{ color: PUPIL_COLOR }}
                           />
-                          <Area type="stepAfter" dataKey="rating" stroke={PUPIL_COLOR} fill="url(#cfRatingColor)" strokeWidth={2} />
+                          <Area type="monotone" dataKey="rating" stroke={PUPIL_COLOR} fill="url(#cfRatingColor)" strokeWidth={2} />
                         </AreaChart>
                       </ResponsiveContainer>
                     </div>
@@ -543,7 +534,7 @@ export function LeetCode() {
                 Milestone Reached
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Successfully solved {leetCodeProgress.totalSolved + codeforcesStats.solved}+ problems across platforms, maintaining a global top 5% rank on LeetCode.
+                Successfully solved {leetCodeProgress.totalSolved + codeforcesStats.solved}+ problems across platforms, maintaining a global top 5.36% rank on LeetCode.
               </p>
             </div>
           </div>
@@ -553,7 +544,7 @@ export function LeetCode() {
           <h3 className="font-headline text-2xl font-semibold text-primary mb-8 text-center">Featured Solutions</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredSolutions.map((solution) => (
-              <Card key={solution.title} className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl bg-card/50 backdrop-blur-lg border-border/20">
+              <Card key={solution.title} className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl bg-card/50 backdrop-blur-lg border-white/5">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <CardTitle className="text-lg font-semibold">{solution.title}</CardTitle>
