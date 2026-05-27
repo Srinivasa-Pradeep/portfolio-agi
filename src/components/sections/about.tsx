@@ -407,10 +407,26 @@ export function About() {
               <h3 className="font-headline text-2xl font-semibold text-primary">
                 Experience
               </h3>
-              <div className="relative mt-8 flex items-center justify-center gap-12 md:gap-16">
-                {/* Career Thread Line */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[1px] bg-border/20 z-0 hidden sm:block">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/80 to-transparent w-24 animate-flow-line" />
+              <div className="relative mt-12 flex items-center justify-center gap-12 md:gap-16">
+                {/* Animated Career Path System */}
+                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px z-0 pointer-events-none hidden sm:block">
+                  <div className="mx-auto w-[75%] h-full relative">
+                    {/* Background Track */}
+                    <div className="absolute inset-0 bg-border/20" />
+                    
+                    {/* Flowing Animation */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/60 to-transparent w-full bg-[length:200%_100%] animate-shine" />
+
+                    {/* Career Junctions (Dots) */}
+                    {/* SAP Dot */}
+                    <div className="absolute left-0 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary/40 ring-4 ring-background" />
+                    
+                    {/* Amazon Dot */}
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-primary/40 ring-4 ring-background" />
+                    
+                    {/* Mercedes Dot - The Green "Live" Role */}
+                    <div className="absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[#00FF00] shadow-[0_0_12px_#00FF00] animate-pulse ring-4 ring-background" />
+                  </div>
                 </div>
                 
                 {companies.map((company) => {
