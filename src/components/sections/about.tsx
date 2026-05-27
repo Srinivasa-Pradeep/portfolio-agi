@@ -1,3 +1,4 @@
+
 'use client';
 
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
@@ -129,6 +130,11 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -138,9 +144,8 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
     setMousePos({ x, y });
   };
 
-  // Determine shimmer color based on theme
-  // In light mode, use a bright white/silver trail. In dark mode, use the silver primary.
-  const shimmerColor = resolvedTheme === 'dark' 
+  // Determine shimmer color based on theme - safe after mount
+  const shimmerColor = (mounted && resolvedTheme === 'dark') 
     ? 'hsl(var(--primary) / 0.5)' 
     : 'rgba(255, 255, 255, 0.8)';
 
@@ -149,16 +154,19 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
       ref={cardRef}
       onMouseMove={handleMouseMove}
       className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl"
-      style={{
+      style={mounted ? {
         background: resolvedTheme === 'dark' 
           ? `linear-gradient(to bottom, hsl(var(--border) / 0.5), hsl(var(--border)))`
           : `linear-gradient(to bottom, hsl(var(--border) / 0.8), hsl(var(--border)))`
-      }}
+      } : {}}
     >
       <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-6 backdrop-blur-sm transition-all duration-500 group-hover:bg-white dark:group-hover:bg-secondary/50">
-        {/* Animated Internal Glows */}
+        {/* Animated Internal Glows - only show theme-specific one after mount */}
         <div 
-          className="absolute inset-0 z-0 opacity-40 transition-opacity duration-500 dark:hidden"
+          className={cn(
+            "absolute inset-0 z-0 transition-opacity duration-500",
+            (!mounted || resolvedTheme !== 'dark') ? "opacity-40 block" : "hidden"
+          )}
           style={{
             background: 'linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.6) 50%, transparent 70%)',
             backgroundSize: '200% 100%',
@@ -166,7 +174,10 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
           }}
         />
         <div 
-          className="absolute inset-0 z-0 hidden opacity-20 transition-opacity duration-500 dark:block"
+          className={cn(
+            "absolute inset-0 z-0 transition-opacity duration-500",
+            (mounted && resolvedTheme === 'dark') ? "block opacity-20" : "hidden"
+          )}
           style={{
             background: 'linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%)',
             backgroundSize: '200% 100%',
@@ -189,9 +200,9 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
           <div className="flex-grow text-center sm:text-left transition-all duration-300 group-hover:translate-x-2">
             <h4 
               className="text-lg font-bold text-foreground/90 transition-all duration-300 group-hover:text-primary"
-              style={{
+              style={mounted ? {
                 maskImage: `linear-gradient(-75deg, rgba(255,255,255,1) calc(${mousePos.x}% + 20%), rgba(255,255,255,0.4) calc(${mousePos.x}% + 30%), rgba(255,255,255,1) calc(${mousePos.x}% + 100%))`
-              }}
+              } : {}}
             >
               PSG Institute of Technology and Applied Research
             </h4>
@@ -204,15 +215,15 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
           </div>
         </div>
 
-        {/* The Premium Shimmer Border Span */}
+        {/* The Premium Shimmer Border Span - wait for mount to apply complex background and mask */}
         <span 
           className="pointer-events-none absolute inset-0 z-10 block rounded-[inherit] transition-opacity duration-300"
-          style={{
+          style={mounted ? {
             background: `linear-gradient(-75deg, transparent calc(${mousePos.x}% + 10%), ${shimmerColor} calc(${mousePos.x}% + 25%), transparent calc(${mousePos.x}% + 40%))`,
             padding: '1px',
             WebkitMask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)',
             mask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)'
-          }}
+          } : {}}
         />
       </div>
     </div>
