@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -7,6 +8,7 @@ import { CustomCursor } from '@/components/custom-cursor';
 import { LiveClock } from '@/components/live-clock';
 import { MusicProvider } from '@/context/music-context';
 import { ConditionalParticles } from '@/components/conditional-particles';
+import { SmoothScroll } from '@/components/smooth-scroll';
 
 export const metadata: Metadata = {
   title: 'Srini Portfolio',
@@ -37,13 +39,15 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <MusicProvider>
-            <ConditionalParticles />
-            <CustomCursor />
-            <LiveClock />
-            <div className="bg-background dark:bg-transparent min-h-screen">
-              {children}
-            </div>
-            <Toaster />
+            <SmoothScroll>
+              <ConditionalParticles />
+              <CustomCursor />
+              <LiveClock />
+              <div className="bg-background dark:bg-transparent min-h-screen">
+                {children}
+              </div>
+              <Toaster />
+            </SmoothScroll>
           </MusicProvider>
         </ThemeProvider>
       </body>

@@ -1,3 +1,4 @@
+
 import { Header } from '@/components/header';
 import { About } from '@/components/sections/about';
 import { Blogs } from '@/components/sections/blogs';
@@ -11,10 +12,11 @@ import { ScrollAnimationWrapper } from '@/components/scroll-animation-wrapper';
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col relative overflow-x-hidden">
-      {/* Unified Persistent Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
+      {/* Unified Persistent Background with Cinematic Vignette */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute inset-0 bg-background" />
-        {/* Subtle Radial Glows using the new Silver theme */}
+        
+        {/* Subtle Radial Glows */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.05),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,hsl(var(--primary)/0.03),transparent_40%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,hsl(var(--primary)/0.03),transparent_40%)]" />
@@ -23,6 +25,9 @@ export default function Home() {
         <div
           className="absolute inset-0 h-full w-full bg-transparent bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_110%)] opacity-20"
         />
+
+        {/* Cinematic Viewport Vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,hsl(var(--background)/0.3)_100%)]" />
       </div>
 
       <Header />
@@ -33,7 +38,9 @@ export default function Home() {
             <About />
           </ScrollAnimationWrapper>
           <ScrollAnimationWrapper>
-            <Blogs />
+            <div className="border-y border-border/10 bg-secondary/5 backdrop-blur-[2px]">
+              <Blogs />
+            </div>
           </ScrollAnimationWrapper>
           <ScrollAnimationWrapper>
             <LeetCode />
