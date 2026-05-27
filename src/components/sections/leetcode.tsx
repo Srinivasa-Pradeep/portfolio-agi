@@ -1,9 +1,10 @@
+
 'use client';
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Shuffle, Trophy, TrendingUp, Code, Github } from "lucide-react";
+import { Shuffle, Trophy, TrendingUp, Code, Github, Star } from "lucide-react";
 import { 
   Area,
   AreaChart,
@@ -18,6 +19,8 @@ import {
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { SiLeetcode } from 'react-icons/si';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Image from 'next/image';
 
 const leetCodeProgress = {
   totalSolved: 1084,
@@ -206,7 +209,7 @@ const allProblems = [
     { title: 'Number of Distinct Islands II', difficulty: 'Hard', link: 'https://leetcode.com/problems/number-of-distinct-islands-ii/', topics: [] },
     { title: 'Cut Off Trees for Golf Event', difficulty: 'Hard', link: 'https://leetcode.com/problems/cut-off-trees-for-golf-event/', topics: [] },
     { title: 'LFU Cache', difficulty: 'Hard', link: 'https://leetcode.com/problems/lfu-cache/', topics: [] },
-    { title: 'Split Linked List in Parts', difficulty: 'Medium', link: 'https://leetcode.com/problems/split-linked-list-in-parts/', topics: [] },
+    { title: 'Split Linked List in Parts', difficulty: 'Medium', link: 'https://leetcode.com/problems/split-linked-list-parts/', topics: [] },
     { title: 'Solve the Equation', difficulty: 'Medium', link: 'https://leetcode.com/problems/solve-the-equation/', topics: [] },
     { title: 'Optimal Division', difficulty: 'Medium', link: 'https://leetcode.com/problems/optimal-division/', topics: [] },
     { title: 'K-diff Pairs in an Array', difficulty: 'Medium', link: 'https://leetcode.com/problems/k-diff-pairs-in-an-array/', topics: [] },
@@ -223,6 +226,7 @@ type Problem = typeof allProblems[0];
 export function LeetCode() {
   const [isHovering, setIsHovering] = useState(false);
   const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
+  const hoodieImage = PlaceHolderImages.find(p => p.id === 'leetcode-hoodie');
 
   const shuffleProblem = () => {
     const randomIndex = Math.floor(Math.random() * allProblems.length);
@@ -248,7 +252,7 @@ export function LeetCode() {
           <div className="lg:col-span-2 space-y-8">
             <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20">
               <div className="flex items-center gap-2 mb-6">
-                <SiLeetcode className="h-6 w-6 text-primary" />
+                <SiLeetcode className="h-6 w-6 text-primary filter grayscale" />
                 <h3 className="font-headline text-xl font-semibold">LeetCode Journey</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
@@ -335,7 +339,7 @@ export function LeetCode() {
                     <div>
                       <div className="flex items-center justify-center md:justify-start gap-2">
                           <p className="text-sm text-muted-foreground">Rating</p>
-                          <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight" className="h-6 w-6" />
+                          <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight" className="h-6 w-6 grayscale" />
                       </div>
                       <p className="text-2xl font-bold">{contestStats.rating}</p>
                     </div>
@@ -404,6 +408,33 @@ export function LeetCode() {
               )}
             </div>
 
+            {/* LeetCode Hoodie Achievement Card */}
+            <div className="space-y-4">
+              <h3 className="font-headline text-lg font-semibold flex items-center gap-2 px-1">
+                <Star className="h-4 w-4 text-primary" />
+                Exclusive Reward
+              </h3>
+              <Card className="overflow-hidden group bg-card/50 backdrop-blur-lg border-border/20">
+                <div className="relative aspect-square">
+                  {hoodieImage && (
+                    <Image 
+                        src={hoodieImage.imageUrl} 
+                        alt={hoodieImage.description}
+                        data-ai-hint={hoodieImage.imageHint}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-110 filter grayscale contrast-125"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-70 mb-1">Global Achievement</p>
+                      <h4 className="font-bold text-lg leading-tight">LeetCode Official Hoodie</h4>
+                      <p className="text-xs text-white/60 mt-1">Earned via competitive milestones.</p>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
             <div className="p-4 rounded-xl bg-primary/5 border border-primary/10">
               <div className="flex items-center gap-2 text-primary mb-2 text-sm font-semibold">
                 <Trophy className="h-4 w-4" />
@@ -449,7 +480,7 @@ export function LeetCode() {
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Button size="lg" asChild className="min-w-[200px]">
               <a href="https://leetcode.com/u/srinivasa_pradeep_/" target="_blank" rel="noopener noreferrer">
-                <SiLeetcode className="mr-2 h-5 w-5" /> LeetCode Profile
+                <SiLeetcode className="mr-2 h-5 w-5 filter grayscale" /> LeetCode Profile
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild className="min-w-[200px]">
