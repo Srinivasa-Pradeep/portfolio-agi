@@ -7,11 +7,11 @@ import { BlurRevealText } from "@/components/blur-reveal-text";
 
 export function Hero() {
   const roles = [
-    "Software Tinkerer",
-    "Full-Stack Developer",
+    "Software Developer",
+    "Technical Writer",
     "Curious Builder",
     "Detail Oriented",
-    "Product Engineer"
+    "Lifelong Learner"
   ];
 
   return (
