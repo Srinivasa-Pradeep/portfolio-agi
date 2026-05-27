@@ -1,11 +1,20 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Download } from "lucide-react";
 import Link from "next/link";
+import { BlurRevealText } from "@/components/blur-reveal-text";
 
 export function Hero() {
+  const roles = [
+    "Software Engineer",
+    "Problem Solver",
+    "Lifelong Learner",
+    "Technical Writer",
+    "Software Tinkerer",
+    "Product Engineer"
+  ];
+
   return (
     <section id="hero" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
       <div className="container relative z-10 flex animate-fade-in flex-col items-center text-center">
@@ -17,16 +26,21 @@ export function Hero() {
             </span>
           </div>
         </h1>
-        <p className="font-body mt-4 max-w-2xl text-center text-lg font-medium text-foreground/80 md:text-xl">
-          Software Engineer • Lifelong Learner •
-          <span className="whitespace-nowrap">
-            {' '}Writer
-            <span className="ml-2 inline-block h-2 w-2 animate-breathing rounded-full bg-[#00FF00]" />
-          </span>
-        </p>
+        
+        <div className="mt-4 flex flex-col items-center gap-1">
+          <div className="text-lg font-medium text-foreground/80 md:text-xl flex items-center gap-2">
+            <BlurRevealText 
+              words={roles} 
+              className="text-primary min-w-[200px]"
+            />
+            <span className="inline-block h-2 w-2 animate-breathing rounded-full bg-[#00FF00]" />
+          </div>
+        </div>
+
         <p className="mt-6 max-w-xl text-balance text-muted-foreground md:text-lg">
-        I write to understand and build to become.
+          I write to understand and build to become.
         </p>
+        
         <div className="mt-8 flex flex-col gap-4 sm:flex-row">
           <Link href="#projects" passHref>
             <Button size="lg" className="w-full sm:w-auto transform transition-transform duration-300 hover:scale-105">
