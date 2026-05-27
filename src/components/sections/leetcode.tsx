@@ -165,6 +165,8 @@ const allProblems = [
     { title: 'Sequentially Ordinal Rank Tracker', difficulty: 'Hard', link: 'https://leetcode.com/problems/sequentially-ordinal-rank-tracker/', topics: [] },
     { title: 'Boundary of Binary Tree', difficulty: 'Medium', link: 'https://leetcode.com/problems/boundary-of-binary-tree/', topics: [] },
     { title: 'Total Appeal of A String', difficulty: 'Hard', link: 'https://leetcode.com/problems/total-appeal-of-a-string/', topics: [] },
+    { title: 'Maximum Length of Subarray With Positive Product', difficulty: 'Medium', link: 'https://leetcode.com/problems/maximum-length-of-subarray-with-positive-product/', topics: [] },
+    { title: 'Find Good Days to Rob the Bank', difficulty: 'Medium', link: 'https://leetcode.com/problems/find-good-days-to-rob-the-bank/', topics: [] },
     { title: 'Maximum Units on a Truck', difficulty: 'Easy', link: 'https://leetcode.com/problems/maximum-units-on-a-truck/', topics: [] },
     { title: 'Find Median from Data Stream', difficulty: 'Hard', link: 'https://leetcode.com/problems/find-median-from-data-stream/', topics: [] },
     { title: 'Trapping Rain Water', difficulty: 'Hard', link: 'https://leetcode.com/problems/trapping-rain-water/', topics: [] },
@@ -427,7 +429,6 @@ export function LeetCode() {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity group-hover:opacity-60" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-70 mb-1">Inspirational Journey</p>
                       <h4 className="font-bold text-lg leading-tight">LeetCode Official Hoodie</h4>
                       <p className="text-xs text-white/60 mt-1">Awarded for perseverance through setbacks.</p>
                   </div>
