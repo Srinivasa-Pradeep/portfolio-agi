@@ -36,9 +36,14 @@ const categoryStyles: { [key: string]: { style: string, icon: React.ReactNode } 
 
 function PremiumBookCallButton() {
     const { resolvedTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
     const buttonRef = useRef<HTMLAnchorElement>(null);
     const [mousePos, setMousePos] = useState({ x: -50, y: -50 });
     const avatar = PlaceHolderImages.find(p => p.id === 'srini-avatar-light');
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
         if (!buttonRef.current) return;
@@ -65,9 +70,9 @@ function PremiumBookCallButton() {
                         {/* Internal Shimmer Layer */}
                         <div 
                             className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500 z-0"
-                            style={{
+                            style={mounted ? {
                                 background: `radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, ${shimmerColor} 0%, transparent 50%)`,
-                            }}
+                            } : {}}
                         />
 
                         {/* Content Container */}
@@ -95,12 +100,12 @@ function PremiumBookCallButton() {
                         {/* Feathered Glow Outline */}
                         <span 
                             className="pointer-events-none absolute inset-0 z-10 block rounded-[inherit] transition-opacity duration-300"
-                            style={{
+                            style={mounted ? {
                                 background: `linear-gradient(-75deg, transparent calc(${mousePos.x}% + 10%), hsl(var(--primary) / 0.3) calc(${mousePos.x}% + 25%), transparent calc(${mousePos.x}% + 40%))`,
                                 padding: '1px',
                                 WebkitMask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)',
                                 mask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)'
-                            }}
+                            } : {}}
                         />
                     </a>
                 </TooltipTrigger>
