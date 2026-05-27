@@ -57,7 +57,7 @@ const blogPosts = [
 
 export function Blogs() {
   return (
-    <section id="blogs" className="py-20 md:py-32 border-y border-border/20 bg-secondary/20 backdrop-blur-md">
+    <section id="blogs" className="py-20 md:py-32">
       <div className="container">
         <div className="text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">From My Blog</h2>
