@@ -17,14 +17,14 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // We use a small threshold to trigger earlier for a smoother flow
+        // Trigger the reveal when the element is slightly visible
         if (entry.isIntersecting) {
           setIsVisible(true);
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px', // Trigger slightly before the element fully enters
+        threshold: 0.05,
+        rootMargin: '0px 0px -100px 0px', // Reveal slightly before it hits the viewport center
       }
     );
 
@@ -44,10 +44,10 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
     <div
       ref={ref}
       className={cn(
-        'transition-all duration-[1200ms] ease-[cubic-bezier(0.2,0,0,1)] will-change-[transform,opacity,filter]',
+        'transition-all duration-[1800ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity,filter]',
         isVisible 
-          ? 'opacity-100 translate-y-0 scale-100 blur-none' 
-          : 'opacity-0 translate-y-12 scale-[0.98] blur-md',
+          ? 'opacity-100 translate-y-0 scale-100 blur-0' 
+          : 'opacity-0 translate-y-20 scale-[0.96] blur-2xl',
         className
       )}
       style={{ transitionDelay: `${delay}ms` }}

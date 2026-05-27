@@ -26,8 +26,8 @@ export default function Home() {
           className="absolute inset-0 h-full w-full bg-transparent bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_110%)] opacity-20"
         />
 
-        {/* Cinematic Viewport Vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,hsl(var(--background)/0.3)_100%)]" />
+        {/* Cinematic Viewport Vignette - enhances the depth feel */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,hsl(var(--background)/0.4)_100%)]" />
       </div>
 
       <Header />
@@ -38,9 +38,7 @@ export default function Home() {
             <About />
           </ScrollAnimationWrapper>
           <ScrollAnimationWrapper>
-            <div className="border-y border-border/10 bg-secondary/5 backdrop-blur-[2px]">
-              <Blogs />
-            </div>
+            <Blogs />
           </ScrollAnimationWrapper>
           <ScrollAnimationWrapper>
             <LeetCode />
