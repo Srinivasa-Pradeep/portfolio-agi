@@ -63,7 +63,7 @@
     {
       "id": "leetcode-hoodie",
       "description": "Srini wearing the LeetCode Hoodie",
-      "imageUrl": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
+      "imageUrl": "/images/hoodie.png",
       "imageHint": "black hoodie"
     }
   ]
