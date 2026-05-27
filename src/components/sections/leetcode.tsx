@@ -7,8 +7,6 @@ import { Shuffle, Trophy, TrendingUp, Code, Github } from "lucide-react";
 import { 
   Area,
   AreaChart,
-  Bar as RechartsBar, 
-  BarChart as RechartsBarChart,
   XAxis, 
   YAxis, 
   ResponsiveContainer,
@@ -19,8 +17,7 @@ import {
 } from "recharts";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { SiLeetcode, SiCodeforces } from 'react-icons/si';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { SiLeetcode } from 'react-icons/si';
 
 const leetCodeProgress = {
   totalSolved: 1084,
@@ -32,36 +29,6 @@ const leetCodeProgress = {
   acceptanceRate: "65.48%",
   submissions: "2.8k",
 };
-
-const codeforcesStats = {
-  rating: 1275,
-  maxRating: 1280,
-  rank: "Pupil",
-  solved: 59,
-  contests: 10,
-  handle: "srinivasa_pradeep",
-};
-
-// Precise rating history calculated from user deltas:
-const codeforcesRatingHistory = [
-  { index: 1, rating: 368 },
-  { index: 2, rating: 657 },
-  { index: 3, rating: 857 },
-  { index: 4, rating: 1027 },
-  { index: 5, rating: 1158 },
-  { index: 6, rating: 1235 },
-  { index: 7, rating: 1148 },
-  { index: 8, rating: 1280 }, 
-  { index: 9, rating: 1278 },
-  { index: 10, rating: 1275 },
-];
-
-const codeforcesSolvedData = [
-  { rating: "800", count: 30 },
-  { rating: "1000", count: 15 },
-  { rating: "1200", count: 10 },
-  { rating: "1400", count: 4 },
-];
 
 const pieData = [
     { name: 'Hard Solved', value: leetCodeProgress.hard.solved, color: 'hsl(var(--destructive))', difficulty: 'hard' },
@@ -272,7 +239,7 @@ export function LeetCode() {
         <div className="text-center mb-12">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Problem Solving Hub</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            A real-time snapshot of my dedication to honing algorithmic skills across top competitive platforms.
+            A real-time snapshot of my dedication to honing algorithmic skills on LeetCode.
           </p>
         </div>
 
@@ -356,19 +323,14 @@ export function LeetCode() {
             </Card>
 
             <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20">
-              <Tabs defaultValue="leetcode" className="w-full">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="h-5 w-5 text-primary" />
-                    <h3 className="font-headline text-xl font-semibold">Performance</h3>
+                    <h3 className="font-headline text-xl font-semibold">Contest Performance</h3>
                   </div>
-                  <TabsList className="bg-background/50">
-                    <TabsTrigger value="leetcode">LeetCode</TabsTrigger>
-                    <TabsTrigger value="codeforces">Codeforces</TabsTrigger>
-                  </TabsList>
                 </div>
 
-                <TabsContent value="leetcode" className="space-y-6">
+                <div className="space-y-6">
                   <div className="grid grid-cols-3 gap-4 text-center md:text-left">
                     <div>
                       <div className="flex items-center justify-center md:justify-start gap-2">
@@ -402,94 +364,12 @@ export function LeetCode() {
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
-                </TabsContent>
-
-                <TabsContent value="codeforces" className="space-y-6">
-                  <div className="grid grid-cols-3 gap-4 text-center md:text-left">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Current Rating</p>
-                      <p className="text-2xl font-bold text-primary">{codeforcesStats.rating}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Max Rating</p>
-                      <p className="text-2xl font-bold">{codeforcesStats.maxRating}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Problems Solved</p>
-                      <p className="text-2xl font-bold">{codeforcesStats.solved}+</p>
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-64">
-                    <div className="space-y-2">
-                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Rating Progression</p>
-                      <ResponsiveContainer width="100%" height="90%">
-                        <AreaChart data={codeforcesRatingHistory}>
-                          <defs>
-                            <linearGradient id="cfRatingColor" x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
-                              <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                            </linearGradient>
-                          </defs>
-                          <XAxis dataKey="index" hide />
-                          <YAxis domain={['0', 'dataMax + 100']} hide />
-                          <Tooltip 
-                            contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px' }}
-                            itemStyle={{ color: 'hsl(var(--primary))' }}
-                          />
-                          <Area type="monotone" dataKey="rating" stroke="hsl(var(--primary))" fill="url(#cfRatingColor)" strokeWidth={2} />
-                        </AreaChart>
-                      </ResponsiveContainer>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Solved by Difficulty</p>
-                      <ResponsiveContainer width="100%" height="90%">
-                        <RechartsBarChart data={codeforcesSolvedData}>
-                          <XAxis dataKey="rating" fontSize={10} axisLine={false} tickLine={false} />
-                          <Tooltip 
-                            cursor={{ fill: 'rgba(255,255,255,0.05)' }}
-                            contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px' }}
-                          />
-                          <RechartsBar dataKey="count" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                        </RechartsBarChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
-                </TabsContent>
-              </Tabs>
+                </div>
             </Card>
           </div>
 
           {/* Right Summary Column */}
           <div className="space-y-8">
-            <Card className="p-6 transition-all duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20 border-l-4 border-primary">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <SiCodeforces className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-semibold">Codeforces</h3>
-                  <p className="text-xs text-muted-foreground">@{codeforcesStats.handle}</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground">Rank</p>
-                  <p className="font-bold text-lg text-primary">{codeforcesStats.rank}</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground">Solved</p>
-                  <p className="font-bold text-lg">{codeforcesStats.solved}</p>
-                </div>
-              </div>
-              <Button asChild variant="outline" className="w-full mt-6 group">
-                <a href={`https://codeforces.com/profile/${codeforcesStats.handle}`} target="_blank" rel="noopener noreferrer">
-                  View Profile <SiCodeforces className="ml-2 h-4 w-4 group-hover:text-primary transition-colors" />
-                </a>
-              </Button>
-            </Card>
-
             <div className="space-y-4">
               <h3 className="font-headline text-lg font-semibold flex items-center gap-2 px-1">
                 <Shuffle className="h-4 w-4 text-primary" />
@@ -530,7 +410,7 @@ export function LeetCode() {
                 Milestone Reached
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Successfully solved {leetCodeProgress.totalSolved + codeforcesStats.solved}+ problems across platforms, maintaining a global top 5.36% rank on LeetCode.
+                Successfully solved {leetCodeProgress.totalSolved}+ problems, maintaining a global top 5.36% rank on LeetCode.
               </p>
             </div>
           </div>
