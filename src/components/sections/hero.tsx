@@ -23,7 +23,7 @@ export function Hero() {
           
           {/* Metallic Shine Overlay */}
           <div className="absolute inset-0 z-20 pointer-events-none select-none px-12 py-2" aria-hidden="true">
-            <span className="will-change-[background-position] animate-shine bg-clip-text text-transparent bg-gradient-to-r from-transparent via-primary/50 to-transparent bg-[length:200%_100%] block">
+            <span className="will-change-[background-position] animate-shine bg-clip-text text-transparent bg-gradient-to-r from-transparent via-white/50 to-transparent bg-[length:200%_100%] block">
               Srinivasa Pradeep
             </span>
           </div>
