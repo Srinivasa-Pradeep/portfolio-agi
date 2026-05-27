@@ -248,7 +248,7 @@ export function LeetCode() {
           <div className="lg:col-span-2 space-y-8">
             <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20">
               <div className="flex items-center gap-2 mb-6">
-                <SiLeetcode className="h-6 w-6 text-[#FFA116]" />
+                <SiLeetcode className="h-6 w-6 text-primary" />
                 <h3 className="font-headline text-xl font-semibold">LeetCode Journey</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
