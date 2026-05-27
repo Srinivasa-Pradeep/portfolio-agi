@@ -14,15 +14,15 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Threshold and rootMargin set to trigger early for a smooth flow
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        // Toggle visibility to allow reverse animations
+        setIsVisible(entry.isIntersecting);
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px', // Reveal slightly before it hits the viewport
+        threshold: 0.05,
+        rootMargin: '-5% 0px -5% 0px', 
       }
     );
 
@@ -42,10 +42,10 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
     <div
       ref={ref}
       className={cn(
-        'transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,opacity,filter]',
+        'transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-[transform,opacity]',
         isVisible 
-          ? 'opacity-100 translate-y-0 scale-100 blur-0' 
-          : 'opacity-0 translate-y-10 scale-[0.98] blur-lg',
+          ? 'opacity-100 translate-y-0 scale-100' 
+          : 'opacity-0 translate-y-12 scale-[0.97]',
         className
       )}
       style={{ transitionDelay: `${delay}ms` }}
