@@ -18,9 +18,12 @@ export function Hero() {
     <section id="hero" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
       <div className="container relative z-10 flex animate-fade-in flex-col items-center text-center">
         <h1 className="font-body relative cursor-default inline-block px-12 py-2 text-4xl font-medium tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
-          <span className="block">Srinivasa Pradeep</span>
+          {/* Base Text */}
+          <span className="block text-foreground">Srinivasa Pradeep</span>
+          
+          {/* Metallic Shine Overlay */}
           <div className="absolute inset-0 z-20 pointer-events-none select-none px-12 py-2" aria-hidden="true">
-            <span className="will-change-[background-position] animate-shine bg-clip-text text-transparent bg-gradient-to-r from-transparent via-black/40 dark:via-white/60 to-transparent bg-[length:200%_100%] block">
+            <span className="will-change-[background-position] animate-shine bg-clip-text text-transparent bg-gradient-to-r from-transparent via-primary/50 to-transparent bg-[length:200%_100%] block">
               Srinivasa Pradeep
             </span>
           </div>

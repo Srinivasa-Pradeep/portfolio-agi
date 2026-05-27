@@ -140,12 +140,12 @@
 }
 
 @keyframes shine {
-  from { background-position: 200% center; }
-  to { background-position: -200% center; }
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
 }
 
 .animate-shine {
-  animation: shine 8s linear infinite;
+  animation: shine 6s linear infinite;
 }
 
 .animate-shimmer {
