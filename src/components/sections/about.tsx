@@ -408,8 +408,8 @@ export function About() {
                 Experience
               </h3>
               <div className="relative mt-12 flex items-center justify-center gap-12 md:gap-16">
-                {/* Animated Career Path System - Positioned below the logos */}
-                <div className="absolute inset-x-0 top-[92%] -translate-y-1/2 h-px z-0 pointer-events-none hidden sm:block">
+                {/* Animated Career Path System - Refined Sequential Junctions */}
+                <div className="absolute inset-x-0 top-[110%] -translate-y-1/2 h-px z-0 pointer-events-none hidden sm:block">
                   <div className="mx-auto w-[65%] h-full relative flex items-center justify-between">
                     {/* Background Track */}
                     <div className="absolute inset-0 bg-border/20" />
@@ -418,14 +418,9 @@ export function About() {
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/60 to-transparent w-full bg-[length:200%_100%] animate-shine" />
 
                     {/* Career Junctions (Dots) */}
-                    {/* SAP Dot */}
                     <div className="w-1.5 h-1.5 rounded-full bg-primary/40 ring-4 ring-background relative z-10" />
-                    
-                    {/* Amazon Dot */}
                     <div className="w-1.5 h-1.5 rounded-full bg-primary/40 ring-4 ring-background relative z-10" />
-                    
-                    {/* Mercedes Dot - Small pulsing indicator */}
-                    <div className="w-2 h-2 rounded-full bg-[#00FF00] shadow-[0_0_8px_#00FF00] animate-pulse ring-4 ring-background relative z-10" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#00FF00] shadow-[0_0_10px_#00FF00] animate-pulse ring-4 ring-background relative z-10" />
                   </div>
                 </div>
                 
