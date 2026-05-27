@@ -250,9 +250,9 @@ export function LeetCode() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Dashboard Column */}
           <div className="lg:col-span-2 space-y-8">
-            <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20">
+            <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20 group/leetcard">
               <div className="flex items-center gap-2 mb-6">
-                <SiLeetcode className="h-6 w-6 text-primary filter grayscale" />
+                <SiLeetcode className="h-6 w-6 text-primary filter grayscale transition-all duration-500 group-hover/leetcard:grayscale-0 group-hover/leetcard:text-[#FFA116]" />
                 <h3 className="font-headline text-xl font-semibold">LeetCode Journey</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
@@ -339,7 +339,7 @@ export function LeetCode() {
                     <div>
                       <div className="flex items-center justify-center md:justify-start gap-2">
                           <p className="text-sm text-muted-foreground">Rating</p>
-                          <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight" className="h-6 w-6 grayscale" />
+                          <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight" className="h-6 w-6" />
                       </div>
                       <p className="text-2xl font-bold">{contestStats.rating}</p>
                     </div>
@@ -414,7 +414,7 @@ export function LeetCode() {
                 <Star className="h-4 w-4 text-primary" />
                 Exclusive Reward
               </h3>
-              <Card className="overflow-hidden group bg-card/50 backdrop-blur-lg border-border/20">
+              <Card className="overflow-hidden group bg-card/50 backdrop-blur-lg border-border/20 cursor-pointer">
                 <div className="relative aspect-square">
                   {hoodieImage && (
                     <Image 
@@ -422,10 +422,10 @@ export function LeetCode() {
                         alt={hoodieImage.description}
                         data-ai-hint={hoodieImage.imageHint}
                         fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-110 filter grayscale contrast-125"
+                        className="object-cover transition-all duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0 contrast-125"
                     />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity group-hover:opacity-60" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                       <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-70 mb-1">Global Achievement</p>
                       <h4 className="font-bold text-lg leading-tight">LeetCode Official Hoodie</h4>
@@ -478,9 +478,9 @@ export function LeetCode() {
         </div>
         
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Button size="lg" asChild className="min-w-[200px]">
+            <Button size="lg" asChild className="min-w-[200px] group">
               <a href="https://leetcode.com/u/srinivasa_pradeep_/" target="_blank" rel="noopener noreferrer">
-                <SiLeetcode className="mr-2 h-5 w-5 filter grayscale" /> LeetCode Profile
+                <SiLeetcode className="mr-2 h-5 w-5 filter grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:text-[#FFA116]" /> LeetCode Profile
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild className="min-w-[200px]">
