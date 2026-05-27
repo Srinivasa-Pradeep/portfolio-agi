@@ -6,6 +6,7 @@ import { Hero } from '@/components/sections/hero';
 import { LeetCode } from '@/components/sections/leetcode';
 import { Projects } from '@/components/sections/projects';
 import { Footer } from '@/components/footer';
+import { BottomBlurOverlay } from '@/components/bottom-blur-overlay';
 
 export default function Home() {
   return (
@@ -28,8 +29,8 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,hsl(var(--background)/0.4)_100%)]" />
       </div>
 
-      {/* SINGLE BOTTOM VIEWPORT BLUR - Optimized with GPU hints */}
-      <div className="fixed inset-x-0 bottom-0 h-48 z-40 pointer-events-none backdrop-blur-xl [mask-image:linear-gradient(to_top,black_20%,transparent)] opacity-95 transform-gpu will-change-[backdrop-filter]" />
+      {/* DYNAMIC BOTTOM VIEWPORT BLUR - Only hides at rock bottom */}
+      <BottomBlurOverlay />
 
       <Header />
       <main className="flex-1 relative z-10 transform-gpu">
