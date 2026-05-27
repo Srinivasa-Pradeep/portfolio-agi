@@ -427,9 +427,9 @@ export function LeetCode() {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity group-hover:opacity-60" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-70 mb-1">Global Achievement</p>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-70 mb-1">Inspirational Journey</p>
                       <h4 className="font-bold text-lg leading-tight">LeetCode Official Hoodie</h4>
-                      <p className="text-xs text-white/60 mt-1">Earned via competitive milestones.</p>
+                      <p className="text-xs text-white/60 mt-1">Awarded for perseverance through setbacks.</p>
                   </div>
                 </div>
               </Card>
