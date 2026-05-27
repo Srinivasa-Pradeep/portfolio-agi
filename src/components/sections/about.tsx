@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks, Plus } from 'lucide-react';
+import { ListChecks } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   SiPython,
@@ -128,6 +128,7 @@ const techStack = [
 function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
+  const { resolvedTheme } = useTheme();
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -137,21 +138,29 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
     setMousePos({ x, y });
   };
 
+  // Determine shimmer color based on theme
+  // In light mode, use a bright white/silver trail. In dark mode, use the silver primary.
+  const shimmerColor = resolvedTheme === 'dark' 
+    ? 'hsl(var(--primary) / 0.5)' 
+    : 'rgba(255, 255, 255, 0.8)';
+
   return (
     <div 
       ref={cardRef}
       onMouseMove={handleMouseMove}
       className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl"
       style={{
-        background: `linear-gradient(to bottom, hsl(var(--border) / 0.5), hsl(var(--border)))`
+        background: resolvedTheme === 'dark' 
+          ? `linear-gradient(to bottom, hsl(var(--border) / 0.5), hsl(var(--border)))`
+          : `linear-gradient(to bottom, hsl(var(--border) / 0.8), hsl(var(--border)))`
       }}
     >
-      <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-6 backdrop-blur-sm transition-all duration-500 group-hover:bg-secondary/50">
+      <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-6 backdrop-blur-sm transition-all duration-500 group-hover:bg-white dark:group-hover:bg-secondary/50">
         {/* Animated Internal Glows */}
         <div 
           className="absolute inset-0 z-0 opacity-40 transition-opacity duration-500 dark:hidden"
           style={{
-            background: 'linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%)',
+            background: 'linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.6) 50%, transparent 70%)',
             backgroundSize: '200% 100%',
             animation: 'shimmer 3s ease-in-out infinite'
           }}
@@ -175,14 +184,6 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
                 className="h-full w-full object-contain filter grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110"
               />
             )}
-            
-            {/* "You" Indicator Logic adapted for achievements */}
-            <div className="absolute -left-8 top-1/2 flex -translate-y-1/2 items-center gap-1 opacity-0 transition-all duration-300 group-hover:translate-x-6 group-hover:opacity-100">
-               <Plus className="h-3 w-3 text-primary" />
-               <div className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary dark:bg-primary/20">
-                  TOP
-               </div>
-            </div>
           </div>
 
           <div className="flex-grow text-center sm:text-left transition-all duration-300 group-hover:translate-x-2">
@@ -207,7 +208,7 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
         <span 
           className="pointer-events-none absolute inset-0 z-10 block rounded-[inherit] transition-opacity duration-300"
           style={{
-            background: `linear-gradient(-75deg, transparent calc(${mousePos.x}% + 10%), hsl(var(--primary) / 0.5) calc(${mousePos.x}% + 25%), transparent calc(${mousePos.x}% + 40%))`,
+            background: `linear-gradient(-75deg, transparent calc(${mousePos.x}% + 10%), ${shimmerColor} calc(${mousePos.x}% + 25%), transparent calc(${mousePos.x}% + 40%))`,
             padding: '1px',
             WebkitMask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)',
             mask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)'
@@ -272,7 +273,7 @@ export function About() {
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
                                 { text: 'ശ്രീനിവാസ പ്രദീപ്', className: 'font-chilanka text-xs text-foreground/90' },
-                                { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದീപ്', className: 'font-tiro-kannada text-xs text-foreground/90' },
+                                { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
                           />
