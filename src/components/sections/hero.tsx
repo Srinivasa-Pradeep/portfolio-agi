@@ -17,9 +17,15 @@ export function Hero() {
   return (
     <section id="hero" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
       <div className="container relative z-10 flex animate-fade-in flex-col items-center text-center">
-        <h1 className="font-body text-4xl font-medium tracking-tight sm:text-6xl md:text-7xl lg:text-8xl text-primary">
-          Srinivasa Pradeep
-        </h1>
+        {/* Metallic Shine Name Container */}
+        <div className="relative inline-block px-4 mb-2">
+          <h1 className="font-body text-4xl font-medium tracking-tight sm:text-6xl md:text-7xl lg:text-8xl 
+                         bg-clip-text text-transparent 
+                         bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#ffffff,55%,hsl(var(--primary)))] 
+                         bg-[length:200%_100%] animate-shine whitespace-nowrap">
+            Srinivasa Pradeep
+          </h1>
+        </div>
         
         <div className="mt-4 flex flex-col items-center gap-1">
           <div className="text-lg font-medium text-foreground/80 md:text-xl flex items-center gap-2">
