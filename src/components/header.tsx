@@ -102,7 +102,7 @@ function DockItem({
         <TooltipTrigger asChild>
           {content}
         </TooltipTrigger>
-        <TooltipContent side="top" sideOffset={20} className="bg-black/80 backdrop-blur-md border-border/20">
+        <TooltipContent side="top" sideOffset={20} className="dark bg-black/80 backdrop-blur-md border-border/20">
           <p className="text-primary font-medium">{label}</p>
         </TooltipContent>
       </Tooltip>
@@ -158,7 +158,7 @@ export function Header() {
     >
       <div
         className={cn(
-          'transition-all duration-300 flex items-center justify-center p-2',
+          'dark transition-all duration-300 flex items-center justify-center p-2',
           'rounded-full border border-border/20 bg-black/80 shadow-2xl backdrop-blur-xl'
         )}
       >
@@ -195,7 +195,7 @@ export function Header() {
                                 <Menu className="h-5 w-5" />
                               </Button>
                           </SheetTrigger>
-                          <SheetContent side="bottom" className="w-full rounded-t-lg bg-black/90 backdrop-blur-xl border-border/20">
+                          <SheetContent side="bottom" className="dark w-full rounded-t-lg bg-black/90 backdrop-blur-xl border-border/20">
                               <SheetHeader className="sr-only">
                                 <SheetTitle>Mobile Navigation</SheetTitle>
                               </SheetHeader>
