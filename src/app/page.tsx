@@ -1,4 +1,3 @@
-
 import { Header } from '@/components/header';
 import { About } from '@/components/sections/about';
 import { Blogs } from '@/components/sections/blogs';

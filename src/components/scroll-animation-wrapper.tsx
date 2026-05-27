@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
@@ -17,14 +16,13 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Trigger the reveal when the element is slightly visible
         if (entry.isIntersecting) {
           setIsVisible(true);
         }
       },
       {
-        threshold: 0.05,
-        rootMargin: '0px 0px -100px 0px', // Reveal slightly before it hits the viewport center
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px', // Reveal slightly before it hits the viewport
       }
     );
 
@@ -44,10 +42,10 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
     <div
       ref={ref}
       className={cn(
-        'transition-all duration-[1800ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[transform,opacity,filter]',
+        'transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-[transform,opacity,filter]',
         isVisible 
           ? 'opacity-100 translate-y-0 scale-100 blur-0' 
-          : 'opacity-0 translate-y-20 scale-[0.96] blur-2xl',
+          : 'opacity-0 translate-y-10 scale-[0.98] blur-lg',
         className
       )}
       style={{ transitionDelay: `${delay}ms` }}
