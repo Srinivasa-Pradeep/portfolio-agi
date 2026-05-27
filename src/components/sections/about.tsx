@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks } from 'lucide-react';
+import { ListChecks, Plus } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   SiPython,
@@ -44,6 +44,7 @@ import {
 } from 'react-icons/si';
 import { FaJava, FaMicrosoft } from 'react-icons/fa';
 import { TypingEffect } from '@/components/typing-effect';
+import { cn } from '@/lib/utils';
 
 const stats = [
   { 
@@ -124,6 +125,99 @@ const techStack = [
   { name: 'Linux/Unix', Icon: SiLinux },
 ];
 
+function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setMousePos({ x, y });
+  };
+
+  return (
+    <div 
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl"
+      style={{
+        background: `linear-gradient(to bottom, hsl(var(--border) / 0.5), hsl(var(--border)))`
+      }}
+    >
+      <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-6 backdrop-blur-sm transition-all duration-500 group-hover:bg-secondary/50">
+        {/* Animated Internal Glows */}
+        <div 
+          className="absolute inset-0 z-0 opacity-40 transition-opacity duration-500 dark:hidden"
+          style={{
+            background: 'linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.4) 50%, transparent 70%)',
+            backgroundSize: '200% 100%',
+            animation: 'shimmer 3s ease-in-out infinite'
+          }}
+        />
+        <div 
+          className="absolute inset-0 z-0 hidden opacity-20 transition-opacity duration-500 dark:block"
+          style={{
+            background: 'linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%)',
+            backgroundSize: '200% 100%',
+            animation: 'shimmer 3s ease-in-out infinite'
+          }}
+        />
+
+        <div className="relative z-20 flex flex-col sm:flex-row items-center gap-6">
+          <div className="relative h-20 w-20 flex-shrink-0">
+            {psgLogo && (
+              <img
+                src={psgLogo.imageUrl}
+                alt={psgLogo.description}
+                data-ai-hint={psgLogo.imageHint}
+                className="h-full w-full object-contain filter grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110"
+              />
+            )}
+            
+            {/* "You" Indicator Logic adapted for achievements */}
+            <div className="absolute -left-8 top-1/2 flex -translate-y-1/2 items-center gap-1 opacity-0 transition-all duration-300 group-hover:translate-x-6 group-hover:opacity-100">
+               <Plus className="h-3 w-3 text-primary" />
+               <div className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary dark:bg-primary/20">
+                  TOP
+               </div>
+            </div>
+          </div>
+
+          <div className="flex-grow text-center sm:text-left transition-all duration-300 group-hover:translate-x-2">
+            <h4 
+              className="text-lg font-bold text-foreground/90 transition-all duration-300 group-hover:text-primary"
+              style={{
+                maskImage: `linear-gradient(-75deg, rgba(255,255,255,1) calc(${mousePos.x}% + 20%), rgba(255,255,255,0.4) calc(${mousePos.x}% + 30%), rgba(255,255,255,1) calc(${mousePos.x}% + 100%))`
+              }}
+            >
+              PSG Institute of Technology and Applied Research
+            </h4>
+            <p className="text-muted-foreground transition-all duration-300">
+              B.E. Computer Science and Engineering
+            </p>
+            <p className="text-sm font-medium text-muted-foreground transition-all duration-300">
+              2021 - 2025 | CGPA: 8.28
+            </p>
+          </div>
+        </div>
+
+        {/* The Premium Shimmer Border Span */}
+        <span 
+          className="pointer-events-none absolute inset-0 z-10 block rounded-[inherit] transition-opacity duration-300"
+          style={{
+            background: `linear-gradient(-75deg, transparent calc(${mousePos.x}% + 10%), hsl(var(--primary) / 0.5) calc(${mousePos.x}% + 25%), transparent calc(${mousePos.x}% + 40%))`,
+            padding: '1px',
+            WebkitMask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)',
+            mask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)'
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 export function About() {
   const { resolvedTheme } = useTheme();
   const [avatar, setAvatar] = useState<ImagePlaceholder | undefined>(
@@ -178,7 +272,7 @@ export function About() {
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
                                 { text: 'ശ്രീനിവാസ പ്രദീപ്', className: 'font-chilanka text-xs text-foreground/90' },
-                                { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'font-tiro-kannada text-xs text-foreground/90' },
+                                { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದീപ്', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
                           />
@@ -208,30 +302,8 @@ export function About() {
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <DialogTrigger asChild>
-                        <div className="mt-6 group cursor-pointer">
-                          <div className="flex items-center gap-6 rounded-lg border bg-secondary/30 p-6 transition-all duration-300 hover:shadow-lg hover:border-primary/20">
-                            <div className="h-20 w-20 flex-shrink-0">
-                              {psgLogo && (
-                                <img
-                                  src={psgLogo.imageUrl}
-                                  alt={psgLogo.description}
-                                  data-ai-hint={psgLogo.imageHint}
-                                  className="h-full w-full object-contain filter grayscale transition-all duration-300 group-hover:grayscale-0"
-                                />
-                              )}
-                            </div>
-                            <div className="flex-grow">
-                              <h4 className="text-lg font-semibold text-foreground/90">
-                                PSG Institute of Technology and Applied Research
-                              </h4>
-                              <p className="text-muted-foreground">
-                                B.E. Computer Science and Engineering
-                              </p>
-                              <p className="text-sm text-muted-foreground">
-                                2021 - 2025 | CGPA: 8.28
-                              </p>
-                            </div>
-                          </div>
+                        <div className="group cursor-pointer outline-none">
+                          <PremiumEducationCard psgLogo={psgLogo} />
                         </div>
                       </DialogTrigger>
                     </TooltipTrigger>
