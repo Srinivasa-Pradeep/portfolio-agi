@@ -1,12 +1,19 @@
 
 'use client';
 
-import { Button } from "@/components/ui/button";
-import { ArrowDown, Download } from "lucide-react";
-import Link from "next/link";
 import { BlurRevealText } from "@/components/blur-reveal-text";
+import { Card } from "@/components/ui/card";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export function Hero() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const roles = [
     "Software Developer",
     "Technical Writer",
@@ -39,23 +46,39 @@ export function Hero() {
           </div>
         </div>
 
-        <p className="mt-6 max-w-xl text-balance text-muted-foreground md:text-lg lora italic">
+        <p className="mt-6 max-w-xl text-balance text-muted-foreground md:text-lg lora italic mb-12">
           I write to understand and build to become.
         </p>
-        
-        <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-          <Link href="#projects" passHref>
-            <Button size="lg" className="w-full sm:w-auto transform transition-transform duration-300 hover:scale-105 rounded-full px-8">
-              View Projects
-              <ArrowDown className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
-          <a href="/resume.pdf" download="Srini_Resume.pdf">
-            <Button size="lg" variant="outline" className="w-full sm:w-auto transform transition-transform duration-300 hover:scale-105 rounded-full px-8">
-              Download Resume
-              <Download className="ml-2 h-4 w-4" />
-            </Button>
-          </a>
+
+        {/* GitHub Heatmap - Replacing buttons with a real-time builder graph */}
+        <div className="w-full max-w-4xl mx-auto px-4 opacity-0 animate-fade-in [animation-delay:400ms]">
+          <Card className="p-6 bg-card/50 backdrop-blur-lg border-border/20 shadow-2xl relative group">
+             {/* Subtle internal glow */}
+             <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+             
+             <div className="relative z-10 flex flex-col items-center">
+                <div className="w-full overflow-x-auto pb-2 scrollbar-hide">
+                  <img 
+                    src="https://ghchart.rshah.org/srinivasa-pradeep" 
+                    alt="Srinivasa Pradeep's GitHub Contributions"
+                    className={`min-w-[700px] h-auto transition-all duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}
+                    style={{
+                      // Custom filters to match the monochrome/silver theme
+                      filter: resolvedTheme === 'dark' 
+                        ? 'invert(1) brightness(0.9) contrast(1.2) sepia(0.1)' 
+                        : 'grayscale(1) contrast(1.2)'
+                    }}
+                  />
+                </div>
+                <div className="mt-4 flex items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-300">
+                  <span className="h-px w-8 bg-muted-foreground/30" />
+                  <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em]">
+                     GitHub Activity &bull; Developer Velocity
+                  </p>
+                  <span className="h-px w-8 bg-muted-foreground/30" />
+                </div>
+             </div>
+          </Card>
         </div>
       </div>
     </section>
