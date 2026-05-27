@@ -138,3 +138,12 @@
   animation: ripple-in 0.9s cubic-bezier(0.215, 0.61, 0.355, 1);
   mix-blend-mode: normal;
 }
+
+@keyframes shine {
+  from { background-position: 200% center; }
+  to { background-position: -200% center; }
+}
+
+.animate-shine {
+  animation: shine 8s linear infinite;
+}
