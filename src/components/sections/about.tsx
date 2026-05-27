@@ -1,4 +1,3 @@
-
 'use client';
 
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
@@ -408,7 +407,12 @@ export function About() {
               <h3 className="font-headline text-2xl font-semibold text-primary">
                 Experience
               </h3>
-              <div className="mt-8 flex items-center justify-center gap-12 md:gap-16">
+              <div className="relative mt-8 flex items-center justify-center gap-12 md:gap-16">
+                {/* Career Thread Line */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70%] h-[1px] bg-border/20 z-0 hidden sm:block">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/80 to-transparent w-24 animate-flow-line" />
+                </div>
+                
                 {companies.map((company) => {
                   const logoId = company.name === 'Amazon' ? amazonLogoId : company.imageId;
                   const logoImage = PlaceHolderImages.find(
@@ -421,7 +425,7 @@ export function About() {
                           <TooltipTrigger asChild>
                             <DialogTrigger asChild>
                               <div
-                                className={`${company.className} cursor-pointer`}
+                                className={`${company.className} relative z-10 cursor-pointer`}
                               >
                                 {logoImage ? (
                                   <img

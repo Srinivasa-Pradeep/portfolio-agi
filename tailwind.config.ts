@@ -153,6 +153,12 @@ export default {
           'from': { backgroundPosition: '200% center' },
           'to': { backgroundPosition: '-200% center' },
         },
+        'flow-line': {
+          '0%': { left: '-20%', opacity: '0' },
+          '10%': { opacity: '1' },
+          '90%': { opacity: '1' },
+          '100%': { left: '100%', opacity: '0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -164,6 +170,7 @@ export default {
         'slow-rotate': 'slow-rotate 60s linear infinite',
         'slow-pulse': 'slow-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
         'shine': 'shine 8s linear infinite',
+        'flow-line': 'flow-line 4s linear infinite',
       },
     },
   },
