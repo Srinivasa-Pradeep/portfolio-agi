@@ -43,7 +43,6 @@ const codeforcesStats = {
 };
 
 // Precise rating history calculated from user deltas:
-// +368, +289 (657), +200 (857), +170 (1027), +131 (1158), +77 (1235), -87 (1148), +132 (1280), -2 (1278), -3 (1275)
 const codeforcesRatingHistory = [
   { index: 1, rating: 368 },
   { index: 2, rating: 657 },
