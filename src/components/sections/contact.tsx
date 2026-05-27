@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useFormStatus } from 'react-dom';
@@ -12,6 +13,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Github, Linkedin, Mail, Send, Briefcase, Star, HelpCircle, MailQuestion, PartyPopper, RefreshCw } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
+import Image from 'next/image';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -37,6 +40,9 @@ export function Contact() {
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const linkedinPreview = PlaceHolderImages.find(p => p.id === 'linkedin-preview');
+  const githubPreview = PlaceHolderImages.find(p => p.id === 'github-preview');
 
   useEffect(() => {
     if (state.message) {
@@ -71,7 +77,7 @@ export function Contact() {
           <div className="lg:col-span-1 space-y-6">
              <h3 className="font-headline text-2xl font-semibold text-primary">Contact Info</h3>
              <p className="text-muted-foreground">You can also reach me directly through these channels.</p>
-              <TooltipProvider>
+              <TooltipProvider delayDuration={0}>
                   <div className="flex gap-4 pt-2">
                       <Tooltip>
                           <TooltipTrigger asChild>
@@ -85,6 +91,7 @@ export function Contact() {
                               <p>Mail</p>
                           </TooltipContent>
                       </Tooltip>
+
                       <Tooltip>
                           <TooltipTrigger asChild>
                               <a href="https://www.linkedin.com/in/srinivasa-pradeep-s/" target="_blank" rel="noopener noreferrer">
@@ -93,10 +100,24 @@ export function Contact() {
                                   </div>
                               </a>
                           </TooltipTrigger>
-                          <TooltipContent>
-                              <p>LinkedIn</p>
+                          <TooltipContent 
+                            side="top" 
+                            className="p-0 border-none bg-transparent shadow-2xl animate-in fade-in-0 slide-in-from-top-12 duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                          >
+                              <div className="relative w-44 aspect-[9/16] rounded-xl overflow-hidden border border-white/20 shadow-2xl bg-black/80 backdrop-blur-xl">
+                                  {linkedinPreview && (
+                                    <Image 
+                                        src={linkedinPreview.imageUrl} 
+                                        alt={linkedinPreview.description}
+                                        data-ai-hint={linkedinPreview.imageHint}
+                                        fill
+                                        className="object-cover opacity-90 brightness-110 contrast-110"
+                                    />
+                                  )}
+                              </div>
                           </TooltipContent>
                       </Tooltip>
+
                       <Tooltip>
                           <TooltipTrigger asChild>
                               <a href="https://github.com/srinivasa-pradeep" target="_blank" rel="noopener noreferrer">
@@ -105,8 +126,21 @@ export function Contact() {
                                   </div>
                               </a>
                           </TooltipTrigger>
-                          <TooltipContent>
-                              <p>GitHub</p>
+                          <TooltipContent 
+                            side="bottom" 
+                            className="p-0 border-none bg-transparent shadow-2xl animate-in fade-in-0 slide-in-from-bottom-12 duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                          >
+                              <div className="relative w-44 aspect-[9/16] rounded-xl overflow-hidden border border-white/20 shadow-2xl bg-black/80 backdrop-blur-xl">
+                                  {githubPreview && (
+                                    <Image 
+                                        src={githubPreview.imageUrl} 
+                                        alt={githubPreview.description}
+                                        data-ai-hint={githubPreview.imageHint}
+                                        fill
+                                        className="object-cover opacity-90 brightness-110 contrast-110"
+                                    />
+                                  )}
+                              </div>
                           </TooltipContent>
                       </Tooltip>
                   </div>
@@ -119,7 +153,7 @@ export function Contact() {
               </CardHeader>
               <CardContent className="min-h-[440px] flex flex-col justify-center transition-all duration-500">
                 {!isSubmitted ? (
-                  <form ref={formRef} action={formAction} className="space-y-6 animate-fade-in">
+                  <form ref={formRef} action={formAction} className="space-y-6">
                     <div className="space-y-2">
                       <Label htmlFor="name">Name</Label>
                       <Input id="name" name="name" placeholder="Your Name" />
