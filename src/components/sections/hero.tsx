@@ -17,11 +17,11 @@ export function Hero() {
   return (
     <section id="hero" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
       <div className="container relative z-10 flex animate-fade-in flex-col items-center text-center">
-        {/* Metallic Shine Name Container */}
-        <div className="relative inline-block px-4 mb-2">
+        {/* Metallic Shine Name Container - Added extra padding to prevent clipping */}
+        <div className="relative inline-block px-4 pr-8 mb-2">
           <h1 className="font-body text-4xl font-medium tracking-tight sm:text-6xl md:text-7xl lg:text-8xl 
                          bg-clip-text text-transparent 
-                         bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#ffffff,55%,hsl(var(--primary)))] 
+                         bg-[linear-gradient(110deg,hsl(var(--primary)),40%,#ffffff,50%,hsl(var(--primary)))] 
                          bg-[length:200%_100%] animate-shine whitespace-nowrap">
             Srinivasa Pradeep
           </h1>
@@ -33,23 +33,23 @@ export function Hero() {
               words={roles} 
               className="text-primary min-w-[200px]"
             />
-            <span className="inline-block h-2 w-2 animate-breathing rounded-full bg-[#00FF00]" />
+            <span className="inline-block h-2.5 w-2.5 animate-breathing rounded-full bg-[#00FF00]" />
           </div>
         </div>
 
-        <p className="mt-6 max-w-xl text-balance text-muted-foreground md:text-lg">
+        <p className="mt-6 max-w-xl text-balance text-muted-foreground md:text-lg lora italic">
           I write to understand and build to become.
         </p>
         
         <div className="mt-8 flex flex-col gap-4 sm:flex-row">
           <Link href="#projects" passHref>
-            <Button size="lg" className="w-full sm:w-auto transform transition-transform duration-300 hover:scale-105">
+            <Button size="lg" className="w-full sm:w-auto transform transition-transform duration-300 hover:scale-105 rounded-full px-8">
               View Projects
               <ArrowDown className="ml-2 h-4 w-4" />
             </Button>
           </Link>
           <a href="/resume.pdf" download="Srini_Resume.pdf">
-            <Button size="lg" variant="outline" className="w-full sm:w-auto transform transition-transform duration-300 hover:scale-105">
+            <Button size="lg" variant="outline" className="w-full sm:w-auto transform transition-transform duration-300 hover:scale-105 rounded-full px-8">
               Download Resume
               <Download className="ml-2 h-4 w-4" />
             </Button>
