@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col relative overflow-x-hidden">
       {/* Unified Persistent Background with Cinematic Vignette */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden will-change-transform transform-gpu">
         <div className="absolute inset-0 bg-background" />
         
         {/* Subtle Radial Glows */}
@@ -24,15 +24,15 @@ export default function Home() {
           className="absolute inset-0 h-full w-full bg-transparent bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_110%)] opacity-20"
         />
 
-        {/* Cinematic Viewport Vignette - enhances the depth feel */}
+        {/* Cinematic Viewport Vignette */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,hsl(var(--background)/0.4)_100%)]" />
       </div>
 
-      {/* SINGLE BOTTOM VIEWPORT BLUR - Creates a "reveal from blur" effect during scroll */}
-      <div className="fixed inset-x-0 bottom-0 h-48 z-40 pointer-events-none backdrop-blur-xl [mask-image:linear-gradient(to_top,black_20%,transparent)] opacity-90" />
+      {/* SINGLE BOTTOM VIEWPORT BLUR - Optimized with GPU hints */}
+      <div className="fixed inset-x-0 bottom-0 h-48 z-40 pointer-events-none backdrop-blur-xl [mask-image:linear-gradient(to_top,black_20%,transparent)] opacity-95 transform-gpu will-change-[backdrop-filter]" />
 
       <Header />
-      <main className="flex-1 relative z-10">
+      <main className="flex-1 relative z-10 transform-gpu">
         <Hero />
         <div className="space-y-0">
           <About />
