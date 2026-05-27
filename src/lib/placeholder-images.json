@@ -69,13 +69,13 @@
     {
       "id": "linkedin-preview",
       "description": "LinkedIn profile preview image",
-      "imageUrl": "https://picsum.photos/seed/linkedin/640/360",
+      "imageUrl": "/images/linkedin.png",
       "imageHint": "linkedin profile"
     },
     {
       "id": "github-preview",
       "description": "GitHub profile preview image",
-      "imageUrl": "https://picsum.photos/seed/github/640/360",
+      "imageUrl": "/images/ghub.png",
       "imageHint": "github profile"
     }
   ]
