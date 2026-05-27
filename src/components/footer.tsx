@@ -8,9 +8,9 @@ import { cn } from '@/lib/utils';
 import { BlurRevealText } from './blur-reveal-text';
 
 const quotes = [
-  "Man is made by his belief. As he believes, so he is.",
-  "You make your own luck if you stay at it long enough.",
-  "Dreams won't work until you work"
+  "\"Man is made by his belief. As he believes, so he is.\"",
+  "\"You make your own luck if you stay at it long enough.\"",
+  "\"Dreams won't work until you work\""
 ];
 
 export function Footer() {
