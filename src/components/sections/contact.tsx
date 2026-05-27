@@ -34,7 +34,7 @@ const categoryStyles: { [key: string]: { style: string, icon: React.ReactNode } 
   'Other': { style: 'text-primary', icon: <MailQuestion className="h-12 w-12" /> },
 };
 
-function PremiumBookCallButton() {
+function PremiumScheduleMeetButton() {
     const { resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const buttonRef = useRef<HTMLAnchorElement>(null);
@@ -110,7 +110,7 @@ function PremiumBookCallButton() {
                     </a>
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p>Book a Free Call</p>
+                    <p>Schedule a Free Meet</p>
                 </TooltipContent>
             </Tooltip>
         </TooltipProvider>
@@ -163,7 +163,7 @@ export function Contact() {
               <TooltipProvider delayDuration={0}>
                   <div className="flex flex-col gap-6 pt-2">
                       <div className="flex gap-4">
-                        <PremiumBookCallButton />
+                        <PremiumScheduleMeetButton />
 
                         <Tooltip>
                             <TooltipTrigger asChild>
