@@ -15,6 +15,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { MusicPlayer } from './music-player';
+import { useTheme } from 'next-themes';
 
 const navItems = [
   { id: 'about', label: 'About', icon: User },
@@ -55,7 +56,6 @@ function DockItem({
     
     if (distance > DOCK_MAGNIFICATION_DISTANCE) return 1;
     
-    // Create a smoother "liquid" proximity curve using cosine
     const proximity = 1 - distance / DOCK_MAGNIFICATION_DISTANCE;
     const smoothProximity = 0.5 * (1 - Math.cos(Math.PI * proximity));
     
@@ -67,7 +67,6 @@ function DockItem({
       ref={ref}
       style={{ 
         transform: `scale(${scale})`,
-        // High-end liquid easing for the magnification transition
         transition: 'transform 450ms cubic-bezier(0.3, 1.5, 0.5, 1)',
         transformOrigin: 'bottom center'
       }}
@@ -116,6 +115,7 @@ export function Header() {
   const [isMounted, setIsMounted] = useState(false);
   const [mouseX, setMouseX] = useState<number | null>(null);
   const pathname = usePathname();
+  const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     setIsMounted(true);
@@ -150,6 +150,19 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [pathname]);
 
+  if (!isMounted) return null;
+
+  // In Light Mode, only show the standalone theme toggle for a "Pure White" experience
+  if (resolvedTheme === 'light') {
+    return (
+      <div className="fixed bottom-8 right-8 z-50 flex items-center gap-4">
+        <MusicPlayer />
+        <ThemeToggle />
+      </div>
+    );
+  }
+
+  // Full Dock for Dark Mode only
   return (
     <header 
       className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4"
@@ -178,7 +191,7 @@ export function Header() {
                     href={`/#${item.id}`} 
                     icon={item.icon} 
                     label={item.label} 
-                    active={activeSection === item.id} 
+                    active={activeSection === id} 
                     mouseX={mouseX} 
                   />
                 ))}
