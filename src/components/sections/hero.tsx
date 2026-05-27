@@ -3,38 +3,16 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Download } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 export function Hero() {
-  const [offsetY, setOffsetY] = useState(0);
-  const handleScroll = () => setOffsetY(window.scrollY);
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
   return (
     <section id="hero" className="relative flex min-h-screen w-full items-center justify-center overflow-hidden">
-      <div 
-        className="absolute inset-0 z-0"
-        style={{ transform: `translateY(${offsetY * 0.5}px)` }}
-      >
-        <div className="absolute inset-0 bg-background" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.1),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,hsl(var(--accent)/0.1),transparent_40%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,hsl(var(--accent)/0.1),transparent_40%)]" />
-         <div
-          className="absolute inset-0 h-full w-full bg-transparent bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]">
-        </div>
-      </div>
+      {/* Background is now global in page.tsx to maintain continuity */}
       
       <div className="container relative z-10 flex animate-fade-in flex-col items-center text-center">
-        <h1 className="font-body relative cursor-default inline-block px-4 text-4xl font-medium tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
+        <h1 className="font-body relative cursor-default inline-block px-8 py-2 text-4xl font-medium tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
           <span className="block">Srinivasa Pradeep</span>
-          <div className="absolute inset-0 z-20 pointer-events-none select-none px-4" aria-hidden="true">
+          <div className="absolute inset-0 z-20 pointer-events-none select-none px-8 py-2" aria-hidden="true">
             <span className="will-change-[background-position] animate-shine bg-clip-text text-transparent bg-gradient-to-r from-transparent via-white/80 dark:via-slate-500/60 to-transparent bg-[length:200%_100%] block">
               Srinivasa Pradeep
             </span>
