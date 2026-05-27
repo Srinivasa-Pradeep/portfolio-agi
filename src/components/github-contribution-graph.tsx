@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -58,14 +57,6 @@ export function GitHubContributionGraph() {
         delayHide={0}
         className="!bg-background !border-border !border !rounded-lg !shadow-2xl !opacity-100 !px-3 !py-2 !z-[100]"
       />
-      
-      <div className="mt-4 flex items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-300">
-        <span className="h-px w-8 bg-muted-foreground/30" />
-        <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em]">
-           GitHub Activity &bull; Interactive Timeline
-        </p>
-        <span className="h-px w-8 bg-muted-foreground/30" />
-      </div>
     </div>
   );
 }
