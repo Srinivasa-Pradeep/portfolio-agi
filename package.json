@@ -51,8 +51,10 @@
     "patch-package": "^8.0.0",
     "react": "19.0.0-rc-f994737d14-20240522",
     "react-dom": "19.0.0-rc-f994737d14-20240522",
+    "react-github-calendar": "^4.5.5",
     "react-hook-form": "^7.54.2",
     "react-icons": "^5.2.1",
+    "react-tooltip": "^5.28.0",
     "recharts": "^2.12.7",
     "resend": "^3.4.0",
     "tailwind-merge": "^3.0.1",
@@ -94,6 +96,14 @@
     },
     "lenis": {
       "react": "$react"
+    },
+    "react-github-calendar": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "react-tooltip": {
+      "react": "$react",
+      "react-dom": "$react-dom"
     }
   }
 }

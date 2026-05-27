@@ -5,6 +5,7 @@ import { BlurRevealText } from "@/components/blur-reveal-text";
 import { Card } from "@/components/ui/card";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { GitHubContributionGraph } from "@/components/github-contribution-graph";
 
 export function Hero() {
   const { resolvedTheme } = useTheme();
@@ -50,33 +51,14 @@ export function Hero() {
           I write to understand and build to become.
         </p>
 
-        {/* GitHub Heatmap - Replacing buttons with a real-time builder graph */}
+        {/* GitHub Contribution Graph - Interactive real-time builder graph */}
         <div className="w-full max-w-4xl mx-auto px-4 opacity-0 animate-fade-in [animation-delay:400ms]">
           <Card className="p-6 bg-card/50 backdrop-blur-lg border-border/20 shadow-2xl relative group">
              {/* Subtle internal glow */}
              <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
              
-             <div className="relative z-10 flex flex-col items-center">
-                <div className="w-full overflow-x-auto pb-2 scrollbar-hide">
-                  <img 
-                    src="https://ghchart.rshah.org/srinivasa-pradeep" 
-                    alt="Srinivasa Pradeep's GitHub Contributions"
-                    className={`min-w-[700px] h-auto transition-all duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}
-                    style={{
-                      // Custom filters to match the monochrome/silver theme
-                      filter: resolvedTheme === 'dark' 
-                        ? 'invert(1) brightness(0.9) contrast(1.2) sepia(0.1)' 
-                        : 'grayscale(1) contrast(1.2)'
-                    }}
-                  />
-                </div>
-                <div className="mt-4 flex items-center gap-2 opacity-40 hover:opacity-100 transition-opacity duration-300">
-                  <span className="h-px w-8 bg-muted-foreground/30" />
-                  <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em]">
-                     GitHub Activity &bull; Developer Velocity
-                  </p>
-                  <span className="h-px w-8 bg-muted-foreground/30" />
-                </div>
+             <div className="relative z-10">
+                {mounted ? <GitHubContributionGraph /> : <div className="h-[150px] w-full animate-pulse bg-muted/20 rounded-lg" />}
              </div>
           </Card>
         </div>
