@@ -15,10 +15,8 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Threshold and rootMargin set to trigger early for a smooth flow
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Toggle visibility to allow reverse animations
         setIsVisible(entry.isIntersecting);
       },
       {
@@ -43,10 +41,10 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
     <div
       ref={ref}
       className={cn(
-        'transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-[transform,opacity]',
+        'transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-[transform,opacity,filter]',
         isVisible 
-          ? 'opacity-100 translate-y-0 scale-100' 
-          : 'opacity-0 translate-y-20 scale-[0.98]',
+          ? 'opacity-100 translate-y-0 scale-100 blur-none' 
+          : 'opacity-0 translate-y-12 scale-[0.99] blur-[2px]',
         className
       )}
       style={{ transitionDelay: `${delay}ms` }}
