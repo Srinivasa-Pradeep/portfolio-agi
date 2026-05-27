@@ -114,6 +114,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [mouseX, setMouseX] = useState<number | null>(null);
+  const [isAtBottom, setIsAtBottom] = useState(false);
   const pathname = usePathname();
   const { resolvedTheme } = useTheme();
 
@@ -123,6 +124,13 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
+      // 1. Rock bottom detection
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const clientHeight = window.innerHeight;
+      setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 20);
+
+      // 2. Active section detection
       if (pathname !== '/') {
         setActiveSection('');
         return;
@@ -144,7 +152,7 @@ export function Header() {
       setActiveSection(currentSection);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
@@ -152,7 +160,7 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  // In Light Mode, only show the standalone theme toggle and music player for a "Pure White" experience
+  // In Light Mode, show the standalone buttons normally
   if (resolvedTheme === 'light') {
     return (
       <div className="fixed bottom-8 right-8 z-50 flex items-center gap-4">
@@ -162,10 +170,13 @@ export function Header() {
     );
   }
 
-  // Full Dock for Dark Mode only
+  // Full Dock for Dark Mode - Hides at rock bottom
   return (
     <header 
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4"
+      className={cn(
+        "fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 transition-all duration-700 ease-in-out transform-gpu",
+        isAtBottom ? "opacity-0 translate-y-10 pointer-events-none" : "opacity-100 translate-y-0"
+      )}
       onMouseMove={(e) => setMouseX(e.clientX)}
       onMouseLeave={() => setMouseX(null)}
     >
