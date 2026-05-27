@@ -152,7 +152,7 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  // In Light Mode, only show the standalone theme toggle for a "Pure White" experience
+  // In Light Mode, only show the standalone theme toggle and music player for a "Pure White" experience
   if (resolvedTheme === 'light') {
     return (
       <div className="fixed bottom-8 right-8 z-50 flex items-center gap-4">
@@ -191,7 +191,7 @@ export function Header() {
                     href={`/#${item.id}`} 
                     icon={item.icon} 
                     label={item.label} 
-                    active={activeSection === id} 
+                    active={activeSection === item.id} 
                     mouseX={mouseX} 
                   />
                 ))}
