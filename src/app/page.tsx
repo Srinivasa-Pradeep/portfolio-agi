@@ -1,3 +1,4 @@
+
 import { Header } from '@/components/header';
 import { About } from '@/components/sections/about';
 import { Blogs } from '@/components/sections/blogs';
@@ -29,9 +30,9 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,hsl(var(--background)/0.4)_100%)]" />
       </div>
 
-      {/* FIXED VIEWPORT BLUR OVERLAYS - This creates the premium "revealed from blurred" effect efficiently */}
-      <div className="fixed inset-x-0 top-0 h-32 z-40 pointer-events-none backdrop-blur-md [mask-image:linear-gradient(to_bottom,black,transparent)] opacity-60" />
-      <div className="fixed inset-x-0 bottom-0 h-32 z-40 pointer-events-none backdrop-blur-md [mask-image:linear-gradient(to_top,black,transparent)] opacity-60" />
+      {/* FIXED VIEWPORT BLUR OVERLAYS - Increased intensity (xl) for a premium "revealed from blurred" effect */}
+      <div className="fixed inset-x-0 top-0 h-48 z-40 pointer-events-none backdrop-blur-xl [mask-image:linear-gradient(to_bottom,black_20%,transparent)] opacity-80" />
+      <div className="fixed inset-x-0 bottom-0 h-48 z-40 pointer-events-none backdrop-blur-xl [mask-image:linear-gradient(to_top,black_20%,transparent)] opacity-80" />
 
       <Header />
       <main className="flex-1 relative z-10">

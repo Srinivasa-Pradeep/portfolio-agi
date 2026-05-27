@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
@@ -22,7 +23,7 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
       },
       {
         threshold: 0.05,
-        rootMargin: '-5% 0px -5% 0px', 
+        rootMargin: '-10% 0px -10% 0px', 
       }
     );
 
@@ -42,10 +43,10 @@ export function ScrollAnimationWrapper({ children, className, delay = 0 }: Scrol
     <div
       ref={ref}
       className={cn(
-        'transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-[transform,opacity]',
+        'transition-all duration-1000 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-[transform,opacity]',
         isVisible 
           ? 'opacity-100 translate-y-0 scale-100' 
-          : 'opacity-0 translate-y-12 scale-[0.97]',
+          : 'opacity-0 translate-y-20 scale-[0.98]',
         className
       )}
       style={{ transitionDelay: `${delay}ms` }}
