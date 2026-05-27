@@ -144,7 +144,6 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
     setMousePos({ x, y });
   };
 
-  // Determine shimmer color based on theme - safe after mount
   const shimmerColor = (mounted && resolvedTheme === 'dark') 
     ? 'hsl(var(--primary) / 0.5)' 
     : 'rgba(255, 255, 255, 0.8)';
@@ -161,7 +160,6 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
       } : {}}
     >
       <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-6 backdrop-blur-sm transition-all duration-500 group-hover:bg-white dark:group-hover:bg-secondary/50">
-        {/* Animated Internal Glows - only show theme-specific one after mount */}
         <div 
           className={cn(
             "absolute inset-0 z-0 transition-opacity duration-500",
@@ -215,7 +213,6 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
           </div>
         </div>
 
-        {/* The Premium Shimmer Border Span - wait for mount to apply complex background and mask */}
         <span 
           className="pointer-events-none absolute inset-0 z-10 block rounded-[inherit] transition-opacity duration-300"
           style={mounted ? {
@@ -325,7 +322,7 @@ export function About() {
                   </Tooltip>
                 </TooltipProvider>
 
-                <DialogContent className="sm:max-w-[525px]">
+                <DialogContent className="sm:max-w-[525px]" data-lenis-prevent>
                   <DialogHeader>
                     <DialogTitle className="flex items-center gap-4">
                       {psgLogo && (
@@ -344,7 +341,7 @@ export function About() {
                   </DialogHeader>
                   <div className="pt-4">
                     <h4 className="font-semibold text-foreground mb-3">Notable Achievements</h4>
-                    <ScrollArea className="h-72 pr-4">
+                    <ScrollArea className="h-72 pr-4" data-lenis-prevent>
                       <ul className="space-y-3">
                           <li className="flex items-start gap-3">
                               <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
@@ -444,7 +441,7 @@ export function About() {
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
-                      <DialogContent className="sm:max-w-[525px]">
+                      <DialogContent className="sm:max-w-[525px]" data-lenis-prevent>
                         <DialogHeader>
                           <DialogTitle className="flex items-center gap-4">
                             {logoImage && (
