@@ -104,7 +104,7 @@ export function Contact() {
                             side="top" 
                             className="p-0 border-none bg-transparent shadow-2xl animate-in fade-in-0 slide-in-from-top-12 duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
                           >
-                              <div className="relative w-64 aspect-[16/9] rounded-xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-2xl">
+                              <div className="relative w-64 aspect-[16/9] rounded-xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-2xl border border-white/10 ring-1 ring-white/5">
                                   {linkedinPreview && (
                                     <Image 
                                         src={linkedinPreview.imageUrl} 
@@ -130,7 +130,7 @@ export function Contact() {
                             side="bottom" 
                             className="p-0 border-none bg-transparent shadow-2xl animate-in fade-in-0 slide-in-from-bottom-12 duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
                           >
-                              <div className="relative w-64 aspect-[16/9] rounded-xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-2xl">
+                              <div className="relative w-64 aspect-[16/9] rounded-xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-2xl border border-white/10 ring-1 ring-white/5">
                                   {githubPreview && (
                                     <Image 
                                         src={githubPreview.imageUrl} 
