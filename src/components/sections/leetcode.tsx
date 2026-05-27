@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -254,7 +253,7 @@ export function LeetCode() {
           <div className="lg:col-span-2 space-y-8">
             <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20 group/leetcard">
               <div className="flex items-center gap-2 mb-6">
-                <SiLeetcode className="h-6 w-6 text-primary filter grayscale transition-all duration-500 group-hover/leetcard:grayscale-0 group-hover/leetcard:text-[#FFA116]" />
+                <SiLeetcode className="h-6 w-6 text-primary filter grayscale" />
                 <h3 className="font-headline text-xl font-semibold">LeetCode Journey</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
@@ -424,7 +423,7 @@ export function LeetCode() {
                         alt={hoodieImage.description}
                         data-ai-hint={hoodieImage.imageHint}
                         fill
-                        className="object-cover transition-all duration-700 group-hover:scale-110 filter grayscale group-hover:grayscale-0 contrast-125"
+                        className="object-cover transition-all duration-700 group-hover:scale-110 contrast-125"
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity group-hover:opacity-60" />
@@ -481,7 +480,7 @@ export function LeetCode() {
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Button size="lg" asChild className="min-w-[200px] group">
               <a href="https://leetcode.com/u/srinivasa_pradeep_/" target="_blank" rel="noopener noreferrer">
-                <SiLeetcode className="mr-2 h-5 w-5 filter grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:text-[#FFA116]" /> LeetCode Profile
+                <SiLeetcode className="mr-2 h-5 w-5 filter grayscale" /> LeetCode Profile
               </a>
             </Button>
             <Button size="lg" variant="outline" asChild className="min-w-[200px]">
