@@ -51,72 +51,64 @@ function PremiumBookCallButton() {
     const shimmerColor = resolvedTheme === 'dark' ? 'rgba(255, 255, 255, 0.4)' : 'rgba(0, 0, 0, 0.1)';
 
     return (
-        <div className="gradient bg-border/20 rounded-full p-[1px] relative overflow-hidden w-fit mt-3 group/btn">
-            <a
-                ref={buttonRef}
-                href="https://cal.com/sriley/15min"
-                target="_blank"
-                rel="noopener noreferrer"
-                onMouseMove={handleMouseMove}
-                className="h-full bg-secondary/50 dark:bg-black/50 backdrop-blur-xl rounded-full text-foreground text-sm sm:text-md px-6 py-2.5 w-full flex items-center justify-center transition-all group relative overflow-hidden touch-manipulation active:scale-95 no-cursor"
-                style={{
-                  // @ts-ignore
-                  '--x': `${mousePos.x}%`,
-                  '--shimmer-color': shimmerColor,
-                }}
-            >
-                {/* Internal Shimmer Layer */}
-                <div 
-                    className="absolute inset-0 opacity-40 group-hover/btn:opacity-60 transition-opacity duration-500 z-0"
-                    style={{
-                        background: `radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, var(--shimmer-color) 0%, transparent 50%)`,
-                        mixBlendMode: resolvedTheme === 'dark' ? 'overlay' : 'multiply'
-                    }}
-                />
+        <TooltipProvider>
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <a
+                        ref={buttonRef}
+                        href="https://cal.com/sriley/15min"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onMouseMove={handleMouseMove}
+                        className="group relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-secondary/50 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:w-36 shadow-lg ring-1 ring-border/20 no-cursor"
+                    >
+                        {/* Internal Shimmer Layer */}
+                        <div 
+                            className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500 z-0"
+                            style={{
+                                background: `radial-gradient(circle at ${mousePos.x}% ${mousePos.y}%, ${shimmerColor} 0%, transparent 50%)`,
+                            }}
+                        />
 
-                <div className="flex items-center gap-2 group-hover:gap-10 sm:group-hover:gap-14 transition-all duration-500 relative z-20">
-                    {/* Avatar and "You" Logic */}
-                    <div className="relative flex items-center">
-                        <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full overflow-hidden shrink-0 ring-1 ring-white/20">
-                            {avatar && (
-                                <img
-                                    src={avatar.imageUrl}
-                                    alt="Srini"
-                                    className="w-full h-full object-cover"
-                                />
-                            )}
-                        </div>
-                        
-                        <div className="flex items-center gap-1 absolute left-[30px] sm:left-[34px] transform -translate-x-full opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 whitespace-nowrap">
-                            <Plus className="w-2 h-2 sm:w-3 sm:h-3 text-primary" />
-                            <div className="px-2 py-0.5 rounded-full bg-primary/10 dark:bg-white/10 text-[8px] sm:text-[10px] font-bold border border-primary/20 backdrop-blur-md">
-                                YOU
+                        {/* Content Container */}
+                        <div className="relative z-20 flex items-center justify-center w-full px-4 overflow-hidden">
+                            {/* "YOU" Label */}
+                            <div className="absolute left-1/2 -translate-x-1/2 transition-all duration-500 group-hover:left-5 group-hover:-translate-x-0">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-foreground">You</span>
+                            </div>
+
+                            {/* Hover Reveal: Plus and Avatar */}
+                            <div className="flex items-center gap-1.5 opacity-0 scale-50 translate-x-10 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-6">
+                                <Plus className="w-3 h-3 text-primary shrink-0" />
+                                <div className="w-8 h-8 rounded-full overflow-hidden ring-1 ring-white/20 shrink-0">
+                                    {avatar && (
+                                        <img
+                                            src={avatar.imageUrl}
+                                            alt="Srini"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    )}
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <span 
-                        className="whitespace-nowrap relative block text-sm sm:text-base font-medium transition-all duration-300 group-hover:translate-x-1"
-                        style={{
-                            maskImage: `linear-gradient(-75deg, rgba(255,255,255,1) calc(${mousePos.x}% + 20%), rgba(255,255,255,0.2) calc(${mousePos.x}% + 30%), rgba(255,255,255,1) calc(${mousePos.x}% + 100%))`
-                        }}
-                    >
-                        Book a Free Call
-                    </span>
-                </div>
-
-                {/* Feathered Glow Outline */}
-                <span 
-                    className="pointer-events-none absolute inset-0 z-10 block rounded-[inherit] transition-opacity duration-300"
-                    style={{
-                        background: `linear-gradient(-75deg, transparent calc(${mousePos.x}% + 10%), hsl(var(--primary) / 0.3) calc(${mousePos.x}% + 25%), transparent calc(${mousePos.x}% + 40%))`,
-                        padding: '1px',
-                        WebkitMask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)',
-                        mask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)'
-                    }}
-                />
-            </a>
-        </div>
+                        {/* Feathered Glow Outline */}
+                        <span 
+                            className="pointer-events-none absolute inset-0 z-10 block rounded-[inherit] transition-opacity duration-300"
+                            style={{
+                                background: `linear-gradient(-75deg, transparent calc(${mousePos.x}% + 10%), hsl(var(--primary) / 0.3) calc(${mousePos.x}% + 25%), transparent calc(${mousePos.x}% + 40%))`,
+                                padding: '1px',
+                                WebkitMask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)',
+                                mask: 'linear-gradient(#000, #000) content-box exclude, linear-gradient(#000, #000)'
+                            }}
+                        />
+                    </a>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <p>Book a Free Call</p>
+                </TooltipContent>
+            </Tooltip>
+        </TooltipProvider>
     );
 }
 
@@ -166,23 +158,12 @@ export function Contact() {
               <TooltipProvider delayDuration={0}>
                   <div className="flex flex-col gap-6 pt-2">
                       <div className="flex gap-4">
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <a href="mailto:sspradeep2004@gmail.com">
-                                    <div className="bg-secondary/50 backdrop-blur-sm p-4 rounded-full transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-lg ring-1 ring-border/20">
-                                        <Mail className="h-6 w-6"/>
-                                    </div>
-                                </a>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                                <p>Mail</p>
-                            </TooltipContent>
-                        </Tooltip>
+                        <PremiumBookCallButton />
 
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <a href="https://www.linkedin.com/in/srinivasa-pradeep-s/" target="_blank" rel="noopener noreferrer">
-                                    <div className="bg-secondary/50 backdrop-blur-sm p-4 rounded-full transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-lg ring-1 ring-border/20">
+                                    <div className="bg-secondary/50 backdrop-blur-sm p-4 rounded-full transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-lg ring-1 ring-border/20 h-14 w-14 flex items-center justify-center">
                                         <Linkedin className="h-6 w-6"/>
                                     </div>
                                 </a>
@@ -208,7 +189,7 @@ export function Contact() {
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <a href="https://github.com/srinivasa-pradeep" target="_blank" rel="noopener noreferrer">
-                                    <div className="bg-secondary/50 backdrop-blur-sm p-4 rounded-full transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-lg ring-1 ring-border/20">
+                                    <div className="bg-secondary/50 backdrop-blur-sm p-4 rounded-full transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-lg ring-1 ring-border/20 h-14 w-14 flex items-center justify-center">
                                         <Github className="h-6 w-6"/>
                                     </div>
                                 </a>
@@ -231,8 +212,6 @@ export function Contact() {
                             </TooltipContent>
                         </Tooltip>
                       </div>
-
-                      <PremiumBookCallButton />
                   </div>
               </TooltipProvider>
           </div>
