@@ -67,7 +67,6 @@ function PremiumScheduleMeetButton() {
                         onMouseMove={handleMouseMove}
                         className="group relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-secondary/50 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:w-36 shadow-lg ring-1 ring-border/20 no-cursor"
                     >
-                        {/* Internal Shimmer Layer */}
                         <div 
                             className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500 z-0"
                             style={mounted ? {
@@ -75,14 +74,11 @@ function PremiumScheduleMeetButton() {
                             } : {}}
                         />
 
-                        {/* Content Container */}
                         <div className="relative z-20 flex items-center justify-center w-full px-4 overflow-hidden">
-                            {/* "YOU" Label */}
                             <div className="absolute left-1/2 -translate-x-1/2 transition-all duration-500 group-hover:left-5 group-hover:-translate-x-0">
                                 <span className="text-[10px] font-black uppercase tracking-widest text-foreground">You</span>
                             </div>
 
-                            {/* Hover Reveal: Plus and Avatar */}
                             <div className="flex items-center gap-1.5 opacity-0 scale-50 translate-x-10 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-x-6">
                                 <Plus className="w-3 h-3 text-primary shrink-0" />
                                 <div className="w-8 h-8 rounded-full overflow-hidden ring-1 ring-white/20 shrink-0">
@@ -97,7 +93,6 @@ function PremiumScheduleMeetButton() {
                             </div>
                         </div>
 
-                        {/* Feathered Glow Outline */}
                         <span 
                             className="pointer-events-none absolute inset-0 z-10 block rounded-[inherit] transition-opacity duration-300"
                             style={mounted ? {
@@ -117,15 +112,78 @@ function PremiumScheduleMeetButton() {
     );
 }
 
+function SocialIconWithPreview({ 
+  href, 
+  icon: Icon, 
+  imageId, 
+  side = 'top' 
+}: { 
+  href: string; 
+  icon: any; 
+  imageId: string; 
+  side?: 'top' | 'bottom' 
+}) {
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const previewImage = PlaceHolderImages.find(p => p.id === imageId);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        setMousePos({ x, y });
+    };
+
+    return (
+        <Tooltip>
+            <TooltipTrigger asChild>
+                <a 
+                    href={href} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    onMouseMove={handleMouseMove}
+                    onMouseLeave={() => setMousePos({ x: 0, y: 0 })}
+                >
+                    <div className="bg-secondary/50 backdrop-blur-sm p-4 rounded-full transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-lg ring-1 ring-border/20 h-14 w-14 flex items-center justify-center">
+                        <Icon className="h-6 w-6"/>
+                    </div>
+                </a>
+            </TooltipTrigger>
+            <TooltipContent 
+              side={side} 
+              className={cn(
+                "p-0 border-none bg-transparent shadow-2xl duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]",
+                side === 'top' ? "animate-in fade-in-0 slide-in-from-top-12" : "animate-in fade-in-0 slide-in-from-bottom-12"
+              )}
+            >
+                <div className="relative w-64 aspect-[16/9] rounded-xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-2xl ring-1 ring-white/10">
+                    <div 
+                      className="absolute inset-0 transition-transform duration-300 ease-out"
+                      style={{
+                        transform: `translate(${mousePos.x * 15}px, ${mousePos.y * 15}px) scale(1.1)`
+                      }}
+                    >
+                        {previewImage && (
+                          <Image 
+                              src={previewImage.imageUrl} 
+                              alt={previewImage.description}
+                              data-ai-hint={previewImage.imageHint}
+                              fill
+                              className="object-cover opacity-90 brightness-110 contrast-110"
+                          />
+                        )}
+                    </div>
+                </div>
+            </TooltipContent>
+        </Tooltip>
+    );
+}
+
 export function Contact() {
   const initialState = { message: null, errors: {}, success: false, category: null };
   const [state, formAction] = useActionState(submitContactForm, initialState);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const linkedinPreview = PlaceHolderImages.find(p => p.id === 'linkedin-preview');
-  const githubPreview = PlaceHolderImages.find(p => p.id === 'github-preview');
 
   useEffect(() => {
     if (state.message) {
@@ -165,57 +223,19 @@ export function Contact() {
                       <div className="flex gap-4">
                         <PremiumScheduleMeetButton />
 
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <a href="https://www.linkedin.com/in/srinivasa-pradeep-s/" target="_blank" rel="noopener noreferrer">
-                                    <div className="bg-secondary/50 backdrop-blur-sm p-4 rounded-full transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-lg ring-1 ring-border/20 h-14 w-14 flex items-center justify-center">
-                                        <Linkedin className="h-6 w-6"/>
-                                    </div>
-                                </a>
-                            </TooltipTrigger>
-                            <TooltipContent 
-                              side="top" 
-                              className="p-0 border-none bg-transparent shadow-2xl animate-in fade-in-0 slide-in-from-top-12 duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
-                            >
-                                <div className="relative w-64 aspect-[16/9] rounded-xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-2xl ring-1 ring-white/10">
-                                    {linkedinPreview && (
-                                      <Image 
-                                          src={linkedinPreview.imageUrl} 
-                                          alt={linkedinPreview.description}
-                                          data-ai-hint={linkedinPreview.imageHint}
-                                          fill
-                                          className="object-cover opacity-90 brightness-110 contrast-110"
-                                      />
-                                    )}
-                                </div>
-                            </TooltipContent>
-                        </Tooltip>
+                        <SocialIconWithPreview 
+                          href="https://www.linkedin.com/in/srinivasa-pradeep-s/"
+                          icon={Linkedin}
+                          imageId="linkedin-preview"
+                          side="top"
+                        />
 
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <a href="https://github.com/srinivasa-pradeep" target="_blank" rel="noopener noreferrer">
-                                    <div className="bg-secondary/50 backdrop-blur-sm p-4 rounded-full transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:scale-110 shadow-lg ring-1 ring-border/20 h-14 w-14 flex items-center justify-center">
-                                        <Github className="h-6 w-6"/>
-                                    </div>
-                                </a>
-                            </TooltipTrigger>
-                            <TooltipContent 
-                              side="bottom" 
-                              className="p-0 border-none bg-transparent shadow-2xl animate-in fade-in-0 slide-in-from-bottom-12 duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
-                            >
-                                <div className="relative w-64 aspect-[16/9] rounded-xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-2xl ring-1 ring-white/10">
-                                    {githubPreview && (
-                                      <Image 
-                                          src={githubPreview.imageUrl} 
-                                          alt={githubPreview.description}
-                                          data-ai-hint={githubPreview.imageHint}
-                                          fill
-                                          className="object-cover opacity-90 brightness-110 contrast-110"
-                                      />
-                                    )}
-                                </div>
-                            </TooltipContent>
-                        </Tooltip>
+                        <SocialIconWithPreview 
+                          href="https://github.com/srinivasa-pradeep"
+                          icon={Github}
+                          imageId="github-preview"
+                          side="bottom"
+                        />
                       </div>
                   </div>
               </TooltipProvider>
