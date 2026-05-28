@@ -9,8 +9,24 @@ import { Button } from '@/components/ui/button';
 export function ThemeToggle() {
   const { setTheme } = useTheme();
   const [rotation, setRotation] = React.useState(0);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+
+  // Initialize the audio instance on mount
+  React.useEffect(() => {
+    audioRef.current = new Audio('/sounds/switch.mp3');
+    // Preload the audio to avoid delay on first click
+    audioRef.current.load();
+  }, []);
 
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Play the toggle SFX
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0; // Reset to start if already playing
+      audioRef.current.play().catch(() => {
+        // Silently fail if file is missing or browser restricts playback
+      });
+    }
+
     setRotation(r => r + 360);
     const isDark = document.documentElement.classList.contains('dark');
 
