@@ -23,7 +23,7 @@ const projects = [
   {
     name: "MedQuery AI",
     description:
-      "A sophisticated Text-to-SQL AI model bridging natural language and complex medical databases for instant clinical insights.",
+      "Advanced Text-to-SQL AI bridging natural language and medical databases for instant clinical insights.",
     stack: [
       { name: "Python", icon: SiPython, color: "#3776AB" },
       { name: "Streamlit", icon: SiStreamlit, color: "#FF4B4B" },
@@ -33,12 +33,11 @@ const projects = [
     github: "https://github.com/Srinivasa-Pradeep/MedQuery",
     link: "https://github.com/Srinivasa-Pradeep/MedQuery",
     imageId: "project-medquery",
-    accentColor: "rgba(59, 130, 246, 0.4)", // Deeper Blue for blur
   },
   {
     name: "Expense Feedback",
     description:
-      "Full-stack financial system featuring PDF generation and real-time budget visualization for organizational spending control.",
+      "Full-stack financial system with PDF generation and real-time budget visualization for organizations.",
     stack: [
       { name: "React", icon: SiReact, color: "#61DAFB" },
       { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
@@ -48,7 +47,6 @@ const projects = [
     github: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     link: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     imageId: "project-expense-feedback",
-    accentColor: "rgba(168, 85, 247, 0.4)", // Deeper Purple for blur
   },
 ];
 
@@ -57,20 +55,24 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
 
   return (
     <ScrollAnimationWrapper delay={delay} className="group h-full">
-      <div className="relative h-full flex flex-col bg-card/30 backdrop-blur-md rounded-[40px] border border-white/5 p-2 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-4 hover:shadow-[0_30px_100px_-20px_rgba(0,0,0,0.5)] hover:bg-card/50">
+      <div className="relative h-full flex flex-col bg-card/20 backdrop-blur-md rounded-[40px] border border-white/5 p-2 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-3 hover:shadow-[0_30px_100px_-20px_rgba(0,0,0,0.5)] hover:bg-card/40">
         
-        {/* Visual Container with Gaussian Blur background */}
-        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[32px] bg-black/20 p-0.5">
-          {/* Enhanced Gaussian Blur Glow Layer */}
-          <div 
-            className="absolute inset-0 z-0 opacity-50 blur-[80px] transition-all duration-1000 group-hover:scale-110 group-hover:opacity-70"
-            style={{ 
-              background: `radial-gradient(circle at center, ${project.accentColor}, transparent 70%)` 
-            }}
-          />
+        {/* Visual Header with Atmospheric Blur */}
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[32px] bg-black/10 p-0.5">
+          {/* Gaussian Blur Background Image (Atmospheric Depth) */}
+          {projectImage && (
+            <div className="absolute inset-0 z-0 opacity-40 blur-3xl transition-transform duration-1000 group-hover:scale-125">
+              <Image
+                src={projectImage.imageUrl}
+                alt=""
+                fill
+                className="object-cover"
+              />
+            </div>
+          )}
           
-          {/* Project Image with Glassy Border */}
-          <div className="relative z-10 h-full w-full overflow-hidden rounded-[30px] border border-white/10 shadow-2xl">
+          {/* Sharp Project Image with Fine Glassy Border */}
+          <div className="relative z-10 h-full w-full overflow-hidden rounded-[30px] border border-white/5 bg-black/20 shadow-2xl">
              {projectImage && (
                 <Image
                   src={projectImage.imageUrl}
@@ -79,11 +81,12 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
                   className="object-cover opacity-90 transition-all duration-700 group-hover:opacity-100 group-hover:scale-105"
                 />
              )}
-             <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent pointer-events-none" />
+             {/* Subtle surface reflection */}
+             <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent pointer-events-none" />
           </div>
         </div>
 
-        {/* Content Container */}
+        {/* Content Body */}
         <div className="flex flex-col gap-3 p-6 pt-7">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold tracking-tight text-foreground/90 group-hover:text-primary transition-colors">
