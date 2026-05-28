@@ -24,6 +24,11 @@ export function ThemeToggle() {
   }, []);
 
   const toggleTheme = React.useCallback(() => {
+    // Haptic feedback (subtle pulse)
+    if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
+      window.navigator.vibrate(24);
+    }
+
     // Play the toggle SFX
     if (audioRef.current) {
       audioRef.current.currentTime = 0; 

@@ -56,12 +56,12 @@ const manifestoItems = [
   {
     id: "vision",
     question: "What defines my engineering approach?",
-    answer: "Simplicity is the ultimate sophistication. I build systems that are robust at the core but effortless in experience."
+    answer: "Code should be clean, fast, and invisible. I build systems that work so well you forget they're there."
   },
   {
     id: "growth",
     question: "How do I maintain technical excellence?",
-    answer: "Standing still is moving backward. I maintain a Knight-level discipline on LeetCode to keep my analytical mind sharp."
+    answer: "Analytical grit is a muscle. I maintain a Knight-level discipline on LeetCode to keep my analytical mind sharp."
   },
   {
     id: "collaboration",
