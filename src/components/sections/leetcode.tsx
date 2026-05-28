@@ -175,6 +175,7 @@ const allProblems = [
     { title: 'Minimum Health to Beat Game', difficulty: 'Medium', link: 'https://leetcode.com/problems/minimum-health-to-beat-game/', topics: [] },
     { title: 'Sum of Subarray Ranges', difficulty: 'Medium', link: 'https://leetcode.com/problems/sum-of-subarray-ranges/', topics: [] },
     { title: 'Substring With Largest Variance', difficulty: 'Hard', link: 'https://leetcode.com/problems/substring-with-largest-variance/', topics: [] },
+    { title: 'Maximum Length of Subarray With Positive Product', difficulty: 'Medium', link: 'https://leetcode.com/problems/maximum-length-of-subarray-with-positive-product/', topics: [] },
     { title: 'Maximum Number of Books You Can Take', difficulty: 'Hard', link: 'https://leetcode.com/problems/maximum-number-of-books-you-can-take/', topics: [] },
     { title: 'Sequential Digits', difficulty: 'Medium', link: 'https://leetcode.com/problems/sequential-digits/', topics: [] },
     { title: 'Sum of Total Strength of Wizards', difficulty: 'Hard', link: 'https://leetcode.com/problems/sum-of-total-strength-of-wizards/', topics: [] },
@@ -426,10 +427,13 @@ export function LeetCode() {
                         className="object-cover transition-all duration-700 group-hover:scale-110 contrast-125"
                     />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-100 transition-opacity group-hover:opacity-60" />
-                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                  {/* Cinematic Reveal Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  
+                  {/* Slide-Up Text Container */}
+                  <div className="absolute bottom-4 left-4 right-4 text-white transform translate-y-8 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-y-0 group-hover:opacity-100">
                       <h4 className="font-bold text-lg leading-tight">LeetCode Official Hoodie</h4>
-                      <p className="text-xs text-white/60 mt-1">Awarded for perseverance through setbacks.</p>
+                      <p className="text-xs text-white/70 mt-1">Awarded for perseverance through setbacks.</p>
                   </div>
                 </div>
               </Card>
