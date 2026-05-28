@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Badge } from "@/components/ui/badge";
@@ -21,7 +22,7 @@ import {
 const projects = [
   {
     name: "MedQuery AI",
-    description: "Advanced Text-to-SQL AI bridging natural language and medical databases for instant clinical insights. Built with a focus on precision and accessibility for healthcare professionals.",
+    description: "Advanced Text-to-SQL AI bridging natural language and medical databases. Engineered for high precision in clinical decision support.",
     stack: [
       { name: "Python", icon: SiPython, color: "#3776AB" },
       { name: "Streamlit", icon: SiStreamlit, color: "#FF4B4B" },
@@ -31,11 +32,11 @@ const projects = [
     github: "https://github.com/Srinivasa-Pradeep/MedQuery",
     link: "https://github.com/Srinivasa-Pradeep/MedQuery",
     imageId: "project-medquery",
-    videoUrl: "/videos/medquery.mp4", // This assumes the video file exists at this path
+    videoUrl: "/videos/medquery.mp4",
   },
   {
     name: "Expense Feedback",
-    description: "A comprehensive full-stack financial system with automated PDF generation and real-time budget visualization designed for organizational efficiency and transparency.",
+    description: "Full-stack financial management system featuring automated PDF reporting and real-time budget visualization for seamless efficiency.",
     stack: [
       { name: "React", icon: SiReact, color: "#61DAFB" },
       { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
@@ -45,7 +46,19 @@ const projects = [
     github: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     link: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     imageId: "project-expense-feedback",
-    videoUrl: "/videos/expense.mp4", // This assumes the video file exists at this path
+    videoUrl: "/videos/expense.mp4",
+  },
+  {
+    name: "Invoice Generator",
+    description: "Professional billing suite with real-time PDF generation and tax automation. Streamlined for seamless business transaction management.",
+    stack: [
+      { name: "React", icon: SiReact, color: "#61DAFB" },
+      { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
+      { name: "Lucide", icon: SiNextdotjs, color: "currentColor" },
+    ],
+    github: "https://github.com/Srinivasa-Pradeep/Invoice-Generator",
+    link: "https://invoice-generator-plum-alpha-35.vercel.app/",
+    imageId: "project-invoice-generator",
   },
 ];
 
@@ -59,9 +72,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
       if (isHovered) {
         const playPromise = videoRef.current.play();
         if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            // Auto-play was prevented
-          });
+          playPromise.catch(() => {});
         }
       } else {
         videoRef.current.pause();
@@ -72,17 +83,12 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
 
   return (
     <ScrollAnimationWrapper delay={delay} className="group h-full">
-      {/* Unified Rectangular Card Unit - Lifts Together */}
       <div 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className="relative h-full flex flex-col bg-card/20 backdrop-blur-xl rounded-[40px] border border-white/10 p-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-3 hover:shadow-[0_40px_120px_-20px_rgba(0,0,0,0.5)] hover:bg-card/40"
       >
-        
-        {/* Visual Container */}
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[32px] bg-black/5 p-4 sm:p-6">
-          
-          {/* Layer 1: Atmospheric Gaussian Blur Background (Using the project image itself) */}
           {projectImage && (
             <div className="absolute inset-0 z-0 transition-transform duration-1000 group-hover:scale-110">
               <Image
@@ -94,7 +100,6 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
             </div>
           )}
           
-          {/* Layer 2: Sharp Foreground Image/Video with Glassy Border */}
           <div className="relative z-10 h-full w-full overflow-hidden rounded-[20px] border border-white/5 bg-black/20 shadow-2xl transition-all duration-700 p-0.5">
              <div className="relative h-full w-full overflow-hidden rounded-[19px]">
                 {projectImage && (
@@ -104,12 +109,12 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
                       fill
                       className={cn(
                         "object-cover transition-all duration-700",
-                        isHovered && project.videoUrl ? "opacity-0 scale-105" : "opacity-100 scale-100"
+                        isHovered && "videoUrl" in project && project.videoUrl ? "opacity-0 scale-105" : "opacity-100 scale-100"
                       )}
                     />
                 )}
                 
-                {project.videoUrl && (
+                {"videoUrl" in project && project.videoUrl && (
                   <video
                     ref={videoRef}
                     src={project.videoUrl}
@@ -127,7 +132,6 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
           </div>
         </div>
 
-        {/* Content Section */}
         <div className="flex flex-col gap-3 p-6 pt-5">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold tracking-tight text-foreground/90 group-hover:text-primary transition-colors duration-300">
@@ -161,7 +165,6 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
             {project.description}
           </p>
 
-          {/* Color-Accurate Tech Stack Icons */}
           <div className="flex items-center gap-5 pt-2">
             {project.stack.map((tech) => (
               <div 
@@ -187,16 +190,15 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
 export function Projects() {
   return (
     <section id="projects" className="py-24 md:py-40">
-      <div className="container max-w-6xl">
-        {/* Consistent Centered Header */}
+      <div className="container max-w-7xl">
         <div className="text-center mb-20">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Featured Projects</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            A curated selection of my technical explorations and architectural builds.
+            A curated selection of technical builds focusing on precision and architectural excellence.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-x-12">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project, index) => (
             <ProjectCard 
               key={project.name} 

@@ -55,6 +55,12 @@
       "imageHint": "finance report"
     },
     {
+      "id": "project-invoice-generator",
+      "description": "Placeholder image for the Invoice Generator project",
+      "imageUrl": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGludm9pY2V8ZW58MHx8fHwxNzcwMTc4ODgzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "business invoice"
+    },
+    {
       "id": "project-swe-prep",
       "description": "Placeholder image for the SWE Prep Resource project",
       "imageUrl": "https://images.unsplash.com/photo-1763568258449-44718bd82b70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjb2RlJTIwcmVzb3VyY2V8ZW58MHx8fHwxNzY5MTU0MzI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
