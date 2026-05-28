@@ -20,8 +20,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks } from 'lucide-react';
+import { ListChecks, Brain, Zap, Users, Coffee } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import {
   SiPython,
   SiCplusplus,
@@ -47,15 +53,31 @@ import { FaJava, FaMicrosoft } from 'react-icons/fa';
 import { TypingEffect } from '@/components/typing-effect';
 import { cn } from '@/lib/utils';
 
-const stats = [
-  { 
-    title: 'Top 5.36% on LeetCode', 
-    icon: 'https://assets.leetcode.com/static_assets/others/Knight.gif', 
-    tooltip: 'Knight' 
+const manifestoItems = [
+  {
+    id: "vision",
+    question: "What defines my engineering approach?",
+    answer: "Simplicity is the ultimate sophistication. I build systems that are robust at the core but effortless in their experience, bridging the gap between complex logic and human intuition. I view every bug as a puzzle and every constraint as an opportunity for creativity.",
+    icon: Brain
   },
-  { title: 'Amazon ML Summer School' },
-  { title: 'Solution & Blog Writer' },
-  { title: 'Content Creator' },
+  {
+    id: "growth",
+    question: "How do I stay ahead of the curve?",
+    answer: "In technology, standing still is moving backward. By maintaining a Knight-level problem-solving discipline on LeetCode and a 'Day 1' mentality, I ensure my skills remain sharp. My journey from SAP to Amazon has taught me that continuous learning is the only constant.",
+    icon: Zap
+  },
+  {
+    id: "collaboration",
+    question: "What does teamwork mean to me?",
+    answer: "Great software is a team sport. I prioritize clear documentation, active listening, and constructive feedback loops. Whether it's mentoring peers or collaborating in high-traffic environments like Amazon, I believe we build better when we build together.",
+    icon: Users
+  },
+  {
+    id: "beyond",
+    question: "What fuels me outside of the IDE?",
+    answer: "I write to understand and build to become. When I'm not coding, you'll find me crafting stories on Medium, exploring the psychology of focus in Zen Mode, or chasing the thrill of a Formula 1 race. I believe a balanced mind is a creative mind.",
+    icon: Coffee
+  }
 ];
 
 const companies = [
@@ -525,31 +547,33 @@ export function About() {
               </div>
             </div>
 
-            <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {stats.map((stat) => (
-                <Card
-                  key={stat.title}
-                  className="transform-gpu transition-all duration-300 hover:-translate-y-1 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20"
-                >
-                  <CardHeader>
-                    <CardTitle className="text-base flex items-center gap-2">
-                        <span>{stat.title}</span>
-                        {stat.icon && stat.tooltip && (
-                            <TooltipProvider>
-                                <Tooltip>
-                                <TooltipTrigger>
-                                    <img src={stat.icon} alt={stat.tooltip} className="h-7 w-7 object-contain" />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{stat.tooltip}</p>
-                                </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        )}
-                    </CardTitle>
-                  </CardHeader>
-                </Card>
-              ))}
+            <div className="mt-20">
+              <h3 className="font-headline text-2xl font-semibold text-primary mb-8">
+                The Engineer's Manifesto
+              </h3>
+              <Accordion type="single" collapsible className="w-full space-y-4">
+                {manifestoItems.map((item) => (
+                  <AccordionItem 
+                    key={item.id} 
+                    value={item.id}
+                    className="border border-border/20 bg-card/30 backdrop-blur-md rounded-lg px-6 overflow-hidden transition-all duration-300 hover:bg-card/50"
+                  >
+                    <AccordionTrigger className="hover:no-underline py-6">
+                      <div className="flex items-center gap-4 text-left">
+                        <div className="p-2 rounded-md bg-primary/10 text-primary">
+                          <item.icon className="h-5 w-5" />
+                        </div>
+                        <span className="text-lg font-medium text-foreground/90">
+                          {item.question}
+                        </span>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent className="text-muted-foreground text-base leading-relaxed pb-6 pl-14">
+                      {item.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </div>
         </div>
