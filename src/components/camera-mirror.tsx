@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Sparkles } from 'lucide-react';
 
 type CameraMirrorProps = {
   isActive: boolean;
@@ -32,7 +31,6 @@ export function CameraMirror({ isActive, progress }: CameraMirrorProps) {
     setMounted(true);
   }, []);
 
-  // Handle Camera Stream
   useEffect(() => {
     async function startCamera() {
       if (isActive) {
@@ -62,7 +60,6 @@ export function CameraMirror({ isActive, progress }: CameraMirrorProps) {
     };
   }, [isActive]);
 
-  // Cycle Affirmations
   useEffect(() => {
     if (!isActive) return;
     
@@ -78,64 +75,73 @@ export function CameraMirror({ isActive, progress }: CameraMirrorProps) {
 
   return (
     <div className="relative w-full h-full flex items-center justify-center">
-      {/* Mirror Frame */}
+      {/* Premium Architectural Mirror Frame */}
       <div className={cn(
-        "relative w-64 h-80 sm:w-72 sm:h-96 rounded-[120px] overflow-hidden transition-all duration-1000",
-        "border-[8px] border-primary/20 bg-card/50 backdrop-blur-md shadow-[0_0_50px_rgba(255,255,255,0.1)]",
-        isActive ? "scale-105 border-primary/40 shadow-[0_0_80px_rgba(255,255,255,0.2)]" : "scale-100"
+        "relative w-72 h-[400px] sm:w-80 sm:h-[450px] transition-all duration-1000 transform-gpu",
+        "rounded-[40px] overflow-hidden",
+        "border-[12px] border-primary/30 bg-card shadow-[0_40px_100px_-20px_rgba(0,0,0,0.5)]",
+        isActive ? "scale-105 border-primary/50 shadow-[0_50px_120px_-25px_rgba(0,0,0,0.6)]" : "scale-100"
       )}>
-        {/* Silver Inner Ring */}
-        <div className="absolute inset-0 border-2 border-white/10 rounded-[inherit] pointer-events-none z-20" />
+        {/* Beveled Edge Effect */}
+        <div className="absolute inset-0 border-[2px] border-white/20 rounded-[inherit] pointer-events-none z-30" />
         
-        {/* Camera Feed */}
-        <div className="absolute inset-0 bg-black/40 z-0">
+        {/* Inner Shadow for Depth */}
+        <div className="absolute inset-0 shadow-[inset_0_0_60px_rgba(0,0,0,0.8)] z-20 pointer-events-none" />
+
+        {/* Camera Feed with High-End Filter */}
+        <div className="absolute inset-0 bg-[#0a0a0a] z-0">
           <video
             ref={videoRef}
             autoPlay
             playsInline
             muted
             className={cn(
-              "w-full h-full object-cover grayscale brightness-110 contrast-125 transition-opacity duration-1000",
+              "w-full h-full object-cover grayscale brightness-[0.8] contrast-150 transition-opacity duration-1000 will-change-opacity",
               isActive ? "opacity-100" : "opacity-0",
               "scale-x-[-1]" // Mirror effect
             )}
           />
         </div>
 
-        {/* Affirmation Overlay */}
+        {/* Premium Affirmation Overlay */}
         <div className={cn(
-          "absolute inset-0 z-10 flex flex-col items-center justify-end pb-16 px-6 text-center transition-all duration-1000",
-          isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          "absolute inset-x-0 bottom-0 h-1/2 z-20 flex flex-col items-center justify-end pb-20 px-8 text-center transition-all duration-1000",
+          isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
-          <p className="text-white/90 text-sm font-signature tracking-widest leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] animate-pulse">
-            {currentAffirmation}
-          </p>
+          <div className="relative">
+             {/* Text Glow */}
+             <div className="absolute inset-0 blur-lg bg-white/10 scale-150 animate-pulse" />
+             <p className="relative text-white/90 text-sm font-signature tracking-[0.2em] leading-relaxed drop-shadow-[0_4px_8px_rgba(0,0,0,1)] uppercase">
+                {currentAffirmation}
+             </p>
+          </div>
         </div>
 
-        {/* Glass Reflection Finish */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 pointer-events-none z-30" />
+        {/* Dynamic Glass Reflection Finish */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/40 pointer-events-none z-40" />
         
-        {/* Progress Glow Ring */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none z-40" viewBox="0 0 100 100">
-          <circle
-            cx="50"
-            cy="50"
-            r="48"
+        {/* Progress Halo */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none z-50 p-2" viewBox="0 0 100 100">
+          <rect
+            x="2"
+            y="2"
+            width="96"
+            height="96"
+            rx="12"
             fill="none"
             stroke="hsl(var(--primary))"
-            strokeWidth="0.5"
-            strokeDasharray="301.59"
-            strokeDashoffset={301.59 * (1 - progress)}
-            className="transition-all duration-1000 ease-linear opacity-40"
-            transform="rotate(-90 50 50)"
+            strokeWidth="0.8"
+            strokeDasharray="400"
+            strokeDashoffset={400 * (1 - progress)}
+            className="transition-all duration-1000 ease-linear opacity-60"
           />
         </svg>
       </div>
 
-      {/* Background Decor */}
+      {/* Atmospheric Backlight */}
       <div className={cn(
-        "absolute -z-10 w-96 h-96 bg-primary/5 rounded-full blur-[100px] transition-all duration-1000",
-        isActive ? "opacity-100 scale-125" : "opacity-0 scale-100"
+        "absolute -z-10 w-[450px] h-[450px] bg-primary/10 rounded-full blur-[120px] transition-all duration-1000 transform-gpu",
+        isActive ? "opacity-100 scale-110" : "opacity-0 scale-90"
       )} />
     </div>
   );

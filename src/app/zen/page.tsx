@@ -133,13 +133,13 @@ export default function ZenPage() {
           </div>
         
           <h1 className="font-headline text-4xl font-bold tracking-tight text-primary md:text-5xl">
-            The Mirror.
+            Zen Mode.
           </h1>
           <p className="max-w-2xl text-lg text-muted-foreground lora italic">
             "Believe." — Face yourself, affirm your greatness.
           </p>
 
-          <div className="relative w-full max-w-xs sm:max-w-sm h-[400px] my-4">
+          <div className="relative w-full max-w-xs sm:max-w-sm h-[450px] my-6">
             <CameraMirror isActive={sessionState === 'running'} progress={progress} />
           </div>
 
