@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useTheme } from 'next-themes';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, ReactNode } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -51,27 +51,41 @@ import {
 import { FaJava, FaMicrosoft } from 'react-icons/fa';
 import { TypingEffect } from '@/components/typing-effect';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
-const manifestoItems = [
+interface ManifestoItem {
+  id: string;
+  question: string;
+  answer: ReactNode;
+}
+
+const manifestoItems: ManifestoItem[] = [
   {
     id: "vision",
     question: "What defines my engineering approach?",
-    answer: "Code should be clean, fast, and invisible. I build systems that work so well you forget they're there."
+    answer: "Clean, fast, invisible. I build systems that work so well you forget they're there."
   },
   {
     id: "growth",
     question: "How do I maintain technical excellence?",
-    answer: "Analytical grit is a muscle. I maintain a Knight-level discipline on LeetCode to keep my analytical mind sharp."
+    answer: "Analytical grit is a muscle. I maintain a Knight-level discipline on LeetCode to stay sharp."
   },
   {
     id: "collaboration",
     question: "What is my philosophy on teamwork?",
-    answer: "Software is a team sport. I prioritize clear documentation, active listening, and constructive feedback loops."
+    answer: "Software is a team sport. I prioritize documentation, active listening, and tight feedback loops."
   },
   {
     id: "beyond",
     question: "What drives me outside of the IDE?",
-    answer: "I build to become. I craft reflections on Medium, explore focus through Zen Mode, and follow the precision of F1."
+    answer: (
+      <>
+        Reflections on Medium, focus through{" "}
+        <Link href="/zen" className="text-primary font-bold hover:underline underline-offset-4 decoration-primary/30">Zen Mode</Link>, 
+        F1 precision, and a love to read{" "}
+        <Link href="/books" className="text-primary font-bold hover:underline underline-offset-4 decoration-primary/30">books</Link>.
+      </>
+    )
   }
 ];
 

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Badge } from "@/components/ui/badge";
@@ -160,16 +159,6 @@ export function Projects() {
             );
           })}
         </div>
-
-        <div className="mt-16 text-center">
-            <Button size="lg" asChild>
-                <Link href="/zen">
-                    <Sparkles className="mr-2 h-4 w-4" />
-                    Enter Zen Mode
-                </Link>
-            </Button>
-        </div>
-        
       </div>
     </section>
   );
