@@ -13,31 +13,32 @@ export function ThemeToggle() {
 
   // Initialize the audio instance on mount
   React.useEffect(() => {
-    audioRef.current = new Audio('/sounds/switch.mp3');
-    // Preload the audio to avoid delay on first click
+    // Looking for the sound file in public/music/switch.mp3
+    audioRef.current = new Audio('/music/switch.mp3');
     audioRef.current.load();
   }, []);
 
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
     // Play the toggle SFX
     if (audioRef.current) {
-      audioRef.current.currentTime = 0; // Reset to start if already playing
+      audioRef.current.currentTime = 0; 
       audioRef.current.play().catch(() => {
         // Silently fail if file is missing or browser restricts playback
       });
     }
 
+    // Trigger the 360-degree rotation
     setRotation(r => r + 360);
+    
     const isDark = document.documentElement.classList.contains('dark');
 
-    // This is the experimental View Transitions API for the page-wide effect.
+    // Experimental View Transitions API for the premium wipe effect
     if (!document.startViewTransition) {
       setTheme(isDark ? 'light' : 'dark');
       return;
     }
 
-    // A small delay to allow the button rotation to start smoothly
-    // before the more demanding page-wide transition begins.
+    // Delay the theme switch slightly to allow the rotation to start smoothly
     setTimeout(() => {
         document.startViewTransition(() => {
             setTheme(isDark ? 'light' : 'dark');
@@ -53,7 +54,7 @@ export function ThemeToggle() {
       className="relative rounded-full transition-all duration-500 ease-[cubic-bezier(0.3,1.5,0.5,1)] hover:scale-125 hover:bg-accent/50 active:scale-95"
     >
       <div
-        className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-700 ease-in-out will-change-transform"
+        className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-1000 ease-[cubic-bezier(0.3,1.5,0.5,1)] will-change-transform"
         style={{ transform: `rotate(${rotation}deg)` }}
       >
         <Sun className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0" />
