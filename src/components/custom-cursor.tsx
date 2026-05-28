@@ -7,6 +7,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
  * CustomCursor - A premium "High-Definition Silver Spiderweb" effect.
  * Uses devicePixelRatio for crystal clear rendering.
  * Features a persistent silver mesh that connects multiple historical points.
+ * Theme-aware: Deep Steel Silver in Light Mode, Liquid Chrome in Dark Mode.
  */
 
 interface Point {
@@ -59,7 +60,7 @@ export function CustomCursor() {
       const dy = mouse.current.y - lastMouse.current.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (dist > 8) { // More frequent points for smoother web
+      if (dist > 8) { 
         points.current.unshift({ 
           x: mouse.current.x, 
           y: mouse.current.y, 
@@ -84,6 +85,12 @@ export function CustomCursor() {
       const now = Date.now();
       const timeSinceLastMove = now - lastMoveTime.current;
 
+      // Detection for Dark/Light mode within the loop for high reactivity
+      const isDark = document.documentElement.classList.contains('dark');
+      
+      // Dynamic Silver Base: Dark Steel for Light Mode, Liquid Chrome for Dark Mode
+      const silverBase = isDark ? "240, 5%, 85%" : "240, 10%, 25%";
+
       if (timeSinceLastMove > 150) {
         isMoving.current = false;
         opacity.current = Math.max(0, opacity.current - 0.02);
@@ -96,9 +103,6 @@ export function CustomCursor() {
         .filter(p => p.age > 0);
 
       if (opacity.current > 0.01) {
-        // High-fidelity Silver Color (Metallic)
-        const silverBase = "240, 5%, 85%"; 
-        
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
         
@@ -153,13 +157,13 @@ export function CustomCursor() {
       // Draw the core Cursor Head
       ctx.beginPath();
       ctx.arc(mouse.current.x, mouse.current.y, 3, 0, Math.PI * 2);
-      ctx.fillStyle = `hsl(240, 5%, 85%)`; // Solid Silver
+      ctx.fillStyle = `hsl(${silverBase})`; 
       ctx.fill();
       
       // Outer ring
       ctx.beginPath();
       ctx.arc(mouse.current.x, mouse.current.y, 6, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(255, 255, 255, ${opacity.current * 0.4})`;
+      ctx.strokeStyle = `hsla(${silverBase}, ${opacity.current * 0.4})`;
       ctx.lineWidth = 1;
       ctx.stroke();
 
