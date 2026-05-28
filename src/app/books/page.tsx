@@ -86,7 +86,7 @@ export default function BooksPage() {
               Volumes.
             </h1>
             <p className="mt-4 max-w-xl text-lg text-muted-foreground lora italic">
-              A curated collection of thoughts, frameworks, and stories that shaped my thinking.
+              A curated collection of the pages I turned.
             </p>
           </div>
 
