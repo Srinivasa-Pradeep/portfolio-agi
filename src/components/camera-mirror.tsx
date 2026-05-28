@@ -103,15 +103,15 @@ export function CameraMirror({ isActive, progress }: CameraMirrorProps) {
           />
         </div>
 
-        {/* Premium Affirmation Overlay */}
+        {/* Premium Affirmation Overlay - Restored Signature Style */}
         <div className={cn(
-          "absolute inset-x-0 bottom-0 h-1/2 z-20 flex flex-col items-center justify-end pb-20 px-8 text-center transition-all duration-1000",
+          "absolute inset-x-0 bottom-0 h-1/2 z-20 flex flex-col items-center justify-end pb-24 px-8 text-center transition-all duration-1000",
           isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
           <div className="relative">
              {/* Text Glow */}
              <div className="absolute inset-0 blur-lg bg-white/10 scale-150 animate-pulse" />
-             <p className="relative text-white/90 text-sm font-signature tracking-[0.2em] leading-relaxed drop-shadow-[0_4px_8px_rgba(0,0,0,1)] uppercase">
+             <p className="relative text-white/95 text-3xl sm:text-4xl font-signature leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
                 {currentAffirmation}
              </p>
           </div>
