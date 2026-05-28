@@ -53,10 +53,10 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
 
   return (
     <ScrollAnimationWrapper delay={delay} className="group h-full">
-      {/* Unified Rectangular Card Unit */}
+      {/* Unified Rectangular Card Unit - Lifts Together */}
       <div className="relative h-full flex flex-col bg-card/20 backdrop-blur-xl rounded-[40px] border border-white/10 p-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-3 hover:shadow-[0_40px_120px_-20px_rgba(0,0,0,0.5)] hover:bg-card/40">
         
-        {/* High-Focus Visual Container */}
+        {/* Visual Container */}
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[32px] bg-black/5 p-4 sm:p-6">
           
           {/* Layer 1: Atmospheric Gaussian Blur Background (Using the project image itself) */}
@@ -71,9 +71,9 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
             </div>
           )}
           
-          {/* Layer 2: Sharp Foreground Image with Fine Glassy Border & 0.5 Padding */}
-          <div className="relative z-10 h-full w-full overflow-hidden rounded-[20px] border border-white/10 bg-black/20 shadow-2xl transition-all duration-700 p-[2px]">
-             <div className="relative h-full w-full overflow-hidden rounded-[18px]">
+          {/* Layer 2: Sharp Foreground Image with Glassy Border */}
+          <div className="relative z-10 h-full w-full overflow-hidden rounded-[20px] border border-white/20 bg-black/20 shadow-2xl transition-all duration-700 p-[1px]">
+             <div className="relative h-full w-full overflow-hidden rounded-[19px]">
                 {projectImage && (
                     <Image
                       src={projectImage.imageUrl}
@@ -83,12 +83,11 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
                     />
                 )}
              </div>
-             {/* Subtle surface glass reflection */}
              <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-transparent pointer-events-none z-20" />
           </div>
         </div>
 
-        {/* Content Section - Part of the same unified unit */}
+        {/* Content Section */}
         <div className="flex flex-col gap-3 p-6 pt-5">
           <div className="flex items-center justify-between">
             <h3 className="text-xl font-bold tracking-tight text-foreground/90 group-hover:text-primary transition-colors duration-300">
@@ -118,7 +117,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
             </div>
           </div>
 
-          <p className="text-sm leading-relaxed text-muted-foreground/80 transition-colors duration-500 group-hover:text-foreground/90 line-clamp-2">
+          <p className="text-sm leading-relaxed text-muted-foreground/80 transition-colors duration-500 group-hover:text-foreground/90">
             {project.description}
           </p>
 
@@ -149,11 +148,12 @@ export function Projects() {
   return (
     <section id="projects" className="py-24 md:py-40">
       <div className="container max-w-6xl">
-        <div className="mb-20 flex flex-col items-start gap-4">
-          <h2 className="text-sm font-black uppercase tracking-[0.3em] text-primary/60">
-            Featured Projects
-          </h2>
-          <div className="h-1 w-16 bg-primary/40 rounded-full" />
+        {/* Consistent Centered Header */}
+        <div className="text-center mb-20">
+          <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Featured Projects</h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
+            A curated selection of my recent technical explorations and architectural builds.
+          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-x-12">
@@ -173,7 +173,7 @@ export function Projects() {
             className="h-14 px-8 text-muted-foreground hover:bg-transparent hover:text-primary group text-lg rounded-full"
           >
             <a href="https://github.com/srinivasa-pradeep" target="_blank" rel="noopener noreferrer">
-              Exploration Archive <ExternalLink className="ml-2 h-5 w-5 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
+              View Archive <ExternalLink className="ml-2 h-5 w-5 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
             </a>
           </Button>
         </div>
