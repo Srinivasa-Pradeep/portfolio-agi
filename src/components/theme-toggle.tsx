@@ -24,22 +24,25 @@ export function ThemeToggle() {
   }, []);
 
   const toggleTheme = React.useCallback(() => {
-    // Haptic feedback (subtle pulse)
+    // 1. Haptic feedback (subtle pulse)
     if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
       window.navigator.vibrate(24);
     }
 
-    // Play the toggle SFX
+    // 2. Play the toggle SFX
     if (audioRef.current) {
       audioRef.current.currentTime = 0; 
-      audioRef.current.play().catch(() => {});
+      audioRef.current.play().catch(() => {
+        // Silent catch for browsers blocking autoplay before interaction
+      });
     }
 
-    // Trigger the 360-degree rotation
+    // 3. Visual rotation
     setRotation(r => r + 360);
     
     const isDark = document.documentElement.classList.contains('dark');
 
+    // 4. View Transition API for smooth reveal
     if (!document.startViewTransition) {
       setTheme(isDark ? 'light' : 'dark');
       return;
