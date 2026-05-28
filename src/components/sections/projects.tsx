@@ -23,7 +23,7 @@ const projects = [
   {
     name: "MedQuery AI",
     description:
-      "A sophisticated Text-to-SQL AI model built with Code-T5, bridging natural language and complex medical databases for instant clinical insights.",
+      "A sophisticated Text-to-SQL AI model bridging natural language and complex medical databases for instant clinical insights.",
     stack: [
       { name: "Python", icon: SiPython, color: "#3776AB" },
       { name: "Streamlit", icon: SiStreamlit, color: "#FF4B4B" },
@@ -33,12 +33,12 @@ const projects = [
     github: "https://github.com/Srinivasa-Pradeep/MedQuery",
     link: "https://github.com/Srinivasa-Pradeep/MedQuery",
     imageId: "project-medquery",
-    accentColor: "rgba(59, 130, 246, 0.3)", // Soft Blue
+    accentColor: "rgba(59, 130, 246, 0.4)", // Deeper Blue for blur
   },
   {
     name: "Expense Feedback",
     description:
-      "Full-stack financial tracking system featuring PDF generation and real-time budget visualization for organizational spending control.",
+      "Full-stack financial system featuring PDF generation and real-time budget visualization for organizational spending control.",
     stack: [
       { name: "React", icon: SiReact, color: "#61DAFB" },
       { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
@@ -48,7 +48,7 @@ const projects = [
     github: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     link: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     imageId: "project-expense-feedback",
-    accentColor: "rgba(168, 85, 247, 0.3)", // Soft Purple
+    accentColor: "rgba(168, 85, 247, 0.4)", // Deeper Purple for blur
   },
 ];
 
@@ -57,20 +57,20 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
 
   return (
     <ScrollAnimationWrapper delay={delay} className="group h-full">
-      <div className="relative h-full flex flex-col bg-card/30 backdrop-blur-md rounded-[40px] border border-white/10 p-2 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-4 hover:shadow-2xl hover:bg-card/50">
+      <div className="relative h-full flex flex-col bg-card/30 backdrop-blur-md rounded-[40px] border border-white/5 p-2 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-4 hover:shadow-[0_30px_100px_-20px_rgba(0,0,0,0.5)] hover:bg-card/50">
         
-        {/* Visual Container */}
-        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[32px] bg-black/20 p-2">
-          {/* Gaussian Blur Glow Layer */}
+        {/* Visual Container with Gaussian Blur background */}
+        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[32px] bg-black/20 p-0.5">
+          {/* Enhanced Gaussian Blur Glow Layer */}
           <div 
-            className="absolute inset-0 z-0 opacity-40 blur-[100px] transition-all duration-1000 group-hover:scale-125 group-hover:opacity-60"
+            className="absolute inset-0 z-0 opacity-50 blur-[80px] transition-all duration-1000 group-hover:scale-110 group-hover:opacity-70"
             style={{ 
-              background: `radial-gradient(circle at center, ${project.accentColor}, transparent 80%)` 
+              background: `radial-gradient(circle at center, ${project.accentColor}, transparent 70%)` 
             }}
           />
           
-          {/* Project Screenshot with Glassy Border */}
-          <div className="relative z-10 h-full w-full overflow-hidden rounded-[24px] border border-white/5 shadow-2xl">
+          {/* Project Image with Glassy Border */}
+          <div className="relative z-10 h-full w-full overflow-hidden rounded-[30px] border border-white/10 shadow-2xl">
              {projectImage && (
                 <Image
                   src={projectImage.imageUrl}
@@ -84,12 +84,12 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
         </div>
 
         {/* Content Container */}
-        <div className="flex flex-col gap-4 p-6 pt-8">
+        <div className="flex flex-col gap-3 p-6 pt-7">
           <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-bold tracking-tight text-foreground/90 group-hover:text-primary transition-colors">
+            <h3 className="text-xl font-bold tracking-tight text-foreground/90 group-hover:text-primary transition-colors">
               {project.name}
             </h3>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               {project.github && (
                 <a 
                   href={project.github} 
@@ -97,7 +97,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
                   rel="noopener noreferrer" 
                   className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
                 >
-                  <Github className="h-5 w-5" />
+                  <Github className="h-4 w-4" />
                 </a>
               )}
               {project.link && (
@@ -107,24 +107,24 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
                   rel="noopener noreferrer" 
                   className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
                 >
-                  <Globe className="h-5 w-5" />
+                  <Globe className="h-4 w-4" />
                 </a>
               )}
             </div>
           </div>
 
-          <p className="text-base leading-relaxed text-muted-foreground transition-colors duration-300 group-hover:text-foreground/80">
+          <p className="text-sm leading-relaxed text-muted-foreground transition-colors duration-300 group-hover:text-foreground/80">
             {project.description}
           </p>
 
-          <div className="flex items-center gap-4 pt-2">
+          <div className="flex items-center gap-4 pt-1">
             {project.stack.map((tech) => (
               <div 
                 key={tech.name}
                 className="group/tech relative flex items-center justify-center"
               >
                 <tech.icon 
-                  className="h-6 w-6 transition-all duration-500 group-hover/tech:scale-110"
+                  className="h-5 w-5 transition-all duration-500 group-hover/tech:scale-110"
                   style={{ color: tech.color }}
                 />
                 <span className="absolute -top-10 left-1/2 -translate-x-1/2 scale-0 rounded-full bg-secondary/80 backdrop-blur-md border border-border/40 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-foreground transition-all duration-300 group-hover/tech:scale-100 shadow-xl">
