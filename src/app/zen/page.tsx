@@ -126,7 +126,7 @@ export default function ZenPage() {
         <div className="container flex flex-col items-center justify-center text-center gap-8 py-12 md:py-20">
           <div className="absolute top-28 left-6">
               <Button asChild variant="ghost">
-                <Link href="/#projects">
+                <Link href="/#about">
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Back to Main
                 </Link>

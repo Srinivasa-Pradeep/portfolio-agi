@@ -81,9 +81,21 @@ const manifestoItems: ManifestoItem[] = [
     answer: (
       <>
         Reflections on Medium, focus through{" "}
-        <Link href="/zen" className="text-primary font-bold hover:underline underline-offset-4 decoration-primary/30">Zen Mode</Link>, 
+        <Link 
+          href="/zen" 
+          className="relative inline-block font-bold hover:underline underline-offset-4 decoration-primary/30 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#ffffff,55%,hsl(var(--primary)))] bg-[size:200%_100%]"
+          style={{ animation: 'shine 4s linear infinite' }}
+        >
+          Zen Mode
+        </Link>, 
         F1 precision, and a love to read{" "}
-        <Link href="/books" className="text-primary font-bold hover:underline underline-offset-4 decoration-primary/30">books</Link>.
+        <Link 
+          href="/books" 
+          className="relative inline-block font-bold hover:underline underline-offset-4 decoration-primary/30 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#ffffff,55%,hsl(var(--primary)))] bg-[size:200%_100%]"
+          style={{ animation: 'shine 4s linear infinite' }}
+        >
+          books
+        </Link>.
       </>
     )
   }
