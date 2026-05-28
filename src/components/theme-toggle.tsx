@@ -5,6 +5,12 @@ import { Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export function ThemeToggle() {
   const { setTheme } = useTheme();
@@ -18,7 +24,7 @@ export function ThemeToggle() {
     audioRef.current.load();
   }, []);
 
-  const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const toggleTheme = React.useCallback((e?: React.MouseEvent | KeyboardEvent) => {
     // Play the toggle SFX
     if (audioRef.current) {
       audioRef.current.currentTime = 0; 
@@ -44,23 +50,48 @@ export function ThemeToggle() {
             setTheme(isDark ? 'light' : 'dark');
         });
     }, 50);
-  };
+  }, [setTheme]);
+
+  // Keyboard shortcut listener
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.key.toLowerCase() === 't' && 
+        !(e.target instanceof HTMLInputElement) && 
+        !(e.target instanceof HTMLTextAreaElement)
+      ) {
+        toggleTheme(e);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [toggleTheme]);
 
   return (
-    <Button 
-      variant="ghost" 
-      size="icon" 
-      onClick={toggleTheme} 
-      className="relative rounded-full transition-all duration-500 ease-[cubic-bezier(0.3,1.5,0.5,1)] hover:scale-125 hover:bg-accent/50 active:scale-95"
-    >
-      <div
-        className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-1000 ease-[cubic-bezier(0.3,1.5,0.5,1)] will-change-transform"
-        style={{ transform: `rotate(${rotation}deg)` }}
-      >
-        <Sun className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0" />
-        <Moon className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all duration-500 dark:rotate-0 dark:scale-100" />
-      </div>
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={(e) => toggleTheme(e)} 
+            className="relative rounded-full transition-all duration-500 ease-[cubic-bezier(0.3,1.5,0.5,1)] hover:scale-125 hover:bg-accent/50 active:scale-95"
+          >
+            <div
+              className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-1000 ease-[cubic-bezier(0.3,1.5,0.5,1)] will-change-transform"
+              style={{ transform: `rotate(${rotation}deg)` }}
+            >
+              <Sun className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all duration-500 dark:rotate-0 dark:scale-100" />
+            </div>
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>Toggle mode (T)</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

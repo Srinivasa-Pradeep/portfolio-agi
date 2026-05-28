@@ -19,6 +19,22 @@ export function MusicPlayer() {
     setIsMounted(true);
   }, []);
 
+  // Keyboard shortcut listener
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.key.toLowerCase() === 'm' && 
+        !(e.target instanceof HTMLInputElement) && 
+        !(e.target instanceof HTMLTextAreaElement)
+      ) {
+        togglePlayPause();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [togglePlayPause]);
+
   if (!isMounted) {
     return null;
   }
@@ -44,7 +60,7 @@ export function MusicPlayer() {
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>{isPlaying ? 'Pause music' : 'Play music'}</p>
+          <p>{isPlaying ? 'Pause music (M)' : 'Play music (M)'}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
