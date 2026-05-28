@@ -27,7 +27,8 @@ export function BottomBlurOverlay() {
   return (
     <div 
       className={cn(
-        "fixed inset-x-0 bottom-0 h-32 z-40 pointer-events-none backdrop-blur-md [mask-image:linear-gradient(to_top,black,transparent)] transition-opacity duration-500 ease-in-out transform-gpu will-change-opacity",
+        "fixed inset-x-0 bottom-0 h-32 z-40 pointer-events-none transition-opacity duration-500 ease-in-out transform-gpu will-change-opacity",
+        "backdrop-blur-sm [mask-image:linear-gradient(to_top,black,transparent)]", // Reduced blur from md to sm for performance
         isVisible ? "opacity-100" : "opacity-0"
       )} 
     />
