@@ -103,7 +103,7 @@ export function CameraMirror({ isActive, progress }: CameraMirrorProps) {
           />
         </div>
 
-        {/* Premium Affirmation Overlay - Restored Signature Style */}
+        {/* Premium Affirmation Overlay */}
         <div className={cn(
           "absolute inset-x-0 bottom-0 h-1/2 z-20 flex flex-col items-center justify-end pb-24 px-8 text-center transition-all duration-1000",
           isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
