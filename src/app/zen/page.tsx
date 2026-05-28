@@ -4,8 +4,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { ZenTree } from '@/components/zen-tree';
-import { Play, Pause, RefreshCw, Sparkles, ArrowLeft } from 'lucide-react';
+import { CameraMirror } from '@/components/camera-mirror';
+import { Play, Pause, RefreshCw, Sparkles, ArrowLeft, Camera } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -32,10 +32,10 @@ export default function ZenPage() {
     } else if (timeRemaining === 0 && sessionState === 'running') {
       setSessionState('complete');
       setSessionsCompleted(prev => prev + 1);
-      document.title = 'Session Complete 🌿';
+      document.title = 'Session Complete ✨';
       if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('Focus Session Complete 🌿', {
-          body: 'Time to take a short break!',
+        new Notification('Focus Session Complete ✨', {
+          body: 'Believe in yourself. You did it.',
         });
       }
     }
@@ -48,7 +48,6 @@ export default function ZenPage() {
   }, [sessionState, timeRemaining]);
 
   useEffect(() => {
-    // Request notification permission on component mount
     if ('Notification' in window && Notification.permission === 'default') {
       Notification.requestPermission();
     }
@@ -95,7 +94,7 @@ export default function ZenPage() {
       case 'idle':
         return (
           <Button size="lg" onClick={handleStart} className="w-full shadow-lg">
-            <Play className="mr-2 h-5 w-5" /> Start Focus
+            <Camera className="mr-2 h-5 w-5" /> Start Mirror Focus
           </Button>
         );
       case 'running':
@@ -113,7 +112,7 @@ export default function ZenPage() {
       case 'complete':
         return (
           <Button size="lg" onClick={handleContinue} className="w-full shadow-lg animate-slow-pulse">
-            <Sparkles className="mr-2 h-5 w-5" /> Continue Growing
+            <Sparkles className="mr-2 h-5 w-5" /> Another 20 Minutes
           </Button>
         );
     }
@@ -134,14 +133,14 @@ export default function ZenPage() {
           </div>
         
           <h1 className="font-headline text-4xl font-bold tracking-tight text-primary md:text-5xl">
-            Zen Mode
+            The Mirror.
           </h1>
-          <p className="max-w-2xl text-lg text-muted-foreground">
-            A visual meditation tool to help you focus and grow.
+          <p className="max-w-2xl text-lg text-muted-foreground lora italic">
+            "Believe." — Face yourself, affirm your greatness.
           </p>
 
-          <div className="relative w-full max-w-xs sm:max-w-sm h-80 my-8">
-            <ZenTree sessions={sessionsCompleted} progress={progress} state={sessionState} />
+          <div className="relative w-full max-w-xs sm:max-w-sm h-[400px] my-4">
+            <CameraMirror isActive={sessionState === 'running'} progress={progress} />
           </div>
 
           <div className="text-6xl font-bold font-mono tracking-tighter text-foreground/80">
@@ -149,7 +148,7 @@ export default function ZenPage() {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="w-48 h-11">
+            <div className="w-64 h-11">
               {getButton()}
             </div>
             <TooltipProvider>
