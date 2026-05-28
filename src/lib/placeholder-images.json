@@ -77,6 +77,36 @@
       "description": "GitHub profile preview image",
       "imageUrl": "/images/ghub.png",
       "imageHint": "github profile"
+    },
+    {
+      "id": "book-clean-code",
+      "description": "Clean Code by Robert C. Martin",
+      "imageUrl": "https://picsum.photos/seed/book1/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-atomic-habits",
+      "description": "Atomic Habits by James Clear",
+      "imageUrl": "https://picsum.photos/seed/book2/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-search-meaning",
+      "description": "Man's Search for Meaning by Viktor Frankl",
+      "imageUrl": "https://picsum.photos/seed/book3/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-pragmatic-programmer",
+      "description": "The Pragmatic Programmer",
+      "imageUrl": "https://picsum.photos/seed/book4/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-zero-to-one",
+      "description": "Zero to One by Peter Thiel",
+      "imageUrl": "https://picsum.photos/seed/book5/400/600",
+      "imageHint": "book cover"
     }
   ]
 }
