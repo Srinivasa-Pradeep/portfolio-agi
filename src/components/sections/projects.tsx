@@ -10,154 +10,176 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Github, Sparkles } from "lucide-react";
+import { Github, ExternalLink, Sparkles } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { ScrollAnimationWrapper } from "@/components/scroll-animation-wrapper";
 
 const projects = [
   {
     name: "Medical Text-to-SQL",
     description:
-      "A Text-to-SQL model using Code-T5-base, fine-tuned with LoRA/QLoRA to efficiently process medical queries.",
+      "A sophisticated Text-to-SQL model using Code-T5-base, fine-tuned with LoRA/QLoRA to efficiently process complex medical queries into actionable data.",
     stack: ["Python", "Streamlit", "Ollama", "MongoDB", "CodeT5"],
     github: "https://github.com/Srinivasa-Pradeep/MedQuery",
     imageId: "project-medquery",
+    featured: true,
   },
   {
     name: "Expense Feedback",
     description:
-      "A web app to streamline expense reports with PDF previews and GridFS for efficient receipt storage.",
-    stack: ["React", "Tailwind CSS", "Node.js", "Express", "MongoDB", "GridFS"],
+      "A comprehensive web application designed to streamline expense reporting with PDF previews and high-performance GridFS storage.",
+    stack: ["React", "Tailwind CSS", "Node.js", "MongoDB"],
     github: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     imageId: "project-expense-feedback",
+    featured: false,
   },
   {
     name: "SWE Interview Prep",
     description:
-      "A curated list of resources for SWE interviews, covering DSA, System Design, and study roadmaps.",
-    stack: ["Resources", "DSA", "System Design", "Books"],
+      "A high-value curated repository of resources for software engineering interviews, covering DSA, System Design, and proven roadmaps.",
+    stack: ["DSA", "System Design", "Roadmaps", "Career"],
     github:
       "https://github.com/Srinivasa-Pradeep/Software-Engineering-Preparation-Complete-Resource-List",
     imageId: "project-swe-prep",
+    featured: false,
   },
 ];
 
 export function Projects() {
   return (
-    <section id="projects" className="py-20 md:py-32">
-      <div className="container">
-        <div className="text-center">
-          <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
-            Featured Projects
-          </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            A few things I've built and contributed.
-          </p>
+    <section id="projects" className="py-20 md:py-32 relative overflow-hidden">
+      {/* Decorative Glow Elements */}
+      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/4 -left-20 w-96 h-96 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="container relative z-10">
+        <div className="text-center mb-16 md:mb-24">
+          <ScrollAnimationWrapper>
+            <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-5xl">
+              Featured Projects.
+            </h2>
+            <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground lora italic">
+              A curated selection of architectural solutions and creative experiments.
+            </p>
+          </ScrollAnimationWrapper>
         </div>
 
-        <div className="mt-20 flex flex-col items-center justify-center gap-8 md:flex-row md:items-start md:gap-0 lg:gap-4 [perspective:2000px]">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
           {projects.map((project, index) => {
             const projectImage = PlaceHolderImages.find(
               (p) => p.id === project.imageId
             );
+            
+            // Bento Grid logic: First project is larger
+            const isLarge = index === 0;
 
             return (
-              <div
+              <ScrollAnimationWrapper 
                 key={project.name}
+                delay={index * 150}
                 className={cn(
-                  "group h-[430px] w-full max-w-sm rounded-xl transition-all duration-500 ease-in-out [transform-style:preserve-3d]",
-                  // Responsive stacking
-                  "md:h-[390px] md:w-1/3",
-                  // 3D desktop layout
-                  index === 0 &&
-                    "md:[transform:translateY(2rem)_rotateY(25deg)] md:hover:z-20 md:hover:[transform:translateY(2rem)_rotateY(0deg)_scale(1.02)]",
-                  index === 1 && "md:z-10 md:scale-95 md:translate-y-0 md:hover:scale-70",
-                  index === 2 &&
-                    "md:[transform:translateY(2rem)_rotateY(-25deg)] md:hover:z-20 md:hover:[transform:translateY(2rem)_rotateY(0deg)_scale(1.02)]"
+                  "relative group rounded-3xl overflow-hidden border border-border/10 bg-card/30 backdrop-blur-md transition-all duration-500 hover:border-primary/20",
+                  isLarge ? "md:col-span-12 lg:col-span-7 h-[500px]" : "md:col-span-6 lg:col-span-5 h-[500px]"
                 )}
               >
-                <div className="relative h-full w-full rounded-xl shadow-xl transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                  {/* Front Face */}
-                  <div className="absolute inset-0 rounded-xl [backface-visibility:hidden]">
-                    {projectImage && (
-                      <Image
-                        src={projectImage.imageUrl}
-                        alt={projectImage.description}
-                        data-ai-hint={projectImage.imageHint}
-                        fill
-                        className="object-cover rounded-xl"
-                      />
-                    )}
-                    <div className="absolute inset-0 rounded-xl bg-black/40 transition-colors group-hover:bg-black/60"></div>
-                    <div className="absolute bottom-0 left-0 p-6">
-                      <h3 className="text-2xl font-bold text-white shadow-black/80 [text-shadow:0_2px_4px_var(--tw-shadow-color)]">
-                        {project.name}
-                      </h3>
-                    </div>
-                  </div>
+                {/* Image Background */}
+                <div className="absolute inset-0 z-0">
+                  {projectImage && (
+                    <Image
+                      src={projectImage.imageUrl}
+                      alt={project.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-60 grayscale group-hover:grayscale-0"
+                    />
+                  )}
+                  {/* Glass Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-80" />
+                </div>
 
-                  {/* Back Face */}
-                  <div className="absolute inset-0 h-full w-full rounded-xl bg-card/50 backdrop-blur-lg border border-border/20 text-card-foreground [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                    <div className="relative flex h-full w-full flex-col overflow-hidden rounded-xl">
-                      {projectImage && (
-                        <div className="absolute inset-0">
-                          <Image
-                            src={projectImage.imageUrl}
-                            alt={projectImage.description}
-                            fill
-                            className="object-cover rounded-xl scale-110 blur-sm brightness-50"
-                          />
-                        </div>
+                {/* Content Container */}
+                <div className="relative z-10 h-full flex flex-col justify-end p-8 md:p-10">
+                  <div className="transform-gpu transition-all duration-500 group-hover:-translate-y-2">
+                    <div className="flex items-center gap-3 mb-4">
+                      {isLarge && (
+                        <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 backdrop-blur-sm animate-pulse">
+                          <Sparkles className="mr-1 h-3 w-3" /> Featured Project
+                        </Badge>
                       )}
-                      <div className="relative z-10 flex h-full flex-col items-center justify-center p-6 text-center text-white">
-                        <h3 className="text-xl font-bold">{project.name}</h3>
-                        <p className="mt-2 flex-grow text-sm text-white/80">
-                          {project.description}
-                        </p>
-                        <div className="mt-4 flex flex-wrap justify-center gap-2">
-                          {project.stack.map((tech) => (
-                            <Badge
-                              key={tech}
-                              variant="secondary"
-                              className="border-transparent bg-white/10 text-white backdrop-blur-sm"
+                    </div>
+                    
+                    <h3 className="text-3xl font-bold text-foreground mb-3 tracking-tight">
+                      {project.name}
+                    </h3>
+                    
+                    <p className="text-muted-foreground mb-6 max-w-lg line-clamp-2 group-hover:line-clamp-none transition-all duration-500">
+                      {project.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-8">
+                      {project.stack.map((tech) => (
+                        <span 
+                          key={tech} 
+                          className="text-[10px] uppercase tracking-widest font-bold text-primary/60 border border-primary/10 px-2 py-1 rounded-sm bg-primary/5 backdrop-blur-sm"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button 
+                              asChild 
+                              size="sm" 
+                              variant="outline"
+                              className="bg-background/50 backdrop-blur-md border-border/20 hover:bg-primary hover:text-primary-foreground transition-all duration-300 rounded-full px-6"
                             >
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
-                        <div className="mt-6">
-                          <TooltipProvider delayDuration={100}>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button
-                                  asChild
-                                  size="sm"
-                                  className="bg-white/10 text-white backdrop-blur-sm hover:bg-white/20 hover:text-white"
-                                >
-                                  <a
-                                    href={project.github}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={(e) => e.stopPropagation()}
-                                  >
-                                    <Github className="mr-2 h-4 w-4" /> View
-                                    GitHub
-                                  </a>
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>View GitHub Repository</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </div>
-                      </div>
+                              <a href={project.github} target="_blank" rel="noopener noreferrer">
+                                <Github className="mr-2 h-4 w-4" /> Code
+                              </a>
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent side="top">
+                            <p>Repository</p>
+                          </TooltipContent>
+                        </Tooltip>
+
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button 
+                              size="icon" 
+                              variant="ghost"
+                              className="rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10"
+                            >
+                              <ExternalLink className="h-5 w-5" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent side="top">
+                            <p>Live Demo</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                   </div>
                 </div>
-              </div>
+
+                {/* Inner Glow Effect */}
+                <div className="absolute inset-0 pointer-events-none ring-1 ring-inset ring-white/10 group-hover:ring-white/20 transition-all duration-500" />
+              </ScrollAnimationWrapper>
             );
           })}
+        </div>
+        
+        <div className="mt-20 text-center">
+          <ScrollAnimationWrapper delay={400}>
+            <p className="text-sm text-muted-foreground font-mono flex items-center justify-center gap-2">
+              <span className="w-8 h-px bg-border/40" />
+              Explore more on <a href="https://github.com/srinivasa-pradeep" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline underline-offset-4">GitHub</a>
+              <span className="w-8 h-px bg-border/40" />
+            </p>
+          </ScrollAnimationWrapper>
         </div>
       </div>
     </section>
