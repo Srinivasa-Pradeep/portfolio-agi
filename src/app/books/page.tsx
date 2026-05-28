@@ -14,6 +14,12 @@ const books = [
     imageId: "book-pragmatic-programmer",
   },
   {
+    title: "Manifest",
+    author: "Roxie Nafousi",
+    status: "read",
+    imageId: "book-manifest",
+  },
+  {
     title: "Clean Code",
     author: "Robert C. Martin",
     status: "read",

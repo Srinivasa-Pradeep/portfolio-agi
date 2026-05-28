@@ -30,6 +30,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'm.media-amazon.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: '6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev',
         port: '',
         pathname: '/**',

@@ -107,6 +107,12 @@
       "description": "Zero to One by Peter Thiel",
       "imageUrl": "https://picsum.photos/seed/book5/400/600",
       "imageHint": "book cover"
+    },
+    {
+      "id": "book-manifest",
+      "description": "Manifest by Roxie Nafousi",
+      "imageUrl": "https://m.media-amazon.com/images/I/71dtfDCdTvL._SY522_.jpg",
+      "imageHint": "book cover manifest"
     }
   ]
 }
