@@ -23,47 +23,32 @@ const projects = [
   {
     name: "MedQuery AI",
     description:
-      "A sophisticated Text-to-SQL model using Code-T5-base, fine-tuned to process complex medical queries into actionable data insights.",
+      "A sophisticated Text-to-SQL model using Code-T5-base, fine-tuned to process complex medical queries into actionable data insights. It bridges the gap between healthcare professionals and technical databases, allowing for natural language data exploration.",
     stack: [
-      { name: "Python", icon: SiPython },
-      { name: "Streamlit", icon: SiStreamlit },
-      { name: "Ollama", icon: SiNextdotjs },
-      { name: "MongoDB", icon: SiMongodb },
+      { name: "Python", icon: SiPython, color: "#3776AB" },
+      { name: "Streamlit", icon: SiStreamlit, color: "#FF4B4B" },
+      { name: "Ollama", icon: SiNextdotjs, color: "currentColor" },
+      { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
     ],
     github: "https://github.com/Srinivasa-Pradeep/MedQuery",
     link: "https://github.com/Srinivasa-Pradeep/MedQuery",
     imageId: "project-medquery",
-    accentColor: "rgba(59, 130, 246, 0.5)", // Blue
+    accentColor: "rgba(59, 130, 246, 0.4)", // Vibrant Blue
   },
   {
     name: "Expense Feedback",
     description:
-      "Streamlined expense reporting with high-performance storage. Features PDF previews and advanced data visualization.",
+      "Streamlined expense reporting with high-performance storage. Features PDF previews and advanced data visualization for real-time budget monitoring and feedback loops for organizational spending.",
     stack: [
-      { name: "React", icon: SiReact },
-      { name: "Tailwind", icon: SiTailwindcss },
-      { name: "Node.js", icon: SiNodedotjs },
-      { name: "MongoDB", icon: SiMongodb },
+      { name: "React", icon: SiReact, color: "#61DAFB" },
+      { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
+      { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
+      { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
     ],
     github: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     link: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     imageId: "project-expense-feedback",
-    accentColor: "rgba(168, 85, 247, 0.5)", // Purple
-  },
-  {
-    name: "SWE Prep Complete",
-    description:
-      "A high-value curated repository of resources for software engineering interviews, covering DSA and System Design.",
-    stack: [
-      { name: "TypeScript", icon: SiTypescript },
-      { name: "React", icon: SiReact },
-      { name: "Next.js", icon: SiNextdotjs },
-      { name: "Tailwind", icon: SiTailwindcss },
-    ],
-    github: "https://github.com/Srinivasa-Pradeep/Software-Engineering-Preparation-Complete-Resource-List",
-    link: "https://github.com/Srinivasa-Pradeep/Software-Engineering-Preparation-Complete-Resource-List",
-    imageId: "project-swe-prep",
-    accentColor: "rgba(34, 197, 94, 0.5)", // Green
+    accentColor: "rgba(168, 85, 247, 0.4)", // Vibrant Purple
   },
 ];
 
@@ -72,45 +57,47 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
 
   return (
     <ScrollAnimationWrapper delay={delay} className="group">
-      <div className="flex flex-col gap-6">
-        {/* Cinematic Visual Container */}
-        <div className="relative aspect-[1.5/1] w-full overflow-hidden rounded-[32px] bg-[#0c0c0c] p-8 sm:p-12">
-          {/* Vibrant Blurred Background */}
+      <div className="flex flex-col gap-8">
+        {/* Cinematic Visual Container with Enhanced Gaussian Blur */}
+        <div className="relative aspect-[1.6/1] w-full overflow-hidden rounded-[40px] bg-black/40 backdrop-blur-sm p-6 sm:p-10 border border-white/5 shadow-2xl">
+          {/* Gaussian Blur Glow Layer */}
           <div 
-            className="absolute inset-0 z-0 opacity-40 blur-[100px] transition-transform duration-700 group-hover:scale-110"
+            className="absolute inset-0 z-0 opacity-60 blur-[120px] transition-all duration-1000 group-hover:scale-125 group-hover:opacity-80"
             style={{ 
-              background: `radial-gradient(circle at center, ${project.accentColor}, transparent 70%)` 
+              background: `radial-gradient(circle at center, ${project.accentColor}, transparent 80%)` 
             }}
           />
           
           {/* Floating Project Screenshot */}
-          <div className="relative z-10 h-full w-full overflow-hidden rounded-xl border border-white/10 bg-black/40 shadow-2xl transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+          <div className="relative z-10 h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a]/60 shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:-translate-y-4 group-hover:rotate-1 group-hover:scale-[1.02] group-hover:shadow-[0_40px_100px_rgba(0,0,0,0.6)]">
              {projectImage && (
                 <Image
                   src={projectImage.imageUrl}
                   alt={project.name}
                   fill
-                  className="object-cover opacity-90 transition-opacity duration-500 group-hover:opacity-100"
+                  className="object-cover opacity-80 transition-all duration-700 group-hover:opacity-100 group-hover:scale-110"
                 />
              )}
+             {/* Glass Overlay on image */}
+             <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent pointer-events-none" />
           </div>
         </div>
 
         {/* Project Details */}
-        <div className="flex flex-col gap-4 px-2">
+        <div className="flex flex-col gap-4 px-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+            <h3 className="text-3xl font-bold tracking-tight text-foreground/90 transition-colors group-hover:text-primary">
               {project.name}
             </h3>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               {project.github && (
                 <a 
                   href={project.github} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-muted-foreground transition-colors hover:text-primary"
+                  className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
                 >
-                  <Github className="h-5 w-5" />
+                  <Github className="h-6 w-6" />
                 </a>
               )}
               {project.link && (
@@ -118,26 +105,29 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
                   href={project.link} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-muted-foreground transition-colors hover:text-primary"
+                  className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
                 >
-                  <Globe className="h-5 w-5" />
+                  <Globe className="h-6 w-6" />
                 </a>
               )}
             </div>
           </div>
 
-          <p className="text-lg leading-relaxed text-muted-foreground/80 line-clamp-2">
+          <p className="text-lg leading-relaxed text-muted-foreground transition-colors duration-300 group-hover:text-foreground/80">
             {project.description}
           </p>
 
-          <div className="flex items-center gap-4 pt-2">
+          <div className="flex items-center gap-5 pt-3">
             {project.stack.map((tech) => (
               <div 
                 key={tech.name}
                 className="group/tech relative flex items-center justify-center"
               >
-                <tech.icon className="h-6 w-6 text-muted-foreground/40 transition-all duration-300 group-hover/tech:scale-110 group-hover/tech:text-primary" />
-                <span className="absolute -top-8 left-1/2 -translate-x-1/2 scale-0 rounded bg-secondary px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-secondary-foreground transition-all group-hover/tech:scale-100">
+                <tech.icon 
+                  className="h-7 w-7 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/tech:scale-125"
+                  style={{ color: tech.color }}
+                />
+                <span className="absolute -top-10 left-1/2 -translate-x-1/2 scale-0 rounded-full bg-secondary/80 backdrop-blur-md border border-border/40 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-foreground transition-all duration-300 group-hover/tech:scale-100 shadow-xl">
                   {tech.name}
                 </span>
               </div>
@@ -151,33 +141,33 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
 
 export function Projects() {
   return (
-    <section id="projects" className="py-24 md:py-32">
+    <section id="projects" className="py-24 md:py-40">
       <div className="container max-w-6xl">
-        <div className="mb-16 flex flex-col items-start gap-4">
-          <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
-            Featured Projects
+        <div className="mb-20 flex flex-col items-start gap-4">
+          <h2 className="text-sm font-black uppercase tracking-[0.3em] text-primary/60">
+            Engineered Works
           </h2>
-          <div className="h-1 w-12 bg-primary/20" />
+          <div className="h-1 w-16 bg-primary/40 rounded-full" />
         </div>
 
-        <div className="grid grid-cols-1 gap-16 md:grid-cols-2 md:gap-x-12 md:gap-y-20">
+        <div className="grid grid-cols-1 gap-24 md:grid-cols-2 md:gap-x-16 md:gap-y-32">
           {projects.map((project, index) => (
             <ProjectCard 
               key={project.name} 
               project={project} 
-              delay={index * 100} 
+              delay={index * 150} 
             />
           ))}
         </div>
 
-        <div className="mt-24 text-center">
+        <div className="mt-32 text-center">
           <Button 
             asChild 
             variant="ghost" 
-            className="text-muted-foreground hover:bg-transparent hover:text-primary group"
+            className="h-14 px-8 text-muted-foreground hover:bg-transparent hover:text-primary group text-lg rounded-full"
           >
             <a href="https://github.com/srinivasa-pradeep" target="_blank" rel="noopener noreferrer">
-              View archive <ExternalLink className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              Exploration Archive <ExternalLink className="ml-2 h-5 w-5 transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
             </a>
           </Button>
         </div>
