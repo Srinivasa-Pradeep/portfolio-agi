@@ -57,22 +57,22 @@ const manifestoItems = [
   {
     id: "vision",
     question: "What defines my engineering approach?",
-    answer: "Simplicity is the ultimate sophistication. I build systems that are robust at the core but effortless in their experience, bridging the gap between complex logic and human intuition. I view every bug as a puzzle and every constraint as an opportunity for creativity."
+    answer: "I believe that simplicity is the ultimate sophistication. My approach to software engineering is rooted in building systems that are robust at the core but effortless in their experience. I bridge the gap between complex backend logic and human intuition, viewing every bug as a high-stakes puzzle and every constraint as an opportunity for creative architecture."
   },
   {
     id: "growth",
-    question: "How do I stay ahead of the curve?",
-    answer: "In technology, standing still is moving backward. By maintaining a Knight-level problem-solving discipline on LeetCode and a 'Day 1' mentality, I ensure my skills remain sharp. My journey from SAP to Amazon has taught me that continuous learning is the only constant."
+    question: "How do I maintain technical excellence?",
+    answer: "In a field where technology shifts weekly, standing still is equivalent to moving backward. I maintain a Knight-level problem-solving discipline on LeetCode—not just for the rank, but to keep my analytical mind sharp. My trajectory from SAP to Amazon has taught me that the most valuable skill isn't knowing the answer, but knowing how to find it amidst uncertainty."
   },
   {
     id: "collaboration",
-    question: "What does teamwork mean to me?",
-    answer: "Great software is a team sport. I prioritize clear documentation, active listening, and constructive feedback loops. Whether it's mentoring peers or collaborating in high-traffic environments like Amazon, I believe we build better when we build together."
+    question: "What is my philosophy on teamwork?",
+    answer: "Great software is a team sport, not a solo performance. I prioritize clear documentation, active listening, and constructive feedback loops. Whether it's mentoring peers in college or collaborating within the high-traffic microservices environment of Amazon, I believe we build more reliable, scalable, and inclusive products when we align on common goals."
   },
   {
     id: "beyond",
-    question: "What fuels me outside of the IDE?",
-    answer: "I write to understand and build to become. When I'm not coding, you'll find me crafting stories on Medium, exploring the psychology of focus in Zen Mode, or chasing the thrill of a Formula 1 race. I believe a balanced mind is a creative mind."
+    question: "What drives me outside of the IDE?",
+    answer: "I write to understand and build to become. When I'm not in my development environment, I'm likely crafting technical reflections on Medium, exploring the psychology of focus through my Zen Mode project, or following the mechanical precision of a Formula 1 race. I believe a balanced, multi-disciplinary mind is a more creative engine for problem-solving."
   }
 ];
 
@@ -543,32 +543,37 @@ export function About() {
               </div>
             </div>
 
-            <div className="mt-20">
-              <h3 className="font-headline text-2xl font-semibold text-primary mb-8">
-                Manifesto
+            <div className="mt-24">
+              <h3 className="font-headline text-2xl font-semibold text-primary mb-12">
+                Engineering Philosophy
               </h3>
-              <Accordion type="single" collapsible className="w-full space-y-0">
-                {manifestoItems.map((item) => (
-                  <AccordionItem 
-                    key={item.id} 
-                    value={item.id}
-                    className="border-b border-border/10 transition-all duration-300 hover:bg-primary/[0.02]"
-                  >
-                    <AccordionTrigger className="hover:no-underline py-6 group">
-                      <div className="flex items-center gap-4 text-left">
-                        <span className="text-lg font-medium text-foreground/80 group-data-[state=open]:text-primary transition-colors duration-300">
-                          {item.question}
-                        </span>
+              <div className="space-y-0">
+                {manifestoItems.map((item, index) => (
+                  <div key={item.id} className="relative">
+                    {/* Shining Line Separator */}
+                    {index !== 0 && (
+                      <div className="relative h-px w-full overflow-hidden bg-border/10 mb-2">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent w-full bg-[length:200%_100%] animate-shine" />
                       </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground text-base leading-relaxed pb-8 pt-2">
-                      <p className="max-w-2xl border-l-2 border-primary/20 pl-6 py-1 italic">
-                        {item.answer}
-                      </p>
-                    </AccordionContent>
-                  </AccordionItem>
+                    )}
+                    
+                    <Accordion type="single" collapsible className="w-full">
+                      <AccordionItem value={item.id} className="border-none">
+                        <AccordionTrigger className="hover:no-underline py-6 group">
+                          <span className="text-lg font-medium text-foreground/80 group-data-[state=open]:text-primary transition-colors duration-300 text-left">
+                            {item.question}
+                          </span>
+                        </AccordionTrigger>
+                        <AccordionContent className="pb-8 pt-0">
+                          <p className="max-w-3xl border-l-2 border-primary/20 pl-6 py-1 italic font-lora text-lg leading-relaxed text-muted-foreground">
+                            {item.answer}
+                          </p>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  </div>
                 ))}
-              </Accordion>
+              </div>
             </div>
           </div>
         </div>
