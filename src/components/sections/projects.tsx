@@ -89,6 +89,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
         className="relative h-full flex flex-col bg-card/20 backdrop-blur-xl rounded-[40px] border border-white/10 p-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-3 hover:shadow-[0_40px_120px_-20px_rgba(0,0,0,0.5)] hover:bg-card/40"
       >
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[32px] bg-black/5 p-4 sm:p-6">
+          {/* Gaussian Blur Background Layer */}
           {projectImage && (
             <div className="absolute inset-0 z-0 transition-transform duration-1000 group-hover:scale-110">
               <Image
@@ -100,6 +101,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
             </div>
           )}
           
+          {/* Main Content Visual Unit */}
           <div className="relative z-10 h-full w-full overflow-hidden rounded-[20px] border border-white/5 bg-black/20 shadow-2xl transition-all duration-700 p-0.5">
              <div className="relative h-full w-full overflow-hidden rounded-[19px]">
                 {projectImage && (
@@ -114,6 +116,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
                     />
                 )}
                 
+                {/* Video Preview Layer */}
                 {"videoUrl" in project && project.videoUrl && (
                   <video
                     ref={videoRef}
@@ -128,6 +131,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
                   />
                 )}
              </div>
+             {/* Glassy Overlay Finish */}
              <div className="absolute inset-0 bg-gradient-to-tr from-white/5 via-transparent to-transparent pointer-events-none z-20" />
           </div>
         </div>
@@ -191,6 +195,7 @@ export function Projects() {
   return (
     <section id="projects" className="py-24 md:py-40">
       <div className="container max-w-7xl">
+        {/* Centered Consistent Header */}
         <div className="text-center mb-20">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Featured Projects</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
@@ -208,6 +213,7 @@ export function Projects() {
           ))}
         </div>
 
+        {/* Simplified Archive Link */}
         <div className="mt-32 text-center">
           <Button 
             asChild 
