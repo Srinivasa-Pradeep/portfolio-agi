@@ -19,18 +19,15 @@ export function ThemeToggle() {
 
   // Initialize the audio instance on mount
   React.useEffect(() => {
-    // Looking for the sound file in public/music/switch.mp3
     audioRef.current = new Audio('/music/switch.mp3');
     audioRef.current.load();
   }, []);
 
-  const toggleTheme = React.useCallback((e?: React.MouseEvent | KeyboardEvent) => {
+  const toggleTheme = React.useCallback(() => {
     // Play the toggle SFX
     if (audioRef.current) {
       audioRef.current.currentTime = 0; 
-      audioRef.current.play().catch(() => {
-        // Silently fail if file is missing or browser restricts playback
-      });
+      audioRef.current.play().catch(() => {});
     }
 
     // Trigger the 360-degree rotation
@@ -38,13 +35,11 @@ export function ThemeToggle() {
     
     const isDark = document.documentElement.classList.contains('dark');
 
-    // Experimental View Transitions API for the premium wipe effect
     if (!document.startViewTransition) {
       setTheme(isDark ? 'light' : 'dark');
       return;
     }
 
-    // Delay the theme switch slightly to allow the rotation to start smoothly
     setTimeout(() => {
         document.startViewTransition(() => {
             setTheme(isDark ? 'light' : 'dark');
@@ -60,7 +55,7 @@ export function ThemeToggle() {
         !(e.target instanceof HTMLInputElement) && 
         !(e.target instanceof HTMLTextAreaElement)
       ) {
-        toggleTheme(e);
+        toggleTheme();
       }
     };
 
@@ -75,7 +70,7 @@ export function ThemeToggle() {
           <Button 
             variant="ghost" 
             size="icon" 
-            onClick={(e) => toggleTheme(e)} 
+            onClick={toggleTheme} 
             className="relative rounded-full transition-all duration-500 ease-[cubic-bezier(0.3,1.5,0.5,1)] hover:scale-125 hover:bg-accent/50 active:scale-95"
           >
             <div
@@ -88,8 +83,11 @@ export function ThemeToggle() {
             <span className="sr-only">Toggle theme</span>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>
-          <p>Toggle mode (T)</p>
+        <TooltipContent side="top" className="flex items-center gap-2 px-3 py-1.5">
+          <span className="text-xs font-medium">Toggle mode</span>
+          <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+            T
+          </kbd>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

@@ -59,8 +59,11 @@ export function MusicPlayer() {
             </div>
           </Button>
         </TooltipTrigger>
-        <TooltipContent>
-          <p>{isPlaying ? 'Pause music (M)' : 'Play music (M)'}</p>
+        <TooltipContent side="top" className="flex items-center gap-2 px-3 py-1.5">
+          <span className="text-xs font-medium">{isPlaying ? 'Pause music' : 'Play music'}</span>
+          <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+            M
+          </kbd>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
