@@ -1,4 +1,3 @@
-
 'use client';
 
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
@@ -543,29 +542,29 @@ export function About() {
               </div>
             </div>
 
-            <div className="mt-24">
-              <h3 className="font-headline text-2xl font-semibold text-primary mb-12">
-                Engineering Philosophy
+            <div className="mt-20">
+              <h3 className="font-headline text-2xl font-semibold text-primary mb-6">
+                More Info
               </h3>
               <div className="space-y-0">
                 {manifestoItems.map((item, index) => (
                   <div key={item.id} className="relative">
-                    {/* Shining Line Separator */}
+                    {/* Minimalist Shining Line Separator */}
                     {index !== 0 && (
-                      <div className="relative h-px w-full overflow-hidden bg-border/10 mb-2">
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/30 to-transparent w-full bg-[length:200%_100%] animate-shine" />
+                      <div className="relative h-px w-full overflow-hidden bg-border/5 mb-0.5">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent w-full bg-[length:200%_100%] animate-shine" />
                       </div>
                     )}
                     
                     <Accordion type="single" collapsible className="w-full">
                       <AccordionItem value={item.id} className="border-none">
-                        <AccordionTrigger className="hover:no-underline py-6 group">
-                          <span className="text-lg font-medium text-foreground/80 group-data-[state=open]:text-primary transition-colors duration-300 text-left">
+                        <AccordionTrigger className="hover:no-underline py-4 group">
+                          <span className="text-lg font-headline font-medium tracking-tight text-foreground/80 group-data-[state=open]:text-primary transition-colors duration-300 text-left">
                             {item.question}
                           </span>
                         </AccordionTrigger>
-                        <AccordionContent className="pb-8 pt-0">
-                          <p className="max-w-3xl border-l-2 border-primary/20 pl-6 py-1 italic font-lora text-lg leading-relaxed text-muted-foreground">
+                        <AccordionContent className="pb-6 pt-0">
+                          <p className="max-w-3xl border-l-2 border-primary/10 pl-5 py-0.5 italic font-lora text-lg leading-relaxed text-muted-foreground">
                             {item.answer}
                           </p>
                         </AccordionContent>
