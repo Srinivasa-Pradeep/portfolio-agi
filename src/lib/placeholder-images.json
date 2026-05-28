@@ -79,6 +79,12 @@
       "imageHint": "github profile"
     },
     {
+      "id": "leetcode-preview",
+      "description": "LeetCode profile preview image",
+      "imageUrl": "/images/leetcode.png",
+      "imageHint": "leetcode profile"
+    },
+    {
       "id": "book-clean-code",
       "description": "Clean Code by Robert C. Martin",
       "imageUrl": "https://picsum.photos/seed/book1/400/600",

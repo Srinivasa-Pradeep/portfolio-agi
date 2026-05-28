@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,6 +16,12 @@ import {
   Cell,
   Tooltip,
 } from "recharts";
+import { 
+  Tooltip as ShadcnTooltip,
+  TooltipContent as ShadcnTooltipContent,
+  TooltipProvider as ShadcnTooltipProvider,
+  TooltipTrigger as ShadcnTooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { SiLeetcode } from 'react-icons/si';
@@ -224,6 +231,59 @@ const allProblems = [
 ];
 
 type Problem = typeof allProblems[0];
+
+function LeetCodeProfileButtonWithPreview({ href }: { href: string }) {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const previewImage = PlaceHolderImages.find(p => p.id === 'leetcode-preview');
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setMousePos({ x, y });
+  };
+
+  return (
+    <ShadcnTooltip>
+      <ShadcnTooltipTrigger asChild>
+        <Button 
+          asChild 
+          size="lg" 
+          className="min-w-[200px] group"
+          onMouseMove={handleMouseMove}
+          onMouseLeave={() => setMousePos({ x: 0, y: 0 })}
+        >
+          <a href={href} target="_blank" rel="noopener noreferrer">
+            <SiLeetcode className="mr-2 h-5 w-5 filter grayscale" /> LeetCode Profile
+          </a>
+        </Button>
+      </ShadcnTooltipTrigger>
+      <ShadcnTooltipContent 
+        side="top" 
+        className="p-0 border-none bg-transparent shadow-2xl duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] animate-in fade-in-0 slide-in-from-bottom-12"
+      >
+        <div className="relative w-64 aspect-[16/9] rounded-xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-2xl ring-1 ring-white/10">
+          <div 
+            className="absolute inset-0 transition-transform duration-300 ease-out"
+            style={{
+              transform: `translate(${mousePos.x * 15}px, ${mousePos.y * 15}px) scale(1.1)`
+            }}
+          >
+            {previewImage && (
+              <Image 
+                src={previewImage.imageUrl} 
+                alt={previewImage.description}
+                data-ai-hint={previewImage.imageHint}
+                fill
+                className="object-cover opacity-90 brightness-110 contrast-110"
+              />
+            )}
+          </div>
+        </div>
+      </ShadcnTooltipContent>
+    </ShadcnTooltip>
+  );
+}
 
 export function LeetCode() {
   const [isHovering, setIsHovering] = useState(false);
@@ -482,11 +542,10 @@ export function LeetCode() {
         </div>
         
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Button size="lg" asChild className="min-w-[200px] group">
-              <a href="https://leetcode.com/u/srinivasa_pradeep_/" target="_blank" rel="noopener noreferrer">
-                <SiLeetcode className="mr-2 h-5 w-5 filter grayscale" /> LeetCode Profile
-              </a>
-            </Button>
+            <ShadcnTooltipProvider delayDuration={0}>
+                <LeetCodeProfileButtonWithPreview href="https://leetcode.com/u/srinivasa_pradeep_/" />
+            </ShadcnTooltipProvider>
+            
             <Button size="lg" variant="outline" asChild className="min-w-[200px]">
                <a href="https://github.com/Srinivasa-Pradeep/Data-Structures-and-Algo" target="_blank" rel="noopener noreferrer">
                 <Github className="mr-2 h-5 w-5" /> GitHub Solutions
