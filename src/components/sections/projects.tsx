@@ -22,7 +22,7 @@ import {
 const projects = [
   {
     name: "MedQuery AI",
-    description: "Advanced Text-to-SQL AI bridging natural language and medical databases. Engineered for high precision in clinical decision support.",
+    description: "High-precision Text-to-SQL AI for medical databases, enabling natural language clinical insights.",
     stack: [
       { name: "Python", icon: SiPython, color: "#3776AB" },
       { name: "Streamlit", icon: SiStreamlit, color: "#FF4B4B" },
@@ -36,7 +36,7 @@ const projects = [
   },
   {
     name: "Expense Feedback",
-    description: "Full-stack financial management system featuring automated PDF reporting and real-time budget visualization for seamless efficiency.",
+    description: "Enterprise-grade financial dashboard with real-time analytics and automated budget tracking.",
     stack: [
       { name: "React", icon: SiReact, color: "#61DAFB" },
       { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
@@ -50,7 +50,7 @@ const projects = [
   },
   {
     name: "Invoice Generator",
-    description: "Professional billing suite with real-time PDF generation and tax automation. Streamlined for seamless business transaction management.",
+    description: "Professional billing suite with automated tax calculation and real-time PDF generation.",
     stack: [
       { name: "React", icon: SiReact, color: "#61DAFB" },
       { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
@@ -59,6 +59,7 @@ const projects = [
     github: "https://github.com/Srinivasa-Pradeep/Invoice-Generator",
     link: "https://invoice-generator-plum-alpha-35.vercel.app/",
     imageId: "project-invoice-generator",
+    videoUrl: "/videos/invoice.mp4",
   },
 ];
 
@@ -69,7 +70,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
 
   useEffect(() => {
     if (videoRef.current) {
-      if (isHovered) {
+      if (isHovered && project.videoUrl) {
         const playPromise = videoRef.current.play();
         if (playPromise !== undefined) {
           playPromise.catch(() => {});
@@ -79,7 +80,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
         videoRef.current.currentTime = 0;
       }
     }
-  }, [isHovered]);
+  }, [isHovered, project.videoUrl]);
 
   return (
     <ScrollAnimationWrapper delay={delay} className="group h-full">
@@ -89,7 +90,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
         className="relative h-full flex flex-col bg-card/20 backdrop-blur-xl rounded-[40px] border border-white/10 p-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-3 hover:shadow-[0_40px_120px_-20px_rgba(0,0,0,0.5)] hover:bg-card/40"
       >
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[32px] bg-black/5 p-4 sm:p-6">
-          {/* Gaussian Blur Background Layer */}
+          {/* Gaussian Blur Background Layer using project image */}
           {projectImage && (
             <div className="absolute inset-0 z-0 transition-transform duration-1000 group-hover:scale-110">
               <Image
@@ -101,7 +102,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
             </div>
           )}
           
-          {/* Main Content Visual Unit */}
+          {/* Main Visual Unit */}
           <div className="relative z-10 h-full w-full overflow-hidden rounded-[20px] border border-white/5 bg-black/20 shadow-2xl transition-all duration-700 p-0.5">
              <div className="relative h-full w-full overflow-hidden rounded-[19px]">
                 {projectImage && (
@@ -111,13 +112,13 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
                       fill
                       className={cn(
                         "object-cover transition-all duration-700",
-                        isHovered && "videoUrl" in project && project.videoUrl ? "opacity-0 scale-105" : "opacity-100 scale-100"
+                        isHovered && project.videoUrl ? "opacity-0 scale-105" : "opacity-100 scale-100"
                       )}
                     />
                 )}
                 
                 {/* Video Preview Layer */}
-                {"videoUrl" in project && project.videoUrl && (
+                {project.videoUrl && (
                   <video
                     ref={videoRef}
                     src={project.videoUrl}
