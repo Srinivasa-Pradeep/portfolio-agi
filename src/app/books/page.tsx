@@ -1,4 +1,3 @@
-
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
@@ -84,7 +83,7 @@ export default function BooksPage() {
 
           <div className="mb-20 flex flex-col items-center text-center sm:items-start sm:text-left">
             <h1 className="font-headline text-4xl font-extrabold tracking-tight text-primary md:text-6xl lg:text-7xl">
-              Shelf.
+              Volumes.
             </h1>
             <p className="mt-4 max-w-xl text-lg text-muted-foreground lora italic">
               A curated collection of thoughts, frameworks, and stories that shaped my thinking.
