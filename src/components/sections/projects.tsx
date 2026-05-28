@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Github, Globe, ExternalLink } from "lucide-react";
+import { Github, Globe, ExternalLink, BookOpen } from "lucide-react";
 import Image from "next/image";
 import { ScrollAnimationWrapper } from "@/components/scroll-animation-wrapper";
 import { useState, useRef, useEffect } from "react";
@@ -18,11 +18,17 @@ import {
   SiPython, 
   SiStreamlit,
 } from 'react-icons/si';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const projects = [
   {
     name: "MedQuery AI",
-    description: "High-precision Text-to-SQL AI for medical databases, enabling natural language clinical insights.",
+    description: "High-precision Text-to-SQL AI for medical databases, enabling natural language clinical insights. Published in PeerJ Computer Science.",
     stack: [
       { name: "Python", icon: SiPython, color: "#3776AB" },
       { name: "Streamlit", icon: SiStreamlit, color: "#FF4B4B" },
@@ -30,13 +36,14 @@ const projects = [
       { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
     ],
     github: "https://github.com/Srinivasa-Pradeep/MedQuery",
-    link: "https://github.com/Srinivasa-Pradeep/MedQuery",
+    link: "https://peerj.com/articles/cs-3467/",
+    linkTooltip: "View Journal",
     imageId: "project-medquery",
     videoUrl: "/videos/medquery.mp4",
   },
   {
     name: "Expense Feedback",
-    description: "Enterprise-grade financial dashboard with real-time analytics and automated budget tracking.",
+    description: "Enterprise financial dashboard with real-time analytics and automated budget tracking for better fiscal management.",
     stack: [
       { name: "React", icon: SiReact, color: "#61DAFB" },
       { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
@@ -45,12 +52,13 @@ const projects = [
     ],
     github: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     link: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
+    linkTooltip: "Live Demo",
     imageId: "project-expense-feedback",
     videoUrl: "/videos/expense.mp4",
   },
   {
     name: "Invoice Generator",
-    description: "Professional billing suite with automated tax calculation and real-time PDF generation.",
+    description: "Professional billing suite with automated tax calculation and real-time PDF generation for seamless invoicing.",
     stack: [
       { name: "React", icon: SiReact, color: "#61DAFB" },
       { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
@@ -58,6 +66,7 @@ const projects = [
     ],
     github: "https://github.com/Srinivasa-Pradeep/Invoice-Generator",
     link: "https://invoice-generator-plum-alpha-35.vercel.app/",
+    linkTooltip: "Live Site",
     imageId: "project-invoice-generator",
     videoUrl: "/videos/invoice.mp4",
   },
@@ -142,28 +151,48 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
             <h3 className="text-xl font-bold tracking-tight text-foreground/90 group-hover:text-primary transition-colors duration-300">
               {project.name}
             </h3>
-            <div className="flex items-center gap-3">
-              {project.github && (
-                <a 
-                  href={project.github} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
-                >
-                  <Github className="h-4 w-4" />
-                </a>
-              )}
-              {project.link && (
-                <a 
-                  href={project.link} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
-                >
-                  <Globe className="h-4 w-4" />
-                </a>
-              )}
-            </div>
+            <TooltipProvider delayDuration={0}>
+              <div className="flex items-center gap-3">
+                {project.github && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <a 
+                        href={project.github} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
+                      >
+                        <Github className="h-4 w-4" />
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent side="top">
+                      <p>View Code</p>
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+                {project.link && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <a 
+                        href={project.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
+                      >
+                        {project.name === "MedQuery AI" ? (
+                          <BookOpen className="h-4 w-4" />
+                        ) : (
+                          <Globe className="h-4 w-4" />
+                        )}
+                      </a>
+                    </TooltipTrigger>
+                    <TooltipContent side="top">
+                      <p>{project.linkTooltip || "Live Site"}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                )}
+              </div>
+            </TooltipProvider>
           </div>
 
           <p className="text-sm leading-relaxed text-muted-foreground/80 transition-colors duration-500 group-hover:text-foreground/90">
