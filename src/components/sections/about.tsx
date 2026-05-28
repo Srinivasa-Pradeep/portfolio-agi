@@ -20,7 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks, Brain, Zap, Users, Coffee } from 'lucide-react';
+import { ListChecks, Brain, Zap, Users, Coffee, Plus } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Accordion,
@@ -57,26 +57,22 @@ const manifestoItems = [
   {
     id: "vision",
     question: "What defines my engineering approach?",
-    answer: "Simplicity is the ultimate sophistication. I build systems that are robust at the core but effortless in their experience, bridging the gap between complex logic and human intuition. I view every bug as a puzzle and every constraint as an opportunity for creativity.",
-    icon: Brain
+    answer: "Simplicity is the ultimate sophistication. I build systems that are robust at the core but effortless in their experience, bridging the gap between complex logic and human intuition. I view every bug as a puzzle and every constraint as an opportunity for creativity."
   },
   {
     id: "growth",
     question: "How do I stay ahead of the curve?",
-    answer: "In technology, standing still is moving backward. By maintaining a Knight-level problem-solving discipline on LeetCode and a 'Day 1' mentality, I ensure my skills remain sharp. My journey from SAP to Amazon has taught me that continuous learning is the only constant.",
-    icon: Zap
+    answer: "In technology, standing still is moving backward. By maintaining a Knight-level problem-solving discipline on LeetCode and a 'Day 1' mentality, I ensure my skills remain sharp. My journey from SAP to Amazon has taught me that continuous learning is the only constant."
   },
   {
     id: "collaboration",
     question: "What does teamwork mean to me?",
-    answer: "Great software is a team sport. I prioritize clear documentation, active listening, and constructive feedback loops. Whether it's mentoring peers or collaborating in high-traffic environments like Amazon, I believe we build better when we build together.",
-    icon: Users
+    answer: "Great software is a team sport. I prioritize clear documentation, active listening, and constructive feedback loops. Whether it's mentoring peers or collaborating in high-traffic environments like Amazon, I believe we build better when we build together."
   },
   {
     id: "beyond",
     question: "What fuels me outside of the IDE?",
-    answer: "I write to understand and build to become. When I'm not coding, you'll find me crafting stories on Medium, exploring the psychology of focus in Zen Mode, or chasing the thrill of a Formula 1 race. I believe a balanced mind is a creative mind.",
-    icon: Coffee
+    answer: "I write to understand and build to become. When I'm not coding, you'll find me crafting stories on Medium, exploring the psychology of focus in Zen Mode, or chasing the thrill of a Formula 1 race. I believe a balanced mind is a creative mind."
   }
 ];
 
@@ -549,27 +545,26 @@ export function About() {
 
             <div className="mt-20">
               <h3 className="font-headline text-2xl font-semibold text-primary mb-8">
-                The Engineer's Manifesto
+                Manifesto
               </h3>
-              <Accordion type="single" collapsible className="w-full space-y-4">
+              <Accordion type="single" collapsible className="w-full space-y-0">
                 {manifestoItems.map((item) => (
                   <AccordionItem 
                     key={item.id} 
                     value={item.id}
-                    className="border border-border/20 bg-card/30 backdrop-blur-md rounded-lg px-6 overflow-hidden transition-all duration-300 hover:bg-card/50"
+                    className="border-b border-border/10 transition-all duration-300 hover:bg-primary/[0.02]"
                   >
-                    <AccordionTrigger className="hover:no-underline py-6">
+                    <AccordionTrigger className="hover:no-underline py-6 group">
                       <div className="flex items-center gap-4 text-left">
-                        <div className="p-2 rounded-md bg-primary/10 text-primary">
-                          <item.icon className="h-5 w-5" />
-                        </div>
-                        <span className="text-lg font-medium text-foreground/90">
+                        <span className="text-lg font-medium text-foreground/80 group-data-[state=open]:text-primary transition-colors duration-300">
                           {item.question}
                         </span>
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground text-base leading-relaxed pb-6 pl-14">
-                      {item.answer}
+                    <AccordionContent className="text-muted-foreground text-base leading-relaxed pb-8 pt-2">
+                      <p className="max-w-2xl border-l-2 border-primary/20 pl-6 py-1 italic">
+                        {item.answer}
+                      </p>
                     </AccordionContent>
                   </AccordionItem>
                 ))}
