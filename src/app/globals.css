@@ -115,12 +115,12 @@
   100% { background-position: 200% 0; }
 }
 
-@keyframes ripple-in {
+@keyframes reveal-down {
   from {
-    clip-path: circle(0% at 50% 50%);
+    clip-path: inset(0 0 100% 0);
   }
   to {
-    clip-path: circle(125% at 50% 50%);
+    clip-path: inset(0 0 0 0);
   }
 }
 
@@ -131,11 +131,11 @@
 }
 
 ::view-transition-old(root) {
-  animation: fade-out 0.5s cubic-bezier(0.4, 0, 1, 1) forwards;
+  animation: fade-out 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
 }
 
 ::view-transition-new(root) {
-  animation: ripple-in 0.9s cubic-bezier(0.215, 0.61, 0.355, 1);
+  animation: reveal-down 0.8s cubic-bezier(0.65, 0, 0.35, 1);
   mix-blend-mode: normal;
 }
 
