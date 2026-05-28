@@ -111,7 +111,7 @@ export function CameraMirror({ isActive, progress }: CameraMirrorProps) {
           <div className="relative">
              {/* Text Glow */}
              <div className="absolute inset-0 blur-lg bg-white/10 scale-150 animate-pulse" />
-             <p className="relative text-white/95 text-lg sm:text-xl font-signature leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+             <p className="relative text-white/95 text-xl sm:text-2xl font-signature leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
                 {currentAffirmation}
              </p>
           </div>
