@@ -56,22 +56,22 @@ const manifestoItems = [
   {
     id: "vision",
     question: "What defines my engineering approach?",
-    answer: "I believe that simplicity is the ultimate sophistication. My approach to software engineering is rooted in building systems that are robust at the core but effortless in their experience. I bridge the gap between complex backend logic and human intuition, viewing every bug as a high-stakes puzzle and every constraint as an opportunity for creative architecture."
+    answer: "Simplicity is the ultimate sophistication. I build systems that are robust at the core but effortless in experience."
   },
   {
     id: "growth",
     question: "How do I maintain technical excellence?",
-    answer: "In a field where technology shifts weekly, standing still is equivalent to moving backward. I maintain a Knight-level problem-solving discipline on LeetCode—not just for the rank, but to keep my analytical mind sharp. My trajectory from SAP to Amazon has taught me that the most valuable skill isn't knowing the answer, but knowing how to find it amidst uncertainty."
+    answer: "Standing still is moving backward. I maintain a Knight-level discipline on LeetCode to keep my analytical mind sharp."
   },
   {
     id: "collaboration",
     question: "What is my philosophy on teamwork?",
-    answer: "Great software is a team sport, not a solo performance. I prioritize clear documentation, active listening, and constructive feedback loops. Whether it's mentoring peers in college or collaborating within the high-traffic microservices environment of Amazon, I believe we build more reliable, scalable, and inclusive products when we align on common goals."
+    answer: "Software is a team sport. I prioritize clear documentation, active listening, and constructive feedback loops."
   },
   {
     id: "beyond",
     question: "What drives me outside of the IDE?",
-    answer: "I write to understand and build to become. When I'm not in my development environment, I'm likely crafting technical reflections on Medium, exploring the psychology of focus through my Zen Mode project, or following the mechanical precision of a Formula 1 race. I believe a balanced, multi-disciplinary mind is a more creative engine for problem-solving."
+    answer: "I build to become. I craft reflections on Medium, explore focus through Zen Mode, and follow the precision of F1."
   }
 ];
 
@@ -564,7 +564,8 @@ export function About() {
                           </span>
                         </AccordionTrigger>
                         <AccordionContent className="pb-6 pt-0">
-                          <p className="max-w-3xl border-l-2 border-primary/10 pl-5 py-0.5 italic font-lora text-lg leading-relaxed text-muted-foreground">
+                          <p className="max-w-3xl border-l-2 border-primary/20 pl-5 py-1 font-mono text-sm leading-relaxed text-muted-foreground bg-muted/5 rounded-r-sm">
+                            <span className="text-primary/40 mr-2">$</span>
                             {item.answer}
                           </p>
                         </AccordionContent>
