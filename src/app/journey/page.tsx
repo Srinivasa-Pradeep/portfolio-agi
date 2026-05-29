@@ -10,9 +10,10 @@ import { MusicPlayer } from '@/components/music-player';
 import Image from 'next/image';
 
 /**
- * @fileOverview The Horizontal Odyssey - Official F1 Machine Edition.
- * Features a straight glassy road, side-scrolling camera, and architectural pit-stops.
- * Uses a physics-based velocity system for smooth, sleek driving.
+ * @fileOverview The Horizontal Odyssey - Fixed Cockpit Edition.
+ * Features a fixed Mercedes F1 machine in the center.
+ * The world/track moves underneath the car for maximum smoothness.
+ * Uses a physics-based velocity system for realistic acceleration and inertia.
  */
 
 interface Milestone {
@@ -92,7 +93,7 @@ export default function JourneyPage() {
     const updateMovement = () => {
       const accel = 0.04;
       const friction = 0.96;
-      const maxSpeed = 1.0;
+      const maxSpeed = 1.2;
 
       const isForward = 
         keysPressed.current.has('w') || 
@@ -146,16 +147,13 @@ export default function JourneyPage() {
     setActiveMilestone(current || null);
   }, [progress]);
 
-  const carX = useMemo(() => {
+  // World translation: Moves the track container so the car (fixed at center) 
+  // aligns with the correct "progress" point on the track.
+  const worldX = useMemo(() => {
     if (!mounted) return 0;
-    return (progress / 100) * TRACK_WIDTH;
-  }, [progress, mounted]);
-
-  // Camera focus logic: The camera offset to keep the car centered
-  const cameraOffset = useMemo(() => {
-    if (!mounted) return 0;
-    return Math.max(0, carX - windowWidth / 2);
-  }, [carX, windowWidth, mounted]);
+    const currentTrackPos = (progress / 100) * TRACK_WIDTH;
+    return (windowWidth / 2) - currentTrackPos;
+  }, [progress, windowWidth, mounted]);
 
   if (!mounted) return null;
 
@@ -168,6 +166,30 @@ export default function JourneyPage() {
         <div
           className="absolute inset-0 h-full w-full bg-transparent bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)] opacity-[0.1]"
         />
+      </div>
+
+      {/* FIXED Cockpit Layer - The car stays centered */}
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none transition-all duration-75">
+         <div className="relative">
+            {/* High-Fidelity 2026 Mercedes F1 Image */}
+            <div className="relative w-[200px] h-[60px] drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)]">
+               <Image
+                 src="https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/mercedes/2026mercedescarright.webp"
+                 alt="2026 Mercedes F1 Machine"
+                 fill
+                 className="object-contain"
+                 priority
+               />
+            </div>
+            
+            {/* Exhaust Heat Effect - Tied to velocity */}
+            {progress > 0 && progress < 100 && (
+              <div 
+                className="absolute top-[65%] -left-4 -translate-y-1/2 w-12 h-3 bg-gradient-to-r from-primary/0 to-primary/30 blur-lg animate-pulse"
+                style={{ opacity: Math.abs(velocity.current) * 0.8 }}
+              />
+            )}
+         </div>
       </div>
 
       <main className="flex-1 relative z-10 flex flex-col items-center justify-center">
@@ -195,10 +217,10 @@ export default function JourneyPage() {
             </div>
         </div>
 
-        {/* The World - Side Scrolling Wrapper */}
+        {/* The World - Moving Track Wrapper */}
         <div 
           className="relative w-full h-[60vh] transition-transform duration-100 ease-out will-change-transform"
-          style={{ transform: `translateX(-${cameraOffset}px)` }}
+          style={{ transform: `translateX(${worldX}px)` }}
         >
           <div 
             className="absolute inset-y-0 left-0"
@@ -299,37 +321,6 @@ export default function JourneyPage() {
                  );
                })}
              </svg>
-
-             {/* The Mercedes F1 Car - Official Profile */}
-             <div 
-               className="absolute z-50 transition-all duration-75 ease-linear"
-               style={{ 
-                 left: `${carX}px`, 
-                 top: '50%',
-                 transform: `translate(-50%, -50%)`
-               }}
-             >
-               <div className="relative">
-                 {/* High-Fidelity 2026 Mercedes F1 Image */}
-                 <div className="relative w-[200px] h-[60px] drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)]">
-                    <Image
-                      src="https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/mercedes/2026mercedescarright.webp"
-                      alt="2026 Mercedes F1 Machine"
-                      fill
-                      className="object-contain"
-                      priority
-                    />
-                 </div>
-                 
-                 {/* Exhaust Heat Effect - Tied to velocity */}
-                 {progress > 0 && progress < 100 && (
-                   <div 
-                     className="absolute top-[65%] -left-4 -translate-y-1/2 w-12 h-3 bg-gradient-to-r from-primary/0 to-primary/30 blur-lg animate-pulse"
-                     style={{ opacity: Math.abs(velocity.current) * 0.8 }}
-                   />
-                 )}
-               </div>
-             </div>
           </div>
         </div>
 
