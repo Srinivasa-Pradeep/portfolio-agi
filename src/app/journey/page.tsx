@@ -9,12 +9,14 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import Image from 'next/image';
 import { useMusic } from '@/context/music-context';
 import { useTheme } from 'next-themes';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
  * @fileOverview The Horizontal Odyssey - Cinematic Legacy Edition.
  * Features a Pre-Era story triggered by a "Launch Control" (Hold W) mechanic.
  * Includes synchronized audio transitions: Startup (Always) -> GO! -> Main Track (If allowed).
  * Updated with a detailed 13-pitstop timeline from 2004 to 2026.
+ * Features a ScrollArea for long-form stories and refined "Future Horizon" aesthetics.
  */
 
 interface Milestone {
@@ -26,19 +28,19 @@ interface Milestone {
 }
 
 const milestones: Milestone[] = [
-  { id: 1, year: "2004", title: "Chapter One: The Awakening", description: "The start of the journey. [Your story for 2004 goes here...]", progress: 5.0 },
-  { id: 2, year: "2009", title: "Early Horizons", description: "Discovering the first pieces of the puzzle. [Your story for 2009 goes here...]", progress: 10.0 },
-  { id: 3, year: "2014", title: "The Learning Curve", description: "Gaining momentum and finding direction. [Your story for 2014 goes here...]", progress: 15.0 },
-  { id: 4, year: "2015", title: "Developing Grit", description: "Facing early challenges and building resilience. [Your story for 2015 goes here...]", progress: 20.0 },
-  { id: 5, year: "2018", title: "Precision Focus", description: "Refining skills and narrowing the vision. [Your story for 2018 goes here...]", progress: 25.0 },
-  { id: 6, year: "2019", title: "The Transition Lap", description: "Preparing for the major shift into engineering. [Your story for 2019 goes here...]", progress: 30.0 },
-  { id: 7, year: "2020", title: "The Global Shift", description: "A year of internal growth amidst a changing world. [Your story for 2020 goes here...]", progress: 35.0 },
-  { id: 8, year: "2021", title: "Entry into Tech", description: "Joined PSG iTech to study Computer Science. The first major turn in the circuit. The focus shifted from mere curiosity to disciplined execution.", progress: 40.0 },
-  { id: 9, year: "2022", title: "Acceleration Phase", description: "Mastering the mechanics of code and logic. [Your story for 2022 goes here...]", progress: 45.0 },
-  { id: 10, year: "2023", title: "The SAP Pitstop", description: "First taste of enterprise scale at SAP Labs. Refining the aerodynamic efficiency of my code. I learned that precision is about reliability.", progress: 50.0 },
-  { id: 11, year: "2024", title: "Amazon SDE & ML", description: "Pushing the limits at Amazon. High-speed distributed systems and the complexity of machine learning. This was my personal qualifying session.", progress: 55.0 },
-  { id: 12, year: "2025", title: "Joining MBRDI", description: "The dream alignment. Joining Mercedes-Benz Research as a Graduate Apprentice Trainee. Everything has led to this moment.", progress: 60.0 },
-  { id: 13, year: "2026", title: "Future Velocity", description: "The race continues beyond the known horizon. Building the legacy at full throttle. [Your story for 2026 goes here...]", progress: 65.0 }
+  { id: 1, year: "2004", title: "Chapter One: The Awakening", description: "The start of the journey. [Replace this with your 1000+ word story. The terminal now supports infinite scrolling for deep storytelling...]".repeat(10), progress: 5.0 },
+  { id: 2, year: "2009", title: "Early Horizons", description: "Discovering the first pieces of the puzzle. [Your detailed story for 2009 goes here...]".repeat(8), progress: 12.0 },
+  { id: 3, year: "2014", title: "The Learning Curve", description: "Gaining momentum and finding direction. [Your detailed story for 2014 goes here...]".repeat(8), progress: 19.0 },
+  { id: 4, year: "2015", title: "Developing Grit", description: "Facing early challenges and building resilience. [Your detailed story for 2015 goes here...]".repeat(8), progress: 26.0 },
+  { id: 5, year: "2018", title: "Precision Focus", description: "Refining skills and narrowing the vision. [Your detailed story for 2018 goes here...]".repeat(8), progress: 33.0 },
+  { id: 6, year: "2019", title: "The Transition Lap", description: "Preparing for the major shift into engineering. [Your detailed story for 2019 goes here...]".repeat(8), progress: 40.0 },
+  { id: 7, year: "2020", title: "The Global Shift", description: "A year of internal growth amidst a changing world. [Your detailed story for 2020 goes here...]".repeat(8), progress: 47.0 },
+  { id: 8, year: "2021", title: "Entry into Tech", description: "Joined PSG iTech to study Computer Science. The first major turn in the circuit. The focus shifted from mere curiosity to disciplined execution.".repeat(8), progress: 54.0 },
+  { id: 9, year: "2022", title: "Acceleration Phase", description: "Mastering the mechanics of code and logic. [Your detailed story for 2022 goes here...]".repeat(8), progress: 61.0 },
+  { id: 10, year: "2023", title: "The SAP Pitstop", description: "First taste of enterprise scale at SAP Labs. Refining the aerodynamic efficiency of my code. I learned that precision is about reliability.".repeat(8), progress: 68.0 },
+  { id: 11, year: "2024", title: "Amazon SDE & ML", description: "Pushing the limits at Amazon. High-speed distributed systems and the complexity of machine learning. This was my personal qualifying session.".repeat(8), progress: 75.0 },
+  { id: 12, year: "2025", title: "Joining MBRDI", description: "The dream alignment. Joining Mercedes-Benz Research as a Graduate Apprentice Trainee. Everything has led to this moment.".repeat(8), progress: 82.0 },
+  { id: 13, year: "2026", title: "Future Velocity", description: "The race continues beyond the known horizon. Building the legacy at full throttle. [Your detailed story for 2026 goes here...]".repeat(8), progress: 89.0 }
 ];
 
 const TRACK_WIDTH = 40000;
@@ -510,18 +512,16 @@ export default function JourneyPage() {
             </div>
         </div>
 
+        {/* Comms Cloud Terminal - Optimized for long-form storytelling with internal scroll */}
         <div 
           className={cn(
-            "fixed bottom-[32%] left-1/2 -translate-x-1/2 z-[100] w-full max-w-4xl px-8 transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            "fixed bottom-[32%] left-1/2 -translate-x-1/2 z-[100] w-full max-w-4xl px-8 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] will-change-[transform,opacity]",
             activeMilestone ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95 pointer-events-none"
           )}
         >
-          <div className="relative p-10 md:p-12 rounded-[50px] bg-card/15 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8)]">
-            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-t-[26px] border-t-white/10" />
-            <div className="absolute -bottom-[23px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-t-[24px] border-t-card/15" />
-            
-            <div className="relative z-10">
-                <div className="flex items-center gap-6 mb-6">
+          <div className="relative rounded-[50px] bg-card/15 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8)] overflow-hidden">
+            <div className="p-8 md:p-10">
+                <div className="flex items-center gap-6 mb-8 border-b border-white/5 pb-6">
                   <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner group">
                     <Radio className="h-6 w-6 text-primary animate-pulse group-hover:scale-110 transition-transform" />
                   </div>
@@ -534,11 +534,14 @@ export default function JourneyPage() {
                   </div>
                 </div>
 
-                <div className="relative">
-                    <p className="text-foreground/90 leading-relaxed text-base md:text-lg lora italic font-medium">
-                      "{activeMilestone?.description}"
-                    </p>
-                </div>
+                {/* Scrollable Story Container */}
+                <ScrollArea className="h-[250px] md:h-[350px] pr-6" data-lenis-prevent>
+                    <div className="relative">
+                        <p className="text-foreground/90 leading-relaxed text-base md:text-lg lora italic font-medium">
+                          {activeMilestone?.description}
+                        </p>
+                    </div>
+                </ScrollArea>
 
                 <div className="mt-8 flex items-center justify-between pt-6 border-t border-white/5">
                    <div className="flex items-center gap-4 text-muted-foreground text-[10px] font-mono uppercase tracking-[0.4em]">
@@ -554,6 +557,9 @@ export default function JourneyPage() {
                 </div>
             </div>
           </div>
+          {/* Glassy Tail Pointing to Car */}
+          <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-t-[26px] border-t-white/10" />
+          <div className="absolute -bottom-[23px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-t-[24px] border-t-card/15" />
         </div>
 
         <div 
@@ -613,12 +619,14 @@ export default function JourneyPage() {
                          isActive ? "fill-primary" : "fill-muted-foreground/20"
                        )}
                      />
+                     {/* Minimal stylish year label below pitstop */}
                      <text 
-                        x={nodeX + 16} 
-                        y="24" 
+                        x={nodeX} 
+                        y="28" 
+                        textAnchor="middle"
                         className={cn(
-                          "fill-muted-foreground font-mono text-[11px] font-black tracking-[0.3em] transition-all duration-500 uppercase",
-                          isActive && "fill-primary"
+                          "fill-muted-foreground font-mono text-[9px] font-black tracking-[0.2em] transition-all duration-500 uppercase",
+                          isActive && "fill-primary animate-pulse"
                         )}
                      >
                         PIT_{m.year}
@@ -626,6 +634,15 @@ export default function JourneyPage() {
                    </g>
                  );
                })}
+
+               {/* FUTURE HORIZON Labels on the road */}
+               <text 
+                  x={(milestones[milestones.length-1].progress / 100 * TRACK_WIDTH) + 1500} 
+                  y="12" 
+                  className="fill-primary/40 font-mono text-[10px] font-black tracking-[0.5em] uppercase italic"
+               >
+                  FUTURE_HORIZON >>>
+               </text>
              </svg>
           </div>
         </div>
@@ -642,9 +659,9 @@ export default function JourneyPage() {
               />
            </div>
            <div className="flex items-center gap-6 text-muted-foreground font-mono text-[10px] font-bold uppercase tracking-[0.4em] opacity-80">
-              <p>AGE_SYNC: {progress < 5 ? 0 : Math.floor(Math.min(23, (progress / 65) * 23))} YRS</p>
-              <p className={cn(progress > 60 ? "text-primary opacity-100" : "opacity-40")}>
-                {progress > 60 ? "FUTURE_MODE_ACTIVE" : "KNOWN_TIMELINE"}
+              <p>AGE_SYNC: {progress < 5 ? 0 : Math.floor(Math.min(23, (progress / 85) * 23))} YRS</p>
+              <p className={cn(progress > 82 ? "text-primary opacity-100" : "opacity-40")}>
+                {progress > 82 ? "FUTURE_HORIZON" : "KNOWN_TIMELINE"}
               </p>
            </div>
         </div>
