@@ -489,7 +489,7 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* COCKPIT LAYER - Lowered to bottom 25% */}
+      {/* COCKPIT LAYER - Grounded to road */}
       <div 
         className="fixed top-[75%] left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
@@ -549,56 +549,55 @@ export default function JourneyPage() {
             </div>
         </div>
 
-        {/* TELEMETRY CARD - Now at the Top with Glassy Revamp */}
+        {/* TELEMETRY CARD - Re-styled as a 'Thought Cloud' above the car */}
         <div 
           className={cn(
-            "fixed top-36 left-1/2 -translate-x-1/2 z-[100] w-full max-w-4xl px-8 transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
-            activeMilestone ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-12 scale-95 pointer-events-none"
+            "fixed bottom-[32%] left-1/2 -translate-x-1/2 z-[100] w-full max-w-4xl px-8 transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            activeMilestone ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95 pointer-events-none"
           )}
         >
-          <div className="relative p-12 md:p-16 rounded-[60px] bg-card/20 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8)] overflow-hidden">
-            {/* Architectural Grid Line Overlays */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
-            
-            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-80" />
+          <div className="relative p-10 md:p-12 rounded-[50px] bg-card/15 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8)]">
+            {/* Thought Bubble Connector / Tail */}
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-t-[26px] border-t-white/10" />
+            <div className="absolute -bottom-[23px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-t-[24px] border-t-card/15" />
             
             <div className="relative z-10">
-                <div className="flex items-center gap-10 mb-10">
-                  <div className="h-20 w-20 rounded-3xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner group">
-                    <Radio className="h-10 w-10 text-primary animate-pulse group-hover:scale-110 transition-transform" />
+                <div className="flex items-center gap-6 mb-6">
+                  <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner group">
+                    <Radio className="h-6 w-6 text-primary animate-pulse group-hover:scale-110 transition-transform" />
                   </div>
                   <div>
-                    <span className="text-[11px] font-black text-primary uppercase tracking-[0.6em] opacity-80 block mb-2">COMMS_LINK_STATION_{activeMilestone?.year}</span>
-                    <h3 className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tighter">{activeMilestone?.title}</h3>
+                    <div className="flex items-center gap-2 mb-1">
+                       <span className="text-[10px] font-black text-primary uppercase tracking-[0.6em] opacity-80">COMMS_LINK_{activeMilestone?.year}</span>
+                       <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-extrabold text-foreground tracking-tighter">{activeMilestone?.title}</h3>
                   </div>
                 </div>
 
                 <div className="relative">
-                    <p className="text-foreground/90 leading-relaxed text-2xl md:text-3xl lora italic font-medium">
+                    <p className="text-foreground/90 leading-relaxed text-base md:text-lg lora italic font-medium">
                       "{activeMilestone?.description}"
                     </p>
                 </div>
 
-                <div className="mt-12 flex items-center justify-between pt-10 border-t border-white/5">
-                   <div className="flex items-center gap-4 text-muted-foreground text-[11px] font-mono uppercase tracking-[0.4em]">
-                      <MapPin className="h-4 w-4 text-primary/80" />
-                      <span>Life Sector: {activeMilestone?.id} / 5</span>
+                <div className="mt-8 flex items-center justify-between pt-6 border-t border-white/5">
+                   <div className="flex items-center gap-4 text-muted-foreground text-[10px] font-mono uppercase tracking-[0.4em]">
+                      <MapPin className="h-3.5 w-3.5 text-primary/80" />
+                      <span>Sector: {activeMilestone?.id} / 5</span>
                    </div>
                    <div className="flex items-center gap-3">
-                      <div className="h-1.5 w-32 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-1 w-24 bg-white/5 rounded-full overflow-hidden">
                          <div className="h-full bg-primary" style={{ width: `${(activeMilestone?.id || 0) * 20}%` }} />
                       </div>
-                      <Flag className="h-6 w-6 text-primary opacity-60" />
+                      <Flag className="h-4 w-4 text-primary opacity-60" />
                    </div>
                 </div>
             </div>
-
-            {/* Glass Shine */}
-            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none" />
           </div>
         </div>
 
-        {/* THE WORLD - Lowered to match cockpit */}
+        {/* THE WORLD - Grounded for car alignment */}
         <div 
           className="absolute top-[75%] left-0 w-full h-2 transition-transform duration-75 ease-out will-change-transform"
           style={{ transform: `translateX(${worldX}px)` }}
