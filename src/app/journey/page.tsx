@@ -37,7 +37,7 @@ const milestones: Milestone[] = [
   { id: 10, year: "2023", title: "The SAP Pitstop", description: "First taste of enterprise scale at SAP Labs. Refining the aerodynamic efficiency of my code. I learned that precision is about reliability.".repeat(8), progress: 68.0 },
   { id: 11, year: "2024", title: "Amazon SDE & ML", description: "Pushing the limits at Amazon. High-speed distributed systems and the complexity of machine learning. This was my personal qualifying session.".repeat(8), progress: 75.0 },
   { id: 12, year: "2025", title: "Joining MBRDI", description: "The dream alignment. Joining Mercedes-Benz Research as a Graduate Apprentice Trainee. Everything has led to this moment.".repeat(8), progress: 82.0 },
-  { id: 13, year: "2026", title: "Future Velocity: The Shed", description: "Thank you for riding this journey with me. This long road has been a test of grit, logic, and soul. The race isn't over—it's just entering a new phase of high-performance growth. Welcome to the Shed, where the next engine is being built.", progress: 89.0 }
+  { id: 13, year: "2026", title: "Future Velocity: The Shed", description: "Thank you for riding this journey with me. This long road has been a test of grit, logic, and soul. The race isn't over—it's just entering a new phase of high-performance growth. Welcome to the Shed, where the next engine is being built.", progress: 98.0 }
 ];
 
 const TRACK_WIDTH = 40000;
@@ -657,11 +657,11 @@ export default function JourneyPage() {
                  );
                })}
 
-               {/* FUTURE HORIZON Labels - Prominent large style below the road */}
+               {/* FUTURE HORIZON Labels - Prominent stylish style below the road */}
                <text 
-                  x={(milestones[milestones.length-1].progress / 100 * TRACK_WIDTH) + 1500} 
-                  y="120" 
-                  className="fill-primary/40 font-mono text-[72px] font-black tracking-[0.5em] uppercase italic"
+                  x={(milestones[milestones.length-1].progress / 100 * TRACK_WIDTH) + 800} 
+                  y="60" 
+                  className="fill-primary/40 font-mono text-[32px] font-black tracking-[0.5em] uppercase italic"
                >
                   FUTURE_HORIZON &gt;&gt;&gt;
                </text>
