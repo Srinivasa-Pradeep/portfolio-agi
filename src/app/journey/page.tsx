@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Flag, MapPin, Radio, ShieldCheck, Check, Volume2, VolumeX, Ban, ScrollText, Play } from 'lucide-react';
+import { ArrowLeft, Flag, MapPin, Radio, ShieldCheck, Check, Volume2, VolumeX, Ban, ScrollText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme-toggle';
 import Image from 'next/image';
@@ -11,9 +11,8 @@ import { useMusic } from '@/context/music-context';
 
 /**
  * @fileOverview The Horizontal Odyssey - Cinematic Legacy Edition.
- * Features a Pre-Era story unfolding from a crushed paper.
- * Includes a 3-2-1 countdown before race interactivity.
- * Grounded Mercedes F1 physics with global music suppression.
+ * Features a Pre-Era story triggered by a "Launch Control" (Hold W) mechanic.
+ * Includes synchronized audio transitions: Startup -> GO! -> Main Track.
  */
 
 interface Milestone {
@@ -89,10 +88,11 @@ export default function JourneyPage() {
   
   // Audio Refs
   const pitstopAudio = useRef<HTMLAudioElement | null>(null);
+  const startupAudio = useRef<HTMLAudioElement | null>(null);
   const journeyMusic = useRef<HTMLAudioElement | null>(null);
   const hasMusicStarted = useRef(false);
 
-  // 1. Suppress Global Music on Mount
+  // 1. Suppress Global Music & Initialize Local Audio
   useEffect(() => {
     setMounted(true);
     setWindowWidth(window.innerWidth);
@@ -103,7 +103,9 @@ export default function JourneyPage() {
     
     // Initialize sound effects
     pitstopAudio.current = new Audio('/music/pitstop.mp3');
+    startupAudio.current = new Audio('/music/startup.mp3');
     journeyMusic.current = new Audio('/music/journey-track.mp3');
+    
     if (journeyMusic.current) {
         journeyMusic.current.loop = true;
     }
@@ -116,27 +118,62 @@ export default function JourneyPage() {
             journeyMusic.current.pause();
             journeyMusic.current = null;
         }
+        if (startupAudio.current) {
+            startupAudio.current.pause();
+            startupAudio.current = null;
+        }
     };
   }, []);
 
-  // 2. Physics & Input Engine (Only active when phase is 'active')
+  // 2. Launch Control Listener (Pre-Era -> Countdown)
+  useEffect(() => {
+    if (phase !== 'pre-era') return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key.toLowerCase() === 'w') {
+            if (allowMusic && startupAudio.current) {
+                startupAudio.current.play().catch(() => {});
+            }
+            setPhase('countdown');
+        }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [phase, allowMusic]);
+
+  // 3. Countdown Timer Logic (Countdown -> Active)
+  useEffect(() => {
+    if (phase === 'countdown') {
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev === 3) return 2;
+          if (prev === 2) return 1;
+          if (prev === 1) return 'GO!';
+          
+          clearInterval(timer);
+          
+          // Trigger main journey audio on GO!
+          if (allowMusic && journeyMusic.current && !hasMusicStarted.current) {
+              journeyMusic.current.play().catch(() => {});
+              hasMusicStarted.current = true;
+          }
+          
+          setPhase('active');
+          return prev;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [phase, allowMusic]);
+
+  // 4. Physics & Input Engine (Only active when phase is 'active')
   useEffect(() => {
     if (phase !== 'active') return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
         const key = e.key.toLowerCase();
         keysPressed.current.add(key);
-
-        // Start music on first drive input if allowed
-        if (
-            (key === 'w' || key === 'arrowup') && 
-            allowMusic && 
-            !hasMusicStarted.current && 
-            journeyMusic.current
-        ) {
-            journeyMusic.current.play().catch(() => {});
-            hasMusicStarted.current = true;
-        }
     };
     const handleKeyUp = (e: KeyboardEvent) => keysPressed.current.delete(e.key.toLowerCase());
 
@@ -188,9 +225,9 @@ export default function JourneyPage() {
       window.removeEventListener('keyup', handleKeyUp);
       if (rafId.current) cancelAnimationFrame(rafId.current);
     };
-  }, [phase, allowMusic]);
+  }, [phase]);
 
-  // 3. Milestone Logic
+  // 5. Milestone Detection Logic
   useEffect(() => {
     const threshold = 0.8;
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
@@ -204,23 +241,6 @@ export default function JourneyPage() {
     
     setActiveMilestone(current || null);
   }, [progress, activeMilestone]);
-
-  // 4. Countdown Timer Logic
-  useEffect(() => {
-    if (phase === 'countdown') {
-      const timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev === 3) return 2;
-          if (prev === 2) return 1;
-          if (prev === 1) return 'GO!';
-          clearInterval(timer);
-          setPhase('active');
-          return prev;
-        });
-      }, 1000);
-      return () => clearInterval(timer);
-    }
-  }, [phase]);
 
   const toggleLocalMusic = () => {
     if (!journeyMusic.current) return;
@@ -247,9 +267,10 @@ export default function JourneyPage() {
     return (windowWidth / 2) - currentTrackPos;
   }, [progress, windowWidth, mounted]);
 
-  const blurAmount = Math.abs(currentVelocity) * 0.35;
-  const vibrationX = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.5 : 0;
-  const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 0.8 : 0;
+  // Dynamic Visuals
+  const blurAmount = Math.abs(currentVelocity) * 0.2; // Reduced for premium feel
+  const vibrationX = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.2 : 0;
+  const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 0.5 : 0;
 
   if (!mounted) return null;
 
@@ -331,12 +352,10 @@ export default function JourneyPage() {
       {phase === 'pre-era' && (
         <div className="fixed inset-0 z-[400] flex items-center justify-center bg-black/40 backdrop-blur-md px-6">
            <div className="relative w-full max-w-2xl perspective-[2000px]">
-              {/* Crushed to Unfold Animation Container */}
               <div className="bg-[#fcf5e5] text-[#2c2420] p-10 md:p-16 rounded-sm shadow-[0_50px_100px_rgba(0,0,0,0.5)] border border-[#e5d6c3] 
                             animate-paper-unfold origin-center
                             selection:bg-[#d4c5a9]">
                   
-                  {/* Paper Texture Overlay */}
                   <div className="absolute inset-0 pointer-events-none opacity-40 mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/parchment.png')]" />
                   
                   <div className="relative z-10 font-lora italic leading-relaxed">
@@ -351,7 +370,7 @@ export default function JourneyPage() {
                           Long before the roar of the engines in 2003, there was a man of quiet determination. My father, a person of few words but profound actions, laid the groundwork for this odyssey.
                         </p>
                         <p>
-                          Before I took my first breath, he was out in the world, building bridges (literally or metaphorically) and chasing a vision of stability and excellence that would one day become my foundation. He taught me that precision isn't just about code—it's about how you carry yourself through the storm.
+                          Before I took my first breath, he was out in the world, building bridges and chasing a vision of stability and excellence that would one day become my foundation. He taught me that precision isn't just about code—it's about how you carry yourself through the storm.
                         </p>
                         <p>
                           This journey isn't just mine. It's the continuation of a race he started, fueled by the same analytical grit and relentless spirit.
@@ -360,12 +379,12 @@ export default function JourneyPage() {
 
                       <div className="mt-16 flex flex-col items-center">
                           <div className="h-px w-32 bg-[#5c4a3d]/20 mb-8" />
-                          <Button 
-                            onClick={() => setPhase('countdown')}
-                            className="bg-[#1a1512] text-[#fcf5e5] hover:bg-[#3a2e28] rounded-none px-10 h-14 font-headline font-bold text-sm tracking-[0.2em] uppercase transition-all hover:scale-105"
-                          >
-                            Want to know what's next?
-                          </Button>
+                          <div className="text-center">
+                             <p className="text-sm font-headline font-black uppercase tracking-[0.3em] text-[#1a1512] mb-2">Want to know what's next?</p>
+                             <p className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-[#5c4a3d]/60 animate-pulse">
+                                [ HOLD 'W' TO START ENGINE ]
+                             </p>
+                          </div>
                       </div>
                   </div>
               </div>
