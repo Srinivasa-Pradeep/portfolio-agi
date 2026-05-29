@@ -3,15 +3,15 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Trophy, Flag, MapPin, Radio, Sparkles } from 'lucide-react';
+import { ArrowLeft, Flag, MapPin, Radio, Music, ShieldCheck, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { MusicPlayer } from '@/components/music-player';
 import Image from 'next/image';
 
 /**
- * @fileOverview The Horizontal Odyssey - Audio Synced & Precision HUD Edition.
+ * @fileOverview The Horizontal Odyssey - Musical Consent & Precision HUD Edition.
  * Spacing is calibrated so that max velocity covers the gap between stops in ~9 seconds.
+ * Features a pre-race checklist and start-on-drive music logic.
  */
 
 interface Milestone {
@@ -22,7 +22,6 @@ interface Milestone {
   progress: number; // Percentage of total track (0-100)
 }
 
-// Spacing: 10 units = ~9.2 seconds at maxSpeed (1.2)
 const milestones: Milestone[] = [
   { 
     id: 1, 
@@ -69,7 +68,11 @@ export default function JourneyPage() {
   const [mounted, setMounted] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [currentVelocity, setCurrentVelocity] = useState(0);
-  const [isAccelerating, setIsAccelerating] = useState(false);
+  
+  // Pre-Race Consent State
+  const [showChecklist, setShowConsent] = useState(true);
+  const [hasLicense, setHasLicense] = useState<boolean | null>(null);
+  const [allowMusic, setAllowMusic] = useState<boolean | null>(null);
   
   // Physics Refs
   const velocity = useRef(0);
@@ -78,7 +81,8 @@ export default function JourneyPage() {
   
   // Audio Refs
   const pitstopAudio = useRef<HTMLAudioElement | null>(null);
-  const engineAudio = useRef<HTMLAudioElement | null>(null);
+  const journeyMusic = useRef<HTMLAudioElement | null>(null);
+  const hasMusicStarted = useRef(false);
 
   useEffect(() => {
     setMounted(true);
@@ -86,42 +90,40 @@ export default function JourneyPage() {
     
     // Initialize sound effects
     pitstopAudio.current = new Audio('/music/pitstop.mp3');
-    engineAudio.current = new Audio('/music/engine.mp3');
-    if (engineAudio.current) {
-        engineAudio.current.loop = true;
+    journeyMusic.current = new Audio('/music/journey-track.mp3');
+    if (journeyMusic.current) {
+        journeyMusic.current.loop = true;
     }
     
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => {
         window.removeEventListener('resize', handleResize);
-        if (engineAudio.current) {
-            engineAudio.current.pause();
-            engineAudio.current = null;
+        if (journeyMusic.current) {
+            journeyMusic.current.pause();
+            journeyMusic.current = null;
         }
     };
   }, []);
 
-  // Handle Engine Audio Reactivity - STRICTLY ON ACCELERATION
   useEffect(() => {
-    if (!engineAudio.current || !mounted) return;
+    if (showChecklist) return; // Don't move while checklist is open
 
-    const isAtPitstop = activeMilestone !== null;
-    const shouldPlay = isAccelerating && !isAtPitstop;
+    const handleKeyDown = (e: KeyboardEvent) => {
+        const key = e.key.toLowerCase();
+        keysPressed.current.add(key);
 
-    if (shouldPlay) {
-        if (engineAudio.current.paused) {
-            engineAudio.current.play().catch(() => {});
+        // Start music on first drive input
+        if (
+            (key === 'w' || key === 'arrowup') && 
+            allowMusic && 
+            !hasMusicStarted.current && 
+            journeyMusic.current
+        ) {
+            journeyMusic.current.play().catch(() => {});
+            hasMusicStarted.current = true;
         }
-    } else {
-        if (!engineAudio.current.paused) {
-            engineAudio.current.pause();
-        }
-    }
-  }, [isAccelerating, activeMilestone, mounted]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => keysPressed.current.add(e.key.toLowerCase());
+    };
     const handleKeyUp = (e: KeyboardEvent) => keysPressed.current.delete(e.key.toLowerCase());
 
     window.addEventListener('keydown', handleKeyDown);
@@ -139,9 +141,6 @@ export default function JourneyPage() {
       const isBackward = 
         keysPressed.current.has('s') || 
         keysPressed.current.has('arrowdown');
-
-      // Update state for audio reactivity
-      setIsAccelerating(isForward);
 
       if (isForward) {
         velocity.current = Math.min(velocity.current + accel, maxSpeed);
@@ -175,7 +174,7 @@ export default function JourneyPage() {
       window.removeEventListener('keyup', handleKeyUp);
       if (rafId.current) cancelAnimationFrame(rafId.current);
     };
-  }, []);
+  }, [showChecklist, allowMusic]);
 
   useEffect(() => {
     const threshold = 0.8;
@@ -205,7 +204,7 @@ export default function JourneyPage() {
 
   return (
     <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden selection:bg-primary/30">
-      {/* Persistent Site Background Grid */}
+      {/* Background Grids */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-background" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
@@ -214,7 +213,70 @@ export default function JourneyPage() {
         />
       </div>
 
-      {/* FIXED COCKPIT LAYER - Mercedes F1 Machine */}
+      {/* Checklist Overlay */}
+      {showChecklist && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-background/60 backdrop-blur-2xl">
+          <div className="w-full max-w-md p-10 rounded-[40px] bg-card/80 border border-border/50 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.7)] text-center animate-in fade-in zoom-in duration-700">
+            <div className="flex justify-center mb-8">
+              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                 <ShieldCheck className="h-8 w-8 text-primary" />
+              </div>
+            </div>
+            
+            <h2 className="font-headline text-3xl font-extrabold tracking-tighter mb-2">PRE-RACE CHECKLIST</h2>
+            <p className="text-muted-foreground text-sm mb-10 uppercase tracking-widest font-mono">Verify cockpit configuration</p>
+
+            <div className="space-y-6 text-left mb-12">
+               <div className="flex items-center justify-between p-4 rounded-2xl bg-secondary/30 border border-border/20">
+                  <span className="text-sm font-bold tracking-tight">Driving License confirmed?</span>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant={hasLicense === true ? "default" : "outline"} 
+                      size="sm" 
+                      onClick={() => setHasLicense(true)}
+                      className="rounded-full h-8 px-4"
+                    >Yes</Button>
+                    <Button 
+                      variant={hasLicense === false ? "default" : "outline"} 
+                      size="sm" 
+                      onClick={() => setHasLicense(false)}
+                      className="rounded-full h-8 px-4"
+                    >No</Button>
+                  </div>
+               </div>
+
+               <div className="flex items-center justify-between p-4 rounded-2xl bg-secondary/30 border border-border/20">
+                  <span className="text-sm font-bold tracking-tight">Enable cockpit audio?</span>
+                  <div className="flex gap-2">
+                    <Button 
+                      variant={allowMusic === true ? "default" : "outline"} 
+                      size="sm" 
+                      onClick={() => setAllowMusic(true)}
+                      className="rounded-full h-8 px-4"
+                    >Yes</Button>
+                    <Button 
+                      variant={allowMusic === false ? "default" : "outline"} 
+                      size="sm" 
+                      onClick={() => setAllowMusic(false)}
+                      className="rounded-full h-8 px-4"
+                    >No</Button>
+                  </div>
+               </div>
+            </div>
+
+            <Button 
+              disabled={hasLicense === null || allowMusic === null} 
+              onClick={() => setShowConsent(false)}
+              className="w-full h-14 rounded-2xl text-lg font-bold group"
+            >
+              START THE ODYSSEY
+              <Check className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* COCKPIT LAYER */}
       <div 
         className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
@@ -237,13 +299,6 @@ export default function JourneyPage() {
                  priority
                />
             </div>
-            
-            {progress > 0 && progress < 100 && (
-              <div 
-                className="absolute top-[65%] -left-12 -translate-y-1/2 w-20 h-6 bg-gradient-to-r from-primary/0 to-primary/40 blur-2xl animate-pulse"
-                style={{ opacity: Math.abs(currentVelocity) * 1.0 }}
-              />
-            )}
          </div>
       </div>
 
@@ -259,20 +314,27 @@ export default function JourneyPage() {
             
             <div className="flex items-center gap-2 p-1 rounded-full bg-secondary/20 backdrop-blur-md border border-border/20 shadow-xl">
               <ThemeToggle />
-              <MusicPlayer />
+              {allowMusic && (
+                <div className="px-3 py-1.5 flex items-center gap-2 border-l border-border/20 ml-1">
+                   <Music className={cn("h-4 w-4 text-primary", currentVelocity !== 0 && "animate-bounce")} />
+                   <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Live_Audio</span>
+                </div>
+              )}
             </div>
 
             <div className="hidden md:block ml-4">
               <h1 className="font-headline text-2xl font-extrabold tracking-tighter text-foreground">
                 THE ODYSSEY<span className="text-primary">.</span>
               </h1>
-              <p className="text-[10px] text-muted-foreground font-mono tracking-[0.2em] uppercase animate-pulse">
-                [ HOLD W TO ACCELERATE ]
-              </p>
+              {!showChecklist && (
+                <p className="text-[10px] text-muted-foreground font-mono tracking-[0.2em] uppercase animate-pulse">
+                  [ HOLD W TO DRIVE ]
+                </p>
+              )}
             </div>
         </div>
 
-        {/* THE WORLD - Linear Track */}
+        {/* THE WORLD */}
         <div 
           className="relative w-full h-[60vh] will-change-transform"
           style={{ transform: `translateX(${worldX}px)` }}
@@ -289,10 +351,6 @@ export default function JourneyPage() {
                    <stop offset="90%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.05" />
                  </linearGradient>
-                 <filter id="neonGlow">
-                    <feGaussianBlur stdDeviation="3" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                 </filter>
                  <linearGradient id="pillarGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="1" />
                     <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
@@ -306,16 +364,6 @@ export default function JourneyPage() {
                   height="2" 
                   fill="url(#roadGradient)" 
                   className="animate-shimmer"
-               />
-
-               <line 
-                  x1="0" 
-                  y1="51%" 
-                  x2="100%" 
-                  y2="51%" 
-                  stroke="hsl(var(--primary))" 
-                  strokeWidth="0.5" 
-                  strokeOpacity="0.2" 
                />
 
                {milestones.map((m) => {
@@ -335,18 +383,15 @@ export default function JourneyPage() {
                           isActive ? "opacity-60" : "opacity-10"
                         )}
                      />
-
                      <circle
                        cx={nodeX}
                        cy="50%"
                        r="8"
                        className={cn(
-                         "transition-all duration-500",
-                         isActive ? "fill-primary shadow-[0_0_30px_hsl(var(--primary))]" : "fill-muted-foreground/20"
+                         "transition-all duration-500 shadow-[0_0_30px_hsl(var(--primary))]",
+                         isActive ? "fill-primary" : "fill-muted-foreground/20"
                        )}
-                       filter={isActive ? "url(#neonGlow)" : ""}
                      />
-
                      <text 
                         x={nodeX + 16} 
                         y="48%" 
@@ -366,24 +411,18 @@ export default function JourneyPage() {
                      Future Horizon
                   </text>
                </g>
-
-               <g transform={`translate(${(85 / 100) * TRACK_WIDTH}, ${400})`}>
-                  <text className="fill-muted-foreground/5 font-headline text-8xl font-black uppercase tracking-[0.3em] pointer-events-none select-none">
-                     Unknown Territory
-                  </text>
-               </g>
              </svg>
           </div>
         </div>
 
-        {/* TELEMETRY CARD - Story Popup */}
+        {/* TELEMETRY CARD */}
         <div 
           className={cn(
             "fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] w-full max-w-xl px-6 transition-all duration-700",
             activeMilestone ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95 pointer-events-none"
           )}
         >
-          <div className="relative p-10 rounded-[40px] bg-card/60 backdrop-blur-3xl border border-border/50 shadow-[0_60px_120px_-30px_rgba(0,0,0,0.6)] overflow-hidden">
+          <div className="relative p-10 rounded-[40px] bg-card/60 backdrop-blur-3xl border border-border/50 shadow-[0_60px_120px_-30px_rgba(0,0,0,0.6)]">
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
             
             <div className="flex items-center gap-8 mb-8">
@@ -410,14 +449,13 @@ export default function JourneyPage() {
           </div>
         </div>
 
-        {/* HUD PROGRESS TRACKER - Synchronized with Car Progress */}
+        {/* HUD PROGRESS TRACKER */}
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4">
            <div className="w-80 h-1.5 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm relative border border-white/5">
               <div 
                 className="h-full bg-primary shadow-[0_0_20px_hsl(var(--primary))]" 
                 style={{ width: `${progress}%` }} 
               />
-              {/* Target marker at 50% (Current age 22) */}
               <div className="absolute top-0 left-[50%] h-full w-px bg-white/60 z-10" />
            </div>
            <div className="flex items-center gap-6 text-muted-foreground font-mono text-[10px] font-bold uppercase tracking-[0.4em] opacity-80">
@@ -427,12 +465,6 @@ export default function JourneyPage() {
               </p>
            </div>
         </div>
-
-        {progress > 55 && progress < 65 && (
-          <div className="fixed top-1/2 right-24 -translate-y-1/2 text-primary/10 font-black text-9xl uppercase tracking-tighter pointer-events-none select-none italic animate-fade-in transition-all duration-1000">
-            The road<br/>ahead.
-          </div>
-        )}
       </main>
     </div>
   );
