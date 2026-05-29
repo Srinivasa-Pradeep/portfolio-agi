@@ -323,7 +323,7 @@ export function About() {
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
-                                { text: 'ശ്രീനിവാസ പ്രദീപ്', className: 'font-chilanka text-xs text-foreground/90' },
+                                { text: 'ശ്രീனிവാസ பிரதீப்', className: 'font-chilanka text-xs text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
