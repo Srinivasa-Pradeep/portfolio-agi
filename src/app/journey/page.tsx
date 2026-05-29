@@ -14,6 +14,7 @@ import { useTheme } from 'next-themes';
  * @fileOverview The Horizontal Odyssey - Cinematic Legacy Edition.
  * Features a Pre-Era story triggered by a "Launch Control" (Hold W) mechanic.
  * Includes synchronized audio transitions: Startup (Always) -> GO! -> Main Track (If allowed).
+ * Updated with a detailed 13-pitstop timeline from 2004 to 2026.
  */
 
 interface Milestone {
@@ -24,43 +25,20 @@ interface Milestone {
   progress: number; // Percentage of total track (0-100)
 }
 
-// Spaced for ~9 seconds of driving at max speed (10 units per gap)
 const milestones: Milestone[] = [
-  { 
-    id: 1, 
-    year: "2003", 
-    title: "The Starting Grid", 
-    description: "Born into a world of curiosity. The engine was just starting to warm up. My journey began in the vibrant heart of the city, where every sound felt like a potential melody and every machine a puzzle waiting to be solved. This is where the baseline of my ambition was first recorded.",
-    progress: 10.0 
-  },
-  { 
-    id: 2, 
-    year: "2021", 
-    title: "Entry into Tech", 
-    description: "Joined PSG iTech to study Computer Science. The first major turn in the circuit. Stepping into the engineering world felt like entering the pit lane during a high-stakes Grand Prix. The focus shifted from mere curiosity to disciplined execution, learning to build structures that could withstand the speed of innovation.",
-    progress: 20.0 
-  },
-  { 
-    id: 3, 
-    year: "2023", 
-    title: "The SAP Pitstop", 
-    description: "First taste of enterprise scale at SAP Labs. Refining the aerodynamic efficiency of my code. Working with global systems taught me that precision isn't just about logic—it's about reliability. I learned to navigate complex architectures, ensuring that every line of code contributed to a larger, seamless machine.",
-    progress: 30.0 
-  },
-  { 
-    id: 4, 
-    year: "2024", 
-    title: "Amazon SDE & ML", 
-    description: "Pushing the limits at Amazon. High-speed distributed systems and the complexity of machine learning. This was my personal qualifying session. Handling millions of requests and training models to predict the future sharpened my analytical grit. The pressure was high, but the growth was exponential.",
-    progress: 40.0 
-  },
-  { 
-    id: 5, 
-    year: "2025", 
-    title: "Joining MBRDI", 
-    description: "The dream alignment. Joining Mercedes-Benz Research as a Graduate Apprentice Trainee. Everything has led to this moment. The engineering excellence of Mercedes-Benz aligns perfectly with my drive for precision. Now, I contribute to the future of automotive technology, ensuring the legacy continues at full throttle.",
-    progress: 50.0 
-  }
+  { id: 1, year: "2004", title: "Chapter One: The Awakening", description: "The start of the journey. [Your story for 2004 goes here...]", progress: 5.0 },
+  { id: 2, year: "2009", title: "Early Horizons", description: "Discovering the first pieces of the puzzle. [Your story for 2009 goes here...]", progress: 10.0 },
+  { id: 3, year: "2014", title: "The Learning Curve", description: "Gaining momentum and finding direction. [Your story for 2014 goes here...]", progress: 15.0 },
+  { id: 4, year: "2015", title: "Developing Grit", description: "Facing early challenges and building resilience. [Your story for 2015 goes here...]", progress: 20.0 },
+  { id: 5, year: "2018", title: "Precision Focus", description: "Refining skills and narrowing the vision. [Your story for 2018 goes here...]", progress: 25.0 },
+  { id: 6, year: "2019", title: "The Transition Lap", description: "Preparing for the major shift into engineering. [Your story for 2019 goes here...]", progress: 30.0 },
+  { id: 7, year: "2020", title: "The Global Shift", description: "A year of internal growth amidst a changing world. [Your story for 2020 goes here...]", progress: 35.0 },
+  { id: 8, year: "2021", title: "Entry into Tech", description: "Joined PSG iTech to study Computer Science. The first major turn in the circuit. The focus shifted from mere curiosity to disciplined execution.", progress: 40.0 },
+  { id: 9, year: "2022", title: "Acceleration Phase", description: "Mastering the mechanics of code and logic. [Your story for 2022 goes here...]", progress: 45.0 },
+  { id: 10, year: "2023", title: "The SAP Pitstop", description: "First taste of enterprise scale at SAP Labs. Refining the aerodynamic efficiency of my code. I learned that precision is about reliability.", progress: 50.0 },
+  { id: 11, year: "2024", title: "Amazon SDE & ML", description: "Pushing the limits at Amazon. High-speed distributed systems and the complexity of machine learning. This was my personal qualifying session.", progress: 55.0 },
+  { id: 12, year: "2025", title: "Joining MBRDI", description: "The dream alignment. Joining Mercedes-Benz Research as a Graduate Apprentice Trainee. Everything has led to this moment.", progress: 60.0 },
+  { id: 13, year: "2026", title: "Future Velocity", description: "The race continues beyond the known horizon. Building the legacy at full throttle. [Your story for 2026 goes here...]", progress: 65.0 }
 ];
 
 const TRACK_WIDTH = 40000;
@@ -71,8 +49,8 @@ function StarField({ progress }: { progress: number }) {
   const stars = useMemo(() => {
     return [...Array(150)].map((_, i) => ({
       id: i,
-      x: Math.random() * 200, // Spread over 200% width for parallax
-      y: Math.random() * 45, // Top half
+      x: Math.random() * 200, 
+      y: Math.random() * 45, 
       size: Math.random() * 1.8 + 0.5,
       opacity: Math.random() * 0.6 + 0.2,
       duration: Math.random() * 4 + 2,
@@ -80,7 +58,6 @@ function StarField({ progress }: { progress: number }) {
     }));
   }, []);
 
-  // Parallax: Stars move much slower than the track (about 1/4 the speed)
   const translateX = -(progress * 0.5); 
 
   return (
@@ -121,24 +98,20 @@ export default function JourneyPage() {
   const [windowWidth, setWindowWidth] = useState(0);
   const [currentVelocity, setCurrentVelocity] = useState(0);
   
-  // Pre-Race Consent State
   const [hasLicense, setHasLicense] = useState<boolean | null>(null);
   const [allowMusic, setAllowMusic] = useState<boolean | null>(null);
   const [localMusicMuted, setLocalMusicMuted] = useState(false);
   const [isRejected, setIsRejected] = useState(false);
   
-  // Physics Refs
   const velocity = useRef(0);
   const keysPressed = useRef<Set<string>>(new Set());
   const rafId = useRef<number | null>(null);
   
-  // Audio Refs
   const pitstopAudio = useRef<HTMLAudioElement | null>(null);
   const startupAudio = useRef<HTMLAudioElement | null>(null);
   const journeyMusic = useRef<HTMLAudioElement | null>(null);
   const hasMusicStarted = useRef(false);
 
-  // 1. Suppress Global Music & Initialize Local Audio
   useEffect(() => {
     setMounted(true);
     setWindowWidth(window.innerWidth);
@@ -174,7 +147,6 @@ export default function JourneyPage() {
     };
   }, []);
 
-  // 2. Launch Control Listener (Pre-Era -> Countdown)
   useEffect(() => {
     if (phase !== 'pre-era') return;
 
@@ -191,7 +163,6 @@ export default function JourneyPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [phase]);
 
-  // 3. Countdown Timer Logic (Countdown -> Active)
   useEffect(() => {
     if (phase === 'countdown') {
       const timer = setInterval(() => {
@@ -217,7 +188,6 @@ export default function JourneyPage() {
     }
   }, [phase, allowMusic]);
 
-  // 4. Physics & Input Engine (Only active when phase is 'active')
   useEffect(() => {
     if (phase !== 'active') return;
 
@@ -277,7 +247,6 @@ export default function JourneyPage() {
     };
   }, [phase]);
 
-  // 5. Milestone Detection Logic
   useEffect(() => {
     const threshold = 0.8;
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
@@ -317,7 +286,6 @@ export default function JourneyPage() {
     return (windowWidth / 2) - currentTrackPos;
   }, [progress, windowWidth, mounted]);
 
-  // Dynamic Visuals
   const blurAmount = Math.abs(currentVelocity) * 0.15; 
   const vibrationX = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.0 : 0;
   const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 0.4 : 0;
@@ -326,7 +294,6 @@ export default function JourneyPage() {
 
   return (
     <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden selection:bg-primary/30">
-      {/* Background Grids & Stars */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-background" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
@@ -338,7 +305,6 @@ export default function JourneyPage() {
         />
       </div>
 
-      {/* Checklist Overlay */}
       {phase === 'checklist' && !isRejected && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-background/60 backdrop-blur-2xl">
           <div className="w-full max-w-md p-10 rounded-[40px] bg-card/80 border border-border/50 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.7)] text-center animate-in fade-in zoom-in duration-700">
@@ -401,7 +367,6 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* PRE-ERA STORY */}
       {phase === 'pre-era' && (
         <div className="fixed inset-0 z-[400] flex items-center justify-center bg-black/40 backdrop-blur-md px-6">
            <div className="relative w-full max-w-2xl perspective-[2000px]">
@@ -445,7 +410,6 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* COUNTDOWN TIMER */}
       {phase === 'countdown' && (
         <div className="fixed inset-0 z-[500] flex items-center justify-center bg-background/20 backdrop-blur-[2px]">
            <div className="text-[180px] md:text-[250px] font-headline font-black italic tracking-tighter text-primary animate-in zoom-in fade-in duration-500 flex items-center justify-center">
@@ -456,7 +420,6 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* REJECTION SCREEN */}
       {isRejected && (
         <div className="fixed inset-0 z-[300] flex items-center justify-center bg-background/90 backdrop-blur-3xl animate-in fade-in duration-500">
            <div className="w-full max-w-lg p-12 rounded-[50px] bg-card border-2 border-destructive/20 shadow-[0_100px_200px_-50px_rgba(255,0,0,0.3)] text-center">
@@ -489,7 +452,6 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* COCKPIT LAYER - Grounded to road */}
       <div 
         className="fixed top-[75%] left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
@@ -516,7 +478,6 @@ export default function JourneyPage() {
       </div>
 
       <main className="flex-1 relative z-10 flex flex-col items-center">
-        {/* Controls Overlay */}
         <div className="fixed top-8 left-12 z-50 flex items-center gap-6">
             <Button asChild variant="ghost" className="hover:bg-primary/10 group rounded-full px-6 transition-all duration-300">
               <Link href="/#about">
@@ -549,7 +510,6 @@ export default function JourneyPage() {
             </div>
         </div>
 
-        {/* TELEMETRY CARD - Re-styled as a 'Thought Cloud' above the car */}
         <div 
           className={cn(
             "fixed bottom-[32%] left-1/2 -translate-x-1/2 z-[100] w-full max-w-4xl px-8 transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
@@ -557,7 +517,6 @@ export default function JourneyPage() {
           )}
         >
           <div className="relative p-10 md:p-12 rounded-[50px] bg-card/15 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8)]">
-            {/* Thought Bubble Connector / Tail */}
             <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-t-[26px] border-t-white/10" />
             <div className="absolute -bottom-[23px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-t-[24px] border-t-card/15" />
             
@@ -584,11 +543,11 @@ export default function JourneyPage() {
                 <div className="mt-8 flex items-center justify-between pt-6 border-t border-white/5">
                    <div className="flex items-center gap-4 text-muted-foreground text-[10px] font-mono uppercase tracking-[0.4em]">
                       <MapPin className="h-3.5 w-3.5 text-primary/80" />
-                      <span>Sector: {activeMilestone?.id} / 5</span>
+                      <span>Sector: {activeMilestone?.id} / {milestones.length}</span>
                    </div>
                    <div className="flex items-center gap-3">
                       <div className="h-1 w-24 bg-white/5 rounded-full overflow-hidden">
-                         <div className="h-full bg-primary" style={{ width: `${(activeMilestone?.id || 0) * 20}%` }} />
+                         <div className="h-full bg-primary" style={{ width: `${(activeMilestone?.id || 0) * (100 / milestones.length)}%` }} />
                       </div>
                       <Flag className="h-4 w-4 text-primary opacity-60" />
                    </div>
@@ -597,7 +556,6 @@ export default function JourneyPage() {
           </div>
         </div>
 
-        {/* THE WORLD - Grounded for car alignment */}
         <div 
           className="absolute top-[75%] left-0 w-full h-2 transition-transform duration-75 ease-out will-change-transform"
           style={{ transform: `translateX(${worldX}px)` }}
@@ -672,7 +630,6 @@ export default function JourneyPage() {
           </div>
         </div>
 
-        {/* HUD PROGRESS TRACKER */}
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4">
            <div className="w-80 h-1.5 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm relative border border-white/5">
               <div 
@@ -685,9 +642,9 @@ export default function JourneyPage() {
               />
            </div>
            <div className="flex items-center gap-6 text-muted-foreground font-mono text-[10px] font-bold uppercase tracking-[0.4em] opacity-80">
-              <p>AGE_SYNC: {progress < 10 ? 0 : Math.floor(Math.min(22, (progress - 10) * (22 / 40)))} YRS</p>
-              <p className={cn(progress > 50 ? "text-primary opacity-100" : "opacity-40")}>
-                {progress > 50 ? "FUTURE_MODE_ACTIVE" : "KNOWN_TIMELINE"}
+              <p>AGE_SYNC: {progress < 5 ? 0 : Math.floor(Math.min(23, (progress / 65) * 23))} YRS</p>
+              <p className={cn(progress > 60 ? "text-primary opacity-100" : "opacity-40")}>
+                {progress > 60 ? "FUTURE_MODE_ACTIVE" : "KNOWN_TIMELINE"}
               </p>
            </div>
         </div>
