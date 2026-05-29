@@ -446,11 +446,11 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* COCKPIT LAYER - Restored to 12px offset for perfect alignment */}
+      {/* COCKPIT LAYER - Pixel-perfect grounding on the road */}
       <div 
         className="fixed top-1/2 left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
-          transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% + 12px + ${vibrationY}px))`
+          transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% + 4px + ${vibrationY}px))`
         }}
       >
          <div 
@@ -632,14 +632,17 @@ export default function JourneyPage() {
           </div>
         </div>
 
-        {/* HUD PROGRESS TRACKER - Pixel-perfect Frame-Locked Sync */}
+        {/* HUD PROGRESS TRACKER - Synchronized line tracking */}
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4">
            <div className="w-80 h-1.5 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm relative border border-white/5">
               <div 
                 className="h-full bg-primary shadow-[0_0_20px_hsl(var(--primary))]" 
                 style={{ width: `${progress}%` }} 
               />
-              <div className="absolute top-0 left-[50%] h-full w-px bg-white/60 z-10" />
+              <div 
+                className="absolute top-0 h-full w-px bg-white/80 z-10 shadow-[0_0_10px_white] transition-all duration-75 ease-out" 
+                style={{ left: `${progress}%` }}
+              />
            </div>
            <div className="flex items-center gap-6 text-muted-foreground font-mono text-[10px] font-bold uppercase tracking-[0.4em] opacity-80">
               {/* Mapping 10% (Birth) to 50% (Now) -> 0 to 22 Years */}
