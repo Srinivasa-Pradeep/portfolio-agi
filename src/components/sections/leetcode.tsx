@@ -15,6 +15,7 @@ import {
   Pie,
   Cell,
   Tooltip,
+  CartesianGrid
 } from "recharts";
 import { 
   Tooltip as ShadcnTooltip,
@@ -124,8 +125,9 @@ const ratingHistory = [
 const RatingTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-md border bg-background/90 backdrop-blur-sm p-2 shadow-lg">
-        <p className="font-bold text-sm">{payload[0].value}</p>
+      <div className="rounded-md border bg-background/90 backdrop-blur-sm p-2 shadow-lg ring-1 ring-white/10">
+        <p className="font-bold text-sm text-primary">{payload[0].value}</p>
+        <p className="text-[10px] text-muted-foreground uppercase tracking-widest mt-1">Rating</p>
       </div>
     );
   }
@@ -191,7 +193,7 @@ const allProblems = [
     { title: 'Build Binary Expression Tree From Infix Expression', difficulty: 'Hard', link: 'https://leetcode.com/problems/build-binary-expression-tree-from-infix-expression/', topics: [] },
     { title: 'Minimum Number of Swaps to Make the Binary String Alternating', difficulty: 'Medium', link: 'https://leetcode.com/problems/minimum-number-of-swaps-to-make-the-binary-string-alternating/', topics: [] },
     { title: 'Design In-Memory File System', difficulty: 'Hard', link: 'https://leetcode.com/problems/design-in-memory-file-system/', topics: [] },
-    { title: 'Minimum Number of Moves to Make Palindrome', difficulty: 'Hard', link: 'https://leetcode.com/problems/minimum-number-of-moves-to-make-palindrome/', topics: [] },
+    { title: 'Minimum Number of Moves to Make Palindrome', difficulty: 'Hard', link: 'https://leetcode.com/problems/minimum-number-moves-to-make-palindrome/', topics: [] },
     { title: 'Reorder Data in Log Files', difficulty: 'Medium', link: 'https://leetcode.com/problems/reorder-data-in-log-files/', topics: [] },
     { title: 'Course Schedule', difficulty: 'Medium', link: 'https://leetcode.com/problems/course-schedule/', topics: [] },
     { title: 'Find K-th Smallest Pair Distance', difficulty: 'Hard', link: 'https://leetcode.com/problems/find-k-th-smallest-pair-distance/', topics: [] },
@@ -249,7 +251,7 @@ function LeetCodeProfileButtonWithPreview({ href }: { href: string }) {
         <Button 
           asChild 
           size="lg" 
-          className="min-w-[200px] group transition-all duration-300"
+          className="min-w-[200px] group transition-all duration-300 rounded-full"
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setMousePos({ x: 0, y: 0 })}
         >
@@ -313,7 +315,7 @@ export function LeetCode() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Dashboard Column */}
           <div className="lg:col-span-2 space-y-8">
-            <Card className="group relative overflow-hidden p-6 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 hover:shadow-2xl bg-card/20 backdrop-blur-xl border border-white/10">
+            <Card className="group relative overflow-hidden p-6 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 hover:shadow-2xl bg-card/20 backdrop-blur-xl border border-white/10 rounded-[40px]">
               <div className="flex items-center gap-2 mb-6">
                 <SiLeetcode className="h-6 w-6 text-[#FFA116]" />
                 <h3 className="font-headline text-xl font-semibold">LeetCode Journey</h3>
@@ -379,7 +381,7 @@ export function LeetCode() {
                     { label: 'Medium', value: leetCodeProgress.medium, color: 'var(--primary)' },
                     { label: 'Hard', value: leetCodeProgress.hard, color: 'var(--destructive)' }
                   ].map((lvl) => (
-                    <div key={lvl.label} className="p-4 rounded-xl bg-white/5 border border-white/5 transition-colors group-hover:bg-white/10">
+                    <div key={lvl.label} className="p-4 rounded-2xl bg-white/5 border border-white/5 transition-colors group-hover:bg-white/10">
                         <div className="flex justify-between items-baseline">
                           <p className="text-sm font-medium" style={{color: `hsl(${lvl.color})`}}>{lvl.label}</p>
                           <p className="text-lg font-bold">{lvl.value.solved}<span className="text-sm font-normal text-muted-foreground">/{lvl.value.total}</span></p>
@@ -390,7 +392,7 @@ export function LeetCode() {
               </div>
             </Card>
 
-            <Card className="group relative overflow-hidden p-6 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 hover:shadow-2xl bg-card/20 backdrop-blur-xl border border-white/10">
+            <Card className="group relative overflow-hidden p-6 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 hover:shadow-2xl bg-card/20 backdrop-blur-xl border border-white/10 rounded-[40px]">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="h-5 w-5 text-primary" />
@@ -416,28 +418,61 @@ export function LeetCode() {
                       <p className="text-2xl font-bold">{contestStats.topPercentage}%</p>
                     </div>
                   </div>
-                  <div className="h-60 relative">
+                  <div className="h-60 relative w-full overflow-hidden">
                     <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={ratingHistory} margin={{ top: 5, right: 10, left: 10, bottom: 0 }}>
+                      <AreaChart data={ratingHistory} margin={{ top: 20, right: 32, left: 32, bottom: 20 }}>
                         <defs>
+                          {/* Horizontal Faded Gradient for the Path - Matching User Reference */}
+                          <linearGradient id="line-gradient-rating" x1="0%" x2="100%" y1="0%" y2="0%">
+                            <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0 }} />
+                            <stop offset="15%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
+                            <stop offset="85%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
+                            <stop offset="100%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0 }} />
+                          </linearGradient>
+                          
+                          {/* Vertical Area Gradient */}
                           <linearGradient id="colorRating" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.4}/>
+                            <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
                             <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
                           </linearGradient>
+
+                          {/* Mask for Faded Edges on Grid */}
+                          <linearGradient id="grid-fade" x1="0%" x2="100%" y1="0%" y2="0%">
+                            <stop offset="0%" style={{ stopColor: 'white', stopOpacity: 0 }} />
+                            <stop offset="10%" style={{ stopColor: 'white', stopOpacity: 1 }} />
+                            <stop offset="90%" style={{ stopColor: 'white', stopOpacity: 1 }} />
+                            <stop offset="100%" style={{ stopColor: 'white', stopOpacity: 0 }} />
+                          </linearGradient>
+                          <mask id="grid-mask">
+                            <rect width="100%" height="100%" fill="url(#grid-fade)" />
+                          </mask>
                         </defs>
+
+                        {/* Faded Architectural Grid */}
+                        <CartesianGrid 
+                          strokeDasharray="4 4" 
+                          vertical={false} 
+                          stroke="hsl(var(--border))" 
+                          strokeOpacity={0.5}
+                          style={{ mask: 'url(#grid-mask)' }}
+                        />
+
                         <XAxis dataKey="index" hide />
-                        <YAxis domain={['dataMin - 50', 'dataMax + 50']} hide />
-                        <Tooltip content={<RatingTooltip />} />
+                        <YAxis domain={['dataMin - 100', 'dataMax + 100']} hide />
+                        <Tooltip content={<RatingTooltip />} cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '4 4' }} />
+                        
                         <Area 
                           type="monotone" 
                           dataKey="rating" 
-                          stroke="hsl(var(--primary))" 
-                          strokeWidth={3} 
+                          stroke="url(#line-gradient-rating)" 
+                          strokeWidth={2} 
                           fill="url(#colorRating)" 
                           dot={false}
+                          activeDot={{ r: 4, fill: 'hsl(var(--primary))', strokeWidth: 0 }}
+                          isAnimationActive={true}
                           animationBegin={200}
-                          animationDuration={2000}
-                          animationEasing="ease-in-out"
+                          animationDuration={2500}
+                          animationEasing="cubic-bezier(0.4, 0, 0.2, 1)"
                         />
                       </AreaChart>
                     </ResponsiveContainer>
@@ -454,7 +489,7 @@ export function LeetCode() {
                 Quick Challenge
               </h3>
               {randomProblem ? (
-                <Card className="group relative flex flex-col p-2 bg-card/20 backdrop-blur-xl border border-white/10 rounded-[32px] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 hover:shadow-2xl">
+                <Card className="group relative flex flex-col p-2 bg-card/20 backdrop-blur-xl border border-white/10 rounded-[40px] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 hover:shadow-2xl">
                   <div className="p-4 flex flex-row items-center justify-between pb-2">
                     <CardTitle className="text-base font-semibold line-clamp-1">{randomProblem.title}</CardTitle>
                     <Button variant="ghost" size="icon" onClick={shuffleProblem} className="h-8 w-8 hover:bg-white/10 rounded-full">
@@ -478,7 +513,7 @@ export function LeetCode() {
                   </div>
                 </Card>
               ) : (
-                <div className="h-32 bg-muted/20 animate-pulse rounded-[32px]" />
+                <div className="h-32 bg-muted/20 animate-pulse rounded-[40px]" />
               )}
             </div>
 
@@ -488,9 +523,9 @@ export function LeetCode() {
                 <Star className="h-4 w-4 text-primary" />
                 Exclusive Reward
               </h3>
-              <Card className="overflow-hidden group relative bg-card/20 backdrop-blur-xl border border-white/10 rounded-[32px] cursor-pointer transition-all duration-700 hover:-translate-y-2">
+              <Card className="overflow-hidden group relative bg-card/20 backdrop-blur-xl border border-white/10 rounded-[40px] cursor-pointer transition-all duration-700 hover:-translate-y-2">
                 <div className="relative aspect-square p-2">
-                  <div className="relative h-full w-full overflow-hidden rounded-[24px]">
+                  <div className="relative h-full w-full overflow-hidden rounded-[32px]">
                     {hoodieImage && (
                       <Image 
                           src={hoodieImage.imageUrl} 
@@ -513,7 +548,7 @@ export function LeetCode() {
               </Card>
             </div>
 
-            <div className="p-6 rounded-[32px] bg-primary/5 border border-primary/10 backdrop-blur-sm">
+            <div className="p-6 rounded-[40px] bg-primary/5 border border-primary/10 backdrop-blur-sm">
               <div className="flex items-center gap-2 text-primary mb-2 text-sm font-semibold">
                 <Trophy className="h-4 w-4" />
                 Milestone Reached
@@ -558,7 +593,7 @@ export function LeetCode() {
                 <LeetCodeProfileButtonWithPreview href="https://leetcode.com/u/srinivasa_pradeep_/" />
             </ShadcnTooltipProvider>
             
-            <Button size="lg" variant="outline" asChild className="min-w-[200px] rounded-2xl border-white/10 backdrop-blur-sm">
+            <Button size="lg" variant="outline" asChild className="min-w-[200px] rounded-full border-white/10 backdrop-blur-sm">
                <a href="https://github.com/Srinivasa-Pradeep/Data-Structures-and-Algo" target="_blank" rel="noopener noreferrer">
                 <Github className="mr-2 h-5 w-5" /> GitHub Solutions
                </a>
@@ -569,3 +604,4 @@ export function LeetCode() {
     </section>
   );
 }
+
