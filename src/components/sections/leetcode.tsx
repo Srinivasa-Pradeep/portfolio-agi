@@ -93,11 +93,11 @@ const CustomTooltip = ({ active, payload }: any) => {
 
 
 const contestStats = {
-  rating: 1866,
-  globalRanking: "43,066",
-  totalRanked: "829,353",
-  attended: 19,
-  topPercentage: 5.35,
+  rating: 2041,
+  globalRanking: "17,076",
+  totalRanked: "874,223",
+  attended: 39,
+  topPercentage: 2.04,
 };
 
 const ratingHistory = [
@@ -120,6 +120,26 @@ const ratingHistory = [
   { index: 16, rating: 1841 },
   { index: 17, rating: 1826 },
   { index: 18, rating: 1866 },
+  { index: 19, rating: 1876 },
+  { index: 20, rating: 1859 },
+  { index: 21, rating: 1903 },
+  { index: 22, rating: 1901 },
+  { index: 23, rating: 1869 },
+  { index: 24, rating: 1905 },
+  { index: 25, rating: 1951 },
+  { index: 26, rating: 1963 },
+  { index: 27, rating: 1956 },
+  { index: 28, rating: 1953 },
+  { index: 29, rating: 1954 },
+  { index: 30, rating: 2021 },
+  { index: 31, rating: 2020 },
+  { index: 32, rating: 1999 },
+  { index: 33, rating: 1980 },
+  { index: 34, rating: 2029 },
+  { index: 35, rating: 2015 },
+  { index: 36, rating: 1990 },
+  { index: 37, rating: 2006 },
+  { index: 38, rating: 2041 },
 ];
 
 const RatingTooltip = ({ active, payload }: any) => {
@@ -405,7 +425,7 @@ export function LeetCode() {
                     <div>
                       <div className="flex items-center justify-center md:justify-start gap-2">
                           <p className="text-sm text-muted-foreground">Rating</p>
-                          <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Knight" className="h-6 w-6" />
+                          <img src="https://assets.leetcode.com/static_assets/others/Guardian.gif" alt="Guardian" className="h-6 w-6" />
                       </div>
                       <p className="text-2xl font-bold">{contestStats.rating}</p>
                     </div>
@@ -554,7 +574,7 @@ export function LeetCode() {
                 Milestone Reached
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Successfully solved {leetCodeProgress.totalSolved}+ problems, maintaining a global top 5.36% rank on LeetCode.
+                Successfully solved {leetCodeProgress.totalSolved}+ problems, maintaining a global top {contestStats.topPercentage}% rank on LeetCode.
               </p>
             </div>
           </div>
@@ -604,4 +624,3 @@ export function LeetCode() {
     </section>
   );
 }
-
