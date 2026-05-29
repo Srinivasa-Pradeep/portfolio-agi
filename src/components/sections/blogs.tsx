@@ -1,8 +1,12 @@
+'use client';
+
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ScrollText } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { VaultGame } from "@/components/vault-game";
 
 const blogPosts = [
   {
@@ -56,6 +60,8 @@ const blogPosts = [
 ];
 
 export function Blogs() {
+  const [isVaultOpen, setIsVaultOpen] = useState(false);
+
   return (
     <section id="blogs" className="py-20 md:py-32">
       <div className="container">
@@ -97,14 +103,14 @@ export function Blogs() {
           <Button 
             size="lg" 
             className="h-12 px-8 rounded-full font-bold relative overflow-hidden bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#ffffff,55%,hsl(var(--primary)))] bg-[size:200%_100%] animate-shine text-primary-foreground group" 
-            asChild
+            onClick={() => setIsVaultOpen(true)}
           >
-            <Link href="/interviews">
-              Personal Blog <ScrollText className="ml-2 h-4 w-4 transition-transform group-hover:scale-110" />
-            </Link>
+            Personal Blog <ScrollText className="ml-2 h-4 w-4 transition-transform group-hover:scale-110" />
           </Button>
         </div>
       </div>
+
+      <VaultGame isOpen={isVaultOpen} onOpenChange={setIsVaultOpen} />
     </section>
   );
 }
