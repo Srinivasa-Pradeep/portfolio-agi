@@ -44,7 +44,7 @@ export function Footer() {
         <div className="absolute right-0 hidden lg:block opacity-20 transition-all duration-500 hover:opacity-100">
            <Link 
             href="/journey" 
-            className="text-xs font-signature text-primary cursor-default select-none"
+            className="text-xs font-signature text-primary !cursor-default select-none"
            >
             Srini
            </Link>
