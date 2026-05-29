@@ -15,8 +15,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
  * @fileOverview The Horizontal Odyssey - Cinematic Legacy Edition.
  * Features a Pre-Era story triggered by a "Launch Control" (Hold W) mechanic.
  * Includes synchronized audio transitions: Startup (Always) -> GO! -> Main Track (If allowed).
- * Updated with a detailed 13-pitstop timeline from 2004 to 2026.
- * Features a ScrollArea for long-form stories and refined "Future Horizon" aesthetics.
+ * Updated with a compact, high-visibility layout and prominent Future Horizon markers.
  */
 
 interface Milestone {
@@ -28,7 +27,7 @@ interface Milestone {
 }
 
 const milestones: Milestone[] = [
-  { id: 1, year: "2004", title: "Chapter One: The Awakening", description: "The start of the journey. [Replace this with your 1000+ word story. The terminal now supports infinite scrolling for deep storytelling...]".repeat(10), progress: 5.0 },
+  { id: 1, year: "2004", title: "Chapter One: The Awakening", description: "The start of the journey. This terminal now supports high-fidelity scrolling, allowing for deep, thousand-word reflections on each era. The start of the journey...".repeat(15), progress: 5.0 },
   { id: 2, year: "2009", title: "Early Horizons", description: "Discovering the first pieces of the puzzle. [Your detailed story for 2009 goes here...]".repeat(8), progress: 12.0 },
   { id: 3, year: "2014", title: "The Learning Curve", description: "Gaining momentum and finding direction. [Your detailed story for 2014 goes here...]".repeat(8), progress: 19.0 },
   { id: 4, year: "2015", title: "Developing Grit", description: "Facing early challenges and building resilience. [Your detailed story for 2015 goes here...]".repeat(8), progress: 26.0 },
@@ -454,6 +453,7 @@ export default function JourneyPage() {
         </div>
       )}
 
+      {/* 2026 Mercedes F1 Machine - Centered Cockpit */}
       <div 
         className="fixed top-[75%] left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
@@ -512,16 +512,16 @@ export default function JourneyPage() {
             </div>
         </div>
 
-        {/* Comms Cloud Terminal - Optimized for long-form storytelling with internal scroll */}
+        {/* Comms Cloud Terminal - Optimized for long-form storytelling with compact design */}
         <div 
           className={cn(
-            "fixed bottom-[32%] left-1/2 -translate-x-1/2 z-[100] w-full max-w-4xl px-8 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] will-change-[transform,opacity]",
-            activeMilestone ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95 pointer-events-none"
+            "fixed bottom-[30%] left-1/2 -translate-x-1/2 z-[100] w-full max-w-4xl px-8 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] will-change-[transform,opacity]",
+            activeMilestone ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95 pointer-events-none"
           )}
         >
-          <div className="relative rounded-[50px] bg-card/15 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8)] overflow-hidden">
-            <div className="p-8 md:p-10">
-                <div className="flex items-center gap-6 mb-8 border-b border-white/5 pb-6">
+          <div className="relative rounded-[40px] bg-card/15 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8)] overflow-hidden">
+            <div className="p-6 md:p-8">
+                <div className="flex items-center gap-6 mb-6 border-b border-white/5 pb-6">
                   <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner group">
                     <Radio className="h-6 w-6 text-primary animate-pulse group-hover:scale-110 transition-transform" />
                   </div>
@@ -534,8 +534,8 @@ export default function JourneyPage() {
                   </div>
                 </div>
 
-                {/* Scrollable Story Container */}
-                <ScrollArea className="h-[250px] md:h-[350px] pr-6" data-lenis-prevent>
+                {/* Scrollable Story Container - More compact height */}
+                <ScrollArea className="h-[180px] md:h-[280px] pr-6" data-lenis-prevent>
                     <div className="relative">
                         <p className="text-foreground/90 leading-relaxed text-base md:text-lg lora italic font-medium">
                           {activeMilestone?.description}
@@ -543,7 +543,7 @@ export default function JourneyPage() {
                     </div>
                 </ScrollArea>
 
-                <div className="mt-8 flex items-center justify-between pt-6 border-t border-white/5">
+                <div className="mt-6 flex items-center justify-between pt-6 border-t border-white/5">
                    <div className="flex items-center gap-4 text-muted-foreground text-[10px] font-mono uppercase tracking-[0.4em]">
                       <MapPin className="h-3.5 w-3.5 text-primary/80" />
                       <span>Sector: {activeMilestone?.id} / {milestones.length}</span>
@@ -562,17 +562,18 @@ export default function JourneyPage() {
           <div className="absolute -bottom-[23px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-t-[24px] border-t-card/15" />
         </div>
 
+        {/* The Track Path */}
         <div 
-          className="absolute top-[75%] left-0 w-full h-2 transition-transform duration-75 ease-out will-change-transform"
+          className="absolute top-[75%] left-0 w-full h-10 transition-transform duration-75 ease-out will-change-transform"
           style={{ transform: `translateX(${worldX}px)` }}
         >
           <div 
             className="absolute inset-y-0 left-0"
             style={{ width: `${TRACK_WIDTH}px` }}
           >
-             <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+             <svg className="absolute inset-0 w-full h-full overflow-visible" preserveAspectRatio="none">
                <defs>
-                 <linearGradient id="roadGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                 <linearGradient id="roadGradient" x1="0%" x2="100%" y1="0%" y2="0%">
                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.05" />
                    <stop offset="10%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
                    <stop offset="90%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
@@ -619,7 +620,6 @@ export default function JourneyPage() {
                          isActive ? "fill-primary" : "fill-muted-foreground/20"
                        )}
                      />
-                     {/* Minimal stylish year label below pitstop */}
                      <text 
                         x={nodeX} 
                         y="28" 
@@ -635,11 +635,11 @@ export default function JourneyPage() {
                  );
                })}
 
-               {/* FUTURE HORIZON Labels on the road */}
+               {/* FUTURE HORIZON Labels - Prominent large style */}
                <text 
                   x={(milestones[milestones.length-1].progress / 100 * TRACK_WIDTH) + 1500} 
-                  y="12" 
-                  className="fill-primary/40 font-mono text-[10px] font-black tracking-[0.5em] uppercase italic"
+                  y="20" 
+                  className="fill-primary/40 font-mono text-[24px] font-black tracking-[0.5em] uppercase italic"
                >
                   FUTURE_HORIZON &gt;&gt;&gt;
                </text>
@@ -647,6 +647,7 @@ export default function JourneyPage() {
           </div>
         </div>
 
+        {/* Technical HUD Telemetry */}
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4">
            <div className="w-80 h-1.5 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm relative border border-white/5">
               <div 
