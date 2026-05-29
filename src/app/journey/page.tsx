@@ -14,6 +14,7 @@ import Image from 'next/image';
  * Features a centered Mercedes F1 machine with velocity-based minimal blur and chassis vibration.
  * Progress is mapped to life years: 2003-2025 = 0% to 22%.
  * Track is massively extended to provide space and a vast "Future" beyond current age.
+ * Includes a pitstop sound effect triggered upon reaching milestones.
  */
 
 interface Milestone {
@@ -76,10 +77,17 @@ export default function JourneyPage() {
   const velocity = useRef(0);
   const keysPressed = useRef<Set<string>>(new Set());
   const rafId = useRef<number | null>(null);
+  
+  // Audio Refs
+  const pitstopAudio = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
     setWindowWidth(window.innerWidth);
+    
+    // Initialize pitstop sound effect
+    pitstopAudio.current = new Audio('/music/pitstop.mp3');
+    
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -148,8 +156,19 @@ export default function JourneyPage() {
     // Tighter threshold for milestone activation to ensure they feel like specific pitstops
     const threshold = 0.4; 
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
+    
+    // Play sound if we just entered a new milestone zone
+    if (current && (!activeMilestone || activeMilestone.id !== current.id)) {
+        if (pitstopAudio.current) {
+            pitstopAudio.current.currentTime = 0;
+            pitstopAudio.current.play().catch(() => {
+                // Autoplay policy might block this if no prior interaction
+            });
+        }
+    }
+    
     setActiveMilestone(current || null);
-  }, [progress]);
+  }, [progress, activeMilestone]);
 
   const worldX = useMemo(() => {
     if (!mounted) return 0;
@@ -405,4 +424,3 @@ export default function JourneyPage() {
     </div>
   );
 }
-
