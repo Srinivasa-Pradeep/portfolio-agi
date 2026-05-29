@@ -160,10 +160,15 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  // In Light Mode, show the standalone buttons normally
+  // In Light Mode, show the standalone buttons normally but hide at rock bottom
   if (resolvedTheme === 'light') {
     return (
-      <div className="fixed bottom-8 right-8 z-50 flex items-center gap-4">
+      <div 
+        className={cn(
+          "fixed bottom-8 right-8 z-50 flex items-center gap-4 transition-all duration-700 ease-in-out transform-gpu",
+          isAtBottom ? "opacity-0 translate-y-10 pointer-events-none" : "opacity-100 translate-y-0"
+        )}
+      >
         <MusicPlayer />
         <ThemeToggle />
       </div>
