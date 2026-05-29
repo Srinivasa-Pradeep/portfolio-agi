@@ -3,15 +3,16 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Flag, MapPin, Radio, Music, ShieldCheck, Check } from 'lucide-react';
+import { ArrowLeft, Flag, MapPin, Radio, Music, ShieldCheck, Check, Volume2, VolumeX } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme-toggle';
 import Image from 'next/image';
+import { useMusic } from '@/context/music-context';
 
 /**
- * @fileOverview The Horizontal Odyssey - Musical Consent & Precision HUD Edition.
- * Spacing is calibrated so that max velocity covers the gap between stops in ~9 seconds.
- * Features a pre-race checklist and start-on-drive music logic.
+ * @fileOverview The Horizontal Odyssey - Focused Musical Edition.
+ * Calibrated for a 9-second gap between stops.
+ * Features global music suppression and independent cockpit controls.
  */
 
 interface Milestone {
@@ -63,6 +64,7 @@ const milestones: Milestone[] = [
 const TRACK_WIDTH = 40000;
 
 export default function JourneyPage() {
+  const { isPlaying: globalIsPlaying, togglePlayPause: toggleGlobalMusic } = useMusic();
   const [progress, setProgress] = useState(0);
   const [activeMilestone, setActiveMilestone] = useState<Milestone | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -73,6 +75,7 @@ export default function JourneyPage() {
   const [showChecklist, setShowConsent] = useState(true);
   const [hasLicense, setHasLicense] = useState<boolean | null>(null);
   const [allowMusic, setAllowMusic] = useState<boolean | null>(null);
+  const [localMusicMuted, setLocalMusicMuted] = useState(false);
   
   // Physics Refs
   const velocity = useRef(0);
@@ -84,9 +87,14 @@ export default function JourneyPage() {
   const journeyMusic = useRef<HTMLAudioElement | null>(null);
   const hasMusicStarted = useRef(false);
 
+  // 1. Suppress Global Music on Mount
   useEffect(() => {
     setMounted(true);
     setWindowWidth(window.innerWidth);
+    
+    if (globalIsPlaying) {
+      toggleGlobalMusic();
+    }
     
     // Initialize sound effects
     pitstopAudio.current = new Audio('/music/pitstop.mp3');
@@ -106,8 +114,9 @@ export default function JourneyPage() {
     };
   }, []);
 
+  // 2. Physics & Input Engine
   useEffect(() => {
-    if (showChecklist) return; // Don't move while checklist is open
+    if (showChecklist) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
         const key = e.key.toLowerCase();
@@ -176,6 +185,7 @@ export default function JourneyPage() {
     };
   }, [showChecklist, allowMusic]);
 
+  // 3. Milestone Logic
   useEffect(() => {
     const threshold = 0.8;
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
@@ -189,6 +199,18 @@ export default function JourneyPage() {
     
     setActiveMilestone(current || null);
   }, [progress, activeMilestone]);
+
+  // Handle local music mute/pause
+  const toggleLocalMusic = () => {
+    if (!journeyMusic.current) return;
+    if (localMusicMuted) {
+      journeyMusic.current.play().catch(() => {});
+      setLocalMusicMuted(false);
+    } else {
+      journeyMusic.current.pause();
+      setLocalMusicMuted(true);
+    }
+  };
 
   const worldX = useMemo(() => {
     if (!mounted) return 0;
@@ -316,8 +338,21 @@ export default function JourneyPage() {
               <ThemeToggle />
               {allowMusic && (
                 <div className="px-3 py-1.5 flex items-center gap-2 border-l border-border/20 ml-1">
-                   <Music className={cn("h-4 w-4 text-primary", currentVelocity !== 0 && "animate-bounce")} />
-                   <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Live_Audio</span>
+                   <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-6 w-6 rounded-full hover:bg-primary/20"
+                    onClick={toggleLocalMusic}
+                   >
+                     {localMusicMuted ? (
+                        <VolumeX className="h-3.5 w-3.5 text-muted-foreground" />
+                     ) : (
+                        <Volume2 className={cn("h-3.5 w-3.5 text-primary", currentVelocity !== 0 && "animate-bounce")} />
+                     )}
+                   </Button>
+                   <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                    {localMusicMuted ? "Audio_Paused" : "Live_Audio"}
+                   </span>
                 </div>
               )}
             </div>
