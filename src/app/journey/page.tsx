@@ -30,35 +30,35 @@ const milestones: Milestone[] = [
     id: 1, 
     year: "2003", 
     title: "The Starting Grid", 
-    description: "Born into a world of curiosity. The engine was just starting to warm up.",
+    description: "Born into a world of curiosity. The engine was just starting to warm up. My journey began in the vibrant heart of the city, where every sound felt like a potential melody and every machine a puzzle waiting to be solved. This is where the baseline of my ambition was first recorded.",
     progress: 10.0 
   },
   { 
     id: 2, 
     year: "2021", 
     title: "Entry into Tech", 
-    description: "Joined PSG iTech to study Computer Science. The first major turn in the circuit.",
+    description: "Joined PSG iTech to study Computer Science. The first major turn in the circuit. Stepping into the engineering world felt like entering the pit lane during a high-stakes Grand Prix. The focus shifted from mere curiosity to disciplined execution, learning to build structures that could withstand the speed of innovation.",
     progress: 20.0 
   },
   { 
     id: 3, 
     year: "2023", 
     title: "The SAP Pitstop", 
-    description: "First taste of enterprise scale at SAP Labs. Refining the aerodynamic efficiency of my code.",
+    description: "First taste of enterprise scale at SAP Labs. Refining the aerodynamic efficiency of my code. Working with global systems taught me that precision isn't just about logic—it's about reliability. I learned to navigate complex architectures, ensuring that every line of code contributed to a larger, seamless machine.",
     progress: 30.0 
   },
   { 
     id: 4, 
     year: "2024", 
     title: "Amazon SDE & ML", 
-    description: "Pushing the limits at Amazon. High-speed distributed systems and the complexity of machine learning.",
+    description: "Pushing the limits at Amazon. High-speed distributed systems and the complexity of machine learning. This was my personal qualifying session. Handling millions of requests and training models to predict the future sharpened my analytical grit. The pressure was high, but the growth was exponential.",
     progress: 40.0 
   },
   { 
     id: 5, 
     year: "2025", 
     title: "Joining MBRDI", 
-    description: "The dream alignment. Joining Mercedes-Benz Research as a Graduate Apprentice Trainee.",
+    description: "The dream alignment. Joining Mercedes-Benz Research as a Graduate Apprentice Trainee. Everything has led to this moment. The engineering excellence of Mercedes-Benz aligns perfectly with my drive for precision. Now, I contribute to the future of automotive technology, ensuring the legacy continues at full throttle.",
     progress: 50.0 
   }
 ];
@@ -81,8 +81,7 @@ function StarField({ progress }: { progress: number }) {
   }, []);
 
   // Parallax: Stars move much slower than the track (about 1/4 the speed)
-  // Since the track moves by TRACK_WIDTH, we move this container by a percentage of its width
-  const translateX = -(progress * 0.5); // Moves up to -50% of the 200% width container
+  const translateX = -(progress * 0.5); 
 
   return (
     <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -148,7 +147,6 @@ export default function JourneyPage() {
       toggleGlobalMusic();
     }
     
-    // Initialize sound effects
     pitstopAudio.current = new Audio('/music/pitstop.mp3');
     startupAudio.current = new Audio('/music/startup.mp3');
     journeyMusic.current = new Audio('/music/journey-track.mp3');
@@ -182,7 +180,6 @@ export default function JourneyPage() {
 
     const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key.toLowerCase() === 'w') {
-            // Mechanical startup sound plays regardless of allowMusic preference
             if (startupAudio.current) {
                 startupAudio.current.play().catch(() => {});
             }
@@ -207,7 +204,6 @@ export default function JourneyPage() {
           
           clearInterval(timer);
           
-          // Trigger main journey audio on GO! only if allowed
           if (allowMusic && journeyMusic.current && !hasMusicStarted.current) {
               journeyMusic.current.play().catch(() => {});
               hasMusicStarted.current = true;
@@ -287,7 +283,6 @@ export default function JourneyPage() {
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
     
     if (current && (!activeMilestone || activeMilestone.id !== current.id)) {
-        // Pitstop sound plays regardless of background music preference
         if (pitstopAudio.current) {
             pitstopAudio.current.currentTime = 0;
             pitstopAudio.current.play().catch(() => {});
@@ -336,7 +331,6 @@ export default function JourneyPage() {
         <div className="absolute inset-0 bg-background" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
         
-        {/* Dynamic Stars for Dark Mode - Above the car horizon, moving with progress */}
         {resolvedTheme === 'dark' && <StarField progress={progress} />}
 
         <div
@@ -407,7 +401,7 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* PRE-ERA STORY: Crushed Paper Animation */}
+      {/* PRE-ERA STORY */}
       {phase === 'pre-era' && (
         <div className="fixed inset-0 z-[400] flex items-center justify-center bg-black/40 backdrop-blur-md px-6">
            <div className="relative w-full max-w-2xl perspective-[2000px]">
@@ -495,9 +489,9 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* COCKPIT LAYER - Fixed Upward Alignment */}
+      {/* COCKPIT LAYER - Lowered to bottom 25% */}
       <div 
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
+        className="fixed top-[75%] left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
           transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% - 20px + ${vibrationY}px))`
         }}
@@ -521,7 +515,7 @@ export default function JourneyPage() {
          </div>
       </div>
 
-      <main className="flex-1 relative z-10 flex flex-col items-center justify-center">
+      <main className="flex-1 relative z-10 flex flex-col items-center">
         {/* Controls Overlay */}
         <div className="fixed top-8 left-12 z-50 flex items-center gap-6">
             <Button asChild variant="ghost" className="hover:bg-primary/10 group rounded-full px-6 transition-all duration-300">
@@ -553,22 +547,60 @@ export default function JourneyPage() {
                 </div>
               )}
             </div>
-
-            <div className="hidden md:block ml-4">
-              <h1 className="font-headline text-2xl font-extrabold tracking-tighter text-foreground">
-                THE ODYSSEY<span className="text-primary">.</span>
-              </h1>
-              {phase === 'active' && (
-                <p className="text-[10px] text-muted-foreground font-mono tracking-[0.2em] uppercase animate-pulse">
-                  [ HOLD W TO DRIVE ]
-                </p>
-              )}
-            </div>
         </div>
 
-        {/* THE WORLD */}
+        {/* TELEMETRY CARD - Now at the Top with Glassy Revamp */}
         <div 
-          className="relative w-full h-[60vh] will-change-transform"
+          className={cn(
+            "fixed top-36 left-1/2 -translate-x-1/2 z-[100] w-full max-w-4xl px-8 transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            activeMilestone ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-12 scale-95 pointer-events-none"
+          )}
+        >
+          <div className="relative p-12 md:p-16 rounded-[60px] bg-card/20 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8)] overflow-hidden">
+            {/* Architectural Grid Line Overlays */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]" />
+            
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-transparent via-primary to-transparent opacity-80" />
+            
+            <div className="relative z-10">
+                <div className="flex items-center gap-10 mb-10">
+                  <div className="h-20 w-20 rounded-3xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner group">
+                    <Radio className="h-10 w-10 text-primary animate-pulse group-hover:scale-110 transition-transform" />
+                  </div>
+                  <div>
+                    <span className="text-[11px] font-black text-primary uppercase tracking-[0.6em] opacity-80 block mb-2">COMMS_LINK_STATION_{activeMilestone?.year}</span>
+                    <h3 className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tighter">{activeMilestone?.title}</h3>
+                  </div>
+                </div>
+
+                <div className="relative">
+                    <p className="text-foreground/90 leading-relaxed text-2xl md:text-3xl lora italic font-medium">
+                      "{activeMilestone?.description}"
+                    </p>
+                </div>
+
+                <div className="mt-12 flex items-center justify-between pt-10 border-t border-white/5">
+                   <div className="flex items-center gap-4 text-muted-foreground text-[11px] font-mono uppercase tracking-[0.4em]">
+                      <MapPin className="h-4 w-4 text-primary/80" />
+                      <span>Life Sector: {activeMilestone?.id} / 5</span>
+                   </div>
+                   <div className="flex items-center gap-3">
+                      <div className="h-1.5 w-32 bg-white/5 rounded-full overflow-hidden">
+                         <div className="h-full bg-primary" style={{ width: `${(activeMilestone?.id || 0) * 20}%` }} />
+                      </div>
+                      <Flag className="h-6 w-6 text-primary opacity-60" />
+                   </div>
+                </div>
+            </div>
+
+            {/* Glass Shine */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none" />
+          </div>
+        </div>
+
+        {/* THE WORLD - Lowered to match cockpit */}
+        <div 
+          className="absolute top-[75%] left-0 w-full h-2 transition-transform duration-75 ease-out will-change-transform"
           style={{ transform: `translateX(${worldX}px)` }}
         >
           <div 
@@ -591,7 +623,7 @@ export default function JourneyPage() {
                
                <rect 
                   x="0" 
-                  y="50%" 
+                  y="0" 
                   width="100%" 
                   height="2" 
                   fill="url(#roadGradient)" 
@@ -606,9 +638,9 @@ export default function JourneyPage() {
                    <g key={m.id}>
                      <rect 
                         x={nodeX - 1} 
-                        y="35%" 
+                        y="-400" 
                         width="2" 
-                        height="30%" 
+                        height="400" 
                         fill="url(#pillarGradient)"
                         className={cn(
                           "transition-all duration-700",
@@ -617,7 +649,7 @@ export default function JourneyPage() {
                      />
                      <circle
                        cx={nodeX}
-                       cy="50%"
+                       cy="0"
                        r="8"
                        className={cn(
                          "transition-all duration-500 shadow-[0_0_30px_hsl(var(--primary))]",
@@ -626,7 +658,7 @@ export default function JourneyPage() {
                      />
                      <text 
                         x={nodeX + 16} 
-                        y="48%" 
+                        y="24" 
                         className={cn(
                           "fill-muted-foreground font-mono text-[11px] font-black tracking-[0.3em] transition-all duration-500 uppercase",
                           isActive && "fill-primary"
@@ -637,51 +669,11 @@ export default function JourneyPage() {
                    </g>
                  );
                })}
-
-               <g transform={`translate(${(65 / 100) * TRACK_WIDTH}, ${300})`}>
-                  <text className="fill-muted-foreground/10 font-headline text-9xl font-black uppercase tracking-[0.3em] pointer-events-none select-none italic">
-                     Future Horizon
-                  </text>
-               </g>
              </svg>
           </div>
         </div>
 
-        {/* TELEMETRY CARD */}
-        <div 
-          className={cn(
-            "fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] w-full max-w-xl px-6 transition-all duration-700",
-            activeMilestone ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95 pointer-events-none"
-          )}
-        >
-          <div className="relative p-10 rounded-[40px] bg-card/60 backdrop-blur-3xl border border-border/50 shadow-[0_60px_120px_-30px_rgba(0,0,0,0.6)]">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
-            
-            <div className="flex items-center gap-8 mb-8">
-              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner">
-                <Radio className="h-7 w-7 text-primary animate-pulse" />
-              </div>
-              <div>
-                <span className="text-[10px] font-black text-primary uppercase tracking-[0.5em] opacity-80">COMMS_STATION_{activeMilestone?.year}</span>
-                <h3 className="text-3xl font-extrabold text-foreground tracking-tighter mt-1">{activeMilestone?.title}</h3>
-              </div>
-            </div>
-
-            <p className="text-foreground/90 leading-relaxed text-xl lora italic">
-              "{activeMilestone?.description}"
-            </p>
-
-            <div className="mt-10 flex items-center justify-between pt-8 border-t border-border/40">
-               <div className="flex items-center gap-3 text-muted-foreground text-[10px] font-mono uppercase tracking-[0.3em]">
-                  <MapPin className="h-3.5 w-3.5 text-primary/60" />
-                  <span>Segment: {activeMilestone?.id} / 5</span>
-               </div>
-               <Flag className="h-5 w-5 text-primary opacity-40" />
-            </div>
-          </div>
-        </div>
-
-        {/* HUD PROGRESS TRACKER - Synchronized line tracking */}
+        {/* HUD PROGRESS TRACKER */}
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4">
            <div className="w-80 h-1.5 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm relative border border-white/5">
               <div 
@@ -694,7 +686,6 @@ export default function JourneyPage() {
               />
            </div>
            <div className="flex items-center gap-6 text-muted-foreground font-mono text-[10px] font-bold uppercase tracking-[0.4em] opacity-80">
-              {/* Mapping 10% (Birth) to 50% (Now) -> 0 to 22 Years */}
               <p>AGE_SYNC: {progress < 10 ? 0 : Math.floor(Math.min(22, (progress - 10) * (22 / 40)))} YRS</p>
               <p className={cn(progress > 50 ? "text-primary opacity-100" : "opacity-40")}>
                 {progress > 50 ? "FUTURE_MODE_ACTIVE" : "KNOWN_TIMELINE"}
