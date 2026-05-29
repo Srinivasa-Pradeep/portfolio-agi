@@ -12,7 +12,7 @@ import { useMusic } from '@/context/music-context';
 /**
  * @fileOverview The Horizontal Odyssey - Cinematic Legacy Edition.
  * Features a Pre-Era story triggered by a "Launch Control" (Hold W) mechanic.
- * Includes synchronized audio transitions: Startup -> GO! -> Main Track.
+ * Includes synchronized audio transitions: Startup (Always) -> GO! -> Main Track (If allowed).
  */
 
 interface Milestone {
@@ -131,7 +131,9 @@ export default function JourneyPage() {
 
     const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key.toLowerCase() === 'w') {
-            if (allowMusic && startupAudio.current) {
+            // Mechanical startup sound plays regardless of allowMusic preference
+            // as it provides necessary physical feedback for the 'Hold W' engine start.
+            if (startupAudio.current) {
                 startupAudio.current.play().catch(() => {});
             }
             setPhase('countdown');
@@ -140,7 +142,7 @@ export default function JourneyPage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [phase, allowMusic]);
+  }, [phase]);
 
   // 3. Countdown Timer Logic (Countdown -> Active)
   useEffect(() => {
@@ -155,7 +157,7 @@ export default function JourneyPage() {
           
           clearInterval(timer);
           
-          // Trigger main journey audio on GO!
+          // Trigger main journey audio on GO! only if allowed
           if (allowMusic && journeyMusic.current && !hasMusicStarted.current) {
               journeyMusic.current.play().catch(() => {});
               hasMusicStarted.current = true;
@@ -235,14 +237,14 @@ export default function JourneyPage() {
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
     
     if (current && (!activeMilestone || activeMilestone.id !== current.id)) {
-        if (pitstopAudio.current) {
+        if (allowMusic && pitstopAudio.current) {
             pitstopAudio.current.currentTime = 0;
             pitstopAudio.current.play().catch(() => {});
         }
     }
     
     setActiveMilestone(current || null);
-  }, [progress, activeMilestone]);
+  }, [progress, activeMilestone, allowMusic]);
 
   const toggleLocalMusic = () => {
     if (!journeyMusic.current) return;
@@ -269,10 +271,10 @@ export default function JourneyPage() {
     return (windowWidth / 2) - currentTrackPos;
   }, [progress, windowWidth, mounted]);
 
-  // Dynamic Visuals
-  const blurAmount = Math.abs(currentVelocity) * 0.2; // Reduced for premium feel
-  const vibrationX = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.2 : 0;
-  const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 0.5 : 0;
+  // Dynamic Visuals - Minimized directional blur for premium feel
+  const blurAmount = Math.abs(currentVelocity) * 0.15; 
+  const vibrationX = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.0 : 0;
+  const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 0.4 : 0;
 
   if (!mounted) return null;
 
@@ -438,18 +440,18 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* COCKPIT LAYER - Grounded precisely to the road line */}
+      {/* COCKPIT LAYER - Lowered slightly to fix "on air" issue */}
       <div 
         className="fixed top-1/2 left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
-          transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% - 24px + ${vibrationY}px))`
+          transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% + 12px + ${vibrationY}px))`
         }}
       >
          <div 
            className="relative transition-all duration-300"
            style={{ 
              filter: `blur(${blurAmount}px)`,
-             transform: `scale(${1 + Math.abs(currentVelocity) * 0.015})`
+             transform: `scale(${1 + Math.abs(currentVelocity) * 0.012})`
            }}
          >
             <div className="relative w-[220px] h-[70px] drop-shadow-[0_20px_35px_rgba(0,0,0,0.6)]">
@@ -624,7 +626,7 @@ export default function JourneyPage() {
           </div>
         </div>
 
-        {/* HUD PROGRESS TRACKER */}
+        {/* HUD PROGRESS TRACKER - Perfectly synchronized age readout */}
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4">
            <div className="w-80 h-1.5 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm relative border border-white/5">
               <div 
@@ -634,7 +636,7 @@ export default function JourneyPage() {
               <div className="absolute top-0 left-[50%] h-full w-px bg-white/60 z-10" />
            </div>
            <div className="flex items-center gap-6 text-muted-foreground font-mono text-[10px] font-bold uppercase tracking-[0.4em] opacity-80">
-              <p>AGE_SYNC: {Math.floor(Math.min(22, (progress / 50) * 22))} YRS</p>
+              <p>AGE_SYNC: {progress < 10 ? 0 : Math.floor(Math.min(22, (progress - 10) * (22 / 40)))} YRS</p>
               <p className={cn(progress > 50 ? "text-primary opacity-100" : "opacity-40")}>
                 {progress > 50 ? "FUTURE_MODE_ACTIVE" : "KNOWN_TIMELINE"}
               </p>
