@@ -12,10 +12,8 @@ import { useTheme } from 'next-themes';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 /**
- * @fileOverview The Horizontal Odyssey - Cinematic Legacy Edition.
- * Features a Pre-Era story triggered by a "Launch Control" (Hold W) mechanic.
- * Includes synchronized audio transitions: Startup (Always) -> GO! -> Main Track (If allowed).
- * Updated with a compact, high-visibility layout and prominent Future Horizon markers.
+ * @fileOverview The Horizontal Odyssey - Refined Cinematic Edition.
+ * Features a high-fidelity "Liquid Glass" terminal and a clean horizon track.
  */
 
 interface Milestone {
@@ -512,14 +510,14 @@ export default function JourneyPage() {
             </div>
         </div>
 
-        {/* Comms Cloud Terminal - Optimized for long-form storytelling with compact design */}
+        {/* Comms Cloud Terminal - Liquid Glass Reflection Finish */}
         <div 
           className={cn(
             "fixed bottom-[30%] left-1/2 -translate-x-1/2 z-[100] w-full max-w-4xl px-8 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] will-change-[transform,opacity]",
             activeMilestone ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95 pointer-events-none"
           )}
         >
-          <div className="relative rounded-[40px] bg-card/15 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8)] overflow-hidden">
+          <div className="relative rounded-[40px] bg-white/5 dark:bg-black/20 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8)] overflow-hidden">
             <div className="p-6 md:p-8">
                 <div className="flex items-center gap-6 mb-6 border-b border-white/5 pb-6">
                   <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner group">
@@ -534,7 +532,7 @@ export default function JourneyPage() {
                   </div>
                 </div>
 
-                {/* Scrollable Story Container - More compact height */}
+                {/* Scrollable Story Container */}
                 <ScrollArea className="h-[180px] md:h-[280px] pr-6" data-lenis-prevent>
                     <div className="relative">
                         <p className="text-foreground/90 leading-relaxed text-base md:text-lg lora italic font-medium">
@@ -557,9 +555,9 @@ export default function JourneyPage() {
                 </div>
             </div>
           </div>
-          {/* Glassy Tail Pointing to Car */}
+          {/* Glassy Tail Pointing to Car - Color matched to glassy terminal base */}
           <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[20px] border-l-transparent border-r-[20px] border-r-transparent border-t-[26px] border-t-white/10" />
-          <div className="absolute -bottom-[23px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-t-[24px] border-t-card/15" />
+          <div className="absolute -bottom-[23px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[18px] border-l-transparent border-r-[18px] border-r-transparent border-t-[24px] border-t-white/5 dark:border-t-black/20" />
         </div>
 
         {/* The Track Path */}
@@ -579,10 +577,6 @@ export default function JourneyPage() {
                    <stop offset="90%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.05" />
                  </linearGradient>
-                 <linearGradient id="pillarGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="1" />
-                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
-                 </linearGradient>
                </defs>
                
                <rect 
@@ -600,17 +594,6 @@ export default function JourneyPage() {
 
                  return (
                    <g key={m.id}>
-                     <rect 
-                        x={nodeX - 1} 
-                        y="-400" 
-                        width="2" 
-                        height="400" 
-                        fill="url(#pillarGradient)"
-                        className={cn(
-                          "transition-all duration-700",
-                          isActive ? "opacity-60" : "opacity-10"
-                        )}
-                     />
                      <circle
                        cx={nodeX}
                        cy="0"
