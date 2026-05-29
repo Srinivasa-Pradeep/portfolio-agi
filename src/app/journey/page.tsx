@@ -1,14 +1,17 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, Trophy, Flag, MapPin, Radio } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { MusicPlayer } from '@/components/music-player';
 
 /**
  * @fileOverview The Horizontal Odyssey - Refined Linear Edition.
  * Features a straight glassy road, side-scrolling camera, and architectural pit-stops.
+ * Theme-aware and shortcut-enabled (T for theme, M for music).
  */
 
 interface Milestone {
@@ -76,6 +79,7 @@ export default function JourneyPage() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const speed = 0.8;
+      // Movement controls
       if (e.key === 'd' || e.key === 'ArrowRight' || e.key === 'w' || e.key === 'ArrowUp') {
         setProgress(p => Math.min(p + speed, 100));
       } else if (e.key === 'a' || e.key === 'ArrowLeft' || e.key === 's' || e.key === 'ArrowDown') {
@@ -119,14 +123,20 @@ export default function JourneyPage() {
 
       <main className="flex-1 relative z-10 flex flex-col items-center justify-center">
         {/* Controls Overlay */}
-        <div className="fixed top-8 left-12 z-50 flex items-center gap-8">
-            <Button asChild variant="ghost" className="hover:bg-primary/10 group">
+        <div className="fixed top-8 left-12 z-50 flex items-center gap-6">
+            <Button asChild variant="ghost" className="hover:bg-primary/10 group rounded-full px-6">
               <Link href="/#about">
                 <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 Return to Pit
               </Link>
             </Button>
-            <div className="hidden sm:block">
+            
+            <div className="flex items-center gap-2 p-1 rounded-full bg-secondary/20 backdrop-blur-md border border-border/20">
+              <ThemeToggle />
+              <MusicPlayer />
+            </div>
+
+            <div className="hidden md:block ml-4">
               <h1 className="font-headline text-2xl font-extrabold tracking-tighter text-foreground">
                 THE ODYSSEY<span className="text-primary">.</span>
               </h1>
