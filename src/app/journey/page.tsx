@@ -37,7 +37,7 @@ const milestones: Milestone[] = [
   { id: 10, year: "2023", title: "The SAP Pitstop", description: "First taste of enterprise scale at SAP Labs. Refining the aerodynamic efficiency of my code. I learned that precision is about reliability.".repeat(8), progress: 68.0 },
   { id: 11, year: "2024", title: "Amazon SDE & ML", description: "Pushing the limits at Amazon. High-speed distributed systems and the complexity of machine learning. This was my personal qualifying session.".repeat(8), progress: 75.0 },
   { id: 12, year: "2025", title: "Joining MBRDI", description: "The dream alignment. Joining Mercedes-Benz Research as a Graduate Apprentice Trainee. Everything has led to this moment.".repeat(8), progress: 82.0 },
-  { id: 13, year: "2026", title: "Future Velocity", description: "The race continues beyond the known horizon. Building the legacy at full throttle. [Your detailed story for 2026 goes here...]".repeat(8), progress: 89.0 }
+  { id: 13, year: "2026", title: "Future Velocity: The Shed", description: "Thank you for riding this journey with me. This long road has been a test of grit, logic, and soul. The race isn't over—it's just entering a new phase of high-performance growth. Welcome to the Shed, where the next engine is being built.", progress: 89.0 }
 ];
 
 const TRACK_WIDTH = 40000;
@@ -577,6 +577,10 @@ export default function JourneyPage() {
                    <stop offset="90%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.05" />
                  </linearGradient>
+                 <filter id="garage-glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="5" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                 </filter>
                </defs>
                
                <rect 
@@ -588,12 +592,47 @@ export default function JourneyPage() {
                   className="animate-shimmer"
                />
 
-               {milestones.map((m) => {
+               {milestones.map((m, index) => {
                  const nodeX = (m.progress / 100) * TRACK_WIDTH;
                  const isActive = progress >= m.progress;
+                 const isLast = index === milestones.length - 1;
 
                  return (
                    <g key={m.id}>
+                     {isLast && (
+                       <g transform={`translate(${nodeX}, -10)`}>
+                          {/* The Precision Shed (Garage) Visual */}
+                          <rect 
+                            x="-150" 
+                            y="-120" 
+                            width="300" 
+                            height="160" 
+                            rx="20" 
+                            className="fill-primary/5 stroke-primary/30 stroke-[0.5]"
+                            filter="url(#garage-glow)"
+                          />
+                          <path 
+                            d="M-150 -120 L0 -160 L150 -120" 
+                            className="fill-none stroke-primary/40 stroke-[0.8]"
+                          />
+                          <rect 
+                            x="-130" 
+                            y="-100" 
+                            width="260" 
+                            height="120" 
+                            rx="10" 
+                            className="fill-transparent stroke-primary/10 stroke-[0.5] stroke-dasharray-[4,4]"
+                          />
+                          <text 
+                            x="0" 
+                            y="-135" 
+                            textAnchor="middle" 
+                            className="fill-primary font-mono text-[12px] font-black uppercase tracking-[0.5em] opacity-40"
+                          >
+                            THE_SHED
+                          </text>
+                       </g>
+                     )}
                      <circle
                        cx={nodeX}
                        cy="0"
@@ -621,8 +660,8 @@ export default function JourneyPage() {
                {/* FUTURE HORIZON Labels - Prominent large style */}
                <text 
                   x={(milestones[milestones.length-1].progress / 100 * TRACK_WIDTH) + 1500} 
-                  y="20" 
-                  className="fill-primary/40 font-mono text-[24px] font-black tracking-[0.5em] uppercase italic"
+                  y="30" 
+                  className="fill-primary/40 font-mono text-[48px] font-black tracking-[0.5em] uppercase italic"
                >
                   FUTURE_HORIZON &gt;&gt;&gt;
                </text>
