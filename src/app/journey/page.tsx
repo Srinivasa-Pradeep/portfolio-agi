@@ -641,7 +641,7 @@ export default function JourneyPage() {
                   y="12" 
                   className="fill-primary/40 font-mono text-[10px] font-black tracking-[0.5em] uppercase italic"
                >
-                  FUTURE_HORIZON >>>
+                  FUTURE_HORIZON &gt;&gt;&gt;
                </text>
              </svg>
           </div>
