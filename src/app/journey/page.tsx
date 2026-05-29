@@ -1,12 +1,10 @@
-
 'use client';
 
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Trophy, Flag, MapPin, Zap } from 'lucide-react';
+import { ArrowLeft, Trophy, Flag, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 /**
@@ -60,7 +58,6 @@ const milestones: Milestone[] = [
   }
 ];
 
-// Define the zigzag path points (x as percentage of width, y as vertical progress)
 const pathPoints = [
   { x: 50, y: 0 },
   { x: 20, y: 15 },
@@ -82,7 +79,6 @@ export default function JourneyPage() {
     setMounted(true);
   }, []);
 
-  // Keyboard controls
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const speed = 0.8;
@@ -97,18 +93,15 @@ export default function JourneyPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Proximity detection for popups
   useEffect(() => {
     const threshold = 3;
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
     setActiveMilestone(current || null);
   }, [progress]);
 
-  // Calculate car position and rotation based on path
   const { carX, carY, rotation } = useMemo(() => {
     if (!mounted) return { carX: 50, carY: 0, rotation: 0 };
     
-    // Find segment
     const segmentCount = pathPoints.length - 1;
     const t = progress / 100;
     const segmentIndex = Math.min(Math.floor(t * segmentCount), segmentCount - 1);
@@ -116,13 +109,11 @@ export default function JourneyPage() {
     const p1 = pathPoints[segmentIndex];
     const p2 = pathPoints[segmentIndex + 1];
     
-    // Normalized progress within segment
     const segmentProgress = (t * segmentCount) - segmentIndex;
     
     const x = p1.x + (p2.x - p1.x) * segmentProgress;
     const y = p1.y + (p2.y - p1.y) * segmentProgress;
     
-    // Calculate rotation (tangent)
     const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
     
     return { carX: x, carY: y, rotation: angle + 90 };
@@ -132,10 +123,7 @@ export default function JourneyPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[#050505] selection:bg-primary/30">
-      <Header />
-      
       <main className="flex-1 relative overflow-hidden" ref={containerRef}>
-        {/* Sky Background with subtle stars */}
         <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_50%,#111,black)]" />
         <div className="absolute inset-0 opacity-20 bg-[url('https://picsum.photos/seed/stars/1920/1080')] bg-cover" />
 
@@ -158,9 +146,7 @@ export default function JourneyPage() {
             </p>
           </div>
 
-          {/* The Track Container */}
           <div className="relative w-full max-w-2xl h-[2000px] mb-64">
-             {/* The Road SVG */}
              <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
                <defs>
                  <linearGradient id="roadGradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -174,7 +160,6 @@ export default function JourneyPage() {
                  </filter>
                </defs>
                
-               {/* Ground Shadow */}
                <polyline
                  points={pathPoints.map(p => `${p.x}%,${p.y}%`).join(' ')}
                  fill="none"
@@ -183,7 +168,6 @@ export default function JourneyPage() {
                  className="opacity-40"
                />
 
-               {/* Main Glassy Road */}
                <polyline
                  points={pathPoints.map(p => `${p.x}%,${p.y}%`).join(' ')}
                  fill="none"
@@ -195,7 +179,6 @@ export default function JourneyPage() {
                  filter="url(#neonGlow)"
                />
 
-               {/* Milestone Markers */}
                {milestones.map((m) => (
                  <circle
                    key={m.id}
@@ -210,7 +193,6 @@ export default function JourneyPage() {
                ))}
              </svg>
 
-             {/* The Mercedes F1 Car */}
              <div 
                className="absolute z-50 transition-all duration-150 ease-out"
                style={{ 
@@ -220,31 +202,23 @@ export default function JourneyPage() {
                }}
              >
                <div className="relative group">
-                 {/* Car Shape (SVG) */}
                  <svg width="40" height="80" viewBox="0 0 40 80" className="drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
-                    {/* Chassis */}
                     <path d="M10 10 L30 10 L35 40 L30 75 L10 75 L5 40 Z" fill="#000" stroke="#00D2BE" strokeWidth="2" />
-                    {/* Rear Wing */}
                     <rect x="5" y="70" width="30" height="8" rx="1" fill="#222" />
-                    {/* Front Wing */}
                     <path d="M2 10 L38 10 L35 15 L5 15 Z" fill="#222" />
-                    {/* Cockpit */}
                     <circle cx="20" cy="40" r="4" fill="#00D2BE" />
-                    {/* Wheels */}
                     <rect x="0" y="15" width="6" height="12" rx="1" fill="#111" />
                     <rect x="34" y="15" width="6" height="12" rx="1" fill="#111" />
                     <rect x="0" y="60" width="7" height="14" rx="1" fill="#111" />
                     <rect x="33" y="60" width="7" height="14" rx="1" fill="#111" />
                  </svg>
                  
-                 {/* Exhaust Heat Effect */}
                  {progress > 0 && (
                    <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-4 h-8 bg-gradient-to-t from-primary/0 to-primary/40 blur-md animate-pulse" />
                  )}
                </div>
              </div>
 
-             {/* Dynamic Story Popup */}
              <div 
                className={cn(
                  "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-full max-w-md px-6 transition-all duration-700",
@@ -279,7 +253,6 @@ export default function JourneyPage() {
              </div>
           </div>
 
-          {/* Final Finish Line */}
           <div className="mt-20 flex flex-col items-center gap-8">
              <div className="w-64 h-2 bg-white/10 rounded-full overflow-hidden">
                 <div className="h-full bg-primary transition-all duration-300" style={{ width: `${progress}%` }} />
