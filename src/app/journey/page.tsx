@@ -3,12 +3,12 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Trophy, Flag, MapPin } from 'lucide-react';
+import { ArrowLeft, Trophy, Flag, MapPin, Radio } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 /**
- * @fileOverview The Horizontal Odyssey - An interactive side-scrolling journey.
- * Features a camera-follow system and a side-profile F1 car.
+ * @fileOverview The Horizontal Odyssey - Refined Linear Edition.
+ * Features a straight glassy road, side-scrolling camera, and architectural pit-stops.
  */
 
 interface Milestone {
@@ -57,18 +57,6 @@ const milestones: Milestone[] = [
   }
 ];
 
-// Horizontal Zigzag path
-const pathPoints = [
-  { x: 0, y: 50 },
-  { x: 15, y: 20 },
-  { x: 30, y: 80 },
-  { x: 45, y: 20 },
-  { x: 60, y: 80 },
-  { x: 75, y: 20 },
-  { x: 90, y: 80 },
-  { x: 100, y: 50 },
-];
-
 const TRACK_WIDTH = 5000; // Total horizontal distance in pixels
 
 export default function JourneyPage() {
@@ -87,7 +75,7 @@ export default function JourneyPage() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      const speed = 0.6;
+      const speed = 0.8;
       if (e.key === 'd' || e.key === 'ArrowRight' || e.key === 'w' || e.key === 'ArrowUp') {
         setProgress(p => Math.min(p + speed, 100));
       } else if (e.key === 'a' || e.key === 'ArrowLeft' || e.key === 's' || e.key === 'ArrowDown') {
@@ -100,33 +88,14 @@ export default function JourneyPage() {
   }, []);
 
   useEffect(() => {
-    const threshold = 2.5;
+    const threshold = 3.0;
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
     setActiveMilestone(current || null);
   }, [progress]);
 
-  const { carX, carY, rotation } = useMemo(() => {
-    if (!mounted) return { carX: 0, carY: 50, rotation: 0 };
-    
-    const segmentCount = pathPoints.length - 1;
-    const t = progress / 100;
-    const segmentIndex = Math.min(Math.floor(t * segmentCount), segmentCount - 1);
-    
-    const p1 = pathPoints[segmentIndex];
-    const p2 = pathPoints[segmentIndex + 1];
-    
-    const segmentProgress = (t * segmentCount) - segmentIndex;
-    
-    const x = p1.x + (p2.x - p1.x) * segmentProgress;
-    const y = p1.y + (p2.y - p1.y) * segmentProgress;
-    
-    const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
-    
-    return { 
-      carX: (x / 100) * TRACK_WIDTH, 
-      carY: `${y}%`,
-      rotation: angle 
-    };
+  const carX = useMemo(() => {
+    if (!mounted) return 0;
+    return (progress / 100) * TRACK_WIDTH;
   }, [progress, mounted]);
 
   // Camera focus logic: The camera offset to keep the car centered
@@ -139,7 +108,7 @@ export default function JourneyPage() {
 
   return (
     <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden selection:bg-primary/30">
-      {/* Persistent Background - Static */}
+      {/* Persistent Background - Static Portfolio Grid */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-background" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
@@ -162,14 +131,14 @@ export default function JourneyPage() {
                 THE ODYSSEY<span className="text-primary">.</span>
               </h1>
               <p className="text-[10px] text-muted-foreground font-mono tracking-[0.2em] uppercase animate-pulse">
-                [ Use W/S or Arrows to DRIVE ]
+                [ W / S or Arrows to ACCELERATE ]
               </p>
             </div>
         </div>
 
         {/* The World - Side Scrolling Wrapper */}
         <div 
-          className="relative w-full h-[60vh] transition-transform duration-100 ease-out will-change-transform"
+          className="relative w-full h-[60vh] transition-transform duration-200 ease-out will-change-transform"
           style={{ transform: `translateX(-${cameraOffset}px)` }}
         >
           <div 
@@ -179,67 +148,94 @@ export default function JourneyPage() {
              <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
                <defs>
                  <linearGradient id="roadGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                   <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.1" />
-                   <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
-                   <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.1" />
+                   <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.05" />
+                   <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+                   <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.05" />
                  </linearGradient>
                  <filter id="neonGlow">
                     <feGaussianBlur stdDeviation="3" result="blur" />
                     <feComposite in="SourceGraphic" in2="blur" operator="over" />
                  </filter>
+                 <linearGradient id="pillarGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="1" />
+                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+                 </linearGradient>
                </defs>
                
-               {/* Track Shadow */}
-               <polyline
-                 points={pathPoints.map(p => `${(p.x/100) * TRACK_WIDTH},${p.y}%`).join(' ')}
-                 fill="none"
-                 stroke="currentColor"
-                 strokeWidth="24"
-                 className="text-muted/5"
+               {/* Main Glassy Track - Straight Linear Path */}
+               <rect 
+                  x="0" 
+                  y="50%" 
+                  width="100%" 
+                  height="2" 
+                  fill="url(#roadGradient)" 
+                  className="animate-shimmer"
                />
 
-               {/* Glassy Track */}
-               <polyline
-                 points={pathPoints.map(p => `${(p.x/100) * TRACK_WIDTH},${p.y}%`).join(' ')}
-                 fill="none"
-                 stroke="url(#roadGradient)"
-                 strokeWidth="10"
-                 strokeLinecap="round"
-                 strokeLinejoin="round"
-                 className="backdrop-blur-sm transition-all duration-300"
-                 filter="url(#neonGlow)"
+               {/* Track Detail Line */}
+               <line 
+                  x1="0" 
+                  y1="51%" 
+                  x2="100%" 
+                  y2="51%" 
+                  stroke="hsl(var(--primary))" 
+                  strokeWidth="0.5" 
+                  strokeOpacity="0.2" 
                />
 
-               {/* Milestone Nodes */}
+               {/* Milestone Pit-Stops - Reimagined as Pillars */}
                {milestones.map((m) => {
-                 const segmentCount = pathPoints.length - 1;
-                 const t = m.progress / 100;
-                 const segmentIndex = Math.min(Math.floor(t * segmentCount), segmentCount - 1);
-                 const p1 = pathPoints[segmentIndex];
-                 const p2 = pathPoints[segmentIndex + 1];
-                 const segT = (t * segmentCount) - segmentIndex;
-                 const nodeX = ((p1.x + (p2.x - p1.x) * segT) / 100) * TRACK_WIDTH;
-                 const nodeY = p1.y + (p2.y - p1.y) * segT;
+                 const nodeX = (m.progress / 100) * TRACK_WIDTH;
+                 const isActive = progress >= m.progress;
 
                  return (
                    <g key={m.id}>
+                     {/* Architectural Pillar */}
+                     <rect 
+                        x={nodeX - 1} 
+                        y="40%" 
+                        width="2" 
+                        height="20%" 
+                        fill="url(#pillarGradient)"
+                        className={cn(
+                          "transition-all duration-700",
+                          isActive ? "opacity-40" : "opacity-5"
+                        )}
+                     />
+
+                     {/* Pit Stop Indicator */}
                      <circle
                        cx={nodeX}
-                       cy={`${nodeY}%`}
-                       r="8"
+                       cy="50%"
+                       r="6"
                        className={cn(
                          "transition-all duration-500",
-                         progress >= m.progress ? "fill-primary shadow-[0_0_15px_hsl(var(--primary))]" : "fill-muted-foreground/20"
+                         isActive ? "fill-primary shadow-[0_0_20px_hsl(var(--primary))]" : "fill-muted-foreground/20"
                        )}
+                       filter={isActive ? "url(#neonGlow)" : ""}
                      />
+
+                     {/* Vertical Telemetry Label */}
                      <text 
-                        x={nodeX} 
-                        y={`${nodeY + 8}%`} 
-                        textAnchor="middle" 
-                        className="fill-muted-foreground font-mono text-[10px] font-bold"
+                        x={nodeX + 12} 
+                        y="48%" 
+                        className={cn(
+                          "fill-muted-foreground font-mono text-[11px] font-bold tracking-[0.2em] transition-all duration-500",
+                          isActive && "fill-primary"
+                        )}
                      >
-                        {m.year}
+                        PIT_{m.year}
                      </text>
+
+                     {/* Segments Divider */}
+                     <rect 
+                        x={nodeX - 40} 
+                        y="51%" 
+                        width="80" 
+                        height="4" 
+                        fill="hsl(var(--primary))" 
+                        className={cn("transition-opacity duration-1000", isActive ? "opacity-20" : "opacity-0")}
+                     />
                    </g>
                  );
                })}
@@ -250,8 +246,8 @@ export default function JourneyPage() {
                className="absolute z-50 transition-all duration-100 ease-out"
                style={{ 
                  left: `${carX}px`, 
-                 top: carY,
-                 transform: `translate(-50%, -50%) rotate(${rotation}deg)`
+                 top: '50%',
+                 transform: `translate(-50%, -50%)`
                }}
              >
                <div className="relative">
@@ -279,14 +275,14 @@ export default function JourneyPage() {
                  
                  {/* Exhaust Heat Effect */}
                  {progress > 0 && progress < 100 && (
-                   <div className="absolute top-1/2 -left-4 -translate-y-1/2 w-8 h-2 bg-gradient-to-r from-primary/0 to-primary/30 blur-md animate-pulse" />
+                   <div className="absolute top-1/2 -left-6 -translate-y-1/2 w-10 h-2 bg-gradient-to-r from-primary/0 to-primary/40 blur-md animate-pulse" />
                  )}
                </div>
              </div>
           </div>
         </div>
 
-        {/* Floating Story Card - Centered relative to Screen */}
+        {/* Team Radio Card - Story popup */}
         <div 
           className={cn(
             "fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] w-full max-w-lg px-6 transition-all duration-700",
@@ -294,42 +290,43 @@ export default function JourneyPage() {
           )}
         >
           <div className="relative p-8 rounded-[40px] bg-card/60 backdrop-blur-3xl border border-border/50 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden group">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
+            {/* Visual telemetry line */}
+            <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent" />
             
             <div className="flex items-center gap-6 mb-6">
-              <div className="h-16 w-16 rounded-3xl bg-primary/10 flex items-center justify-center border border-primary/20">
-                <Trophy className="h-8 w-8 text-primary" />
+              <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                <Radio className="h-6 w-6 text-primary animate-pulse" />
               </div>
               <div>
-                <span className="text-xs font-black text-primary uppercase tracking-[0.3em]">{activeMilestone?.year}</span>
+                <span className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">COMMS_STATION_{activeMilestone?.year}</span>
                 <h3 className="text-2xl font-bold text-foreground tracking-tight">{activeMilestone?.title}</h3>
               </div>
             </div>
 
-            <p className="text-foreground/80 leading-relaxed text-lg lora italic">
+            <p className="text-foreground/90 leading-relaxed text-lg lora italic">
               "{activeMilestone?.description}"
             </p>
 
             <div className="mt-8 flex items-center justify-between pt-6 border-t border-border/40">
-               <div className="flex items-center gap-2 text-muted-foreground text-[10px] font-mono uppercase tracking-widest">
+               <div className="flex items-center gap-2 text-muted-foreground text-[9px] font-mono uppercase tracking-[0.2em]">
                   <MapPin className="h-3 w-3" />
                   <span>Segment: {activeMilestone?.id} / 5</span>
                </div>
-               <Flag className="h-4 w-4 text-primary opacity-50" />
+               <Flag className="h-4 w-4 text-primary opacity-30" />
             </div>
           </div>
         </div>
 
-        {/* Global Progress Hub */}
+        {/* Global HUD Progress */}
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-3">
            <div className="w-64 h-1 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm">
               <div 
-                className="h-full bg-primary transition-all duration-300 shadow-[0_0_10px_hsl(var(--primary))]" 
+                className="h-full bg-primary transition-all duration-300 shadow-[0_0_15px_hsl(var(--primary))]" 
                 style={{ width: `${progress}%` }} 
               />
            </div>
-           <p className="text-muted-foreground font-mono text-[9px] uppercase tracking-[0.4em]">
-              Journey Completion: {Math.floor(progress)}%
+           <p className="text-muted-foreground font-mono text-[9px] uppercase tracking-[0.5em] opacity-60">
+              TRACK_SYNC: {Math.floor(progress)}%
            </p>
         </div>
       </main>
