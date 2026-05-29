@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Flag, MapPin, Radio, ShieldCheck, Check, Volume2, VolumeX, Ban, ScrollText } from 'lucide-react';
+import { ArrowLeft, Flag, MapPin, Radio, ShieldCheck, Check, Volume2, VolumeX, Ban, ScrollText, Cpu, Gauge, Wind } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme-toggle';
 import Image from 'next/image';
@@ -305,63 +305,99 @@ export default function JourneyPage() {
       </div>
 
       {phase === 'checklist' && !isRejected && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-background/60 backdrop-blur-2xl">
-          <div className="w-full max-w-md p-10 rounded-[40px] bg-card/80 border border-border/50 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.7)] text-center animate-in fade-in zoom-in duration-700">
-            <div className="flex justify-center mb-8">
-              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
-                 <ShieldCheck className="h-8 w-8 text-primary" />
-              </div>
-            </div>
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-background/60 backdrop-blur-2xl px-6">
+          <div className="w-full max-w-xl p-8 md:p-12 rounded-[50px] bg-card/80 border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.8)] text-center animate-in fade-in zoom-in duration-700 relative overflow-hidden">
+            {/* Architectural Glows */}
+            <div className="absolute top-0 left-0 w-32 h-32 bg-primary/5 blur-3xl rounded-full" />
+            <div className="absolute bottom-0 right-0 w-32 h-32 bg-primary/5 blur-3xl rounded-full" />
             
-            <h2 className="font-headline text-3xl font-extrabold tracking-tighter mb-2">PRE-RACE CHECKLIST</h2>
-            <p className="text-muted-foreground text-sm mb-10 uppercase tracking-widest font-mono">Verify cockpit configuration</p>
+            <div className="relative z-10">
+                <div className="flex justify-center mb-10">
+                    <div className="h-20 w-20 rounded-[30px] bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner group">
+                        <Cpu className="h-10 w-10 text-primary animate-pulse" />
+                    </div>
+                </div>
+                
+                <h2 className="font-headline text-3xl md:text-4xl font-black tracking-tighter mb-2 uppercase italic">Cockpit Configurator</h2>
+                <p className="text-muted-foreground text-[10px] md:text-xs mb-12 uppercase tracking-[0.4em] font-mono">System Readiness Check_v2.0</p>
 
-            <div className="space-y-6 text-left mb-12">
-               <div className="flex items-center justify-between p-4 rounded-2xl bg-secondary/30 border border-border/20">
-                  <span className="text-sm font-bold tracking-tight">Driving License confirmed?</span>
-                  <div className="flex gap-2">
-                    <Button 
-                      variant={hasLicense === true ? "default" : "outline"} 
-                      size="sm" 
-                      onClick={() => setHasLicense(true)}
-                      className="rounded-full h-8 px-4"
-                    >Yes</Button>
-                    <Button 
-                      variant={hasLicense === false ? "default" : "outline"} 
-                      size="sm" 
-                      onClick={() => setHasLicense(false)}
-                      className="rounded-full h-8 px-4"
-                    >No</Button>
-                  </div>
-               </div>
+                {/* Simulated Telemetry Stats */}
+                <div className="grid grid-cols-3 gap-4 mb-10">
+                    <div className="p-3 rounded-2xl bg-secondary/20 border border-border/20 text-center">
+                        <Gauge className="h-4 w-4 text-primary mx-auto mb-1 opacity-60" />
+                        <p className="text-[9px] font-mono font-bold uppercase tracking-widest text-muted-foreground">Brakes</p>
+                        <p className="text-xs font-black text-primary">READY</p>
+                    </div>
+                    <div className="p-3 rounded-2xl bg-secondary/20 border border-border/20 text-center">
+                        <Cpu className="h-4 w-4 text-primary mx-auto mb-1 opacity-60" />
+                        <p className="text-[9px] font-mono font-bold uppercase tracking-widest text-muted-foreground">Engine</p>
+                        <p className="text-xs font-black text-primary">COLD</p>
+                    </div>
+                    <div className="p-3 rounded-2xl bg-secondary/20 border border-border/20 text-center">
+                        <Wind className="h-4 w-4 text-primary mx-auto mb-1 opacity-60" />
+                        <p className="text-[9px] font-mono font-bold uppercase tracking-widest text-muted-foreground">Aero</p>
+                        <p className="text-xs font-black text-primary">ACTIVE</p>
+                    </div>
+                </div>
 
-               <div className="flex items-center justify-between p-4 rounded-2xl bg-secondary/30 border border-border/20">
-                  <span className="text-sm font-bold tracking-tight">Enable cockpit audio?</span>
-                  <div className="flex gap-2">
-                    <Button 
-                      variant={allowMusic === true ? "default" : "outline"} 
-                      size="sm" 
-                      onClick={() => setAllowMusic(true)}
-                      className="rounded-full h-8 px-4"
-                    >Yes</Button>
-                    <Button 
-                      variant={allowMusic === false ? "default" : "outline"} 
-                      size="sm" 
-                      onClick={() => setAllowMusic(false)}
-                      className="rounded-full h-8 px-4"
-                    >No</Button>
-                  </div>
-               </div>
+                <div className="space-y-4 text-left mb-12">
+                   <div className="flex items-center justify-between p-5 rounded-3xl bg-secondary/30 border border-border/10 backdrop-blur-sm transition-all hover:bg-secondary/40">
+                      <div className="flex items-center gap-4">
+                        <ShieldCheck className="h-5 w-5 text-primary/60" />
+                        <span className="text-xs md:text-sm font-bold tracking-tight uppercase">Pilot Credentials Validated?</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button 
+                          variant={hasLicense === true ? "default" : "outline"} 
+                          size="sm" 
+                          onClick={() => setHasLicense(true)}
+                          className="rounded-full h-9 px-5 text-[10px] font-black uppercase tracking-widest"
+                        >Yes</Button>
+                        <Button 
+                          variant={hasLicense === false ? "default" : "outline"} 
+                          size="sm" 
+                          onClick={() => setHasLicense(false)}
+                          className="rounded-full h-9 px-5 text-[10px] font-black uppercase tracking-widest"
+                        >No</Button>
+                      </div>
+                   </div>
+
+                   <div className="flex items-center justify-between p-5 rounded-3xl bg-secondary/30 border border-border/10 backdrop-blur-sm transition-all hover:bg-secondary/40">
+                      <div className="flex items-center gap-4">
+                        <Volume2 className="h-5 w-5 text-primary/60" />
+                        <span className="text-xs md:text-sm font-bold tracking-tight uppercase">Initialize Cockpit Comms?</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button 
+                          variant={allowMusic === true ? "default" : "outline"} 
+                          size="sm" 
+                          onClick={() => setAllowMusic(true)}
+                          className="rounded-full h-9 px-5 text-[10px] font-black uppercase tracking-widest"
+                        >Yes</Button>
+                        <Button 
+                          variant={allowMusic === false ? "default" : "outline"} 
+                          size="sm" 
+                          onClick={() => setAllowMusic(false)}
+                          className="rounded-full h-9 px-5 text-[10px] font-black uppercase tracking-widest"
+                        >No</Button>
+                      </div>
+                   </div>
+                </div>
+
+                <Button 
+                  disabled={hasLicense === null || allowMusic === null} 
+                  onClick={handleStartAttempt}
+                  className="w-full h-16 rounded-[24px] text-lg font-black italic tracking-tighter group overflow-hidden relative"
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-3">
+                    {hasLicense === false ? "DENY ACCESS" : "READY FOR LAUNCH"}
+                    <Check className="h-6 w-6 transition-transform group-hover:scale-110" />
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                </Button>
+                
+                <p className="mt-6 text-[9px] font-mono text-muted-foreground/60 uppercase tracking-[0.2em]">Telemetry data synchronized with 2026 Mercedes W17 High-Performance Unit</p>
             </div>
-
-            <Button 
-              disabled={hasLicense === null || allowMusic === null} 
-              onClick={handleStartAttempt}
-              className="w-full h-14 rounded-2xl text-lg font-bold group"
-            >
-              {hasLicense === false ? "REVEAL STATUS" : "START THE ODYSSEY"}
-              <Check className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
-            </Button>
           </div>
         </div>
       )}
