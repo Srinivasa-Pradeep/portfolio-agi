@@ -137,7 +137,6 @@ export default function JourneyPage() {
     const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key.toLowerCase() === 'w') {
             // Mechanical startup sound plays regardless of allowMusic preference
-            // as it provides necessary physical feedback for the 'Hold W' engine start.
             if (startupAudio.current) {
                 startupAudio.current.play().catch(() => {});
             }
@@ -242,7 +241,7 @@ export default function JourneyPage() {
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
     
     if (current && (!activeMilestone || activeMilestone.id !== current.id)) {
-        // Pitstop sound effect is mechanical feedback, plays regardless of background music preference
+        // Pitstop sound plays regardless of background music preference
         if (pitstopAudio.current) {
             pitstopAudio.current.currentTime = 0;
             pitstopAudio.current.play().catch(() => {});
@@ -277,7 +276,7 @@ export default function JourneyPage() {
     return (windowWidth / 2) - currentTrackPos;
   }, [progress, windowWidth, mounted]);
 
-  // Dynamic Visuals - Minimized directional blur for premium feel
+  // Dynamic Visuals
   const blurAmount = Math.abs(currentVelocity) * 0.15; 
   const vibrationX = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.0 : 0;
   const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 0.4 : 0;
@@ -450,7 +449,7 @@ export default function JourneyPage() {
       <div 
         className="fixed top-1/2 left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
-          transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% + 4px + ${vibrationY}px))`
+          transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% - 20px + ${vibrationY}px))`
         }}
       >
          <div 
