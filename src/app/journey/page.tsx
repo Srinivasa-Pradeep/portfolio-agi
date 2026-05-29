@@ -12,9 +12,7 @@ import Image from 'next/image';
 /**
  * @fileOverview The Horizontal Odyssey - Extended Horizon Edition.
  * Features a centered Mercedes F1 machine with velocity-based minimal blur and chassis vibration.
- * Progress is mapped to life years: 2003-2025 = 0% to 22%.
- * Track is massively extended to provide space and a vast "Future" beyond current age.
- * Includes a pitstop sound effect triggered upon reaching milestones.
+ * Audio: Loop engine sound while accelerating, pause and play pitstop sound at milestones.
  */
 
 interface Milestone {
@@ -31,7 +29,7 @@ const milestones: Milestone[] = [
     year: "2003", 
     title: "The Starting Grid", 
     description: "Born into a world of curiosity. The engine was just starting to warm up.",
-    progress: 3.0 // Moved forward to give a "lead-in" empty road
+    progress: 3.0 
   },
   { 
     id: 2, 
@@ -63,7 +61,6 @@ const milestones: Milestone[] = [
   }
 ];
 
-// Massively increased track width to provide spacing and a long future horizon
 const TRACK_WIDTH = 24000; 
 
 export default function JourneyPage() {
@@ -80,18 +77,50 @@ export default function JourneyPage() {
   
   // Audio Refs
   const pitstopAudio = useRef<HTMLAudioElement | null>(null);
+  const engineAudio = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
     setWindowWidth(window.innerWidth);
     
-    // Initialize pitstop sound effect
+    // Initialize sound effects
     pitstopAudio.current = new Audio('/music/pitstop.mp3');
+    engineAudio.current = new Audio('/music/engine.mp3');
+    if (engineAudio.current) {
+        engineAudio.current.loop = true;
+    }
     
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    return () => {
+        window.removeEventListener('resize', handleResize);
+        if (engineAudio.current) {
+            engineAudio.current.pause();
+            engineAudio.current = null;
+        }
+    };
   }, []);
+
+  // Handle Engine Audio Logic
+  useEffect(() => {
+    if (!engineAudio.current || !mounted) return;
+
+    const isMoving = Math.abs(currentVelocity) > 0.01;
+    const isAtPitstop = activeMilestone !== null;
+
+    if (isMoving && !isAtPitstop) {
+        if (engineAudio.current.paused) {
+            engineAudio.current.play().catch(() => {
+                // Autoplay blocked
+            });
+        }
+    } else {
+        if (!engineAudio.current.paused) {
+            engineAudio.current.pause();
+            engineAudio.current.currentTime = 0; // Restart from beginning next time for "revving" effect
+        }
+    }
+  }, [currentVelocity, activeMilestone, mounted]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => keysPressed.current.add(e.key.toLowerCase());
@@ -131,7 +160,6 @@ export default function JourneyPage() {
 
       if (velocity.current !== 0) {
         setProgress(p => {
-          // Adjusted progression speed to match the new track width
           const next = p + velocity.current * 0.08; 
           return Math.max(0, Math.min(100, next));
         });
@@ -153,17 +181,14 @@ export default function JourneyPage() {
   }, []);
 
   useEffect(() => {
-    // Tighter threshold for milestone activation to ensure they feel like specific pitstops
     const threshold = 0.4; 
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
     
-    // Play sound if we just entered a new milestone zone
+    // Play pitstop sound if we just entered a new milestone zone
     if (current && (!activeMilestone || activeMilestone.id !== current.id)) {
         if (pitstopAudio.current) {
             pitstopAudio.current.currentTime = 0;
-            pitstopAudio.current.play().catch(() => {
-                // Autoplay policy might block this if no prior interaction
-            });
+            pitstopAudio.current.play().catch(() => {});
         }
     }
     
@@ -176,7 +201,6 @@ export default function JourneyPage() {
     return (windowWidth / 2) - currentTrackPos;
   }, [progress, windowWidth, mounted]);
 
-  // Lively Car Effects - Refined
   const blurAmount = Math.abs(currentVelocity) * 0.35;
   const vibrationX = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.5 : 0;
   const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.0 : 0;
@@ -218,7 +242,6 @@ export default function JourneyPage() {
                />
             </div>
             
-            {/* Velocity-Synced Exhaust Heat */}
             {progress > 0 && progress < 100 && (
               <div 
                 className="absolute top-[65%] -left-12 -translate-y-1/2 w-20 h-6 bg-gradient-to-r from-primary/0 to-primary/40 blur-2xl animate-pulse"
@@ -280,7 +303,6 @@ export default function JourneyPage() {
                  </linearGradient>
                </defs>
                
-               {/* Main Glassy Track Line */}
                <rect 
                   x="0" 
                   y="50%" 
@@ -300,14 +322,12 @@ export default function JourneyPage() {
                   strokeOpacity="0.2" 
                />
 
-               {/* Life Milestones - Pitstop Pillars */}
                {milestones.map((m) => {
                  const nodeX = (m.progress / 100) * TRACK_WIDTH;
                  const isActive = progress >= m.progress;
 
                  return (
                    <g key={m.id}>
-                     {/* Architectural Pillar */}
                      <rect 
                         x={nodeX - 1} 
                         y="35%" 
@@ -345,7 +365,6 @@ export default function JourneyPage() {
                  );
                })}
 
-               {/* Future Horizon Markers (Post 22%) */}
                <g transform={`translate(${(45 / 100) * TRACK_WIDTH}, ${300})`}>
                   <text className="fill-muted-foreground/10 font-headline text-9xl font-black uppercase tracking-[0.3em] pointer-events-none select-none italic">
                      Future Horizon
@@ -369,7 +388,6 @@ export default function JourneyPage() {
           )}
         >
           <div className="relative p-10 rounded-[40px] bg-card/60 backdrop-blur-3xl border border-border/50 shadow-[0_60px_120px_-30px_rgba(0,0,0,0.6)] overflow-hidden">
-            {/* Top Identity Line */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-60" />
             
             <div className="flex items-center gap-8 mb-8">
@@ -403,7 +421,6 @@ export default function JourneyPage() {
                 className="h-full bg-primary transition-all duration-300 shadow-[0_0_20px_hsl(var(--primary))]" 
                 style={{ width: `${progress}%` }} 
               />
-              {/* Current Age Cutoff Marker (22%) */}
               <div className="absolute top-0 left-[22%] h-full w-px bg-white/60 z-10" />
            </div>
            <div className="flex items-center gap-6 text-muted-foreground font-mono text-[10px] font-bold uppercase tracking-[0.4em] opacity-80">
@@ -414,7 +431,6 @@ export default function JourneyPage() {
            </div>
         </div>
 
-        {/* Cinematic Future Hints */}
         {progress > 25 && progress < 35 && (
           <div className="fixed top-1/2 right-24 -translate-y-1/2 text-primary/10 font-black text-9xl uppercase tracking-tighter pointer-events-none select-none italic animate-fade-in transition-all duration-1000">
             The road<br/>ahead.
