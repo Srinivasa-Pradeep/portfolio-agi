@@ -3,17 +3,18 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Flag, MapPin, Radio, ShieldCheck, Check, Volume2, VolumeX, Ban, UserX } from 'lucide-react';
+import { ArrowLeft, Flag, MapPin, Radio, ShieldCheck, Check, Volume2, VolumeX, Ban } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme-toggle';
 import Image from 'next/image';
 import { useMusic } from '@/context/music-context';
 
 /**
- * @fileOverview The Horizontal Odyssey - Focused Musical Edition.
+ * @fileOverview The Horizontal Odyssey - Grounded Musical Edition.
  * Calibrated for a 9-second gap between stops.
  * Features global music suppression and independent cockpit controls.
  * Enforces "Driving License" requirement for car movement.
+ * Car is sit SIT ON THE ROAD for a realistic grounded feel.
  */
 
 interface Milestone {
@@ -230,7 +231,7 @@ export default function JourneyPage() {
 
   const blurAmount = Math.abs(currentVelocity) * 0.35;
   const vibrationX = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.5 : 0;
-  const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.0 : 0;
+  const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 0.8 : 0;
 
   if (!mounted) return null;
 
@@ -341,11 +342,11 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* COCKPIT LAYER */}
+      {/* COCKPIT LAYER - Grounded to the road */}
       <div 
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
-          transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% + ${vibrationY}px))`
+          transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% - 32px + ${vibrationY}px))`
         }}
       >
          <div 
