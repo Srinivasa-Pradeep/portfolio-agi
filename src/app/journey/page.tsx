@@ -10,7 +10,7 @@ import { MusicPlayer } from '@/components/music-player';
 import Image from 'next/image';
 
 /**
- * @fileOverview The Horizontal Odyssey - Audio Synced Edition.
+ * @fileOverview The Horizontal Odyssey - Audio Synced & Precision HUD Edition.
  * Spacing is calibrated so that max velocity covers the gap between stops in ~9 seconds.
  */
 
@@ -22,7 +22,7 @@ interface Milestone {
   progress: number; // Percentage of total track (0-100)
 }
 
-// Rescaled milestones: 10 units of progress = ~9 seconds of travel at max velocity (1.2) with 0.015 multiplier
+// Spacing: 10 units = ~9.2 seconds at maxSpeed (1.2)
 const milestones: Milestone[] = [
   { 
     id: 1, 
@@ -61,7 +61,7 @@ const milestones: Milestone[] = [
   }
 ];
 
-const TRACK_WIDTH = 40000; // Expanded for a massive "Future Horizon"
+const TRACK_WIDTH = 40000;
 
 export default function JourneyPage() {
   const [progress, setProgress] = useState(0);
@@ -69,6 +69,7 @@ export default function JourneyPage() {
   const [mounted, setMounted] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [currentVelocity, setCurrentVelocity] = useState(0);
+  const [isAccelerating, setIsAccelerating] = useState(false);
   
   // Physics Refs
   const velocity = useRef(0);
@@ -101,26 +102,23 @@ export default function JourneyPage() {
     };
   }, []);
 
-  // Handle Engine Audio Logic
+  // Handle Engine Audio Reactivity - STRICTLY ON ACCELERATION
   useEffect(() => {
     if (!engineAudio.current || !mounted) return;
 
-    const isMoving = Math.abs(currentVelocity) > 0.01;
     const isAtPitstop = activeMilestone !== null;
+    const shouldPlay = isAccelerating && !isAtPitstop;
 
-    if (isMoving && !isAtPitstop) {
+    if (shouldPlay) {
         if (engineAudio.current.paused) {
-            engineAudio.current.play().catch(() => {
-                // Autoplay blocked
-            });
+            engineAudio.current.play().catch(() => {});
         }
     } else {
         if (!engineAudio.current.paused) {
             engineAudio.current.pause();
-            // We don't reset currentTime here to allow the 9s sound to resume its phase if driving away
         }
     }
-  }, [currentVelocity, activeMilestone, mounted]);
+  }, [isAccelerating, activeMilestone, mounted]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => keysPressed.current.add(e.key.toLowerCase());
@@ -136,15 +134,14 @@ export default function JourneyPage() {
 
       const isForward = 
         keysPressed.current.has('w') || 
-        keysPressed.current.has('arrowup') || 
-        keysPressed.current.has('d') || 
-        keysPressed.current.has('arrowright');
+        keysPressed.current.has('arrowup');
       
       const isBackward = 
         keysPressed.current.has('s') || 
-        keysPressed.current.has('arrowdown') || 
-        keysPressed.current.has('a') || 
-        keysPressed.current.has('arrowleft');
+        keysPressed.current.has('arrowdown');
+
+      // Update state for audio reactivity
+      setIsAccelerating(isForward);
 
       if (isForward) {
         velocity.current = Math.min(velocity.current + accel, maxSpeed);
@@ -160,7 +157,6 @@ export default function JourneyPage() {
 
       if (velocity.current !== 0) {
         setProgress(p => {
-          // multiplier 0.015: at maxSpeed 1.2, 9 seconds (540 frames) = ~9.7 units
           const next = p + velocity.current * 0.015; 
           return Math.max(0, Math.min(100, next));
         });
@@ -182,10 +178,9 @@ export default function JourneyPage() {
   }, []);
 
   useEffect(() => {
-    const threshold = 0.8; // Wider zone for easier alignment at high speed
+    const threshold = 0.8;
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
     
-    // Play pitstop sound if we just entered a new milestone zone
     if (current && (!activeMilestone || activeMilestone.id !== current.id)) {
         if (pitstopAudio.current) {
             pitstopAudio.current.currentTime = 0;
@@ -415,18 +410,17 @@ export default function JourneyPage() {
           </div>
         </div>
 
-        {/* HUD PROGRESS TRACKER */}
+        {/* HUD PROGRESS TRACKER - Synchronized with Car Progress */}
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4">
            <div className="w-80 h-1.5 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm relative border border-white/5">
               <div 
-                className="h-full bg-primary transition-all duration-300 shadow-[0_0_20px_hsl(var(--primary))]" 
+                className="h-full bg-primary shadow-[0_0_20px_hsl(var(--primary))]" 
                 style={{ width: `${progress}%` }} 
               />
               {/* Target marker at 50% (Current age 22) */}
               <div className="absolute top-0 left-[50%] h-full w-px bg-white/60 z-10" />
            </div>
            <div className="flex items-center gap-6 text-muted-foreground font-mono text-[10px] font-bold uppercase tracking-[0.4em] opacity-80">
-              {/* Map progress 0-50 to age 0-22 */}
               <p>AGE_SYNC: {Math.floor(Math.min(22, (progress / 50) * 22))} YRS</p>
               <p className={cn(progress > 50 ? "text-primary opacity-100" : "opacity-40")}>
                 {progress > 50 ? "FUTURE_MODE_ACTIVE" : "KNOWN_TIMELINE"}
