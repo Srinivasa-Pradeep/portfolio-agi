@@ -68,7 +68,7 @@ type JourneyPhase = 'checklist' | 'pre-era' | 'countdown' | 'active';
 export default function JourneyPage() {
   const { isPlaying: globalIsPlaying, togglePlayPause: toggleGlobalMusic } = useMusic();
   const [phase, setPhase] = useState<JourneyPhase>('checklist');
-  const [countdown, setCountdown] = useState<number | 'GO!'>(3);
+  const [countdown, setCountdown] = useState<number | 'GO!'>(5);
   const [progress, setProgress] = useState(0);
   const [activeMilestone, setActiveMilestone] = useState<Milestone | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -147,6 +147,8 @@ export default function JourneyPage() {
     if (phase === 'countdown') {
       const timer = setInterval(() => {
         setCountdown((prev) => {
+          if (prev === 5) return 4;
+          if (prev === 4) return 3;
           if (prev === 3) return 2;
           if (prev === 2) return 1;
           if (prev === 1) return 'GO!';
