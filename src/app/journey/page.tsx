@@ -67,12 +67,12 @@ const TRACK_WIDTH = 40000;
 
 type JourneyPhase = 'checklist' | 'pre-era' | 'countdown' | 'active';
 
-function StarField() {
+function StarField({ progress }: { progress: number }) {
   const stars = useMemo(() => {
-    return [...Array(120)].map((_, i) => ({
+    return [...Array(150)].map((_, i) => ({
       id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 45, // Strictly top half, above the horizon/car
+      x: Math.random() * 200, // Spread over 200% width for parallax
+      y: Math.random() * 45, // Top half
       size: Math.random() * 1.8 + 0.5,
       opacity: Math.random() * 0.6 + 0.2,
       duration: Math.random() * 4 + 2,
@@ -80,24 +80,33 @@ function StarField() {
     }));
   }, []);
 
+  // Parallax: Stars move much slower than the track (about 1/4 the speed)
+  // Since the track moves by TRACK_WIDTH, we move this container by a percentage of its width
+  const translateX = -(progress * 0.5); // Moves up to -50% of the 200% width container
+
   return (
     <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-      {stars.map((star) => (
-        <div
-          key={star.id}
-          className="absolute rounded-full bg-white animate-pulse"
-          style={{
-            left: `${star.x}%`,
-            top: `${star.y}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
-            opacity: star.opacity,
-            animationDuration: `${star.duration}s`,
-            animationDelay: `${star.delay}s`,
-            boxShadow: star.size > 1.2 ? `0 0 ${star.size * 2}px rgba(255,255,255,0.4)` : 'none'
-          }}
-        />
-      ))}
+      <div 
+        className="absolute inset-0 h-full w-[200%] will-change-transform transition-transform duration-75 ease-out"
+        style={{ transform: `translateX(${translateX}%)` }}
+      >
+        {stars.map((star) => (
+          <div
+            key={star.id}
+            className="absolute rounded-full bg-white animate-pulse"
+            style={{
+              left: `${star.x}%`,
+              top: `${star.y}%`,
+              width: `${star.size}px`,
+              height: `${star.size}px`,
+              opacity: star.opacity,
+              animationDuration: `${star.duration}s`,
+              animationDelay: `${star.delay}s`,
+              boxShadow: star.size > 1.2 ? `0 0 ${star.size * 2}px rgba(255,255,255,0.4)` : 'none'
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 }
@@ -327,8 +336,8 @@ export default function JourneyPage() {
         <div className="absolute inset-0 bg-background" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
         
-        {/* Dynamic Stars for Dark Mode - Above the car horizon */}
-        {resolvedTheme === 'dark' && <StarField />}
+        {/* Dynamic Stars for Dark Mode - Above the car horizon, moving with progress */}
+        {resolvedTheme === 'dark' && <StarField progress={progress} />}
 
         <div
           className="absolute inset-0 h-full w-full bg-transparent bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)] opacity-[0.1]"
