@@ -7,11 +7,12 @@ import { ArrowLeft, Trophy, Flag, MapPin, Radio } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { MusicPlayer } from '@/components/music-player';
+import Image from 'next/image';
 
 /**
- * @fileOverview The Horizontal Odyssey - Refined Linear Edition.
+ * @fileOverview The Horizontal Odyssey - Official F1 Machine Edition.
  * Features a straight glassy road, side-scrolling camera, and architectural pit-stops.
- * Theme-aware and shortcut-enabled (T for theme, M for music).
+ * Uses the official 2026 Mercedes F1 car image.
  */
 
 interface Milestone {
@@ -251,7 +252,7 @@ export default function JourneyPage() {
                })}
              </svg>
 
-             {/* The Mercedes F1 Car - Side Profile */}
+             {/* The Mercedes F1 Car - Official Profile */}
              <div 
                className="absolute z-50 transition-all duration-100 ease-out"
                style={{ 
@@ -261,31 +262,20 @@ export default function JourneyPage() {
                }}
              >
                <div className="relative">
-                 {/* High-Fidelity F1 Side-Profile SVG */}
-                 <svg width="120" height="40" viewBox="0 0 120 40" className="drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
-                    {/* Main Chassis */}
-                    <path d="M5 30 L20 28 L40 10 L80 10 L100 25 L115 32 L115 35 L5 35 Z" fill="#050505" />
-                    {/* Livery Highlights */}
-                    <path d="M40 12 L75 12 L95 24 L110 30" fill="none" stroke="#00D2BE" strokeWidth="2" />
-                    <path d="M25 29 L50 29" fill="none" stroke="#00D2BE" strokeWidth="1" />
-                    {/* Front Wing */}
-                    <rect x="100" y="32" width="18" height="3" rx="1" fill="#111" />
-                    <rect x="105" y="30" width="10" height="2" fill="#00D2BE" />
-                    {/* Rear Wing */}
-                    <rect x="0" y="20" width="15" height="15" rx="1" fill="#111" />
-                    <rect x="2" y="22" width="11" height="3" fill="#00D2BE" />
-                    {/* Tires */}
-                    <circle cx="25" cy="33" r="7" fill="#111" stroke="#333" strokeWidth="2" />
-                    <circle cx="25" cy="33" r="4" fill="none" stroke="#00D2BE" strokeWidth="0.5" />
-                    <circle cx="95" cy="33" r="7" fill="#111" stroke="#333" strokeWidth="2" />
-                    <circle cx="95" cy="33" r="4" fill="none" stroke="#00D2BE" strokeWidth="0.5" />
-                    {/* Driver Helmet Area */}
-                    <path d="M55 10 C 55 5, 65 5, 65 10" fill="#222" />
-                 </svg>
+                 {/* High-Fidelity 2026 Mercedes F1 Image */}
+                 <div className="relative w-[200px] h-[60px] drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)]">
+                    <Image
+                      src="https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/mercedes/2026mercedescarright.webp"
+                      alt="2026 Mercedes F1 Machine"
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                 </div>
                  
-                 {/* Exhaust Heat Effect */}
+                 {/* Exhaust Heat Effect - Adjusted for real image rear point */}
                  {progress > 0 && progress < 100 && (
-                   <div className="absolute top-1/2 -left-6 -translate-y-1/2 w-10 h-2 bg-gradient-to-r from-primary/0 to-primary/40 blur-md animate-pulse" />
+                   <div className="absolute top-[65%] -left-4 -translate-y-1/2 w-12 h-3 bg-gradient-to-r from-primary/0 to-primary/30 blur-lg animate-pulse" />
                  )}
                </div>
              </div>
