@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, Trophy, Flag, MapPin, Radio } from 'lucide-react';
@@ -12,7 +12,7 @@ import Image from 'next/image';
 /**
  * @fileOverview The Horizontal Odyssey - Official F1 Machine Edition.
  * Features a straight glassy road, side-scrolling camera, and architectural pit-stops.
- * Uses the official 2026 Mercedes F1 car image.
+ * Uses a physics-based velocity system for smooth, sleek driving.
  */
 
 interface Milestone {
@@ -68,6 +68,11 @@ export default function JourneyPage() {
   const [activeMilestone, setActiveMilestone] = useState<Milestone | null>(null);
   const [mounted, setMounted] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+  
+  // Physics Refs
+  const velocity = useRef(0);
+  const keysPressed = useRef<Set<string>>(new Set());
+  const rafId = useRef<number | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -78,18 +83,61 @@ export default function JourneyPage() {
   }, []);
 
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const speed = 0.8;
-      // Movement controls
-      if (e.key === 'd' || e.key === 'ArrowRight' || e.key === 'w' || e.key === 'ArrowUp') {
-        setProgress(p => Math.min(p + speed, 100));
-      } else if (e.key === 'a' || e.key === 'ArrowLeft' || e.key === 's' || e.key === 'ArrowDown') {
-        setProgress(p => Math.max(p - speed, 0));
-      }
-    };
+    const handleKeyDown = (e: KeyboardEvent) => keysPressed.current.add(e.key.toLowerCase());
+    const handleKeyUp = (e: KeyboardEvent) => keysPressed.current.delete(e.key.toLowerCase());
 
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+
+    const updateMovement = () => {
+      const accel = 0.04;
+      const friction = 0.96;
+      const maxSpeed = 1.0;
+
+      const isForward = 
+        keysPressed.current.has('w') || 
+        keysPressed.current.has('arrowup') || 
+        keysPressed.current.has('d') || 
+        keysPressed.current.has('arrowright');
+      
+      const isBackward = 
+        keysPressed.current.has('s') || 
+        keysPressed.current.has('arrowdown') || 
+        keysPressed.current.has('a') || 
+        keysPressed.current.has('arrowleft');
+
+      // Update velocity based on inputs
+      if (isForward) {
+        velocity.current = Math.min(velocity.current + accel, maxSpeed);
+      } else if (isBackward) {
+        velocity.current = Math.max(velocity.current - accel, -maxSpeed);
+      } else {
+        // Natural deceleration
+        velocity.current *= friction;
+      }
+
+      // Snap to zero if velocity is negligible
+      if (Math.abs(velocity.current) < 0.001) {
+        velocity.current = 0;
+      }
+
+      if (velocity.current !== 0) {
+        setProgress(p => {
+          const next = p + velocity.current;
+          return Math.max(0, Math.min(100, next));
+        });
+      }
+
+      rafId.current = requestAnimationFrame(updateMovement);
+    };
+
+    rafId.current = requestAnimationFrame(updateMovement);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -142,14 +190,14 @@ export default function JourneyPage() {
                 THE ODYSSEY<span className="text-primary">.</span>
               </h1>
               <p className="text-[10px] text-muted-foreground font-mono tracking-[0.2em] uppercase animate-pulse">
-                [ W / S or Arrows to ACCELERATE ]
+                [ HOLD W / UP TO ACCELERATE ]
               </p>
             </div>
         </div>
 
         {/* The World - Side Scrolling Wrapper */}
         <div 
-          className="relative w-full h-[60vh] transition-transform duration-200 ease-out will-change-transform"
+          className="relative w-full h-[60vh] transition-transform duration-100 ease-out will-change-transform"
           style={{ transform: `translateX(-${cameraOffset}px)` }}
         >
           <div 
@@ -254,7 +302,7 @@ export default function JourneyPage() {
 
              {/* The Mercedes F1 Car - Official Profile */}
              <div 
-               className="absolute z-50 transition-all duration-100 ease-out"
+               className="absolute z-50 transition-all duration-75 ease-linear"
                style={{ 
                  left: `${carX}px`, 
                  top: '50%',
@@ -273,9 +321,12 @@ export default function JourneyPage() {
                     />
                  </div>
                  
-                 {/* Exhaust Heat Effect - Adjusted for real image rear point */}
+                 {/* Exhaust Heat Effect - Tied to velocity */}
                  {progress > 0 && progress < 100 && (
-                   <div className="absolute top-[65%] -left-4 -translate-y-1/2 w-12 h-3 bg-gradient-to-r from-primary/0 to-primary/30 blur-lg animate-pulse" />
+                   <div 
+                     className="absolute top-[65%] -left-4 -translate-y-1/2 w-12 h-3 bg-gradient-to-r from-primary/0 to-primary/30 blur-lg animate-pulse"
+                     style={{ opacity: Math.abs(velocity.current) * 0.8 }}
+                   />
                  )}
                </div>
              </div>
@@ -326,7 +377,7 @@ export default function JourneyPage() {
               />
            </div>
            <p className="text-muted-foreground font-mono text-[9px] uppercase tracking-[0.5em] opacity-60">
-              TRACK_SYNC: {Math.floor(progress)}%
+              TRACK_SYNC: {Math.floor(progress)}% | V_UNIT: {Math.abs(Math.floor(velocity.current * 100))}
            </p>
         </div>
       </main>
