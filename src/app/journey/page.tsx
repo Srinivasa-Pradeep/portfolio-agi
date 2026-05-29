@@ -10,9 +10,8 @@ import { MusicPlayer } from '@/components/music-player';
 import Image from 'next/image';
 
 /**
- * @fileOverview The Horizontal Odyssey - Extended Horizon Edition.
- * Features a centered Mercedes F1 machine with velocity-based minimal blur and chassis vibration.
- * Audio: Loop engine sound while accelerating, pause and play pitstop sound at milestones.
+ * @fileOverview The Horizontal Odyssey - Audio Synced Edition.
+ * Spacing is calibrated so that max velocity covers the gap between stops in ~9 seconds.
  */
 
 interface Milestone {
@@ -20,48 +19,49 @@ interface Milestone {
   year: string;
   title: string;
   description: string;
-  progress: number; // 0 to 100 (percentage of the total track horizon)
+  progress: number; // Percentage of total track (0-100)
 }
 
+// Rescaled milestones: 10 units of progress = ~9 seconds of travel at max velocity (1.2) with 0.015 multiplier
 const milestones: Milestone[] = [
   { 
     id: 1, 
     year: "2003", 
     title: "The Starting Grid", 
     description: "Born into a world of curiosity. The engine was just starting to warm up.",
-    progress: 3.0 
+    progress: 10.0 
   },
   { 
     id: 2, 
     year: "2021", 
     title: "Entry into Tech", 
     description: "Joined PSG iTech to study Computer Science. The first major turn in the circuit.",
-    progress: 18.0 
+    progress: 20.0 
   },
   { 
     id: 3, 
     year: "2023", 
     title: "The SAP Pitstop", 
     description: "First taste of enterprise scale at SAP Labs. Refining the aerodynamic efficiency of my code.",
-    progress: 20.0 
+    progress: 30.0 
   },
   { 
     id: 4, 
     year: "2024", 
     title: "Amazon SDE & ML", 
     description: "Pushing the limits at Amazon. High-speed distributed systems and the complexity of machine learning.",
-    progress: 21.0 
+    progress: 40.0 
   },
   { 
     id: 5, 
     year: "2025", 
     title: "Joining MBRDI", 
     description: "The dream alignment. Joining Mercedes-Benz Research as a Graduate Apprentice Trainee.",
-    progress: 22.0 
+    progress: 50.0 
   }
 ];
 
-const TRACK_WIDTH = 24000; 
+const TRACK_WIDTH = 40000; // Expanded for a massive "Future Horizon"
 
 export default function JourneyPage() {
   const [progress, setProgress] = useState(0);
@@ -117,7 +117,7 @@ export default function JourneyPage() {
     } else {
         if (!engineAudio.current.paused) {
             engineAudio.current.pause();
-            engineAudio.current.currentTime = 0; // Restart from beginning next time for "revving" effect
+            // We don't reset currentTime here to allow the 9s sound to resume its phase if driving away
         }
     }
   }, [currentVelocity, activeMilestone, mounted]);
@@ -160,7 +160,8 @@ export default function JourneyPage() {
 
       if (velocity.current !== 0) {
         setProgress(p => {
-          const next = p + velocity.current * 0.08; 
+          // multiplier 0.015: at maxSpeed 1.2, 9 seconds (540 frames) = ~9.7 units
+          const next = p + velocity.current * 0.015; 
           return Math.max(0, Math.min(100, next));
         });
         setCurrentVelocity(velocity.current);
@@ -181,7 +182,7 @@ export default function JourneyPage() {
   }, []);
 
   useEffect(() => {
-    const threshold = 0.4; 
+    const threshold = 0.8; // Wider zone for easier alignment at high speed
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
     
     // Play pitstop sound if we just entered a new milestone zone
@@ -365,13 +366,13 @@ export default function JourneyPage() {
                  );
                })}
 
-               <g transform={`translate(${(45 / 100) * TRACK_WIDTH}, ${300})`}>
+               <g transform={`translate(${(65 / 100) * TRACK_WIDTH}, ${300})`}>
                   <text className="fill-muted-foreground/10 font-headline text-9xl font-black uppercase tracking-[0.3em] pointer-events-none select-none italic">
                      Future Horizon
                   </text>
                </g>
 
-               <g transform={`translate(${(75 / 100) * TRACK_WIDTH}, ${400})`}>
+               <g transform={`translate(${(85 / 100) * TRACK_WIDTH}, ${400})`}>
                   <text className="fill-muted-foreground/5 font-headline text-8xl font-black uppercase tracking-[0.3em] pointer-events-none select-none">
                      Unknown Territory
                   </text>
@@ -421,17 +422,19 @@ export default function JourneyPage() {
                 className="h-full bg-primary transition-all duration-300 shadow-[0_0_20px_hsl(var(--primary))]" 
                 style={{ width: `${progress}%` }} 
               />
-              <div className="absolute top-0 left-[22%] h-full w-px bg-white/60 z-10" />
+              {/* Target marker at 50% (Current age 22) */}
+              <div className="absolute top-0 left-[50%] h-full w-px bg-white/60 z-10" />
            </div>
            <div className="flex items-center gap-6 text-muted-foreground font-mono text-[10px] font-bold uppercase tracking-[0.4em] opacity-80">
-              <p>AGE_SYNC: {Math.min(22, Math.floor(progress))}%</p>
-              <p className={cn(progress > 22 ? "text-primary opacity-100" : "opacity-40")}>
-                {progress > 22 ? "FUTURE_MODE_ACTIVE" : "KNOWN_TIMELINE"}
+              {/* Map progress 0-50 to age 0-22 */}
+              <p>AGE_SYNC: {Math.floor(Math.min(22, (progress / 50) * 22))} YRS</p>
+              <p className={cn(progress > 50 ? "text-primary opacity-100" : "opacity-40")}>
+                {progress > 50 ? "FUTURE_MODE_ACTIVE" : "KNOWN_TIMELINE"}
               </p>
            </div>
         </div>
 
-        {progress > 25 && progress < 35 && (
+        {progress > 55 && progress < 65 && (
           <div className="fixed top-1/2 right-24 -translate-y-1/2 text-primary/10 font-black text-9xl uppercase tracking-tighter pointer-events-none select-none italic animate-fade-in transition-all duration-1000">
             The road<br/>ahead.
           </div>
