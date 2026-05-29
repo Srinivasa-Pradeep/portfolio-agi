@@ -37,7 +37,7 @@ const milestones: Milestone[] = [
   { id: 10, year: "2023", title: "The SAP Pitstop", description: "First taste of enterprise scale at SAP Labs. Refining the aerodynamic efficiency of my code. I learned that precision is about reliability.".repeat(8), progress: 68.0 },
   { id: 11, year: "2024", title: "Amazon SDE & ML", description: "Pushing the limits at Amazon. High-speed distributed systems and the complexity of machine learning. This was my personal qualifying session.".repeat(8), progress: 75.0 },
   { id: 12, year: "2025", title: "Joining MBRDI", description: "The dream alignment. Joining Mercedes-Benz Research as a Graduate Apprentice Trainee. Everything has led to this moment.".repeat(8), progress: 82.0 },
-  { id: 13, year: "2026", title: "Future Velocity: The Shed", description: "Thank you for riding this journey with me. This long road has been a test of grit, logic, and soul. The race isn't over—it's just entering a new phase of high-performance growth. Welcome to the Shed, where the next engine is being built.", progress: 98.0 }
+  { id: 13, year: "2026", title: "The Known Finish Line", description: "Thank you for riding this journey with me. This long road has been a test of grit, logic, and soul. The race isn't over—it's just entering a new phase of high-performance growth. The road ahead is open, leading to the Shed where the next engine is built.", progress: 89.0 }
 ];
 
 const TRACK_WIDTH = 40000;
@@ -562,7 +562,7 @@ export default function JourneyPage() {
 
         {/* The Track Path */}
         <div 
-          className="absolute top-[75%] left-0 w-full h-64 transition-transform duration-75 ease-out will-change-transform overflow-visible"
+          className="absolute top-[75%] left-0 w-full h-80 transition-transform duration-75 ease-out will-change-transform overflow-visible"
           style={{ transform: `translateX(${worldX}px)` }}
         >
           <div 
@@ -592,47 +592,12 @@ export default function JourneyPage() {
                   className="animate-shimmer"
                />
 
-               {milestones.map((m, index) => {
+               {milestones.map((m) => {
                  const nodeX = (m.progress / 100) * TRACK_WIDTH;
                  const isActive = progress >= m.progress;
-                 const isLast = index === milestones.length - 1;
 
                  return (
                    <g key={m.id}>
-                     {isLast && (
-                       <g transform={`translate(${nodeX}, -10)`}>
-                          {/* The Precision Shed (Garage) Visual - Positioned at Dead End */}
-                          <rect 
-                            x="-150" 
-                            y="-120" 
-                            width="300" 
-                            height="160" 
-                            rx="20" 
-                            className="fill-primary/5 stroke-primary/30 stroke-[0.5]"
-                            filter="url(#garage-glow)"
-                          />
-                          <path 
-                            d="M-150 -120 L0 -160 L150 -120" 
-                            className="fill-none stroke-primary/40 stroke-[0.8]"
-                          />
-                          <rect 
-                            x="-130" 
-                            y="-100" 
-                            width="260" 
-                            height="120" 
-                            rx="10" 
-                            className="fill-transparent stroke-primary/10 stroke-[0.5] stroke-dasharray-[4,4]"
-                          />
-                          <text 
-                            x="0" 
-                            y="-135" 
-                            textAnchor="middle" 
-                            className="fill-primary font-mono text-[12px] font-black uppercase tracking-[0.5em] opacity-40"
-                          >
-                            THE_SHED
-                          </text>
-                       </g>
-                     )}
                      <circle
                        cx={nodeX}
                        cy="0"
@@ -657,14 +622,47 @@ export default function JourneyPage() {
                  );
                })}
 
-               {/* FUTURE HORIZON Labels - Prominent stylish style below the road */}
+               {/* FUTURE HORIZON Labels - Positioned on the Plain Road after 2026 */}
                <text 
-                  x={(milestones[milestones.length-1].progress / 100 * TRACK_WIDTH) + 800} 
+                  x={(milestones[milestones.length-1].progress / 100 * TRACK_WIDTH) + 600} 
                   y="60" 
                   className="fill-primary/40 font-mono text-[32px] font-black tracking-[0.5em] uppercase italic"
                >
                   FUTURE_HORIZON &gt;&gt;&gt;
                </text>
+
+               {/* THE PRECISION SHED - Positioned at the absolute Dead End of the track */}
+               <g transform={`translate(${TRACK_WIDTH}, -10)`}>
+                  <rect 
+                    x="-150" 
+                    y="-120" 
+                    width="300" 
+                    height="160" 
+                    rx="20" 
+                    className="fill-primary/5 stroke-primary/30 stroke-[0.5]"
+                    filter="url(#garage-glow)"
+                  />
+                  <path 
+                    d="M-150 -120 L0 -160 L150 -120" 
+                    className="fill-none stroke-primary/40 stroke-[0.8]"
+                  />
+                  <rect 
+                    x="-130" 
+                    y="-100" 
+                    width="260" 
+                    height="120" 
+                    rx="10" 
+                    className="fill-transparent stroke-primary/10 stroke-[0.5] stroke-dasharray-[4,4]"
+                  />
+                  <text 
+                    x="0" 
+                    y="-135" 
+                    textAnchor="middle" 
+                    className="fill-primary font-mono text-[12px] font-black uppercase tracking-[0.5em] opacity-40"
+                  >
+                    THE_SHED
+                  </text>
+               </g>
              </svg>
           </div>
         </div>
@@ -682,9 +680,9 @@ export default function JourneyPage() {
               />
            </div>
            <div className="flex items-center gap-6 text-muted-foreground font-mono text-[10px] font-bold uppercase tracking-[0.4em] opacity-80">
-              <p>AGE_SYNC: {progress < 5 ? 0 : Math.floor(Math.min(23, (progress / 85) * 23))} YRS</p>
-              <p className={cn(progress > 82 ? "text-primary opacity-100" : "opacity-40")}>
-                {progress > 82 ? "FUTURE_HORIZON" : "KNOWN_TIMELINE"}
+              <p>AGE_SYNC: {progress < 5 ? 0 : Math.floor(Math.min(23, (progress / 89) * 23))} YRS</p>
+              <p className={cn(progress > 89 ? "text-primary opacity-100" : "opacity-40")}>
+                {progress > 89 ? "FUTURE_HORIZON" : "KNOWN_TIMELINE"}
               </p>
            </div>
         </div>
