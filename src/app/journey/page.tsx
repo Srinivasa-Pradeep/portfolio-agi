@@ -333,8 +333,7 @@ export default function JourneyPage() {
            <div className="relative w-full max-w-2xl perspective-[2000px]">
               {/* Crushed to Unfold Animation Container */}
               <div className="bg-[#fcf5e5] text-[#2c2420] p-10 md:p-16 rounded-sm shadow-[0_50px_100px_rgba(0,0,0,0.5)] border border-[#e5d6c3] 
-                            animate-in fade-in duration-1000 origin-center
-                            [animation:paper-unfold_1.2s_ease-out_forwards]
+                            animate-paper-unfold origin-center
                             selection:bg-[#d4c5a9]">
                   
                   {/* Paper Texture Overlay */}
@@ -371,26 +370,6 @@ export default function JourneyPage() {
                   </div>
               </div>
            </div>
-           
-           <style jsx global>{`
-              @keyframes paper-unfold {
-                0% { 
-                  transform: scale(0.1) rotateX(45deg) rotateY(-45deg) rotateZ(10deg);
-                  filter: blur(10px) brightness(0.5);
-                  opacity: 0;
-                }
-                50% {
-                   transform: scale(0.6) rotateX(10deg) rotateY(10deg) rotateZ(-5deg);
-                   filter: blur(2px) brightness(0.8);
-                   opacity: 1;
-                }
-                100% { 
-                  transform: scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-                  filter: blur(0px) brightness(1);
-                  opacity: 1;
-                }
-              }
-           `}</style>
         </div>
       )}
 
@@ -398,17 +377,10 @@ export default function JourneyPage() {
       {phase === 'countdown' && (
         <div className="fixed inset-0 z-[500] flex items-center justify-center bg-background/20 backdrop-blur-[2px]">
            <div className="text-[180px] md:text-[250px] font-headline font-black italic tracking-tighter text-primary animate-in zoom-in fade-in duration-500 flex items-center justify-center">
-              <span key={countdown} className="inline-block animate-[count-bounce_0.8s_ease-out_infinite] drop-shadow-[0_0_50px_hsl(var(--primary)/0.5)]">
+              <span key={countdown} className="inline-block animate-count-bounce drop-shadow-[0_0_50px_hsl(var(--primary)/0.5)]">
                 {countdown}
               </span>
            </div>
-           <style jsx global>{`
-              @keyframes count-bounce {
-                0% { transform: scale(0.5); opacity: 0; filter: blur(20px); }
-                20% { transform: scale(1.1); opacity: 1; filter: blur(0px); }
-                100% { transform: scale(1); opacity: 0.8; }
-              }
-           `}</style>
         </div>
       )}
 

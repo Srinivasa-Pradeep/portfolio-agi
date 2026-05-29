@@ -153,3 +153,35 @@
 .animate-shimmer {
   animation: shimmer 3s ease-in-out infinite;
 }
+
+@keyframes paper-unfold {
+  0% { 
+    transform: scale(0.1) rotateX(45deg) rotateY(-45deg) rotateZ(10deg);
+    filter: blur(10px) brightness(0.5);
+    opacity: 0;
+  }
+  50% {
+     transform: scale(0.6) rotateX(10deg) rotateY(10deg) rotateZ(-5deg);
+     filter: blur(2px) brightness(0.8);
+     opacity: 1;
+  }
+  100% { 
+    transform: scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    filter: blur(0px) brightness(1);
+    opacity: 1;
+  }
+}
+
+.animate-paper-unfold {
+  animation: paper-unfold 1.2s ease-out forwards;
+}
+
+@keyframes count-bounce {
+  0% { transform: scale(0.5); opacity: 0; filter: blur(20px); }
+  20% { transform: scale(1.1); opacity: 1; filter: blur(0px); }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.animate-count-bounce {
+  animation: count-bounce 0.8s ease-out infinite;
+}
