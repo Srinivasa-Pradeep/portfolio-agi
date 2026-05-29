@@ -562,11 +562,11 @@ export default function JourneyPage() {
 
         {/* The Track Path */}
         <div 
-          className="absolute top-[75%] left-0 w-full h-10 transition-transform duration-75 ease-out will-change-transform"
+          className="absolute top-[75%] left-0 w-full h-64 transition-transform duration-75 ease-out will-change-transform overflow-visible"
           style={{ transform: `translateX(${worldX}px)` }}
         >
           <div 
-            className="absolute inset-y-0 left-0"
+            className="absolute top-0 left-0 h-full"
             style={{ width: `${TRACK_WIDTH}px` }}
           >
              <svg className="absolute inset-0 w-full h-full overflow-visible" preserveAspectRatio="none">
@@ -601,7 +601,7 @@ export default function JourneyPage() {
                    <g key={m.id}>
                      {isLast && (
                        <g transform={`translate(${nodeX}, -10)`}>
-                          {/* The Precision Shed (Garage) Visual */}
+                          {/* The Precision Shed (Garage) Visual - Positioned at Dead End */}
                           <rect 
                             x="-150" 
                             y="-120" 
@@ -657,11 +657,11 @@ export default function JourneyPage() {
                  );
                })}
 
-               {/* FUTURE HORIZON Labels - Prominent large style */}
+               {/* FUTURE HORIZON Labels - Prominent large style below the road */}
                <text 
                   x={(milestones[milestones.length-1].progress / 100 * TRACK_WIDTH) + 1500} 
-                  y="30" 
-                  className="fill-primary/40 font-mono text-[48px] font-black tracking-[0.5em] uppercase italic"
+                  y="120" 
+                  className="fill-primary/40 font-mono text-[72px] font-black tracking-[0.5em] uppercase italic"
                >
                   FUTURE_HORIZON &gt;&gt;&gt;
                </text>
