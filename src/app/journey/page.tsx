@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Trophy, Flag, MapPin, Radio } from 'lucide-react';
+import { ArrowLeft, Trophy, Flag, MapPin, Radio, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { MusicPlayer } from '@/components/music-player';
@@ -11,8 +11,9 @@ import Image from 'next/image';
 
 /**
  * @fileOverview The Horizontal Odyssey - Kinetic Cockpit Edition.
- * Features a centered Mercedes F1 machine with velocity-based motion blur and vibration.
- * The world moves underneath the car. Uses physics for realistic acceleration.
+ * Features a centered Mercedes F1 machine with velocity-based minimal blur and chassis vibration.
+ * The world moves underneath the car. 
+ * Progress is mapped to life years: 2003-2025 = 0% to 22%.
  */
 
 interface Milestone {
@@ -20,7 +21,7 @@ interface Milestone {
   year: string;
   title: string;
   description: string;
-  progress: number; // 0 to 100
+  progress: number; // 0 to 100 (percentage of the life track)
 }
 
 const milestones: Milestone[] = [
@@ -29,39 +30,39 @@ const milestones: Milestone[] = [
     year: "2003", 
     title: "The Starting Grid", 
     description: "Born into a world of curiosity. The engine was just starting to warm up.",
-    progress: 5 
+    progress: 0.5 
   },
   { 
     id: 2, 
     year: "2021", 
     title: "Entry into Tech", 
     description: "Joined PSG iTech to study Computer Science. The first major turn in the circuit.",
-    progress: 25 
+    progress: 18 
   },
   { 
     id: 3, 
     year: "2023", 
     title: "The SAP Pitstop", 
     description: "First taste of enterprise scale at SAP Labs. Refining the aerodynamic efficiency of my code.",
-    progress: 45 
+    progress: 20 
   },
   { 
     id: 4, 
     year: "2024", 
     title: "Amazon SDE & ML", 
     description: "Pushing the limits at Amazon. High-speed distributed systems and the complexity of machine learning.",
-    progress: 70 
+    progress: 21 
   },
   { 
     id: 5, 
     year: "2025", 
     title: "Joining MBRDI", 
     description: "The dream alignment. Joining Mercedes-Benz Research as a Graduate Apprentice Trainee.",
-    progress: 92 
+    progress: 22 
   }
 ];
 
-const TRACK_WIDTH = 5000; 
+const TRACK_WIDTH = 8000; // Increased track width to accommodate the long future horizon
 
 export default function JourneyPage() {
   const [progress, setProgress] = useState(0);
@@ -93,7 +94,7 @@ export default function JourneyPage() {
     const updateMovement = () => {
       const accel = 0.04;
       const friction = 0.96;
-      const maxSpeed = 1.2;
+      const maxSpeed = 1.0; // Slightly reduced for sleeker control
 
       const isForward = 
         keysPressed.current.has('w') || 
@@ -121,7 +122,7 @@ export default function JourneyPage() {
 
       if (velocity.current !== 0) {
         setProgress(p => {
-          const next = p + velocity.current;
+          const next = p + velocity.current * 0.15; // Slowed down mapping to percentage for longer feel
           return Math.max(0, Math.min(100, next));
         });
         setCurrentVelocity(velocity.current);
@@ -142,7 +143,7 @@ export default function JourneyPage() {
   }, []);
 
   useEffect(() => {
-    const threshold = 3.0;
+    const threshold = 1.0;
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
     setActiveMilestone(current || null);
   }, [progress]);
@@ -153,10 +154,10 @@ export default function JourneyPage() {
     return (windowWidth / 2) - currentTrackPos;
   }, [progress, windowWidth, mounted]);
 
-  // Lively Car Effects based on velocity
-  const blurAmount = Math.abs(currentVelocity) * 1.5;
-  const vibrationX = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 2 : 0;
-  const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.5 : 0;
+  // Lively Car Effects - Refined & Minimal
+  const blurAmount = Math.abs(currentVelocity) * 0.4; // Minimal blur
+  const vibrationX = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.2 : 0;
+  const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 0.8 : 0;
 
   if (!mounted) return null;
 
@@ -182,7 +183,7 @@ export default function JourneyPage() {
            className="relative transition-all duration-300"
            style={{ 
              filter: `blur(${blurAmount}px)`,
-             transform: `scale(${1 + Math.abs(currentVelocity) * 0.02})`
+             transform: `scale(${1 + Math.abs(currentVelocity) * 0.01})` // Minimal scale
            }}
          >
             <div className="relative w-[200px] h-[60px] drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)]">
@@ -199,7 +200,7 @@ export default function JourneyPage() {
             {progress > 0 && progress < 100 && (
               <div 
                 className="absolute top-[65%] -left-8 -translate-y-1/2 w-16 h-4 bg-gradient-to-r from-primary/0 to-primary/40 blur-xl animate-pulse"
-                style={{ opacity: Math.abs(currentVelocity) * 1.2 }}
+                style={{ opacity: Math.abs(currentVelocity) * 0.8 }}
               />
             )}
          </div>
@@ -243,7 +244,8 @@ export default function JourneyPage() {
                <defs>
                  <linearGradient id="roadGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.05" />
-                   <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+                   <stop offset="10%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+                   <stop offset="90%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.05" />
                  </linearGradient>
                  <filter id="neonGlow">
@@ -276,7 +278,7 @@ export default function JourneyPage() {
                   strokeOpacity="0.2" 
                />
 
-               {/* Pillars */}
+               {/* Pillars (Past & Present) */}
                {milestones.map((m) => {
                  const nodeX = (m.progress / 100) * TRACK_WIDTH;
                  const isActive = progress >= m.progress;
@@ -316,18 +318,16 @@ export default function JourneyPage() {
                      >
                         PIT_{m.year}
                      </text>
-
-                     <rect 
-                        x={nodeX - 40} 
-                        y="51%" 
-                        width="80" 
-                        height="4" 
-                        fill="hsl(var(--primary))" 
-                        className={cn("transition-opacity duration-1000", isActive ? "opacity-20" : "opacity-0")}
-                     />
                    </g>
                  );
                })}
+
+               {/* The Unwritten Future Marker */}
+               <g transform={`translate(${(35 / 100) * TRACK_WIDTH}, ${windowWidth * 0.3})`}>
+                  <text className="fill-muted-foreground/10 font-headline text-6xl font-black uppercase tracking-[0.2em] pointer-events-none">
+                     Future Horizon
+                  </text>
+               </g>
              </svg>
           </div>
         </div>
@@ -368,16 +368,28 @@ export default function JourneyPage() {
 
         {/* HUD Progress */}
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-3">
-           <div className="w-64 h-1 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm">
+           <div className="w-64 h-1 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm relative">
               <div 
                 className="h-full bg-primary transition-all duration-300 shadow-[0_0_15px_hsl(var(--primary))]" 
                 style={{ width: `${progress}%` }} 
               />
+              {/* Current Age Marker */}
+              <div className="absolute top-0 left-[22%] h-full w-px bg-white/40 z-10" />
            </div>
-           <p className="text-muted-foreground font-mono text-[9px] uppercase tracking-[0.5em] opacity-60">
-              TRACK_SYNC: {Math.floor(progress)}%
-           </p>
+           <div className="flex items-center gap-4 text-muted-foreground font-mono text-[9px] uppercase tracking-[0.5em] opacity-60">
+              <p>AGE_SYNC: {Math.floor(progress)}%</p>
+              <p className={cn(progress > 22 ? "text-primary opacity-100" : "")}>
+                {progress > 22 ? "FUTURE_MODE_ACTIVE" : "KNOWN_TIMELINE"}
+              </p>
+           </div>
         </div>
+
+        {/* Future Hint */}
+        {progress > 25 && progress < 30 && (
+          <div className="fixed top-1/2 right-12 -translate-y-1/2 text-primary/20 font-black text-8xl uppercase tracking-tighter pointer-events-none select-none italic animate-pulse">
+            The road<br/>ahead.
+          </div>
+        )}
       </main>
     </div>
   );
