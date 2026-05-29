@@ -249,12 +249,12 @@ function LeetCodeProfileButtonWithPreview({ href }: { href: string }) {
         <Button 
           asChild 
           size="lg" 
-          className="min-w-[200px] group"
+          className="min-w-[200px] group transition-all duration-300"
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setMousePos({ x: 0, y: 0 })}
         >
           <a href={href} target="_blank" rel="noopener noreferrer">
-            <SiLeetcode className="mr-2 h-5 w-5 filter grayscale" /> LeetCode Profile
+            <SiLeetcode className="mr-2 h-5 w-5 text-[#FFA116]" /> LeetCode Profile
           </a>
         </Button>
       </ShadcnTooltipTrigger>
@@ -302,7 +302,8 @@ export function LeetCode() {
   return (
     <section id="leetcode" className="py-20 md:py-32">
       <div className="container">
-        <div className="text-center mb-12">
+        {/* Centered Consistent Header */}
+        <div className="text-center mb-16">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Problem Solving Hub</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
             A real-time snapshot of my dedication to honing algorithmic skills on LeetCode.
@@ -312,9 +313,9 @@ export function LeetCode() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Dashboard Column */}
           <div className="lg:col-span-2 space-y-8">
-            <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20 group/leetcard">
+            <Card className="group relative overflow-hidden p-6 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 hover:shadow-2xl bg-card/20 backdrop-blur-xl border border-white/10">
               <div className="flex items-center gap-2 mb-6">
-                <SiLeetcode className="h-6 w-6 text-primary filter grayscale" />
+                <SiLeetcode className="h-6 w-6 text-[#FFA116]" />
                 <h3 className="font-headline text-xl font-semibold">LeetCode Journey</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
@@ -335,6 +336,9 @@ export function LeetCode() {
                           innerRadius="65%"
                           paddingAngle={2}
                           stroke="transparent"
+                          animationBegin={0}
+                          animationDuration={1500}
+                          animationEasing="ease-out"
                           >
                           {pieData.map((entry, index) => (
                               <Cell key={`cell-${index}`} fill={entry.color} />
@@ -344,7 +348,7 @@ export function LeetCode() {
                   </ResponsiveContainer>
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
                     <div className={cn(
-                        "flex flex-col items-center justify-center transition-all duration-300",
+                        "flex flex-col items-center justify-center transition-all duration-500",
                         isHovering ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
                     )}>
                         <p className="text-4xl font-bold tracking-tight">
@@ -356,7 +360,7 @@ export function LeetCode() {
                     </div>
 
                     <div className={cn(
-                        "absolute flex flex-col items-center justify-center transition-all duration-300",
+                        "absolute flex flex-col items-center justify-center transition-all duration-500",
                         isHovering ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
                     )}>
                         <p className="text-4xl font-bold tracking-tight">
@@ -375,20 +379,18 @@ export function LeetCode() {
                     { label: 'Medium', value: leetCodeProgress.medium, color: 'var(--primary)' },
                     { label: 'Hard', value: leetCodeProgress.hard, color: 'var(--destructive)' }
                   ].map((lvl) => (
-                    <Card key={lvl.label} className="bg-card-foreground/5">
-                      <CardContent className="p-4">
+                    <div key={lvl.label} className="p-4 rounded-xl bg-white/5 border border-white/5 transition-colors group-hover:bg-white/10">
                         <div className="flex justify-between items-baseline">
                           <p className="text-sm font-medium" style={{color: `hsl(${lvl.color})`}}>{lvl.label}</p>
                           <p className="text-lg font-bold">{lvl.value.solved}<span className="text-sm font-normal text-muted-foreground">/{lvl.value.total}</span></p>
                         </div>
-                      </CardContent>
-                    </Card>
+                    </div>
                   ))}
                 </div>
               </div>
             </Card>
 
-            <Card className="p-6 transition-shadow duration-300 hover:shadow-xl bg-card/50 backdrop-blur-lg border-border/20">
+            <Card className="group relative overflow-hidden p-6 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 hover:shadow-2xl bg-card/20 backdrop-blur-xl border border-white/10">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="h-5 w-5 text-primary" />
@@ -414,7 +416,7 @@ export function LeetCode() {
                       <p className="text-2xl font-bold">{contestStats.topPercentage}%</p>
                     </div>
                   </div>
-                  <div className="h-60">
+                  <div className="h-60 relative">
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={ratingHistory} margin={{ top: 5, right: 10, left: 10, bottom: 0 }}>
                         <defs>
@@ -426,7 +428,17 @@ export function LeetCode() {
                         <XAxis dataKey="index" hide />
                         <YAxis domain={['dataMin - 50', 'dataMax + 50']} hide />
                         <Tooltip content={<RatingTooltip />} />
-                        <Area type="monotone" dataKey="rating" stroke="hsl(var(--primary))" strokeWidth={2} fill="url(#colorRating)" dot={false} />
+                        <Area 
+                          type="monotone" 
+                          dataKey="rating" 
+                          stroke="hsl(var(--primary))" 
+                          strokeWidth={3} 
+                          fill="url(#colorRating)" 
+                          dot={false}
+                          animationBegin={200}
+                          animationDuration={2000}
+                          animationEasing="ease-in-out"
+                        />
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
@@ -442,31 +454,31 @@ export function LeetCode() {
                 Quick Challenge
               </h3>
               {randomProblem ? (
-                <Card className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl bg-card/50 backdrop-blur-lg border-border/20">
-                  <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <Card className="group relative flex flex-col p-2 bg-card/20 backdrop-blur-xl border border-white/10 rounded-[32px] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 hover:shadow-2xl">
+                  <div className="p-4 flex flex-row items-center justify-between pb-2">
                     <CardTitle className="text-base font-semibold line-clamp-1">{randomProblem.title}</CardTitle>
-                    <Button variant="ghost" size="icon" onClick={shuffleProblem} className="h-8 w-8">
+                    <Button variant="ghost" size="icon" onClick={shuffleProblem} className="h-8 w-8 hover:bg-white/10 rounded-full">
                       <Shuffle className="h-4 w-4" />
                     </Button>
-                  </CardHeader>
-                  <CardContent className="pb-4">
+                  </div>
+                  <div className="px-4 pb-4">
                     <Badge 
                       variant={randomProblem.difficulty === 'Hard' ? 'destructive' : randomProblem.difficulty === 'Medium' ? 'default' : 'easy'}
                       className="text-[10px] py-0 h-5"
                     >
                       {randomProblem.difficulty}
                     </Badge>
-                  </CardContent>
-                  <CardFooter>
-                      <Button asChild size="sm" className="w-full">
+                  </div>
+                  <div className="p-4 pt-0 mt-auto">
+                      <Button asChild size="sm" className="w-full rounded-2xl">
                         <a href={randomProblem.link} target="_blank" rel="noopener noreferrer">
                           <Code className="mr-2 h-3 w-3" /> Solve Now
                         </a>
                       </Button>
-                  </CardFooter>
+                  </div>
                 </Card>
               ) : (
-                <div className="h-32 bg-muted/20 animate-pulse rounded-xl" />
+                <div className="h-32 bg-muted/20 animate-pulse rounded-[32px]" />
               )}
             </div>
 
@@ -476,30 +488,32 @@ export function LeetCode() {
                 <Star className="h-4 w-4 text-primary" />
                 Exclusive Reward
               </h3>
-              <Card className="overflow-hidden group bg-card/50 backdrop-blur-lg border-border/20 cursor-pointer">
-                <div className="relative aspect-square">
-                  {hoodieImage && (
-                    <Image 
-                        src={hoodieImage.imageUrl} 
-                        alt={hoodieImage.description}
-                        data-ai-hint={hoodieImage.imageHint}
-                        fill
-                        className="object-cover transition-all duration-700 group-hover:scale-110 contrast-125"
-                    />
-                  )}
-                  {/* Cinematic Reveal Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                  
-                  {/* Slide-Up Text Container */}
-                  <div className="absolute bottom-4 left-4 right-4 text-white transform translate-y-8 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-y-0 group-hover:opacity-100">
-                      <h4 className="font-bold text-lg leading-tight">LeetCode Official Hoodie</h4>
-                      <p className="text-xs text-white/70 mt-1">Awarded for perseverance through setbacks.</p>
+              <Card className="overflow-hidden group relative bg-card/20 backdrop-blur-xl border border-white/10 rounded-[32px] cursor-pointer transition-all duration-700 hover:-translate-y-2">
+                <div className="relative aspect-square p-2">
+                  <div className="relative h-full w-full overflow-hidden rounded-[24px]">
+                    {hoodieImage && (
+                      <Image 
+                          src={hoodieImage.imageUrl} 
+                          alt={hoodieImage.description}
+                          data-ai-hint={hoodieImage.imageHint}
+                          fill
+                          className="object-cover transition-all duration-700 group-hover:scale-110 contrast-125"
+                      />
+                    )}
+                    {/* Cinematic Reveal Gradient */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    
+                    {/* Slide-Up Text Container */}
+                    <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-8 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-y-0 group-hover:opacity-100">
+                        <h4 className="font-bold text-lg leading-tight">LeetCode Official Hoodie</h4>
+                        <p className="text-xs text-white/70 mt-1">Awarded for perseverance through setbacks.</p>
+                    </div>
                   </div>
                 </div>
               </Card>
             </div>
 
-            <div className="p-4 rounded-xl bg-primary/5 border border-primary/10">
+            <div className="p-6 rounded-[32px] bg-primary/5 border border-primary/10 backdrop-blur-sm">
               <div className="flex items-center gap-2 text-primary mb-2 text-sm font-semibold">
                 <Trophy className="h-4 w-4" />
                 Milestone Reached
@@ -511,42 +525,40 @@ export function LeetCode() {
           </div>
         </div>
 
-        <div className="mt-16">
-          <h3 className="font-headline text-2xl font-semibold text-primary mb-8 text-center">Featured Solutions</h3>
+        <div className="mt-24">
+          <h3 className="font-headline text-2xl font-semibold text-primary mb-12 text-center">Featured Solutions</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredSolutions.map((solution) => (
-              <Card key={solution.title} className="flex flex-col transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl bg-card/50 backdrop-blur-lg border-white/5">
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <CardTitle className="text-lg font-semibold">{solution.title}</CardTitle>
+              <Card key={solution.title} className="group relative flex flex-col p-3 bg-card/20 backdrop-blur-xl border border-white/10 rounded-[40px] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-3 hover:shadow-2xl">
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <CardTitle className="text-lg font-bold group-hover:text-primary transition-colors duration-300">{solution.title}</CardTitle>
                     <Badge variant={solution.difficulty === 'Hard' ? 'destructive' : solution.difficulty === 'Medium' ? 'default' : 'easy'} className="capitalize">
                       {solution.difficulty}
                     </Badge>
                   </div>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                    <div className="flex flex-wrap gap-2">
-                        {solution.topics.map(topic => <Badge key={topic} variant="outline" className="text-[10px]">{topic}</Badge>)}
-                    </div>
-                </CardContent>
-                <CardFooter>
-                    <Button asChild variant="outline" className="w-full group">
+                  <div className="flex flex-wrap gap-2 mb-8">
+                      {solution.topics.map(topic => <Badge key={topic} variant="outline" className="text-[10px] bg-white/5">{topic}</Badge>)}
+                  </div>
+                  <div className="mt-auto">
+                    <Button asChild variant="outline" className="w-full rounded-2xl group/btn hover:bg-primary hover:text-primary-foreground border-white/10">
                       <a href={solution.link} target="_blank" rel="noopener noreferrer">
                         <Code className="mr-2 h-4 w-4" /> View Solution
                       </a>
                     </Button>
-                </CardFooter>
+                  </div>
+                </div>
               </Card>
             ))}
           </div>
         </div>
         
-        <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+        <div className="mt-20 flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
             <ShadcnTooltipProvider delayDuration={0}>
                 <LeetCodeProfileButtonWithPreview href="https://leetcode.com/u/srinivasa_pradeep_/" />
             </ShadcnTooltipProvider>
             
-            <Button size="lg" variant="outline" asChild className="min-w-[200px]">
+            <Button size="lg" variant="outline" asChild className="min-w-[200px] rounded-2xl border-white/10 backdrop-blur-sm">
                <a href="https://github.com/Srinivasa-Pradeep/Data-Structures-and-Algo" target="_blank" rel="noopener noreferrer">
                 <Github className="mr-2 h-5 w-5" /> GitHub Solutions
                </a>
