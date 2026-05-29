@@ -1,7 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpenCheck } from "lucide-react";
+import { ArrowRight, ScrollText } from "lucide-react";
 import Link from "next/link";
 
 const blogPosts = [
@@ -89,14 +89,18 @@ export function Blogs() {
         </div>
         
         <div className="mt-16 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-          <Button size="lg" variant="outline" className="bg-transparent backdrop-blur-sm" asChild>
+          <Button size="lg" variant="outline" className="h-12 bg-transparent backdrop-blur-sm rounded-full border-border/40 hover:bg-primary hover:text-primary-foreground transition-all duration-300" asChild>
             <a href="https://medium.com/@writtenbysrini" target="_blank" rel="noopener noreferrer">
               View on Medium <ArrowRight className="ml-2 h-4 w-4" />
             </a>
           </Button>
-          <Button size="lg" asChild>
+          <Button 
+            size="lg" 
+            className="h-12 px-8 rounded-full font-bold relative overflow-hidden bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#ffffff,55%,hsl(var(--primary)))] bg-[size:200%_100%] animate-shine text-primary-foreground group" 
+            asChild
+          >
             <Link href="/interviews">
-              Personal Stories <BookOpenCheck className="ml-2 h-4 w-4" />
+              Personal Blog <ScrollText className="ml-2 h-4 w-4 transition-transform group-hover:scale-110" />
             </Link>
           </Button>
         </div>

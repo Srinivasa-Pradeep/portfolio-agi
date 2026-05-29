@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, BookHeart, Briefcase, KeyRound } from 'lucide-react';
+import { ArrowLeft, BookHeart, Briefcase, KeyRound, ScrollText } from 'lucide-react';
 import Link from 'next/link';
 import {
   Dialog,
@@ -115,8 +115,13 @@ export default function PersonalStoriesHubPage() {
         <section id="personal-stories" className="py-20 md:py-24">
           <div className="container">
             <div className="text-center mb-16">
+              <div className="flex justify-center mb-6">
+                <div className="p-4 rounded-3xl bg-primary/10 border border-primary/20">
+                  <ScrollText className="h-12 w-12 text-primary animate-pulse" />
+                </div>
+              </div>
               <h1 className="font-headline text-4xl font-bold tracking-tight text-primary md:text-5xl">
-                Personal Stories
+                Personal Blog
               </h1>
               <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
                 A collection of my personal stories, life lessons, and interview journeys.
@@ -126,7 +131,7 @@ export default function PersonalStoriesHubPage() {
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 max-w-4xl mx-auto">
               {storyCategories.map(category => {
                 const cardContent = (
-                  <Card className={`flex h-full flex-col transform-gpu transition-all duration-300 ${!category.disabled && 'group-hover:-translate-y-2 group-hover:shadow-2xl'}`}>
+                  <Card className={`flex h-full flex-col transform-gpu transition-all duration-300 ${!category.disabled && 'group-hover:-translate-y-2 group-hover:shadow-2xl'} bg-card/40 backdrop-blur-sm border-border/40`}>
                     <CardHeader className="flex-row items-center gap-6 space-y-0">
                         <div className="p-3 bg-primary/10 rounded-full">
                             {category.icon}
@@ -166,7 +171,7 @@ export default function PersonalStoriesHubPage() {
             </div>
 
             <div className="mt-16 text-center">
-              <Button size="lg" variant="outline" asChild>
+              <Button size="lg" variant="outline" asChild className="rounded-full px-8">
                 <Link href="/#blogs">
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back to Main
