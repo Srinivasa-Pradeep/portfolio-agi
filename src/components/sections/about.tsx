@@ -61,6 +61,22 @@ interface ManifestoItem {
 
 const manifestoItems: ManifestoItem[] = [
   {
+    id: "journey-story",
+    question: "What's the full story? The complete evolution of my engineering journey.",
+    answer: (
+      <>
+        From the very first line of code to building high-performance systems at scale, my path has been one of constant iteration and discovery. If you are interested to know more about this,{" "}
+        <Link 
+          href="/journey" 
+          className="relative inline-block font-bold hover:underline underline-offset-4 decoration-primary/30 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#ffffff,55%,hsl(var(--primary)))] bg-[size:200%_100%]"
+          style={{ animation: 'shine 4s linear infinite' }}
+        >
+          click here
+        </Link>.
+      </>
+    )
+  },
+  {
     id: "vision",
     question: "What defines my engineering approach?",
     answer: "Clean, fast, invisible. I build systems that work so well you forget they're there."
@@ -590,10 +606,10 @@ export function About() {
                           </span>
                         </AccordionTrigger>
                         <AccordionContent className="pb-6 pt-0">
-                          <p className="max-w-3xl border-l-2 border-primary/20 pl-5 py-1 font-mono text-sm leading-relaxed text-muted-foreground bg-muted/5 rounded-r-sm">
+                          <div className="max-w-3xl border-l-2 border-primary/20 pl-5 py-1 font-mono text-sm leading-relaxed text-muted-foreground bg-muted/5 rounded-r-sm">
                             <span className="text-primary/40 mr-2">$</span>
                             {item.answer}
-                          </p>
+                          </div>
                         </AccordionContent>
                       </AccordionItem>
                     </Accordion>

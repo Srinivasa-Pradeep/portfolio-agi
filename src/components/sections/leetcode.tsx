@@ -425,7 +425,7 @@ export function LeetCode() {
                     <div>
                       <div className="flex items-center justify-center md:justify-start gap-2">
                           <p className="text-sm text-muted-foreground">Rating</p>
-                          <img src="https://assets.leetcode.com/static_assets/others/Guardian.gif" alt="Guardian" className="h-6 w-6" />
+                          <img src="https://assets.leetcode.com/static_assets/others/Knight.gif" alt="Guardian" className="h-6 w-6" />
                       </div>
                       <p className="text-2xl font-bold">{contestStats.rating}</p>
                     </div>
