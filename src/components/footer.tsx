@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -6,6 +5,7 @@ import { useMusic } from '@/context/music-context';
 import { Music2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { BlurRevealText } from './blur-reveal-text';
+import Link from 'next/link';
 
 const quotes = [
   "\"Man is made by his belief. As he believes, so he is.\"",
@@ -40,9 +40,14 @@ export function Footer() {
           />
         </div>
 
-        {/* Subtle Branding - Floating Right */}
-        <div className="absolute right-0 hidden lg:block opacity-20 pointer-events-none">
-           <span className="text-xs font-signature text-primary select-none">Srini</span>
+        {/* Subtle Branding - Floating Right (Easter Egg Portal) */}
+        <div className="absolute right-0 hidden lg:block opacity-20 transition-all duration-500 hover:opacity-100">
+           <Link 
+            href="/journey" 
+            className="text-xs font-signature text-primary cursor-pointer select-none"
+           >
+            Srini
+           </Link>
         </div>
       </div>
     </footer>

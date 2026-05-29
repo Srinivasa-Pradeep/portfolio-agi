@@ -98,22 +98,6 @@ const manifestoItems: ManifestoItem[] = [
         </Link>.
       </>
     )
-  },
-  {
-    id: "journey-story",
-    question: "What's the full story? My life journey and the origins that shaped me.",
-    answer: (
-      <>
-        Every life has a unique beginning and a path that defines it. If you are interested to know more about this,{" "}
-        <Link 
-          href="/journey" 
-          className="relative inline-block font-bold hover:underline underline-offset-4 decoration-primary/30 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#ffffff,55%,hsl(var(--primary)))] bg-[size:200%_100%]"
-          style={{ animation: 'shine 4s linear infinite' }}
-        >
-          click here
-        </Link>.
-      </>
-    )
   }
 ];
 
