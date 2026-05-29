@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme-toggle';
 import Image from 'next/image';
 import { useMusic } from '@/context/music-context';
+import { useTheme } from 'next-themes';
 
 /**
  * @fileOverview The Horizontal Odyssey - Cinematic Legacy Edition.
@@ -66,7 +67,43 @@ const TRACK_WIDTH = 40000;
 
 type JourneyPhase = 'checklist' | 'pre-era' | 'countdown' | 'active';
 
+function StarField() {
+  const stars = useMemo(() => {
+    return [...Array(120)].map((_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 45, // Strictly top half, above the horizon/car
+      size: Math.random() * 1.8 + 0.5,
+      opacity: Math.random() * 0.6 + 0.2,
+      duration: Math.random() * 4 + 2,
+      delay: Math.random() * 5,
+    }));
+  }, []);
+
+  return (
+    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      {stars.map((star) => (
+        <div
+          key={star.id}
+          className="absolute rounded-full bg-white animate-pulse"
+          style={{
+            left: `${star.x}%`,
+            top: `${star.y}%`,
+            width: `${star.size}px`,
+            height: `${star.size}px`,
+            opacity: star.opacity,
+            animationDuration: `${star.duration}s`,
+            animationDelay: `${star.delay}s`,
+            boxShadow: star.size > 1.2 ? `0 0 ${star.size * 2}px rgba(255,255,255,0.4)` : 'none'
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function JourneyPage() {
+  const { resolvedTheme } = useTheme();
   const { isPlaying: globalIsPlaying, togglePlayPause: toggleGlobalMusic } = useMusic();
   const [phase, setPhase] = useState<JourneyPhase>('checklist');
   const [countdown, setCountdown] = useState<number | 'GO!'>(5);
@@ -285,10 +322,14 @@ export default function JourneyPage() {
 
   return (
     <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden selection:bg-primary/30">
-      {/* Background Grids */}
+      {/* Background Grids & Stars */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-background" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
+        
+        {/* Dynamic Stars for Dark Mode - Above the car horizon */}
+        {resolvedTheme === 'dark' && <StarField />}
+
         <div
           className="absolute inset-0 h-full w-full bg-transparent bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)] opacity-[0.1]"
         />
@@ -445,7 +486,7 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* COCKPIT LAYER - Pixel-perfect grounding on the road */}
+      {/* COCKPIT LAYER - Fixed Upward Alignment */}
       <div 
         className="fixed top-1/2 left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
