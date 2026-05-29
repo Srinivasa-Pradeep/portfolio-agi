@@ -23,6 +23,7 @@ interface Milestone {
   progress: number; // Percentage of total track (0-100)
 }
 
+// Spaced for ~9 seconds of driving at max speed (10 units per gap)
 const milestones: Milestone[] = [
   { 
     id: 1, 
@@ -445,7 +446,7 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* COCKPIT LAYER - Lowered slightly to fix "on air" issue */}
+      {/* COCKPIT LAYER - Restored to 12px offset for perfect alignment */}
       <div 
         className="fixed top-1/2 left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
@@ -631,7 +632,7 @@ export default function JourneyPage() {
           </div>
         </div>
 
-        {/* HUD PROGRESS TRACKER - Perfectly synchronized age readout */}
+        {/* HUD PROGRESS TRACKER - Pixel-perfect Frame-Locked Sync */}
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4">
            <div className="w-80 h-1.5 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm relative border border-white/5">
               <div 
@@ -641,6 +642,7 @@ export default function JourneyPage() {
               <div className="absolute top-0 left-[50%] h-full w-px bg-white/60 z-10" />
            </div>
            <div className="flex items-center gap-6 text-muted-foreground font-mono text-[10px] font-bold uppercase tracking-[0.4em] opacity-80">
+              {/* Mapping 10% (Birth) to 50% (Now) -> 0 to 22 Years */}
               <p>AGE_SYNC: {progress < 10 ? 0 : Math.floor(Math.min(22, (progress - 10) * (22 / 40)))} YRS</p>
               <p className={cn(progress > 50 ? "text-primary opacity-100" : "opacity-40")}>
                 {progress > 50 ? "FUTURE_MODE_ACTIVE" : "KNOWN_TIMELINE"}
