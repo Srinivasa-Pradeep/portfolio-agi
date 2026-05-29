@@ -10,10 +10,9 @@ import { MusicPlayer } from '@/components/music-player';
 import Image from 'next/image';
 
 /**
- * @fileOverview The Horizontal Odyssey - Fixed Cockpit Edition.
- * Features a fixed Mercedes F1 machine in the center.
- * The world/track moves underneath the car for maximum smoothness.
- * Uses a physics-based velocity system for realistic acceleration and inertia.
+ * @fileOverview The Horizontal Odyssey - Kinetic Cockpit Edition.
+ * Features a centered Mercedes F1 machine with velocity-based motion blur and vibration.
+ * The world moves underneath the car. Uses physics for realistic acceleration.
  */
 
 interface Milestone {
@@ -62,13 +61,14 @@ const milestones: Milestone[] = [
   }
 ];
 
-const TRACK_WIDTH = 5000; // Total horizontal distance in pixels
+const TRACK_WIDTH = 5000; 
 
 export default function JourneyPage() {
   const [progress, setProgress] = useState(0);
   const [activeMilestone, setActiveMilestone] = useState<Milestone | null>(null);
   const [mounted, setMounted] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+  const [currentVelocity, setCurrentVelocity] = useState(0);
   
   // Physics Refs
   const velocity = useRef(0);
@@ -107,17 +107,14 @@ export default function JourneyPage() {
         keysPressed.current.has('a') || 
         keysPressed.current.has('arrowleft');
 
-      // Update velocity based on inputs
       if (isForward) {
         velocity.current = Math.min(velocity.current + accel, maxSpeed);
       } else if (isBackward) {
         velocity.current = Math.max(velocity.current - accel, -maxSpeed);
       } else {
-        // Natural deceleration
         velocity.current *= friction;
       }
 
-      // Snap to zero if velocity is negligible
       if (Math.abs(velocity.current) < 0.001) {
         velocity.current = 0;
       }
@@ -127,6 +124,9 @@ export default function JourneyPage() {
           const next = p + velocity.current;
           return Math.max(0, Math.min(100, next));
         });
+        setCurrentVelocity(velocity.current);
+      } else {
+        setCurrentVelocity(0);
       }
 
       rafId.current = requestAnimationFrame(updateMovement);
@@ -147,19 +147,22 @@ export default function JourneyPage() {
     setActiveMilestone(current || null);
   }, [progress]);
 
-  // World translation: Moves the track container so the car (fixed at center) 
-  // aligns with the correct "progress" point on the track.
   const worldX = useMemo(() => {
     if (!mounted) return 0;
     const currentTrackPos = (progress / 100) * TRACK_WIDTH;
     return (windowWidth / 2) - currentTrackPos;
   }, [progress, windowWidth, mounted]);
 
+  // Lively Car Effects based on velocity
+  const blurAmount = Math.abs(currentVelocity) * 1.5;
+  const vibrationX = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 2 : 0;
+  const vibrationY = currentVelocity !== 0 ? (Math.random() - 0.5) * Math.abs(currentVelocity) * 1.5 : 0;
+
   if (!mounted) return null;
 
   return (
     <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden selection:bg-primary/30">
-      {/* Persistent Background - Static Portfolio Grid */}
+      {/* Background - Static Grid */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-background" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
@@ -168,10 +171,20 @@ export default function JourneyPage() {
         />
       </div>
 
-      {/* FIXED Cockpit Layer - The car stays centered */}
-      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none transition-all duration-75">
-         <div className="relative">
-            {/* High-Fidelity 2026 Mercedes F1 Image */}
+      {/* KINETIC Cockpit Layer - Fixed with velocity effects */}
+      <div 
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
+        style={{ 
+          transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% + ${vibrationY}px))`
+        }}
+      >
+         <div 
+           className="relative transition-all duration-300"
+           style={{ 
+             filter: `blur(${blurAmount}px)`,
+             transform: `scale(${1 + Math.abs(currentVelocity) * 0.02})`
+           }}
+         >
             <div className="relative w-[200px] h-[60px] drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)]">
                <Image
                  src="https://media.formula1.com/image/upload/c_lfill,w_3392/q_auto/v1740000001/common/f1/2026/mercedes/2026mercedescarright.webp"
@@ -182,11 +195,11 @@ export default function JourneyPage() {
                />
             </div>
             
-            {/* Exhaust Heat Effect - Tied to velocity */}
+            {/* Exhaust Heat Effect */}
             {progress > 0 && progress < 100 && (
               <div 
-                className="absolute top-[65%] -left-4 -translate-y-1/2 w-12 h-3 bg-gradient-to-r from-primary/0 to-primary/30 blur-lg animate-pulse"
-                style={{ opacity: Math.abs(velocity.current) * 0.8 }}
+                className="absolute top-[65%] -left-8 -translate-y-1/2 w-16 h-4 bg-gradient-to-r from-primary/0 to-primary/40 blur-xl animate-pulse"
+                style={{ opacity: Math.abs(currentVelocity) * 1.2 }}
               />
             )}
          </div>
@@ -212,14 +225,14 @@ export default function JourneyPage() {
                 THE ODYSSEY<span className="text-primary">.</span>
               </h1>
               <p className="text-[10px] text-muted-foreground font-mono tracking-[0.2em] uppercase animate-pulse">
-                [ HOLD W / UP TO ACCELERATE ]
+                [ HOLD W TO ACCELERATE ]
               </p>
             </div>
         </div>
 
-        {/* The World - Moving Track Wrapper */}
+        {/* The World */}
         <div 
-          className="relative w-full h-[60vh] transition-transform duration-100 ease-out will-change-transform"
+          className="relative w-full h-[60vh] will-change-transform"
           style={{ transform: `translateX(${worldX}px)` }}
         >
           <div 
@@ -243,7 +256,7 @@ export default function JourneyPage() {
                  </linearGradient>
                </defs>
                
-               {/* Main Glassy Track - Straight Linear Path */}
+               {/* Main Track */}
                <rect 
                   x="0" 
                   y="50%" 
@@ -253,7 +266,6 @@ export default function JourneyPage() {
                   className="animate-shimmer"
                />
 
-               {/* Track Detail Line */}
                <line 
                   x1="0" 
                   y1="51%" 
@@ -264,14 +276,13 @@ export default function JourneyPage() {
                   strokeOpacity="0.2" 
                />
 
-               {/* Milestone Pit-Stops - Reimagined as Pillars */}
+               {/* Pillars */}
                {milestones.map((m) => {
                  const nodeX = (m.progress / 100) * TRACK_WIDTH;
                  const isActive = progress >= m.progress;
 
                  return (
                    <g key={m.id}>
-                     {/* Architectural Pillar */}
                      <rect 
                         x={nodeX - 1} 
                         y="40%" 
@@ -284,7 +295,6 @@ export default function JourneyPage() {
                         )}
                      />
 
-                     {/* Pit Stop Indicator */}
                      <circle
                        cx={nodeX}
                        cy="50%"
@@ -296,7 +306,6 @@ export default function JourneyPage() {
                        filter={isActive ? "url(#neonGlow)" : ""}
                      />
 
-                     {/* Vertical Telemetry Label */}
                      <text 
                         x={nodeX + 12} 
                         y="48%" 
@@ -308,7 +317,6 @@ export default function JourneyPage() {
                         PIT_{m.year}
                      </text>
 
-                     {/* Segments Divider */}
                      <rect 
                         x={nodeX - 40} 
                         y="51%" 
@@ -324,15 +332,14 @@ export default function JourneyPage() {
           </div>
         </div>
 
-        {/* Team Radio Card - Story popup */}
+        {/* Telemetry Card */}
         <div 
           className={cn(
             "fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] w-full max-w-lg px-6 transition-all duration-700",
             activeMilestone ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-12 scale-95 pointer-events-none"
           )}
         >
-          <div className="relative p-8 rounded-[40px] bg-card/60 backdrop-blur-3xl border border-border/50 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden group">
-            {/* Visual telemetry line */}
+          <div className="relative p-8 rounded-[40px] bg-card/60 backdrop-blur-3xl border border-border/50 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] overflow-hidden">
             <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent" />
             
             <div className="flex items-center gap-6 mb-6">
@@ -359,7 +366,7 @@ export default function JourneyPage() {
           </div>
         </div>
 
-        {/* Global HUD Progress */}
+        {/* HUD Progress */}
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-3">
            <div className="w-64 h-1 bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm">
               <div 
@@ -368,7 +375,7 @@ export default function JourneyPage() {
               />
            </div>
            <p className="text-muted-foreground font-mono text-[9px] uppercase tracking-[0.5em] opacity-60">
-              TRACK_SYNC: {Math.floor(progress)}% | V_UNIT: {Math.abs(Math.floor(velocity.current * 100))}
+              TRACK_SYNC: {Math.floor(progress)}%
            </p>
         </div>
       </main>
