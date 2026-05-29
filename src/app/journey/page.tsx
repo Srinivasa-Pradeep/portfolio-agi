@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Flag, MapPin, Radio, Music, ShieldCheck, Check, Volume2, VolumeX } from 'lucide-react';
+import { ArrowLeft, Flag, MapPin, Radio, ShieldCheck, Check, Volume2, VolumeX, Ban, UserX } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme-toggle';
 import Image from 'next/image';
@@ -13,6 +13,7 @@ import { useMusic } from '@/context/music-context';
  * @fileOverview The Horizontal Odyssey - Focused Musical Edition.
  * Calibrated for a 9-second gap between stops.
  * Features global music suppression and independent cockpit controls.
+ * Enforces "Driving License" requirement for car movement.
  */
 
 interface Milestone {
@@ -72,10 +73,11 @@ export default function JourneyPage() {
   const [currentVelocity, setCurrentVelocity] = useState(0);
   
   // Pre-Race Consent State
-  const [showChecklist, setShowConsent] = useState(true);
+  const [showChecklist, setShowChecklist] = useState(true);
   const [hasLicense, setHasLicense] = useState<boolean | null>(null);
   const [allowMusic, setAllowMusic] = useState<boolean | null>(null);
   const [localMusicMuted, setLocalMusicMuted] = useState(false);
+  const [isRejected, setIsRejected] = useState(false);
   
   // Physics Refs
   const velocity = useRef(0);
@@ -212,6 +214,14 @@ export default function JourneyPage() {
     }
   };
 
+  const handleStartAttempt = () => {
+    if (hasLicense === false) {
+      setIsRejected(true);
+    } else {
+      setShowChecklist(false);
+    }
+  };
+
   const worldX = useMemo(() => {
     if (!mounted) return 0;
     const currentTrackPos = (progress / 100) * TRACK_WIDTH;
@@ -236,7 +246,7 @@ export default function JourneyPage() {
       </div>
 
       {/* Checklist Overlay */}
-      {showChecklist && (
+      {showChecklist && !isRejected && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center bg-background/60 backdrop-blur-2xl">
           <div className="w-full max-w-md p-10 rounded-[40px] bg-card/80 border border-border/50 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.7)] text-center animate-in fade-in zoom-in duration-700">
             <div className="flex justify-center mb-8">
@@ -288,13 +298,46 @@ export default function JourneyPage() {
 
             <Button 
               disabled={hasLicense === null || allowMusic === null} 
-              onClick={() => setShowConsent(false)}
+              onClick={handleStartAttempt}
               className="w-full h-14 rounded-2xl text-lg font-bold group"
             >
-              START THE ODYSSEY
+              {hasLicense === false ? "REVEAL STATUS" : "START THE ODYSSEY"}
               <Check className="ml-2 h-5 w-5 transition-transform group-hover:scale-110" />
             </Button>
           </div>
+        </div>
+      )}
+
+      {/* REJECTION SCREEN */}
+      {isRejected && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center bg-background/90 backdrop-blur-3xl animate-in fade-in duration-500">
+           <div className="w-full max-w-lg p-12 rounded-[50px] bg-card border-2 border-destructive/20 shadow-[0_100px_200px_-50px_rgba(255,0,0,0.3)] text-center">
+              <div className="flex justify-center mb-8">
+                <div className="h-24 w-24 rounded-3xl bg-destructive/10 flex items-center justify-center border border-destructive/30 relative">
+                   <Ban className="h-12 w-12 text-destructive" />
+                   <div className="absolute -top-2 -right-2 bg-destructive text-white px-2 py-0.5 rounded-md font-mono text-[10px] font-black">REJECTED</div>
+                </div>
+              </div>
+              
+              <h2 className="font-headline text-4xl font-black tracking-tighter mb-4 uppercase text-destructive">UNAUTHORIZED DRIVER</h2>
+              <p className="text-xl font-medium text-foreground mb-4">"Sorry! You are not allowed to ride the car."</p>
+              
+              <div className="p-6 rounded-3xl bg-secondary/50 border border-border/50 text-muted-foreground text-sm leading-relaxed mb-10 italic lora">
+                The Stewards have noted that you do not possess a valid driving license for this High-Performance F1 Machine. Please return to the training facility and come back once you've secured your credentials. No license, no odyssey!
+              </div>
+
+              <div className="flex flex-col gap-4">
+                  <Button asChild variant="outline" className="h-14 rounded-2xl text-lg font-bold">
+                    <Link href="/">
+                       <ArrowLeft className="mr-2 h-5 w-5" />
+                       Return to Pit (Home)
+                    </Link>
+                  </Button>
+                  <Button variant="ghost" onClick={() => { setIsRejected(false); setHasLicense(null); }} className="text-xs text-muted-foreground uppercase tracking-widest hover:text-primary">
+                    Try checking checklist again
+                  </Button>
+              </div>
+           </div>
         </div>
       )}
 
