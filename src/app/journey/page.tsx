@@ -14,7 +14,7 @@ import { useMusic } from '@/context/music-context';
  * Calibrated for a 9-second gap between stops.
  * Features global music suppression and independent cockpit controls.
  * Enforces "Driving License" requirement for car movement.
- * Car is sit SIT ON THE ROAD for a realistic grounded feel.
+ * Car is SIT ON THE ROAD for a realistic grounded feel.
  */
 
 interface Milestone {
@@ -342,11 +342,12 @@ export default function JourneyPage() {
         </div>
       )}
 
-      {/* COCKPIT LAYER - Grounded to the road */}
+      {/* COCKPIT LAYER - Grounded precisely to the road line */}
       <div 
         className="fixed top-1/2 left-1/2 -translate-x-1/2 z-[60] pointer-events-none transition-transform duration-75 ease-out"
         style={{ 
-          transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% - 32px + ${vibrationY}px))`
+          // Adjusted from -32px to -24px to ground the car better on the track
+          transform: `translate(calc(-50% + ${vibrationX}px), calc(-50% - 24px + ${vibrationY}px))`
         }}
       >
          <div 
