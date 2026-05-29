@@ -122,6 +122,10 @@ export default function JourneyPage() {
             startupAudio.current.pause();
             startupAudio.current = null;
         }
+        if (pitstopAudio.current) {
+            pitstopAudio.current.pause();
+            pitstopAudio.current = null;
+        }
     };
   }, []);
 
@@ -237,14 +241,15 @@ export default function JourneyPage() {
     const current = milestones.find(m => Math.abs(m.progress - progress) < threshold);
     
     if (current && (!activeMilestone || activeMilestone.id !== current.id)) {
-        if (allowMusic && pitstopAudio.current) {
+        // Pitstop sound effect is mechanical feedback, plays regardless of background music preference
+        if (pitstopAudio.current) {
             pitstopAudio.current.currentTime = 0;
             pitstopAudio.current.play().catch(() => {});
         }
     }
     
     setActiveMilestone(current || null);
-  }, [progress, activeMilestone, allowMusic]);
+  }, [progress, activeMilestone]);
 
   const toggleLocalMusic = () => {
     if (!journeyMusic.current) return;
