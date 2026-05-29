@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft, Flag, MapPin, Radio, ShieldCheck, Check, Volume2, VolumeX, Ban, ScrollText, Cpu, Gauge, Wind } from 'lucide-react';
+import { ArrowLeft, Flag, MapPin, Radio, ShieldCheck, Check, Volume2, VolumeX, Ban, ScrollText, Cpu, Gauge, Wind, Power } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ThemeToggle } from '@/components/theme-toggle';
 import Image from 'next/image';
@@ -84,6 +84,64 @@ function StarField({ progress }: { progress: number }) {
       </div>
     </div>
   );
+}
+
+interface F1ToggleProps {
+  active: boolean | null;
+  onToggle: (val: boolean) => void;
+  label: string;
+  icon: React.ReactNode;
+}
+
+function F1Toggle({ active, onToggle, label, icon }: F1ToggleProps) {
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    useEffect(() => {
+        audioRef.current = new Audio('/music/switch.mp3');
+    }, []);
+
+    const handleToggle = (val: boolean) => {
+        if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+            audioRef.current.play().catch(() => {});
+        }
+        onToggle(val);
+    };
+
+    return (
+        <div className="flex items-center justify-between p-5 rounded-3xl bg-secondary/30 border border-border/10 backdrop-blur-sm transition-all hover:bg-secondary/40 group/toggle">
+            <div className="flex items-center gap-4">
+                <div className={cn("p-2 rounded-xl transition-all duration-500", active ? "bg-primary/20 text-primary" : "bg-muted/10 text-muted-foreground")}>
+                    {icon}
+                </div>
+                <span className="text-[10px] md:text-xs font-black tracking-[0.1em] uppercase lora italic">{label}</span>
+            </div>
+            <div className="flex bg-black/40 p-1 rounded-full border border-white/5 shadow-inner relative w-24">
+                <div 
+                    className={cn(
+                        "absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-lg",
+                        active === true ? "left-[calc(50%+2px)] bg-primary shadow-[0_0_15px_hsl(var(--primary)/0.5)]" : 
+                        active === false ? "left-1 bg-destructive shadow-[0_0_15px_hsl(var(--destructive)/0.5)]" : 
+                        "left-[25%] bg-muted/20 opacity-0"
+                    )}
+                />
+                <button 
+                    onClick={() => handleToggle(false)}
+                    className={cn(
+                        "relative z-10 flex-1 py-1 text-[8px] font-black uppercase tracking-widest transition-colors",
+                        active === false ? "text-white" : "text-muted-foreground hover:text-muted-foreground/80"
+                    )}
+                >OFF</button>
+                <button 
+                    onClick={() => handleToggle(true)}
+                    className={cn(
+                        "relative z-10 flex-1 py-1 text-[8px] font-black uppercase tracking-widest transition-colors",
+                        active === true ? "text-primary-foreground" : "text-muted-foreground hover:text-muted-foreground/80"
+                    )}
+                >ON</button>
+            </div>
+        </div>
+    );
 }
 
 export default function JourneyPage() {
@@ -341,47 +399,19 @@ export default function JourneyPage() {
                 </div>
 
                 <div className="space-y-4 text-left mb-12">
-                   <div className="flex items-center justify-between p-5 rounded-3xl bg-secondary/30 border border-border/10 backdrop-blur-sm transition-all hover:bg-secondary/40">
-                      <div className="flex items-center gap-4">
-                        <ShieldCheck className="h-5 w-5 text-primary/60" />
-                        <span className="text-xs md:text-sm font-bold tracking-tight uppercase">Pilot Credentials Validated?</span>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button 
-                          variant={hasLicense === true ? "default" : "outline"} 
-                          size="sm" 
-                          onClick={() => setHasLicense(true)}
-                          className="rounded-full h-9 px-5 text-[10px] font-black uppercase tracking-widest"
-                        >Yes</Button>
-                        <Button 
-                          variant={hasLicense === false ? "default" : "outline"} 
-                          size="sm" 
-                          onClick={() => setHasLicense(false)}
-                          className="rounded-full h-9 px-5 text-[10px] font-black uppercase tracking-widest"
-                        >No</Button>
-                      </div>
-                   </div>
+                   <F1Toggle 
+                    active={hasLicense} 
+                    onToggle={setHasLicense} 
+                    label="FEA_Aggregated_Pilot_Authorization" 
+                    icon={<ShieldCheck className="h-5 w-5" />} 
+                   />
 
-                   <div className="flex items-center justify-between p-5 rounded-3xl bg-secondary/30 border border-border/10 backdrop-blur-sm transition-all hover:bg-secondary/40">
-                      <div className="flex items-center gap-4">
-                        <Volume2 className="h-5 w-5 text-primary/60" />
-                        <span className="text-xs md:text-sm font-bold tracking-tight uppercase">Initialize Cockpit Comms?</span>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button 
-                          variant={allowMusic === true ? "default" : "outline"} 
-                          size="sm" 
-                          onClick={() => setAllowMusic(true)}
-                          className="rounded-full h-9 px-5 text-[10px] font-black uppercase tracking-widest"
-                        >Yes</Button>
-                        <Button 
-                          variant={allowMusic === false ? "default" : "outline"} 
-                          size="sm" 
-                          onClick={() => setAllowMusic(false)}
-                          className="rounded-full h-9 px-5 text-[10px] font-black uppercase tracking-widest"
-                        >No</Button>
-                      </div>
-                   </div>
+                   <F1Toggle 
+                    active={allowMusic} 
+                    onToggle={setAllowMusic} 
+                    label="Telemetry_&_Voice_Initialization" 
+                    icon={<Radio className="h-5 w-5" />} 
+                   />
                 </div>
 
                 <Button 
@@ -726,3 +756,4 @@ export default function JourneyPage() {
     </div>
   );
 }
+

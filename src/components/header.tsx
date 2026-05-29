@@ -160,7 +160,7 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  // In Light Mode, show the standalone buttons normally but hide at rock bottom
+  // In Light Mode, hide the standalone buttons normally but hide at rock bottom
   if (resolvedTheme === 'light') {
     return (
       <div 
@@ -252,3 +252,4 @@ export function Header() {
     </header>
   );
 }
+
