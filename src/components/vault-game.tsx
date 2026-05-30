@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { Lock, Unlock, Zap, ChevronRight, Terminal, ShieldAlert, CheckCircle2, KeyRound } from 'lucide-react';
+import { Unlock, ChevronRight, Terminal, ShieldAlert, KeyRound } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 type VaultGameProps = {
@@ -26,6 +26,7 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
   const [step, setStep] = useState<PuzzleStep>('intro');
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState(false);
+  const [showMasterHint, setShowMasterHint] = useState(false);
   const [digits, setDigits] = useState<string[]>(['?', '?', '?', '?']);
   const [isUnlocked, setIsUnlocked] = useState(false);
 
@@ -36,6 +37,7 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         setStep('intro');
         setInputValue('');
         setError(false);
+        setShowMasterHint(false);
         setDigits(['?', '?', '?', '?']);
         setIsUnlocked(false);
       }, 300);
@@ -63,7 +65,7 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         break;
 
       case 'puzzle2':
-        // Word: "Short" -> count letters = 5
+        // Length of "Short" = 5
         if (val === '5') {
           setDigits(['6', '5', '?', '?']);
           setStep('puzzle3');
@@ -87,7 +89,7 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         break;
 
       case 'puzzle4':
-        // Observation: 2 cats, 1 dog, 1 bird. Legs=14. Sum digits=5. Minus flying(1)=4
+        // Observation: 2 cats(8), 1 dog(4), 1 bird(2). Legs=14. Sum digits=5. Minus flying(1)=4
         if (val === '4') {
           setDigits(['6', '5', '0', '4']);
           setStep('masterKey');
@@ -108,6 +110,7 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
           }, 1500);
         } else {
           setError(true);
+          setShowMasterHint(true); // Reveal the hint with animation
         }
         break;
     }
@@ -251,7 +254,11 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
                 <KeyRound className="h-10 w-10 text-primary mx-auto mb-2" />
                 <h3 className="font-headline text-2xl font-black italic tracking-tighter uppercase">Initialize Master Key</h3>
                 <p className="text-xs text-muted-foreground font-mono uppercase tracking-[0.2em]">Convert Sequence 6504 to 8-digit Key</p>
-                <p className="text-[10px] text-primary/40 font-mono">Hint: Something personal in DDMMYYYY format.</p>
+                {showMasterHint && (
+                  <p className="text-[10px] text-destructive/80 font-mono italic animate-in fade-in slide-in-from-top-1 duration-700">
+                    Hint: Something personal in DDMMYYYY format.
+                  </p>
+                )}
              </div>
              <div className="relative">
                 <Input 
