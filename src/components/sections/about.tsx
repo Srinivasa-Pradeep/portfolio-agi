@@ -171,7 +171,7 @@ const techStack = [
 
 /**
  * ResearchPublication - A minimalist technical junction.
- * Clean typography, no box containers, focused on content and utility.
+ * MedQuery AI (The Paper) published in PeerJ (The Journal).
  */
 function ResearchPublication() {
   return (
@@ -186,7 +186,9 @@ function ResearchPublication() {
             MedQuery AI
           </h4>
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
-            <span className="text-primary/60">PeerJ Computer Science</span>
+            <span className="text-primary/60">Journal Article</span>
+            <span className="hidden sm:inline h-1 w-1 rounded-full bg-border" />
+            <span>PeerJ Computer Science</span>
             <span className="hidden sm:inline h-1 w-1 rounded-full bg-border" />
             <span>DOI: 10.7717/peerj-cs.3467</span>
           </div>
