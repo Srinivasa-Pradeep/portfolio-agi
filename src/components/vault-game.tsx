@@ -11,7 +11,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { Lock, Unlock, Zap, ChevronRight, Terminal, ShieldAlert, CheckCircle2 } from 'lucide-react';
+import { Lock, Unlock, Zap, ChevronRight, Terminal, ShieldAlert, CheckCircle2, KeyRound } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 type VaultGameProps = {
@@ -19,7 +19,7 @@ type VaultGameProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-type PuzzleStep = 'intro' | 'puzzle1' | 'puzzle2' | 'puzzle3' | 'puzzle4' | 'final';
+type PuzzleStep = 'intro' | 'puzzle1' | 'puzzle2' | 'puzzle3' | 'puzzle4' | 'masterKey' | 'final';
 
 export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
   const router = useRouter();
@@ -51,7 +51,7 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         break;
       
       case 'puzzle1':
-        // Math Pattern: 6
+        // Math Pattern: 3, 6, 12, 24, ? (48) -> 4+8=12 -> 1+2=3 -> x2 = 6
         if (val === '6') {
           setDigits(['6', '?', '?', '?']);
           setStep('puzzle2');
@@ -63,7 +63,7 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         break;
 
       case 'puzzle2':
-        // Word Challenge: 5
+        // Word: "Short" -> count letters = 5
         if (val === '5') {
           setDigits(['6', '5', '?', '?']);
           setStep('puzzle3');
@@ -75,9 +75,9 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         break;
 
       case 'puzzle3':
-        // Observation: 4
-        if (val === '4') {
-          setDigits(['6', '5', '4', '?']);
+        // Trick: "How many months have 28 days?" -> 12. 12 % 3 = 0
+        if (val === '0') {
+          setDigits(['6', '5', '0', '?']);
           setStep('puzzle4');
           setInputValue('');
           setError(false);
@@ -87,10 +87,10 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         break;
 
       case 'puzzle4':
-        // Trick Question: 0
-        if (val === '0') {
-          setDigits(['6', '5', '4', '0']);
-          setStep('final');
+        // Observation: 2 cats, 1 dog, 1 bird. Legs=14. Sum digits=5. Minus flying(1)=4
+        if (val === '4') {
+          setDigits(['6', '5', '0', '4']);
+          setStep('masterKey');
           setInputValue('');
           setError(false);
         } else {
@@ -98,9 +98,9 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         }
         break;
 
-      case 'final':
-        // Final Code: 6540
-        if (val === '6540') {
+      case 'masterKey':
+        // Final Birthday Key: 06052004
+        if (val === '06052004') {
           setIsUnlocked(true);
           setTimeout(() => {
             onOpenChange(false);
@@ -120,8 +120,8 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
           <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center mb-6 ring-4 ring-primary/20 animate-pulse">
             <Unlock className="h-12 w-12 text-primary" />
           </div>
-          <h3 className="text-3xl font-black italic tracking-tighter uppercase mb-2">Access Granted</h3>
-          <p className="text-muted-foreground font-mono text-xs uppercase tracking-widest">Decryption Successful. Welcome to the Vault.</p>
+          <h3 className="font-headline text-3xl font-black italic tracking-tighter uppercase mb-2">Access Granted</h3>
+          <p className="text-muted-foreground font-mono text-xs uppercase tracking-widest">Master Decryption Successful.</p>
         </div>
       );
     }
@@ -129,15 +129,15 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
     switch (step) {
       case 'intro':
         return (
-          <div className="space-y-6 py-4">
-            <div className="flex items-center gap-3 p-4 rounded-2xl bg-primary/5 border border-primary/10">
-              <ShieldAlert className="h-6 w-6 text-primary shrink-0" />
-              <p className="text-sm font-mono leading-relaxed">
-                SYSTEM_LOCK_ACTIVE: You are trapped inside a digital vault. Solve all four challenges to reveal the secret 4-digit code.
+          <div className="space-y-6 py-4 animate-vibrate">
+            <div className="flex items-center gap-3 p-4 rounded-2xl bg-destructive/5 border border-destructive/20">
+              <ShieldAlert className="h-6 w-6 text-destructive shrink-0" />
+              <p className="text-sm font-mono leading-relaxed text-destructive/80">
+                SYSTEM_LOCK_ACTIVE: Unauthorized access detected. You are trapped. Extract the 4-digit code to initialize the Master Key.
               </p>
             </div>
             <Button onClick={handleNext} className="w-full h-14 rounded-2xl font-black italic uppercase group">
-              Begin Mission
+              Begin Extraction
               <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
           </div>
@@ -147,10 +147,10 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         return (
           <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
              <div className="space-y-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60">Puzzle 01 / Math Pattern</span>
-                <h3 className="text-xl font-bold tracking-tight">3, 6, 12, 24, ?</h3>
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_01</span>
+                <h3 className="font-headline text-xl font-bold tracking-tight">3, 6, 12, 24, ?</h3>
                 <p className="text-xs text-muted-foreground leading-relaxed italic lora">
-                  "Find the next number. Sum its digits. Reduce to a single digit. Multiply by 2."
+                  "Find the next number. Sum its digits repeatedly until you reach a single digit. Now, multiply that result by 2."
                 </p>
              </div>
              <div className="relative">
@@ -161,7 +161,7 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
                   className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
                   autoFocus
                 />
-                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest">Calculation Error</p>}
+                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Calculation Error</p>}
              </div>
              <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
           </div>
@@ -171,21 +171,21 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         return (
           <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
              <div className="space-y-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60">Puzzle 02 / Word Challenge</span>
-                <h3 className="text-xl font-bold tracking-tight">"What word becomes shorter when you add two letters to it?"</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed italic lora">
-                  "Count the letters of that word. Add one. Take only the middle digit of 656."
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_02</span>
+                <h3 className="font-headline text-xl font-bold tracking-tight italic lora">"What word becomes shorter when you add two letters to it?"</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed font-mono uppercase tracking-widest pt-2">
+                  "Count the letters of the answer."
                 </p>
              </div>
              <div className="relative">
                 <Input 
                   value={inputValue}
                   onChange={(e) => { setInputValue(e.target.value); setError(false); }}
-                  placeholder="Enter single digit..."
+                  placeholder="Enter count..."
                   className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
                   autoFocus
                 />
-                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest">Invalid Answer</p>}
+                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Invalid Answer</p>}
              </div>
              <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
           </div>
@@ -195,15 +195,10 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         return (
           <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
              <div className="space-y-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60">Puzzle 03 / Observation</span>
-                <div className="bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-border/20 font-mono text-xs">
-                    <p>In a room there are:</p>
-                    <p>• 2 cats</p>
-                    <p>• 1 dog</p>
-                    <p>• 1 bird</p>
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed italic lora pt-2">
-                  "Calculate total legs. Subtract animal types. Add 2 to the sum of digits."
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_03</span>
+                <h3 className="font-headline text-xl font-bold tracking-tight">"How many months have 28 days?"</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed italic lora">
+                  "Take the remainder when your answer is divided by 3."
                 </p>
              </div>
              <div className="relative">
@@ -214,7 +209,7 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
                   className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
                   autoFocus
                 />
-                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest">Incorrect Count</p>}
+                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Logic Failure</p>}
              </div>
              <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
           </div>
@@ -224,10 +219,15 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
         return (
           <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
              <div className="space-y-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60">Puzzle 04 / Trick Question</span>
-                <h3 className="text-xl font-bold tracking-tight">"How many months have 28 days?"</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed italic lora">
-                  "Take the remainder when the total answer is divided by 3."
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_04</span>
+                <div className="bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-border/20 font-mono text-xs">
+                    <p>SYSTEM_SCAN:</p>
+                    <p>• 2 cats</p>
+                    <p>• 1 dog</p>
+                    <p>• 1 bird</p>
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed italic lora pt-2">
+                  "Calculate total legs. Find the sum of digits of that total, then subtract the number of animal types that are able to fly."
                 </p>
              </div>
              <div className="relative">
@@ -238,33 +238,34 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
                   className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
                   autoFocus
                 />
-                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest">Logic Failure</p>}
+                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Incorrect Count</p>}
              </div>
              <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
           </div>
         );
 
-      case 'final':
+      case 'masterKey':
         return (
           <div className="space-y-6 py-4 animate-in zoom-in-95 duration-500">
              <div className="text-center space-y-2">
-                <CheckCircle2 className="h-10 w-10 text-primary mx-auto mb-2" />
-                <h3 className="text-2xl font-black italic tracking-tighter uppercase">All Digits Extracted</h3>
-                <p className="text-xs text-muted-foreground font-mono uppercase tracking-[0.2em]">Final Sequence Required for Unlock</p>
+                <KeyRound className="h-10 w-10 text-primary mx-auto mb-2" />
+                <h3 className="font-headline text-2xl font-black italic tracking-tighter uppercase">Initialize Master Key</h3>
+                <p className="text-xs text-muted-foreground font-mono uppercase tracking-[0.2em]">Convert Sequence 6504 to 8-digit Key</p>
+                <p className="text-[10px] text-primary/40 font-mono">Hint: Something personal in DDMMYYYY format.</p>
              </div>
              <div className="relative">
                 <Input 
                   value={inputValue}
                   onChange={(e) => { setInputValue(e.target.value); setError(false); }}
-                  placeholder="Enter 4-digit code..."
-                  maxLength={4}
-                  className={cn("h-16 bg-primary/10 border-dashed border-2 border-primary/30 font-mono text-center text-3xl tracking-[0.5em] font-black italic", error && "ring-2 ring-destructive")}
+                  placeholder="Enter 8-digit code..."
+                  maxLength={8}
+                  className={cn("h-16 bg-primary/10 border-dashed border-2 border-primary/30 font-mono text-center text-2xl tracking-[0.4em] font-black italic", error && "ring-2 ring-destructive")}
                   autoFocus
                 />
-                {error && <p className="absolute -bottom-6 left-0 w-full text-center text-[10px] font-bold text-destructive uppercase tracking-widest">Invalid Vault Code</p>}
+                {error && <p className="absolute -bottom-6 left-0 w-full text-center text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Invalid Master Key</p>}
              </div>
              <Button onClick={handleNext} className="w-full h-14 rounded-2xl font-black italic uppercase bg-primary text-primary-foreground hover:scale-[1.02] transition-transform">
-               Unlock Vault
+               Unlock Personal Blog
              </Button>
           </div>
         );
@@ -286,7 +287,7 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
           </DialogDescription>
         </DialogHeader>
 
-        {/* Vault Status Bar */}
+        {/* Extraction Status Bar */}
         <div className="grid grid-cols-4 gap-3 my-4">
             {digits.map((d, i) => (
                 <div 
@@ -309,7 +310,7 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
                 <div className="h-1 w-4 bg-primary/40 rounded-full" />
                 <div className="h-1 w-2 bg-primary/20 rounded-full" />
             </div>
-            <span className="text-[8px] font-mono uppercase tracking-widest">Auth_Key: SRINI_004</span>
+            <span className="text-[8px] font-mono uppercase tracking-widest">Auth_ID: SRINI_004</span>
         </div>
       </DialogContent>
     </Dialog>
