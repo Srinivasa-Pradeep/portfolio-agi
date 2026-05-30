@@ -36,9 +36,10 @@ const projects = [
       { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
     ],
     github: "https://github.com/Srinivasa-Pradeep/ReviewLens",
-    link: null,
+    link: "#",
+    linkTooltip: "Live Site (Coming Soon)",
     imageId: "project-reviewlens",
-    videoUrl: null,
+    videoUrl: "/videos/reviewlens.mp4",
   },
   {
     name: "Expense Feedback",
