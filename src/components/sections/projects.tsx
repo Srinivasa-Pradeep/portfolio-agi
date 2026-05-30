@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Github, Globe, ExternalLink, BookOpen } from "lucide-react";
+import { Github, Globe, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { ScrollAnimationWrapper } from "@/components/scroll-animation-wrapper";
 import { useState, useRef, useEffect } from "react";
@@ -16,7 +16,7 @@ import {
   SiNodedotjs, 
   SiMongodb, 
   SiPython, 
-  SiStreamlit,
+  SiFlask,
 } from 'react-icons/si';
 import {
   Tooltip,
@@ -27,19 +27,18 @@ import {
 
 const projects = [
   {
-    name: "MedQuery AI",
-    description: "High-precision Text-to-SQL AI for medical databases, enabling natural language clinical insights. Published in PeerJ Computer Science.",
+    name: "ReviewLens",
+    description: "Comprehensive product sentiment analyzer for buyers and sellers. Delivers deep analytics and actionable insights from consumer reviews to drive informed decision-making.",
     stack: [
       { name: "Python", icon: SiPython, color: "#3776AB" },
-      { name: "Streamlit", icon: SiStreamlit, color: "#FF4B4B" },
-      { name: "Ollama", icon: SiNextdotjs, color: "currentColor" },
-      { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+      { name: "React", icon: SiReact, color: "#61DAFB" },
+      { name: "Flask", icon: SiFlask, color: "#000000" },
+      { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
     ],
-    github: "https://github.com/Srinivasa-Pradeep/MedQuery",
-    link: "https://peerj.com/articles/cs-3467/",
-    linkTooltip: "View Journal",
-    imageId: "project-medquery",
-    videoUrl: "/videos/medquery.mp4",
+    github: "https://github.com/Srinivasa-Pradeep/ReviewLens",
+    link: null,
+    imageId: "project-reviewlens",
+    videoUrl: null,
   },
   {
     name: "Expense Feedback",
@@ -52,7 +51,7 @@ const projects = [
     ],
     github: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     link: "https://expense-feedback-frontend.vercel.app/home",
-    linkTooltip: "Live Demo (Requires local setup)",
+    linkTooltip: "Live Demo (Requires local setup. See GitHub)",
     imageId: "project-expense-feedback",
     videoUrl: "/videos/expense.mp4",
   },
@@ -179,11 +178,7 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
                         rel="noopener noreferrer" 
                         className="text-muted-foreground transition-all duration-300 hover:text-primary hover:scale-110"
                       >
-                        {project.name === "MedQuery AI" ? (
-                          <BookOpen className="h-4 w-4" />
-                        ) : (
-                          <Globe className="h-4 w-4" />
-                        )}
+                        <Globe className="h-4 w-4" />
                       </a>
                     </TooltipTrigger>
                     <TooltipContent side="top">

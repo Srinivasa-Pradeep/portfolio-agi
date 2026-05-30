@@ -1,3 +1,4 @@
+
 'use client';
 
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
@@ -19,7 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks, Brain, Zap, Users, Coffee, Plus } from 'lucide-react';
+import { ListChecks, Brain, Zap, Users, Coffee, Plus, BookOpen, GraduationCap } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Accordion,
@@ -168,6 +169,42 @@ const techStack = [
   { name: 'Azure', Icon: FaMicrosoft },
   { name: 'Linux/Unix', Icon: SiLinux },
 ];
+
+function PremiumResearchCard() {
+  return (
+    <div className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl bg-gradient-to-bottom from-border/50 to-border">
+      <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-6 backdrop-blur-sm transition-all duration-500 hover:bg-white dark:hover:bg-secondary/50">
+        <div className="relative z-20 flex flex-col sm:flex-row items-center gap-6">
+          <div className="relative h-16 w-16 flex-shrink-0 flex items-center justify-center bg-primary/10 rounded-2xl border border-primary/20 transition-all duration-500 group-hover:scale-110">
+            <BookOpen className="h-8 w-8 text-primary" />
+          </div>
+
+          <div className="flex-grow text-center sm:text-left">
+            <h4 className="text-lg font-bold text-foreground/90 transition-all duration-300 group-hover:text-primary">
+              Scientific Publication: MedQuery AI
+            </h4>
+            <p className="text-muted-foreground">
+              PeerJ Computer Science Journal
+            </p>
+            <p className="text-sm font-medium text-primary/80 lora italic mt-1">
+              "High-precision Text-to-SQL AI for medical databases"
+            </p>
+            <div className="mt-3">
+              <a 
+                href="https://peerj.com/articles/cs-3467/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors"
+              >
+                View Journal <Plus className="ml-1 h-3 w-3" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -323,7 +360,7 @@ export function About() {
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
-                                { text: 'ശ്രീனிവാസ பிரதீப்', className: 'font-chilanka text-xs text-foreground/90' },
+                                { text: 'ശ്രീനിവാസ பிரதீപ്', className: 'font-chilanka text-xs text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
@@ -386,6 +423,12 @@ export function About() {
                     <h4 className="font-semibold text-foreground mb-3">Notable Achievements</h4>
                     <ScrollArea className="h-72 pr-4" data-lenis-prevent>
                       <ul className="space-y-3">
+                          <li className="flex items-start gap-3">
+                              <BookOpen className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <span className="text-sm text-muted-foreground">
+                              Published a research paper titled <strong className="font-semibold text-foreground/90">"MedQuery AI"</strong> in the prestigious <strong className="font-semibold text-foreground/90">PeerJ Computer Science</strong> journal.
+                              </span>
+                          </li>
                           <li className="flex items-start gap-3">
                               <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                               <span className="text-sm text-muted-foreground">
@@ -537,6 +580,13 @@ export function About() {
                   );
                 })}
               </div>
+            </div>
+
+            <div className="mt-12">
+              <h3 className="font-headline text-2xl font-semibold text-primary">
+                Research & Publications
+              </h3>
+              <PremiumResearchCard />
             </div>
             
             <div className="mt-16">

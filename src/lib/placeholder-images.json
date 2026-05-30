@@ -61,6 +61,12 @@
       "imageHint": "business invoice"
     },
     {
+      "id": "project-reviewlens",
+      "description": "Analytics platform for product reviews",
+      "imageUrl": "https://picsum.photos/seed/reviewlens/800/500",
+      "imageHint": "product analytics"
+    },
+    {
       "id": "leetcode-hoodie",
       "description": "Srini wearing the LeetCode Hoodie",
       "imageUrl": "/images/hoodie.png",
