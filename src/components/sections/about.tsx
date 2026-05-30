@@ -1,4 +1,3 @@
-
 'use client';
 
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
@@ -20,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks, Brain, Zap, Users, Coffee, Plus, BookOpen, GraduationCap } from 'lucide-react';
+import { ListChecks, Brain, Zap, Users, Coffee, Plus, BookOpen, GraduationCap, FileBadge, ArrowUpRight } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Accordion,
@@ -172,34 +171,52 @@ const techStack = [
 
 function PremiumResearchCard() {
   return (
-    <div className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl bg-gradient-to-bottom from-border/50 to-border">
-      <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-6 backdrop-blur-sm transition-all duration-500 hover:bg-white dark:hover:bg-secondary/50">
-        <div className="relative z-20 flex flex-col sm:flex-row items-center gap-6">
-          <div className="relative h-16 w-16 flex-shrink-0 flex items-center justify-center bg-primary/10 rounded-2xl border border-primary/20 transition-all duration-500 group-hover:scale-110">
-            <BookOpen className="h-8 w-8 text-primary" />
+    <div className="group relative mt-6 overflow-hidden rounded-[32px] p-[1px] transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] bg-gradient-to-br from-border/50 via-border to-primary/10">
+      <div className="relative h-full w-full rounded-[31px] bg-white dark:bg-zinc-950 p-8 backdrop-blur-xl transition-all duration-500">
+        <div className="relative z-20 flex flex-col md:flex-row items-start gap-8">
+          {/* Scientific Emblem */}
+          <div className="relative h-20 w-20 flex-shrink-0 flex items-center justify-center bg-primary/5 rounded-[24px] border border-primary/10 transition-all duration-700 group-hover:bg-primary group-hover:text-primary-foreground group-hover:rotate-[10deg]">
+            <FileBadge className="h-10 w-10 transition-all duration-500" />
+            {/* Orbital Ring Animation */}
+            <div className="absolute inset-0 rounded-full border border-primary/20 animate-slow-rotate scale-125 opacity-0 group-hover:opacity-100" />
           </div>
 
-          <div className="flex-grow text-center sm:text-left">
-            <h4 className="text-lg font-bold text-foreground/90 transition-all duration-300 group-hover:text-primary">
-              Scientific Publication: MedQuery AI
-            </h4>
-            <p className="text-muted-foreground">
-              PeerJ Computer Science Journal
+          <div className="flex-grow space-y-4">
+            <div className="flex flex-wrap items-center gap-3">
+               <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em] font-mono">Peer-Reviewed Journal</span>
+               <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">July 2024</span>
+            </div>
+            
+            <div className="space-y-1">
+              <h4 className="text-2xl font-black text-foreground tracking-tight leading-none transition-all duration-300 group-hover:text-primary">
+                MedQuery AI
+              </h4>
+              <p className="text-muted-foreground font-medium text-sm">
+                PeerJ Computer Science Journal &mdash; DOI: 10.7717/peerj-cs.3467
+              </p>
+            </div>
+
+            <p className="text-base text-foreground/70 lora italic leading-relaxed max-w-2xl border-l-2 border-primary/20 pl-4 py-1 bg-primary/[0.02]">
+              "Development of a high-precision Natural Language to SQL generation framework tailored for medical practitioners and clinical database management."
             </p>
-            <p className="text-sm font-medium text-primary/80 lora italic mt-1">
-              "High-precision Text-to-SQL AI for medical databases"
-            </p>
-            <div className="mt-3">
+
+            <div className="pt-4">
               <a 
                 href="https://peerj.com/articles/cs-3467/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors"
+                className="group/link inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.3em] text-primary/60 hover:text-primary transition-all duration-300"
               >
-                View Journal <Plus className="ml-1 h-3 w-3" />
+                <span>Access Full Publication</span>
+                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1" />
               </a>
             </div>
           </div>
+        </div>
+        
+        {/* Subtle Decorative Background Numbers */}
+        <div className="absolute bottom-4 right-8 font-mono text-[80px] font-black text-primary/[0.03] select-none pointer-events-none tracking-tighter">
+          01.
         </div>
       </div>
     </div>
@@ -360,7 +377,7 @@ export function About() {
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
-                                { text: 'ശ്രീനിവാസ பிரதீപ്', className: 'font-chilanka text-xs text-foreground/90' },
+                                { text: 'ശ്രീനിവാസ பிரதீப்', className: 'font-chilanka text-xs text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}

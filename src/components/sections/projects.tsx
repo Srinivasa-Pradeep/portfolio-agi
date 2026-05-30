@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Badge } from "@/components/ui/badge";
@@ -99,14 +98,14 @@ function ProjectCard({ project, delay }: { project: typeof projects[0], delay: n
         className="relative h-full flex flex-col bg-card/20 backdrop-blur-xl rounded-[40px] border border-white/10 p-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-3 hover:shadow-[0_40px_120px_-20px_rgba(0,0,0,0.5)] hover:bg-card/40"
       >
         <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[32px] bg-black/5 p-4 sm:p-6">
-          {/* Gaussian Blur Background Layer using project image */}
+          {/* Gaussian Blur Background Layer - Enhanced for Dark Mode Visibility */}
           {projectImage && (
-            <div className="absolute inset-0 z-0 transition-transform duration-1000 group-hover:scale-110">
+            <div className="absolute inset-0 z-0 transition-all duration-1000 group-hover:scale-110">
               <Image
                 src={projectImage.imageUrl}
                 alt=""
                 fill
-                className="object-cover blur-3xl opacity-40 transform-gpu"
+                className="object-cover blur-3xl opacity-40 dark:opacity-60 dark:brightness-150 dark:contrast-125 transform-gpu"
               />
             </div>
           )}
