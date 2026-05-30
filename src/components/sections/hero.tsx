@@ -17,10 +17,10 @@ export function Hero() {
 
   const roles = [
     "Software Developer",
-    "Purpose Driven",
     "Technical Writer",
     "Curious Builder",
     "Detail Oriented",
+    "Purpose Driven",
     "Lifelong Learner"
   ];
 
