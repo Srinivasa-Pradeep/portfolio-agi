@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks, BookOpen, ArrowUpRight } from 'lucide-react';
+import { ListChecks, BookOpen, ArrowUpRight, Github } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Accordion,
@@ -42,7 +42,6 @@ import {
   SiNumpy,
   SiMysql,
   SiMongodb,
-  SiSqlite,
   SiGit,
   SiDocker,
   SiJenkins,
@@ -171,51 +170,44 @@ const techStack = [
 ];
 
 /**
- * ResearchPublication - A Steve Jobs-inspired "monument to precision."
- * Features a shimmering liquid chrome title, glass-morphism container, 
- * and an academic squircle layout.
+ * ResearchPublication - A minimalist technical junction.
+ * Clean typography, no box containers, focused on content and utility.
  */
 function ResearchPublication() {
   return (
-    <div className="group mt-8 p-8 rounded-[32px] bg-secondary/30 border border-border/40 backdrop-blur-sm transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-secondary/50 hover:-translate-y-1 hover:shadow-2xl relative overflow-hidden">
-      {/* Subtle Architectural Backlight */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[80px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-      
-      <div className="relative z-10 flex flex-col md:flex-row items-start justify-between gap-8">
-        <div className="space-y-4">
-          <div className="flex items-center gap-4">
-             {/* High-Fidelity Icon Squircle */}
-             <div className="p-3.5 rounded-[22px] bg-primary/10 text-primary shadow-inner border border-primary/20 transition-transform duration-500 group-hover:scale-110">
-                <BookOpen className="h-6 w-6" />
-             </div>
-             <div>
-                <h4 className="text-3xl font-bold tracking-tighter bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),35%,rgba(0,0,0,0.4),45%,#ffffff,55%,rgba(0,0,0,0.4),65%,hsl(var(--primary)))] dark:bg-[linear-gradient(110deg,hsl(var(--primary)),35%,rgba(0,0,0,0.6),45%,#ffffff,55%,rgba(0,0,0,0.6),65%,hsl(var(--primary)))] bg-[length:200%_100%] animate-shine">
-                  MedQuery AI
-                </h4>
-                <div className="flex items-center gap-2 mt-1">
-                   <div className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse" />
-                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary/60 font-mono">Peer-Reviewed Journal</p>
-                </div>
-             </div>
-          </div>
-          
-          <div className="space-y-3">
-            <div className="flex items-center gap-3 text-xs font-bold text-muted-foreground font-mono uppercase tracking-widest opacity-80">
-               <span>PeerJ Computer Science</span>
-               <span className="h-1 w-1 rounded-full bg-border" />
-               <span>DOI: 10.7717/peerj-cs.3467</span>
-            </div>
-            <p className="text-base text-foreground/80 leading-relaxed max-w-2xl lora italic font-medium">
-              Architecting a high-precision Natural Language to SQL framework, bridge the gap between complex medical databases and clinical practitioners with absolute reliability.
-            </p>
+    <div className="group relative mt-6 pl-10 py-6 transition-all duration-500">
+      {/* Minimalist Vertical Indicator - Matches career path style */}
+      <div className="absolute left-0 top-0 bottom-0 w-px bg-border/30 group-hover:bg-primary/20 transition-colors duration-700" />
+      <div className="absolute left-[-4px] top-10 h-2 w-2 rounded-full bg-primary/20 ring-4 ring-background group-hover:bg-primary group-hover:shadow-[0_0_10px_hsl(var(--primary))] transition-all duration-500" />
+
+      <div className="space-y-4">
+        <div>
+          <h4 className="text-2xl font-bold tracking-tighter transition-colors group-hover:text-primary">
+            MedQuery AI
+          </h4>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1 font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+            <span className="text-primary/60">PeerJ Computer Science</span>
+            <span className="hidden sm:inline h-1 w-1 rounded-full bg-border" />
+            <span>DOI: 10.7717/peerj-cs.3467</span>
           </div>
         </div>
 
-        <Button asChild variant="outline" className="shrink-0 h-14 rounded-full px-8 border-border/50 bg-background/50 backdrop-blur-md hover:bg-primary hover:text-primary-foreground transition-all duration-500 group/btn">
-          <a href="https://peerj.com/articles/cs-3467/" target="_blank" rel="noopener noreferrer">
-            View Paper <ArrowUpRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
-          </a>
-        </Button>
+        <p className="text-sm text-foreground/80 leading-relaxed max-w-2xl lora italic font-medium">
+          Architecting a high-precision Natural Language to SQL framework, bridging the gap between complex medical databases and clinical practitioners with absolute reliability.
+        </p>
+
+        <div className="flex items-center gap-6 pt-2">
+          <Button asChild variant="link" className="p-0 h-auto text-xs font-black uppercase tracking-[0.2em] group/btn">
+            <a href="https://peerj.com/articles/cs-3467/" target="_blank" rel="noopener noreferrer" className="flex items-center">
+              Paper <ArrowUpRight className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+            </a>
+          </Button>
+          <Button asChild variant="link" className="p-0 h-auto text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-primary group/git">
+            <a href="https://github.com/Srinivasa-Pradeep/MedQuery-AI" target="_blank" rel="noopener noreferrer" className="flex items-center">
+              Code <Github className="ml-1.5 h-3.5 w-3.5" />
+            </a>
+          </Button>
+        </div>
       </div>
     </div>
   );
