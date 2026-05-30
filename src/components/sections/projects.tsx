@@ -43,7 +43,7 @@ const projects = [
   },
   {
     name: "Expense Feedback",
-    description: "Enterprise financial dashboard with real-time analytics and automated budget tracking for better fiscal management.",
+    description: "Instantly verify reimbursement claims against corporate policies. Leverage local Retrieval-Augmented Generation (RAG) to analyze receipts, flag discrepancies, and accelerate financial audits with absolute accuracy.",
     stack: [
       { name: "React", icon: SiReact, color: "#61DAFB" },
       { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
@@ -51,8 +51,8 @@ const projects = [
       { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
     ],
     github: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
-    link: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
-    linkTooltip: "Live Demo",
+    link: "https://expense-feedback-frontend.vercel.app/home",
+    linkTooltip: "Local setup required. See GitHub.",
     imageId: "project-expense-feedback",
     videoUrl: "/videos/expense.mp4",
   },
