@@ -170,36 +170,50 @@ const techStack = [
   { name: 'Linux/Unix', Icon: SiLinux },
 ];
 
+/**
+ * ResearchPublication - A Steve Jobs-inspired "monument to precision."
+ * Features a shimmering liquid chrome title, glass-morphism container, 
+ * and an academic squircle layout.
+ */
 function ResearchPublication() {
   return (
-    <div className="group mt-8 p-8 rounded-[32px] bg-secondary/30 border border-border/40 backdrop-blur-sm transition-all duration-300 hover:bg-secondary/50">
-      <div className="flex flex-col md:flex-row items-start justify-between gap-8">
+    <div className="group mt-8 p-8 rounded-[32px] bg-secondary/30 border border-border/40 backdrop-blur-sm transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-secondary/50 hover:-translate-y-1 hover:shadow-2xl relative overflow-hidden">
+      {/* Subtle Architectural Backlight */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[80px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+      
+      <div className="relative z-10 flex flex-col md:flex-row items-start justify-between gap-8">
         <div className="space-y-4">
-          <div className="flex items-center gap-3">
-             <div className="p-3 rounded-2xl bg-primary/10 text-primary">
+          <div className="flex items-center gap-4">
+             {/* High-Fidelity Icon Squircle */}
+             <div className="p-3.5 rounded-[22px] bg-primary/10 text-primary shadow-inner border border-primary/20 transition-transform duration-500 group-hover:scale-110">
                 <BookOpen className="h-6 w-6" />
              </div>
              <div>
-                <h4 className="text-2xl font-bold tracking-tight text-foreground/90 group-hover:text-primary transition-colors">
+                <h4 className="text-3xl font-bold tracking-tighter bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),35%,rgba(0,0,0,0.4),45%,#ffffff,55%,rgba(0,0,0,0.4),65%,hsl(var(--primary)))] dark:bg-[linear-gradient(110deg,hsl(var(--primary)),35%,rgba(0,0,0,0.6),45%,#ffffff,55%,rgba(0,0,0,0.6),65%,hsl(var(--primary)))] bg-[length:200%_100%] animate-shine">
                   MedQuery AI
                 </h4>
-                <p className="text-xs font-black uppercase tracking-widest text-primary/60">Peer-Reviewed Journal Publication</p>
+                <div className="flex items-center gap-2 mt-1">
+                   <div className="h-1 w-1 rounded-full bg-emerald-500 animate-pulse" />
+                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-primary/60 font-mono">Peer-Reviewed Journal</p>
+                </div>
              </div>
           </div>
           
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-muted-foreground lora italic">
-              PeerJ Computer Science &bull; DOI: 10.7717/peerj-cs.3467 &bull; July 2024
-            </p>
-            <p className="text-base text-foreground/80 leading-relaxed max-w-2xl">
-              Development of a high-precision Natural Language to SQL generation framework tailored for medical practitioners and clinical database management.
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 text-xs font-bold text-muted-foreground font-mono uppercase tracking-widest opacity-80">
+               <span>PeerJ Computer Science</span>
+               <span className="h-1 w-1 rounded-full bg-border" />
+               <span>DOI: 10.7717/peerj-cs.3467</span>
+            </div>
+            <p className="text-base text-foreground/80 leading-relaxed max-w-2xl lora italic font-medium">
+              Architecting a high-precision Natural Language to SQL framework, bridge the gap between complex medical databases and clinical practitioners with absolute reliability.
             </p>
           </div>
         </div>
 
-        <Button asChild variant="outline" className="shrink-0 rounded-full border-border/50 bg-background/50 hover:bg-primary hover:text-primary-foreground group/btn">
+        <Button asChild variant="outline" className="shrink-0 h-14 rounded-full px-8 border-border/50 bg-background/50 backdrop-blur-md hover:bg-primary hover:text-primary-foreground transition-all duration-500 group/btn">
           <a href="https://peerj.com/articles/cs-3467/" target="_blank" rel="noopener noreferrer">
-            View Paper <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+            View Paper <ArrowUpRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
           </a>
         </Button>
       </div>
@@ -361,7 +375,7 @@ export function About() {
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
-                                { text: 'ശ്രീനിവാസ பிரതീപ്', className: 'font-chilanka text-xs text-foreground/90' },
+                                { text: 'ശ്രീനിവാസ பிரதீப்', className: 'font-chilanka text-xs text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}

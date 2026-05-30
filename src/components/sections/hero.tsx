@@ -1,4 +1,3 @@
-
 'use client';
 
 import { BlurRevealText } from "@/components/blur-reveal-text";
