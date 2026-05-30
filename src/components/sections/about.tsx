@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks, Brain, Zap, Users, Coffee, Plus, BookOpen, GraduationCap, FileBadge, ArrowUpRight } from 'lucide-react';
+import { ListChecks, BookOpen, ArrowUpRight } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Accordion,
@@ -27,6 +27,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Button } from '@/components/ui/button';
 import {
   SiPython,
   SiCplusplus,
@@ -169,55 +170,38 @@ const techStack = [
   { name: 'Linux/Unix', Icon: SiLinux },
 ];
 
-function PremiumResearchCard() {
+function ResearchPublication() {
   return (
-    <div className="group relative mt-6 overflow-hidden rounded-[32px] p-[1px] transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)] bg-gradient-to-br from-border/50 via-border to-primary/10">
-      <div className="relative h-full w-full rounded-[31px] bg-white dark:bg-zinc-950 p-8 backdrop-blur-xl transition-all duration-500">
-        <div className="relative z-20 flex flex-col md:flex-row items-start gap-8">
-          {/* Scientific Emblem */}
-          <div className="relative h-20 w-20 flex-shrink-0 flex items-center justify-center bg-primary/5 rounded-[24px] border border-primary/10 transition-all duration-700 group-hover:bg-primary group-hover:text-primary-foreground group-hover:rotate-[10deg]">
-            <FileBadge className="h-10 w-10 transition-all duration-500" />
-            {/* Orbital Ring Animation */}
-            <div className="absolute inset-0 rounded-full border border-primary/20 animate-slow-rotate scale-125 opacity-0 group-hover:opacity-100" />
+    <div className="group mt-8 p-8 rounded-[32px] bg-secondary/30 border border-border/40 backdrop-blur-sm transition-all duration-300 hover:bg-secondary/50">
+      <div className="flex flex-col md:flex-row items-start justify-between gap-8">
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+             <div className="p-3 rounded-2xl bg-primary/10 text-primary">
+                <BookOpen className="h-6 w-6" />
+             </div>
+             <div>
+                <h4 className="text-2xl font-bold tracking-tight text-foreground/90 group-hover:text-primary transition-colors">
+                  MedQuery AI
+                </h4>
+                <p className="text-xs font-black uppercase tracking-widest text-primary/60">Peer-Reviewed Journal Publication</p>
+             </div>
           </div>
-
-          <div className="flex-grow space-y-4">
-            <div className="flex flex-wrap items-center gap-3">
-               <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em] font-mono">Peer-Reviewed Journal</span>
-               <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">July 2024</span>
-            </div>
-            
-            <div className="space-y-1">
-              <h4 className="text-2xl font-black text-foreground tracking-tight leading-none transition-all duration-300 group-hover:text-primary">
-                MedQuery AI
-              </h4>
-              <p className="text-muted-foreground font-medium text-sm">
-                PeerJ Computer Science Journal &mdash; DOI: 10.7717/peerj-cs.3467
-              </p>
-            </div>
-
-            <p className="text-base text-foreground/70 lora italic leading-relaxed max-w-2xl border-l-2 border-primary/20 pl-4 py-1 bg-primary/[0.02]">
-              "Development of a high-precision Natural Language to SQL generation framework tailored for medical practitioners and clinical database management."
+          
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-muted-foreground lora italic">
+              PeerJ Computer Science &bull; DOI: 10.7717/peerj-cs.3467 &bull; July 2024
             </p>
-
-            <div className="pt-4">
-              <a 
-                href="https://peerj.com/articles/cs-3467/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="group/link inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.3em] text-primary/60 hover:text-primary transition-all duration-300"
-              >
-                <span>Access Full Publication</span>
-                <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1 group-hover/link:-translate-y-1" />
-              </a>
-            </div>
+            <p className="text-base text-foreground/80 leading-relaxed max-w-2xl">
+              Development of a high-precision Natural Language to SQL generation framework tailored for medical practitioners and clinical database management.
+            </p>
           </div>
         </div>
-        
-        {/* Subtle Decorative Background Numbers */}
-        <div className="absolute bottom-4 right-8 font-mono text-[80px] font-black text-primary/[0.03] select-none pointer-events-none tracking-tighter">
-          01.
-        </div>
+
+        <Button asChild variant="outline" className="shrink-0 rounded-full border-border/50 bg-background/50 hover:bg-primary hover:text-primary-foreground group/btn">
+          <a href="https://peerj.com/articles/cs-3467/" target="_blank" rel="noopener noreferrer">
+            View Paper <ArrowUpRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+          </a>
+        </Button>
       </div>
     </div>
   );
@@ -377,7 +361,7 @@ export function About() {
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
-                                { text: 'ശ്രീനിവാസ பிரதீப்', className: 'font-chilanka text-xs text-foreground/90' },
+                                { text: 'ശ്രീനിവാസ பிரതീപ്', className: 'font-chilanka text-xs text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
@@ -603,7 +587,7 @@ export function About() {
               <h3 className="font-headline text-2xl font-semibold text-primary">
                 Research & Publications
               </h3>
-              <PremiumResearchCard />
+              <ResearchPublication />
             </div>
             
             <div className="mt-16">
