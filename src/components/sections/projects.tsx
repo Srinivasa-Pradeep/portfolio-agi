@@ -51,7 +51,7 @@ const projects = [
     ],
     github: "https://github.com/Srinivasa-Pradeep/expense-feedback/",
     link: "https://expense-feedback-frontend.vercel.app/home",
-    linkTooltip: "Live Demo (Requires local setup. See GitHub)",
+    linkTooltip: "Live Demo (Local setup required. See GitHub)",
     imageId: "project-expense-feedback",
     videoUrl: "/videos/expense.mp4",
   },
