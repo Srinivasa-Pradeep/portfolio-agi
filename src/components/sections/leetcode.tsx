@@ -62,13 +62,13 @@ function FlipNumber({ value, className }: { value: string | number; className?: 
 }
 
 const leetCodeProgress = {
-  totalSolved: 1084,
-  totalProblems: 3832,
-  attempting: 25,
-  easy: { solved: 424, total: 924 },
-  medium: { solved: 530, total: 2002 },
-  hard: { solved: 130, total: 906 },
-  acceptanceRate: "65.48%",
+  totalSolved: 1298,
+  totalProblems: 3948,
+  attempting: 29,
+  easy: { solved: 466, total: 947 },
+  medium: { solved: 661, total: 2063 },
+  hard: { solved: 171, total: 938 },
+  acceptanceRate: "68.03%",
   submissions: "2.8k",
 };
 
