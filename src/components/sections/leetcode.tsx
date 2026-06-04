@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { SiLeetcode } from 'react-icons/si';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
+import { useTheme } from "next-themes";
 
 /**
  * FlipNumber Component - A high-fidelity digit-flipping animation
@@ -121,6 +122,8 @@ const FALLBACK_PROGRESS = {
 };
 
 const CustomTooltip = ({ active, payload, progress }: any) => {
+  const { resolvedTheme } = useTheme();
+  
   if (active && payload && payload.length) {
     const difficultyData = payload[0].payload;
     const difficulty = difficultyData.difficulty as 'easy' | 'medium' | 'hard';
@@ -137,7 +140,7 @@ const CustomTooltip = ({ active, payload, progress }: any) => {
       color = 'hsl(var(--easy))';
     } else if (difficulty === 'medium') {
       name = 'Medium';
-      color = 'hsl(var(--primary))';
+      color = resolvedTheme === 'dark' ? 'hsl(var(--primary))' : '#FFA116';
     } else { // hard
       name = 'Hard';
       color = 'hsl(var(--destructive))';
@@ -329,6 +332,7 @@ function LeetCodeProfileButtonWithPreview({ href }: { href: string }) {
 }
 
 export function LeetCode() {
+  const { resolvedTheme } = useTheme();
   const [isHoveringPie, setIsHoveringPie] = useState(false);
   const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
   const [dynamicStats, setDynamicStats] = useState<any>(null);
@@ -336,6 +340,10 @@ export function LeetCode() {
   const [dynamicProgress, setDynamicProgress] = useState<any>(null);
   const [activeStat, setActiveStat] = useState(FALLBACK_STATS);
   const hoodieImage = PlaceHolderImages.find(p => p.id === 'leetcode-hoodie');
+
+  // Dynamic colors for Medium difficulty
+  const mediumColor = resolvedTheme === 'dark' ? 'hsl(var(--primary))' : '#FFA116';
+  const mediumRemainingColor = resolvedTheme === 'dark' ? 'hsl(var(--primary)/0.2)' : '#FFA11633';
 
   // Real-time API Fetch Logic with Fallback
   useEffect(() => {
@@ -402,11 +410,11 @@ export function LeetCode() {
   const pieData = useMemo(() => [
     { name: 'Hard Solved', value: currentProgress.hard.solved, color: 'hsl(var(--destructive))', difficulty: 'hard' },
     { name: 'Hard Remaining', value: currentProgress.hard.total - currentProgress.hard.solved, color: 'hsl(var(--destructive)/0.2)', difficulty: 'hard' },
-    { name: 'Medium Solved', value: currentProgress.medium.solved, color: 'hsl(var(--primary))', difficulty: 'medium' },
-    { name: 'Medium Remaining', value: currentProgress.medium.total - currentProgress.medium.solved, color: 'hsl(var(--primary)/0.2)', difficulty: 'medium' },
+    { name: 'Medium Solved', value: currentProgress.medium.solved, color: mediumColor, difficulty: 'medium' },
+    { name: 'Medium Remaining', value: currentProgress.medium.total - currentProgress.medium.solved, color: mediumRemainingColor, difficulty: 'medium' },
     { name: 'Easy Solved', value: currentProgress.easy.solved, color: 'hsl(var(--easy))', difficulty: 'easy' },
     { name: 'Easy Remaining', value: currentProgress.easy.total - currentProgress.easy.solved, color: 'hsl(var(--easy)/0.2)', difficulty: 'easy'},
-  ].reverse(), [currentProgress]);
+  ].reverse(), [currentProgress, mediumColor, mediumRemainingColor]);
 
   const shuffleProblem = () => {
     const randomIndex = Math.floor(Math.random() * allProblems.length);
@@ -505,13 +513,13 @@ export function LeetCode() {
 
                 <div className="md:col-span-2 space-y-4">
                   {[
-                    { label: 'Easy', value: currentProgress.easy, color: 'var(--easy)' },
-                    { label: 'Medium', value: currentProgress.medium, color: 'var(--primary)' },
-                    { label: 'Hard', value: currentProgress.hard, color: 'var(--destructive)' }
+                    { label: 'Easy', value: currentProgress.easy, color: 'hsl(var(--easy))' },
+                    { label: 'Medium', value: currentProgress.medium, color: mediumColor },
+                    { label: 'Hard', value: currentProgress.hard, color: 'hsl(var(--destructive))' }
                   ].map((lvl) => (
                     <div key={lvl.label} className="p-4 rounded-2xl bg-secondary/50 dark:bg-white/5 border border-border dark:border-white/5 transition-all duration-300 group-hover:bg-secondary dark:group-hover:bg-white/10">
                         <div className="flex justify-between items-baseline">
-                          <p className="text-sm font-medium" style={{color: `hsl(${lvl.color})`}}>{lvl.label}</p>
+                          <p className="text-sm font-medium" style={{color: lvl.color}}>{lvl.label}</p>
                           <p className="text-lg font-bold">{lvl.value.solved}<span className="text-sm font-normal text-muted-foreground">/{lvl.value.total}</span></p>
                         </div>
                     </div>
