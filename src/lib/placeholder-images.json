@@ -15,31 +15,31 @@
     {
       "id": "sap-logo",
       "description": "SAP company logo",
-      "imageUrl": "https://6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev/capra/attachedImages/c15e341a-55f1-429c-afb2-a000fab745d5/image_4f6dbe5c-b1ea-4c8f-94f1-737c82e7104a.png",
+      "imageUrl": "/images/sap.png",
       "imageHint": "sap logo"
     },
     {
       "id": "amazon-logo-light",
       "description": "Amazon company logo for light mode",
-      "imageUrl": "https://6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev/capra/attachedImages/c15e341a-55f1-429c-afb2-a000fab745d5/image_039a7e7a-0d78-4039-8ad0-df59d95c78dc.png",
+      "imageUrl": "/images/amazon-light.png",
       "imageHint": "amazon logo"
     },
     {
       "id": "amazon-logo-dark",
       "description": "Amazon company logo for dark mode",
-      "imageUrl": "https://6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev/capra/attachedImages/c15e341a-55f1-429c-afb2-a000fab745d5/image_87d4231b-c9dd-4187-8fd9-9ab7c94c8781.png",
+      "imageUrl": "/images/amazon-dark.png",
       "imageHint": "amazon logo white"
     },
     {
       "id": "mercedes-logo",
       "description": "Mercedes-Benz company logo",
-      "imageUrl": "https://6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev/capra/attachedImages/c15e341a-55f1-429c-afb2-a000fab745d5/image_b2abecc5-7180-4d38-b24a-241098dd11fb.png",
+      "imageUrl": "/images/mbrdi.png",
       "imageHint": "mercedes logo"
     },
     {
       "id": "psg-itech-logo",
       "description": "PSG iTech logo",
-      "imageUrl": "https://6000-firebase-studio-1768487260169.cluster-44kx2eiocbhe2tyk3zoyo3ryuo.cloudworkstations.dev/capra/attachedImages/c15e341a-55f1-429c-afb2-a000fab745d5/image_8f65f178-0353-4eb0-96b9-d96148e06fab.png",
+      "imageUrl": "/images/psg.png",
       "imageHint": "college logo"
     },
     {

@@ -205,7 +205,7 @@ function ResearchPublication() {
             </a>
           </Button>
           <Button asChild variant="link" className="p-0 h-auto text-xs font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-primary group/git">
-            <a href="https://github.com/Srinivasa-Pradeep/MedQuery-AI" target="_blank" rel="noopener noreferrer" className="flex items-center">
+            <a href="https://github.com/Srinivasa-Pradeep/MedQuery" target="_blank" rel="noopener noreferrer" className="flex items-center">
               Code <Github className="ml-1.5 h-3.5 w-3.5" />
             </a>
           </Button>

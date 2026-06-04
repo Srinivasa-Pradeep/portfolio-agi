@@ -121,9 +121,7 @@ const FALLBACK_PROGRESS = {
   acceptanceRate: "68.03%",
 };
 
-const CustomTooltip = ({ active, payload, progress }: any) => {
-  const { resolvedTheme } = useTheme();
-  
+const CustomTooltip = ({ active, payload, progress, mounted, resolvedTheme }: any) => {
   if (active && payload && payload.length) {
     const difficultyData = payload[0].payload;
     const difficulty = difficultyData.difficulty as 'easy' | 'medium' | 'hard';
@@ -140,7 +138,7 @@ const CustomTooltip = ({ active, payload, progress }: any) => {
       color = 'hsl(var(--easy))';
     } else if (difficulty === 'medium') {
       name = 'Medium';
-      color = resolvedTheme === 'dark' ? 'hsl(var(--primary))' : '#FFA116';
+      color = (mounted && resolvedTheme === 'dark') ? 'hsl(var(--primary))' : '#FFA116';
     } else { // hard
       name = 'Hard';
       color = 'hsl(var(--destructive))';
@@ -194,8 +192,6 @@ const allProblems = [
     { title: 'Sequentially Ordinal Rank Tracker', difficulty: 'Hard', link: 'https://leetcode.com/problems/sequentially-ordinal-rank-tracker/', topics: [] },
     { title: 'Boundary of Binary Tree', difficulty: 'Medium', link: 'https://leetcode.com/problems/boundary-of-binary-tree/', topics: [] },
     { title: 'Total Appeal of A String', difficulty: 'Hard', link: 'https://leetcode.com/problems/total-appeal-of-a-string/', topics: [] },
-    { title: 'Maximum Length of Subarray With Positive Product', difficulty: 'Medium', link: 'https://leetcode.com/problems/maximum-length-of-subarray-with-positive-product/', topics: [] },
-    { title: 'Find Good Days to Rob the Bank', difficulty: 'Medium', link: 'https://leetcode.com/problems/find-good-days-to-rob-the-bank/', topics: [] },
     { title: 'Maximum Units on a Truck', difficulty: 'Easy', link: 'https://leetcode.com/problems/maximum-units-on-a-truck/', topics: [] },
     { title: 'Find Median from Data Stream', difficulty: 'Hard', link: 'https://leetcode.com/problems/find-median-from-data-stream/', topics: [] },
     { title: 'Trapping Rain Water', difficulty: 'Hard', link: 'https://leetcode.com/problems/trapping-rain-water/', topics: [] },
@@ -205,7 +201,6 @@ const allProblems = [
     { title: 'Minimum Health to Beat Game', difficulty: 'Medium', link: 'https://leetcode.com/problems/minimum-health-to-beat-game/', topics: [] },
     { title: 'Sum of Subarray Ranges', difficulty: 'Medium', link: 'https://leetcode.com/problems/sum-of-subarray-ranges/', topics: [] },
     { title: 'Substring With Largest Variance', difficulty: 'Hard', link: 'https://leetcode.com/problems/substring-with-largest-variance/', topics: [] },
-    { title: 'Maximum Length of Subarray With Positive Product', difficulty: 'Medium', link: 'https://leetcode.com/problems/maximum-length-of-subarray-with-positive-product/', topics: [] },
     { title: 'Maximum Number of Books You Can Take', difficulty: 'Hard', link: 'https://leetcode.com/problems/maximum-number-of-books-you-can-take/', topics: [] },
     { title: 'Sequential Digits', difficulty: 'Medium', link: 'https://leetcode.com/problems/sequential-digits/', topics: [] },
     { title: 'Sum of Total Strength of Wizards', difficulty: 'Hard', link: 'https://leetcode.com/problems/sum-of-total-strength-of-wizards/', topics: [] },
@@ -333,6 +328,7 @@ function LeetCodeProfileButtonWithPreview({ href }: { href: string }) {
 
 export function LeetCode() {
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [isHoveringPie, setIsHoveringPie] = useState(false);
   const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
   const [dynamicStats, setDynamicStats] = useState<any>(null);
@@ -341,9 +337,13 @@ export function LeetCode() {
   const [activeStat, setActiveStat] = useState(FALLBACK_STATS);
   const hoodieImage = PlaceHolderImages.find(p => p.id === 'leetcode-hoodie');
 
-  // Dynamic colors for Medium difficulty
-  const mediumColor = resolvedTheme === 'dark' ? 'hsl(var(--primary))' : '#FFA116';
-  const mediumRemainingColor = resolvedTheme === 'dark' ? 'hsl(var(--primary)/0.2)' : '#FFA11633';
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Defer theme-dependent calculations until after mounting to prevent hydration mismatch
+  const mediumColor = (mounted && resolvedTheme === 'dark') ? 'hsl(var(--primary))' : '#FFA116';
+  const mediumRemainingColor = (mounted && resolvedTheme === 'dark') ? 'hsl(var(--primary)/0.2)' : '#FFA11633';
 
   // Real-time API Fetch Logic with Fallback
   useEffect(() => {
@@ -458,32 +458,38 @@ export function LeetCode() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-center">
                 <div className="md:col-span-3 relative h-64 md:h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                      <PieChart
-                        onMouseEnter={() => setIsHoveringPie(true)}
-                        onMouseLeave={() => setIsHoveringPie(false)}
-                      >
-                          <Tooltip content={<CustomTooltip progress={currentProgress} />} cursor={{ fill: 'hsl(var(--accent)/0.5)' }}/>
-                          <Pie
-                          data={pieData}
-                          dataKey="value"
-                          nameKey="name"
-                          cx="50%"
-                          cy="50%"
-                          outerRadius="90%"
-                          innerRadius="65%"
-                          paddingAngle={2}
-                          stroke="transparent"
-                          animationBegin={0}
-                          animationDuration={1500}
-                          animationEasing="ease-out"
-                          >
-                          {pieData.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                          </Pie>
-                      </PieChart>
-                  </ResponsiveContainer>
+                  {mounted ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart
+                          onMouseEnter={() => setIsHoveringPie(true)}
+                          onMouseLeave={() => setIsHoveringPie(false)}
+                        >
+                            <Tooltip content={<CustomTooltip progress={currentProgress} mounted={mounted} resolvedTheme={resolvedTheme} />} cursor={{ fill: 'hsl(var(--accent)/0.5)' }}/>
+                            <Pie
+                            data={pieData}
+                            dataKey="value"
+                            nameKey="name"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius="90%"
+                            innerRadius="65%"
+                            paddingAngle={2}
+                            stroke="transparent"
+                            animationBegin={0}
+                            animationDuration={1500}
+                            animationEasing="ease-out"
+                            >
+                            {pieData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                            </Pie>
+                        </PieChart>
+                    </ResponsiveContainer>
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="h-32 w-32 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+                    </div>
+                  )}
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
                     <div className={cn(
                         "flex flex-col items-center justify-center transition-all duration-500",
@@ -558,61 +564,67 @@ export function LeetCode() {
                     </div>
                   </div>
                   <div className="h-60 relative w-full overflow-hidden">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart 
-                        data={currentHistory} 
-                        margin={{ top: 20, right: 32, left: 32, bottom: 20 }}
-                        onMouseMove={handleMouseMoveGraph}
-                        onMouseLeave={handleMouseLeaveGraph}
-                      >
-                        <defs>
-                          <linearGradient id="line-gradient-rating" x1="0%" x2="100%" y1="0%" y2="0%">
-                            <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0 }} />
-                            <stop offset="15%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
-                            <stop offset="85%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
-                            <stop offset="100%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0 }} />
-                          </linearGradient>
-                          <linearGradient id="colorRating" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
-                            <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-                          </linearGradient>
-                          <linearGradient id="grid-fade" x1="0%" x2="100%" y1="0%" y2="0%">
-                            <stop offset="0%" style={{ stopColor: 'white', stopOpacity: 0 }} />
-                            <stop offset="10%" style={{ stopColor: 'white', stopOpacity: 1 }} />
-                            <stop offset="90%" style={{ stopColor: 'white', stopOpacity: 1 }} />
-                            <stop offset="100%" style={{ stopColor: 'white', stopOpacity: 0 }} />
-                          </linearGradient>
-                          <mask id="grid-mask">
-                            <rect width="100%" height="100%" fill="url(#grid-fade)" />
-                          </mask>
-                        </defs>
-                        <CartesianGrid 
-                          strokeDasharray="4 4" 
-                          vertical={false} 
-                          stroke="hsl(var(--border))" 
-                          strokeOpacity={0.5}
-                          style={{ mask: 'url(#grid-mask)' }}
-                        />
-                        <XAxis dataKey="index" hide />
-                        <YAxis domain={['dataMin - 100', 'dataMax + 100']} hide />
-                        <Tooltip content={<RatingTooltip />} cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '4 4' }} />
-                        <Area 
-                          type="monotone" 
-                          dataKey="rating" 
-                          stroke="url(#line-gradient-rating)" 
-                          strokeWidth={2} 
-                          fill="url(#colorRating)" 
-                          dot={false}
-                          activeDot={{ 
-                            r: 6, 
-                            fill: 'hsl(var(--primary))', 
-                            stroke: 'white', 
-                            strokeWidth: 2,
-                            className: "drop-shadow-[0_0_8px_hsl(var(--primary))]" 
-                          }}
-                        />
-                      </AreaChart>
-                    </ResponsiveContainer>
+                    {mounted ? (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart 
+                          data={currentHistory} 
+                          margin={{ top: 20, right: 32, left: 32, bottom: 20 }}
+                          onMouseMove={handleMouseMoveGraph}
+                          onMouseLeave={handleMouseLeaveGraph}
+                        >
+                          <defs>
+                            <linearGradient id="line-gradient-rating" x1="0%" x2="100%" y1="0%" y2="0%">
+                              <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0 }} />
+                              <stop offset="15%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
+                              <stop offset="85%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
+                              <stop offset="100%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0 }} />
+                            </linearGradient>
+                            <linearGradient id="colorRating" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
+                              <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                            </linearGradient>
+                            <linearGradient id="grid-fade" x1="0%" x2="100%" y1="0%" y2="0%">
+                              <stop offset="0%" style={{ stopColor: 'white', stopOpacity: 0 }} />
+                              <stop offset="10%" style={{ stopColor: 'white', stopOpacity: 1 }} />
+                              <stop offset="90%" style={{ stopColor: 'white', stopOpacity: 1 }} />
+                              <stop offset="100%" style={{ stopColor: 'white', stopOpacity: 0 }} />
+                            </linearGradient>
+                            <mask id="grid-mask">
+                              <rect width="100%" height="100%" fill="url(#grid-fade)" />
+                            </mask>
+                          </defs>
+                          <CartesianGrid 
+                            strokeDasharray="4 4" 
+                            vertical={false} 
+                            stroke="hsl(var(--border))" 
+                            strokeOpacity={0.5}
+                            style={{ mask: 'url(#grid-mask)' }}
+                          />
+                          <XAxis dataKey="index" hide />
+                          <YAxis domain={['dataMin - 100', 'dataMax + 100']} hide />
+                          <Tooltip content={<RatingTooltip />} cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '4 4' }} />
+                          <Area 
+                            type="monotone" 
+                            dataKey="rating" 
+                            stroke="url(#line-gradient-rating)" 
+                            strokeWidth={2} 
+                            fill="url(#colorRating)" 
+                            dot={false}
+                            activeDot={{ 
+                              r: 6, 
+                              fill: 'hsl(var(--primary))', 
+                              stroke: 'white', 
+                              strokeWidth: 2,
+                              className: "drop-shadow-[0_0_8px_hsl(var(--primary))]" 
+                            }}
+                          />
+                        </AreaChart>
+                      </ResponsiveContainer>
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <div className="h-4 w-full bg-muted/20 animate-pulse rounded-full" />
+                      </div>
+                    )}
                   </div>
                 </div>
             </Card>
