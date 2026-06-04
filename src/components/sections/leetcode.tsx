@@ -297,44 +297,46 @@ function LeetCodeProfileButtonWithPreview({ href }: { href: string }) {
   };
 
   return (
-    <ShadcnTooltip>
-      <ShadcnTooltipTrigger asChild>
-        <Button 
-          asChild 
-          size="lg" 
-          className="min-w-[200px] group transition-all duration-300 rounded-full"
-          onMouseMove={handleMouseMove}
-          onMouseLeave={() => setMousePos({ x: 0, y: 0 })}
-        >
-          <a href={href} target="_blank" rel="noopener noreferrer">
-            <SiLeetcode className="mr-2 h-5 w-5 text-[#FFA116]" /> LeetCode Profile
-          </a>
-        </Button>
-      </ShadcnTooltipTrigger>
-      <ShadcnTooltipContent 
-        side="top" 
-        className="p-0 border-none bg-transparent shadow-2xl duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] animate-in fade-in-0 slide-in-from-bottom-12"
-      >
-        <div className="relative w-64 aspect-[16/9] rounded-xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-2xl ring-1 ring-white/10">
-          <div 
-            className="absolute inset-0 transition-transform duration-300 ease-out"
-            style={{
-              transform: `translate(${mousePos.x * 15}px, ${mousePos.y * 15}px) scale(1.1)`
-            }}
+    <ShadcnTooltipProvider delayDuration={0}>
+      <ShadcnTooltip>
+        <ShadcnTooltipTrigger asChild>
+          <Button 
+            asChild 
+            size="lg" 
+            className="min-w-[200px] group transition-all duration-300 rounded-full"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={() => setMousePos({ x: 0, y: 0 })}
           >
-            {previewImage && (
-              <Image 
-                src={previewImage.imageUrl} 
-                alt={previewImage.description}
-                data-ai-hint={previewImage.imageHint}
-                fill
-                className="object-cover opacity-90 brightness-110 contrast-110"
-              />
-            )}
+            <a href={href} target="_blank" rel="noopener noreferrer">
+              <SiLeetcode className="mr-2 h-5 w-5 text-[#FFA116]" /> LeetCode Profile
+            </a>
+          </Button>
+        </ShadcnTooltipTrigger>
+        <ShadcnTooltipContent 
+          side="top" 
+          className="p-0 border-none bg-transparent shadow-2xl duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] animate-in fade-in-0 slide-in-from-bottom-12"
+        >
+          <div className="relative w-64 aspect-[16/9] rounded-xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-2xl ring-1 ring-white/10">
+            <div 
+              className="absolute inset-0 transition-transform duration-300 ease-out"
+              style={{
+                transform: `translate(${mousePos.x * 15}px, ${mousePos.y * 15}px) scale(1.1)`
+              }}
+            >
+              {previewImage && (
+                <Image 
+                  src={previewImage.imageUrl} 
+                  alt={previewImage.description}
+                  data-ai-hint={previewImage.imageHint}
+                  fill
+                  className="object-cover opacity-90 brightness-110 contrast-110"
+                />
+              )}
+            </div>
           </div>
-        </div>
-      </ShadcnTooltipContent>
-    </ShadcnTooltip>
+        </ShadcnTooltipContent>
+      </ShadcnTooltip>
+    </ShadcnTooltipProvider>
   );
 }
 
@@ -351,19 +353,25 @@ export function LeetCode() {
     async function fetchContestData() {
       try {
         const response = await fetch('https://alfa-leetcode-api.onrender.com/srinivasa_pradeep_/contest');
-        if (!response.ok) throw new Error('API request failed');
+        
+        // If the API fails (404, 429, etc.), we exit gracefully and use FALLBACK_STATS.
+        if (!response.ok) return;
+
         const data = await response.json();
         
+        // Final safety check for API response structure
+        if (!data || typeof data !== 'object') return;
+
         const stats = {
-          rating: Math.round(data.contestRating),
-          globalRanking: data.contestGlobalRanking,
-          totalRanked: data.totalParticipants.toLocaleString(),
-          attended: data.contestAttend,
-          topPercentage: data.contestTopPercentage.toFixed(2),
+          rating: Math.round(data.contestRating || FALLBACK_STATS.rating),
+          globalRanking: data.contestGlobalRanking || FALLBACK_STATS.globalRanking,
+          totalRanked: (data.totalParticipants || 0).toLocaleString(),
+          attended: data.contestAttend || 0,
+          topPercentage: (data.contestTopPercentage || 0).toFixed(2),
         };
 
-        const history = data.contestHistory
-          .filter((c: any) => c.attended)
+        const history = (data.contestHistory || [])
+          .filter((c: any) => c && c.attended)
           .map((c: any, index: number) => ({
             index,
             rating: Math.round(c.rating)
@@ -373,8 +381,8 @@ export function LeetCode() {
         setDynamicHistory(history);
         setActiveStat(stats);
       } catch (error) {
-        console.error('LeetCode API fetch error:', error);
-        // We stick with FALLBACK_STATS initialized in state
+        // Log locally for debugging but don't throw to avoid UI crash
+        console.warn('LeetCode API unavailable, using high-fidelity fallback stats.');
       }
     }
     fetchContestData();
@@ -688,9 +696,7 @@ export function LeetCode() {
         </div>
         
         <div className="mt-20 flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
-            <ShadcnTooltipProvider delayDuration={0}>
-                <LeetCodeProfileButtonWithPreview href="https://leetcode.com/u/srinivasa_pradeep_/" />
-            </ShadcnTooltipProvider>
+            <LeetCodeProfileButtonWithPreview href="https://leetcode.com/u/srinivasa_pradeep_/" />
             
             <Button size="lg" variant="outline" asChild className="min-w-[200px] rounded-full border-border dark:border-white/10 backdrop-blur-sm">
                <a href="https://github.com/Srinivasa-Pradeep/Data-Structures-and-Algo" target="_blank" rel="noopener noreferrer">
@@ -703,3 +709,4 @@ export function LeetCode() {
     </section>
   );
 }
+
