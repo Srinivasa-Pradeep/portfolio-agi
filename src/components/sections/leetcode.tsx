@@ -658,26 +658,33 @@ export function LeetCode() {
                 <Star className="h-4 w-4 text-primary" />
                 Exclusive Reward
               </h3>
-              <Card className="overflow-hidden group relative bg-card/20 backdrop-blur-xl border border-border dark:border-white/10 rounded-[40px] cursor-pointer transition-all duration-700 hover:-translate-y-2">
-                <div className="relative aspect-square p-2">
-                  <div className="relative h-full w-full overflow-hidden rounded-[32px]">
-                    {hoodieImage && (
-                      <Image 
-                          src={hoodieImage.imageUrl} 
-                          alt={hoodieImage.description}
-                          data-ai-hint={hoodieImage.imageHint}
-                          fill
-                          className="object-cover transition-all duration-700 group-hover:scale-110 contrast-125"
-                      />
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                    <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-8 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-y-0 group-hover:opacity-100">
-                        <h4 className="font-bold text-lg leading-tight">LeetCode Official Hoodie</h4>
-                        <p className="text-xs text-white/70 mt-1">Awarded for perseverance through setbacks.</p>
+              <a 
+                href="https://www.linkedin.com/posts/srinivasa-pradeep_2025-stretched-me-beyond-my-comfort-resilience-ugcPost-7430266244668301312-LC0q/?utm_source=share&utm_medium=member_desktop&rcm=ACoAADxcm0IBWIb9Uc5VqPNdQkgTB7oN8bj3H0g"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block outline-none"
+              >
+                <Card className="overflow-hidden group relative bg-card/20 backdrop-blur-xl border border-border dark:border-white/10 rounded-[40px] cursor-pointer transition-all duration-700 hover:-translate-y-2">
+                  <div className="relative aspect-square p-2">
+                    <div className="relative h-full w-full overflow-hidden rounded-[32px]">
+                      {hoodieImage && (
+                        <Image 
+                            src={hoodieImage.imageUrl} 
+                            alt={hoodieImage.description}
+                            data-ai-hint={hoodieImage.imageHint}
+                            fill
+                            className="object-cover transition-all duration-700 group-hover:scale-110 contrast-125"
+                        />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                      <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-8 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-y-0 group-hover:opacity-100">
+                          <h4 className="font-bold text-lg leading-tight">LeetCode Official Hoodie</h4>
+                          <p className="text-xs text-white/70 mt-1">Awarded for perseverance through setbacks.</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              </a>
             </div>
 
             <div className="p-6 rounded-[40px] bg-primary/5 border border-primary/10 backdrop-blur-sm">
@@ -736,4 +743,3 @@ export function LeetCode() {
     </section>
   );
 }
-
