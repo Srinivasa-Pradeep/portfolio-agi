@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -112,34 +111,23 @@ const FALLBACK_HISTORY = [
   { index: 38, rating: 2041 },
 ];
 
-const leetCodeProgress = {
+const FALLBACK_PROGRESS = {
   totalSolved: 1298,
   totalProblems: 3948,
-  attempting: 29,
   easy: { solved: 466, total: 947 },
   medium: { solved: 661, total: 2063 },
   hard: { solved: 171, total: 938 },
   acceptanceRate: "68.03%",
-  submissions: "2.8k",
 };
 
-const pieData = [
-    { name: 'Hard Solved', value: leetCodeProgress.hard.solved, color: 'hsl(var(--destructive))', difficulty: 'hard' },
-    { name: 'Hard Remaining', value: leetCodeProgress.hard.total - leetCodeProgress.hard.solved, color: 'hsl(var(--destructive)/0.2)', difficulty: 'hard' },
-    { name: 'Medium Solved', value: leetCodeProgress.medium.solved, color: 'hsl(var(--primary))', difficulty: 'medium' },
-    { name: 'Medium Remaining', value: leetCodeProgress.medium.total - leetCodeProgress.medium.solved, color: 'hsl(var(--primary)/0.2)', difficulty: 'medium' },
-    { name: 'Easy Solved', value: leetCodeProgress.easy.solved, color: 'hsl(var(--easy))', difficulty: 'easy' },
-    { name: 'Easy Remaining', value: leetCodeProgress.easy.total - leetCodeProgress.easy.solved, color: 'hsl(var(--easy)/0.2)', difficulty: 'easy'},
-].reverse();
-
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload, progress }: any) => {
   if (active && payload && payload.length) {
     const difficultyData = payload[0].payload;
     const difficulty = difficultyData.difficulty as 'easy' | 'medium' | 'hard';
     
-    if (!difficulty) return null;
+    if (!difficulty || !progress) return null;
     
-    const progress = leetCodeProgress[difficulty];
+    const stats = progress[difficulty];
 
     let color;
     let name;
@@ -155,13 +143,13 @@ const CustomTooltip = ({ active, payload }: any) => {
       color = 'hsl(var(--destructive))';
     }
     
-    const solvedPercentage = (progress.solved / progress.total * 100).toFixed(1);
+    const solvedPercentage = (stats.solved / stats.total * 100).toFixed(1);
 
     return (
       <div className="rounded-lg border bg-background/80 backdrop-blur-sm p-3 shadow-sm min-w-[140px]">
         <div className="flex justify-between items-center gap-4">
           <span className="font-semibold" style={{ color: color }}>{name}</span>
-          <span className="text-sm font-bold" style={{ color: color }}>{progress.solved} <span className="text-muted-foreground text-xs">/ {progress.total}</span></span>
+          <span className="text-sm font-bold" style={{ color: color }}>{stats.solved} <span className="text-muted-foreground text-xs">/ {stats.total}</span></span>
         </div>
         <div className="mt-1 text-xs text-muted-foreground">
             Solved {solvedPercentage}%
@@ -184,27 +172,6 @@ const RatingTooltip = ({ active, payload }: any) => {
   }
   return null;
 };
-
-const featuredSolutions = [
-  {
-    title: "Count Odd Numbers in an Interval Range",
-    difficulty: "Easy",
-    topics: ["Math"],
-    link: "https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/solutions/7396711/o1-math-trick-python-c-java-by-srinivasa-r8pl"
-  },
-  {
-    title: "Maximize Happiness of Selected Children",
-    difficulty: "Medium",
-    topics: ["Array", "Greedy", "Sorting"],
-    link: "https://leetcode.com/problems/maximize-happiness-of-selected-children/solutions/7436813/sorting-greedy-python-c-by-srinivasa_pra-4nlj"
-  },
-  {
-    title: "Minimum One Bit Operations to Make Integers Zero",
-    difficulty: "Hard",
-    topics: ["Math","Dynamic Programming","Bit Manipulation","Recursion","Memoization"],
-    link: "https://leetcode.com/problems/minimum-one-bit-operations-to-make-integers-zero/solutions/7333658/bit-manipulation-gray-code-logic-python-kwkii"
-  }
-];
 
 const allProblems = [
     { title: 'Make Array Zero by Subtracting Equal Amounts', difficulty: 'Easy', link: 'https://leetcode.com/problems/make-array-zero-by-subtracting-equal-amounts/', topics: [] },
@@ -285,6 +252,27 @@ const allProblems = [
 
 type Problem = typeof allProblems[0];
 
+const featuredSolutions = [
+  {
+    title: "Count Odd Numbers in an Interval Range",
+    difficulty: "Easy",
+    topics: ["Math"],
+    link: "https://leetcode.com/problems/count-odd-numbers-in-an-interval-range/solutions/7396711/o1-math-trick-python-c-java-by-srinivasa-r8pl"
+  },
+  {
+    title: "Maximize Happiness of Selected Children",
+    difficulty: "Medium",
+    topics: ["Array", "Greedy", "Sorting"],
+    link: "https://leetcode.com/problems/maximize-happiness-of-selected-children/solutions/7436813/sorting-greedy-python-c-by-srinivasa_pra-4nlj"
+  },
+  {
+    title: "Minimum One Bit Operations to Make Integers Zero",
+    difficulty: "Hard",
+    topics: ["Math","Dynamic Programming","Bit Manipulation","Recursion","Memoization"],
+    link: "https://leetcode.com/problems/minimum-one-bit-operations-to-make-integers-zero/solutions/7333658/bit-manipulation-gray-code-logic-python-kwkii"
+  }
+];
+
 function LeetCodeProfileButtonWithPreview({ href }: { href: string }) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const previewImage = PlaceHolderImages.find(p => p.id === 'leetcode-preview');
@@ -345,6 +333,7 @@ export function LeetCode() {
   const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
   const [dynamicStats, setDynamicStats] = useState<any>(null);
   const [dynamicHistory, setDynamicHistory] = useState<any[]>([]);
+  const [dynamicProgress, setDynamicProgress] = useState<any>(null);
   const [activeStat, setActiveStat] = useState(FALLBACK_STATS);
   const hoodieImage = PlaceHolderImages.find(p => p.id === 'leetcode-hoodie');
 
@@ -353,13 +342,8 @@ export function LeetCode() {
     async function fetchContestData() {
       try {
         const response = await fetch('https://alfa-leetcode-api.onrender.com/srinivasa_pradeep_/contest');
-        
-        // If the API fails (404, 429, etc.), we exit gracefully and use FALLBACK_STATS.
         if (!response.ok) return;
-
         const data = await response.json();
-        
-        // Final safety check for API response structure
         if (!data || typeof data !== 'object') return;
 
         const stats = {
@@ -381,15 +365,48 @@ export function LeetCode() {
         setDynamicHistory(history);
         setActiveStat(stats);
       } catch (error) {
-        // Log locally for debugging but don't throw to avoid UI crash
-        console.warn('LeetCode API unavailable, using high-fidelity fallback stats.');
+        console.warn('LeetCode Contest API unavailable, using fallback.');
       }
     }
+
+    async function fetchProfileData() {
+      try {
+        const response = await fetch('https://alfa-leetcode-api.onrender.com/userProfile/srinivasa_pradeep_');
+        if (!response.ok) return;
+        const data = await response.json();
+        if (!data || typeof data !== 'object') return;
+
+        const progress = {
+            totalSolved: data.totalSolved || FALLBACK_PROGRESS.totalSolved,
+            totalProblems: data.totalQuestions || FALLBACK_PROGRESS.totalProblems,
+            easy: { solved: data.easySolved || FALLBACK_PROGRESS.easy.solved, total: data.totalEasy || FALLBACK_PROGRESS.easy.total },
+            medium: { solved: data.mediumSolved || FALLBACK_PROGRESS.medium.solved, total: data.totalMedium || FALLBACK_PROGRESS.medium.total },
+            hard: { solved: data.hardSolved || FALLBACK_PROGRESS.hard.solved, total: data.totalHard || FALLBACK_PROGRESS.hard.total },
+            acceptanceRate: data.acceptanceRate ? `${data.acceptanceRate.toFixed(2)}%` : FALLBACK_PROGRESS.acceptanceRate,
+        };
+        
+        setDynamicProgress(progress);
+      } catch (error) {
+        console.warn('LeetCode Profile API unavailable, using fallback.');
+      }
+    }
+
     fetchContestData();
+    fetchProfileData();
   }, []);
 
   const currentStats = dynamicStats || FALLBACK_STATS;
   const currentHistory = dynamicHistory.length > 0 ? dynamicHistory : FALLBACK_HISTORY;
+  const currentProgress = dynamicProgress || FALLBACK_PROGRESS;
+
+  const pieData = useMemo(() => [
+    { name: 'Hard Solved', value: currentProgress.hard.solved, color: 'hsl(var(--destructive))', difficulty: 'hard' },
+    { name: 'Hard Remaining', value: currentProgress.hard.total - currentProgress.hard.solved, color: 'hsl(var(--destructive)/0.2)', difficulty: 'hard' },
+    { name: 'Medium Solved', value: currentProgress.medium.solved, color: 'hsl(var(--primary))', difficulty: 'medium' },
+    { name: 'Medium Remaining', value: currentProgress.medium.total - currentProgress.medium.solved, color: 'hsl(var(--primary)/0.2)', difficulty: 'medium' },
+    { name: 'Easy Solved', value: currentProgress.easy.solved, color: 'hsl(var(--easy))', difficulty: 'easy' },
+    { name: 'Easy Remaining', value: currentProgress.easy.total - currentProgress.easy.solved, color: 'hsl(var(--easy)/0.2)', difficulty: 'easy'},
+  ].reverse(), [currentProgress]);
 
   const shuffleProblem = () => {
     const randomIndex = Math.floor(Math.random() * allProblems.length);
@@ -438,7 +455,7 @@ export function LeetCode() {
                         onMouseEnter={() => setIsHoveringPie(true)}
                         onMouseLeave={() => setIsHoveringPie(false)}
                       >
-                          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent)/0.5)' }}/>
+                          <Tooltip content={<CustomTooltip progress={currentProgress} />} cursor={{ fill: 'hsl(var(--accent)/0.5)' }}/>
                           <Pie
                           data={pieData}
                           dataKey="value"
@@ -465,7 +482,7 @@ export function LeetCode() {
                         isHoveringPie ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
                     )}>
                         <p className="text-4xl font-bold tracking-tight">
-                            {leetCodeProgress.totalSolved}
+                            {currentProgress.totalSolved}
                         </p>
                         <p className="flex items-center justify-center gap-1.5 mt-1 text-sm font-medium text-muted-foreground">
                             Solved
@@ -477,7 +494,7 @@ export function LeetCode() {
                         isHoveringPie ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
                     )}>
                         <p className="text-4xl font-bold tracking-tight">
-                            {leetCodeProgress.acceptanceRate}
+                            {currentProgress.acceptanceRate}
                         </p>
                         <p className="flex items-center justify-center gap-1.5 mt-1 text-sm font-medium text-muted-foreground">
                             Acceptance
@@ -488,9 +505,9 @@ export function LeetCode() {
 
                 <div className="md:col-span-2 space-y-4">
                   {[
-                    { label: 'Easy', value: leetCodeProgress.easy, color: 'var(--easy)' },
-                    { label: 'Medium', value: leetCodeProgress.medium, color: 'var(--primary)' },
-                    { label: 'Hard', value: leetCodeProgress.hard, color: 'var(--destructive)' }
+                    { label: 'Easy', value: currentProgress.easy, color: 'var(--easy)' },
+                    { label: 'Medium', value: currentProgress.medium, color: 'var(--primary)' },
+                    { label: 'Hard', value: currentProgress.hard, color: 'var(--destructive)' }
                   ].map((lvl) => (
                     <div key={lvl.label} className="p-4 rounded-2xl bg-secondary/50 dark:bg-white/5 border border-border dark:border-white/5 transition-all duration-300 group-hover:bg-secondary dark:group-hover:bg-white/10">
                         <div className="flex justify-between items-baseline">
@@ -661,7 +678,7 @@ export function LeetCode() {
                 Milestone Reached
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Successfully solved {leetCodeProgress.totalSolved}+ problems, maintaining a global top {currentStats.topPercentage}% rank on LeetCode.
+                Successfully solved {currentProgress.totalSolved}+ problems, maintaining a global top {currentStats.topPercentage}% rank on LeetCode.
               </p>
             </div>
           </div>
@@ -696,7 +713,9 @@ export function LeetCode() {
         </div>
         
         <div className="mt-20 flex flex-col items-center gap-6 sm:flex-row sm:justify-center">
-            <LeetCodeProfileButtonWithPreview href="https://leetcode.com/u/srinivasa_pradeep_/" />
+            <ShadcnTooltipProvider delayDuration={0}>
+                <LeetCodeProfileButtonWithPreview href="https://leetcode.com/u/srinivasa_pradeep_/" />
+            </ShadcnTooltipProvider>
             
             <Button size="lg" variant="outline" asChild className="min-w-[200px] rounded-full border-border dark:border-white/10 backdrop-blur-sm">
                <a href="https://github.com/Srinivasa-Pradeep/Data-Structures-and-Algo" target="_blank" rel="noopener noreferrer">
@@ -709,3 +728,4 @@ export function LeetCode() {
     </section>
   );
 }
+
