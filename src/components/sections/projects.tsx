@@ -27,11 +27,11 @@ import {
 const projects = [
   {
     name: "ReviewLens",
-    description: "Comprehensive product sentiment analyzer for buyers and sellers. Delivers deep analytics and actionable insights from consumer reviews to drive informed decision-making.",
+    description: "AI-powered product sentiment analysis platform that transforms raw consumer feedback into actionable visual analytics. Empowers buyers with authentic quality insights and helps sellers optimize product strategies through data-driven sentiment tracking.",
     stack: [
       { name: "Python", icon: SiPython, color: "#3776AB" },
-      { name: "React", icon: SiReact, color: "#61DAFB" },
       { name: "Flask", icon: SiFlask, color: "#000000" },
+      { name: "React", icon: SiReact, color: "#61DAFB" },
       { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
     ],
     github: "https://github.com/Srinivasa-Pradeep/ReviewLens",
