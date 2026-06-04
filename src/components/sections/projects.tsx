@@ -16,6 +16,9 @@ import {
   SiMongodb, 
   SiPython, 
   SiFlask,
+  SiTypescript,
+  SiOpenai,
+  SiVercel,
 } from 'react-icons/si';
 import {
   Tooltip,
@@ -27,12 +30,13 @@ import {
 const projects = [
   {
     name: "ReviewLens",
-    description: "AI-powered product sentiment analysis platform that transforms raw consumer feedback into actionable visual analytics. Empowers buyers with authentic quality insights and helps sellers optimize product strategies through data-driven sentiment tracking.",
+    description: "AI-powered product sentiment analysis platform that transforms raw consumer feedback into actionable visual analytics. Leveraging NLP and serverless architecture to empower buyers with quality insights and sellers with data-driven strategy.",
     stack: [
-      { name: "Python", icon: SiPython, color: "#3776AB" },
-      { name: "Flask", icon: SiFlask, color: "#000000" },
-      { name: "React", icon: SiReact, color: "#61DAFB" },
+      { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+      { name: "Next.js", icon: SiNextdotjs, color: "currentColor" },
       { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
+      { name: "OpenAI/NLP", icon: SiOpenai, color: "#412991" },
+      { name: "Serverless", icon: SiVercel, color: "currentColor" },
     ],
     github: "https://github.com/Srinivasa-Pradeep/ReviewLens",
     link: "https://prodreviewlens.vercel.app/",
