@@ -61,6 +61,57 @@ function FlipNumber({ value, className }: { value: string | number; className?: 
   );
 }
 
+// FALLBACK DATA: Used if API fails or is unavailable
+const FALLBACK_STATS = {
+  rating: 2041,
+  globalRanking: 17076,
+  totalRanked: "874,223",
+  attended: 39,
+  topPercentage: 2.04,
+};
+
+const FALLBACK_HISTORY = [
+  { index: 0, rating: 1556 },
+  { index: 1, rating: 1657 },
+  { index: 2, rating: 1595 },
+  { index: 3, rating: 1612 },
+  { index: 4, rating: 1671 },
+  { index: 5, rating: 1700 },
+  { index: 6, rating: 1707 },
+  { index: 7, rating: 1717 },
+  { index: 8, rating: 1722 },
+  { index: 9, rating: 1731 },
+  { index: 10, rating: 1807 },
+  { index: 11, rating: 1790 },
+  { index: 12, rating: 1786 },
+  { index: 13, rating: 1794 },
+  { index: 14, rating: 1785 },
+  { index: 15, rating: 1786 },
+  { index: 16, rating: 1841 },
+  { index: 17, rating: 1826 },
+  { index: 18, rating: 1866 },
+  { index: 19, rating: 1876 },
+  { index: 20, rating: 1859 },
+  { index: 21, rating: 1903 },
+  { index: 22, rating: 1901 },
+  { index: 23, rating: 1869 },
+  { index: 24, rating: 1905 },
+  { index: 25, rating: 1951 },
+  { index: 26, rating: 1963 },
+  { index: 27, rating: 1956 },
+  { index: 28, rating: 1953 },
+  { index: 29, rating: 1954 },
+  { index: 30, rating: 2021 },
+  { index: 31, rating: 2020 },
+  { index: 32, rating: 1999 },
+  { index: 33, rating: 1980 },
+  { index: 34, rating: 2029 },
+  { index: 35, rating: 2015 },
+  { index: 36, rating: 1990 },
+  { index: 37, rating: 2006 },
+  { index: 38, rating: 2041 },
+];
+
 const leetCodeProgress = {
   totalSolved: 1298,
   totalProblems: 3948,
@@ -121,56 +172,6 @@ const CustomTooltip = ({ active, payload }: any) => {
 
   return null;
 };
-
-const contestStats = {
-  rating: 2041,
-  globalRanking: 17076,
-  totalRanked: "874,223",
-  attended: 39,
-  topPercentage: 2.04,
-};
-
-const ratingHistory = [
-  { index: 0, rating: 1556 },
-  { index: 1, rating: 1657 },
-  { index: 2, rating: 1595 },
-  { index: 3, rating: 1612 },
-  { index: 4, rating: 1671 },
-  { index: 5, rating: 1700 },
-  { index: 6, rating: 1707 },
-  { index: 7, rating: 1717 },
-  { index: 8, rating: 1722 },
-  { index: 9, rating: 1731 },
-  { index: 10, rating: 1807 },
-  { index: 11, rating: 1790 },
-  { index: 12, rating: 1786 },
-  { index: 13, rating: 1794 },
-  { index: 14, rating: 1785 },
-  { index: 15, rating: 1786 },
-  { index: 16, rating: 1841 },
-  { index: 17, rating: 1826 },
-  { index: 18, rating: 1866 },
-  { index: 19, rating: 1876 },
-  { index: 20, rating: 1859 },
-  { index: 21, rating: 1903 },
-  { index: 22, rating: 1901 },
-  { index: 23, rating: 1869 },
-  { index: 24, rating: 1905 },
-  { index: 25, rating: 1951 },
-  { index: 26, rating: 1963 },
-  { index: 27, rating: 1956 },
-  { index: 28, rating: 1953 },
-  { index: 29, rating: 1954 },
-  { index: 30, rating: 2021 },
-  { index: 31, rating: 2020 },
-  { index: 32, rating: 1999 },
-  { index: 33, rating: 1980 },
-  { index: 34, rating: 2029 },
-  { index: 35, rating: 2015 },
-  { index: 36, rating: 1990 },
-  { index: 37, rating: 2006 },
-  { index: 38, rating: 2041 },
-];
 
 const RatingTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
@@ -340,8 +341,47 @@ function LeetCodeProfileButtonWithPreview({ href }: { href: string }) {
 export function LeetCode() {
   const [isHoveringPie, setIsHoveringPie] = useState(false);
   const [randomProblem, setRandomProblem] = useState<Problem | null>(null);
-  const [activeStat, setActiveStat] = useState(contestStats);
+  const [dynamicStats, setDynamicStats] = useState<any>(null);
+  const [dynamicHistory, setDynamicHistory] = useState<any[]>([]);
+  const [activeStat, setActiveStat] = useState(FALLBACK_STATS);
   const hoodieImage = PlaceHolderImages.find(p => p.id === 'leetcode-hoodie');
+
+  // Real-time API Fetch Logic with Fallback
+  useEffect(() => {
+    async function fetchContestData() {
+      try {
+        const response = await fetch('https://alfa-leetcode-api.onrender.com/srinivasa_pradeep_/contest');
+        if (!response.ok) throw new Error('API request failed');
+        const data = await response.json();
+        
+        const stats = {
+          rating: Math.round(data.contestRating),
+          globalRanking: data.contestGlobalRanking,
+          totalRanked: data.totalParticipants.toLocaleString(),
+          attended: data.contestAttend,
+          topPercentage: data.contestTopPercentage.toFixed(2),
+        };
+
+        const history = data.contestHistory
+          .filter((c: any) => c.attended)
+          .map((c: any, index: number) => ({
+            index,
+            rating: Math.round(c.rating)
+          }));
+        
+        setDynamicStats(stats);
+        setDynamicHistory(history);
+        setActiveStat(stats);
+      } catch (error) {
+        console.error('LeetCode API fetch error:', error);
+        // We stick with FALLBACK_STATS initialized in state
+      }
+    }
+    fetchContestData();
+  }, []);
+
+  const currentStats = dynamicStats || FALLBACK_STATS;
+  const currentHistory = dynamicHistory.length > 0 ? dynamicHistory : FALLBACK_HISTORY;
 
   const shuffleProblem = () => {
     const randomIndex = Math.floor(Math.random() * allProblems.length);
@@ -355,33 +395,28 @@ export function LeetCode() {
   const handleMouseMoveGraph = (state: any) => {
     if (state && state.activePayload) {
       const data = state.activePayload[0].payload;
-      // Note: We'd need rank mapping to animate all three, but for MVP we focus on Rating.
-      // For this implementation, we keep global rank static as a full string, 
-      // but flip digits for the dynamic values.
       setActiveStat({
-          ...contestStats,
+          ...currentStats,
           rating: data.rating
       });
     }
   };
 
   const handleMouseLeaveGraph = () => {
-    setActiveStat(contestStats);
+    setActiveStat(currentStats);
   };
 
   return (
     <section id="leetcode" className="py-20 md:py-32">
       <div className="container">
-        {/* Centered Consistent Header */}
         <div className="text-center mb-16">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Problem Solving Hub</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-            A real-time snapshot of my dedication to honing algorithmic skills on LeetCode.
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground lora italic">
+            A real-time snapshot of my algorithmic journey and competitive performance.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Dashboard Column */}
           <div className="lg:col-span-2 space-y-8">
             <Card className="group relative overflow-hidden p-6 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-2 hover:shadow-2xl bg-card/20 backdrop-blur-xl border border-border dark:border-white/10 rounded-[40px]">
               <div className="flex items-center gap-2 mb-6">
@@ -492,27 +527,22 @@ export function LeetCode() {
                   <div className="h-60 relative w-full overflow-hidden">
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart 
-                        data={ratingHistory} 
+                        data={currentHistory} 
                         margin={{ top: 20, right: 32, left: 32, bottom: 20 }}
                         onMouseMove={handleMouseMoveGraph}
                         onMouseLeave={handleMouseLeaveGraph}
                       >
                         <defs>
-                          {/* Horizontal Faded Gradient for the Path */}
                           <linearGradient id="line-gradient-rating" x1="0%" x2="100%" y1="0%" y2="0%">
                             <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0 }} />
                             <stop offset="15%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
                             <stop offset="85%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
                             <stop offset="100%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0 }} />
                           </linearGradient>
-                          
-                          {/* Vertical Area Gradient */}
                           <linearGradient id="colorRating" x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
                             <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
                           </linearGradient>
-
-                          {/* Mask for Faded Edges on Grid */}
                           <linearGradient id="grid-fade" x1="0%" x2="100%" y1="0%" y2="0%">
                             <stop offset="0%" style={{ stopColor: 'white', stopOpacity: 0 }} />
                             <stop offset="10%" style={{ stopColor: 'white', stopOpacity: 1 }} />
@@ -523,8 +553,6 @@ export function LeetCode() {
                             <rect width="100%" height="100%" fill="url(#grid-fade)" />
                           </mask>
                         </defs>
-
-                        {/* Faded Architectural Grid */}
                         <CartesianGrid 
                           strokeDasharray="4 4" 
                           vertical={false} 
@@ -532,11 +560,9 @@ export function LeetCode() {
                           strokeOpacity={0.5}
                           style={{ mask: 'url(#grid-mask)' }}
                         />
-
                         <XAxis dataKey="index" hide />
                         <YAxis domain={['dataMin - 100', 'dataMax + 100']} hide />
                         <Tooltip content={<RatingTooltip />} cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '4 4' }} />
-                        
                         <Area 
                           type="monotone" 
                           dataKey="rating" 
@@ -551,10 +577,6 @@ export function LeetCode() {
                             strokeWidth: 2,
                             className: "drop-shadow-[0_0_8px_hsl(var(--primary))]" 
                           }}
-                          isAnimationActive={true}
-                          animationBegin={200}
-                          animationDuration={2500}
-                          animationEasing="cubic-bezier(0.4, 0, 0.2, 1)"
                         />
                       </AreaChart>
                     </ResponsiveContainer>
@@ -563,7 +585,6 @@ export function LeetCode() {
             </Card>
           </div>
 
-          {/* Right Summary Column */}
           <div className="space-y-8">
             <div className="space-y-4">
               <h3 className="font-headline text-lg font-semibold flex items-center gap-2 px-1">
@@ -599,7 +620,6 @@ export function LeetCode() {
               )}
             </div>
 
-            {/* LeetCode Hoodie Achievement Card */}
             <div className="space-y-4">
               <h3 className="font-headline text-lg font-semibold flex items-center gap-2 px-1">
                 <Star className="h-4 w-4 text-primary" />
@@ -617,10 +637,7 @@ export function LeetCode() {
                           className="object-cover transition-all duration-700 group-hover:scale-110 contrast-125"
                       />
                     )}
-                    {/* Cinematic Reveal Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                    
-                    {/* Slide-Up Text Container */}
                     <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-8 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-y-0 group-hover:opacity-100">
                         <h4 className="font-bold text-lg leading-tight">LeetCode Official Hoodie</h4>
                         <p className="text-xs text-white/70 mt-1">Awarded for perseverance through setbacks.</p>
@@ -636,7 +653,7 @@ export function LeetCode() {
                 Milestone Reached
               </div>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Successfully solved {leetCodeProgress.totalSolved}+ problems, maintaining a global top {contestStats.topPercentage}% rank on LeetCode.
+                Successfully solved {leetCodeProgress.totalSolved}+ problems, maintaining a global top {currentStats.topPercentage}% rank on LeetCode.
               </p>
             </div>
           </div>
