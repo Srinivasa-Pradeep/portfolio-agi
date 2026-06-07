@@ -3,7 +3,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Shuffle, Trophy, TrendingUp, Code, Github, Star } from "lucide-react";
+import { Shuffle, Trophy, TrendingUp, Code, Github, Star, Check } from "lucide-react";
 import { 
   Area,
   AreaChart,
@@ -61,7 +61,7 @@ function FlipNumber({ value, className }: { value: string | number; className?: 
   );
 }
 
-// FALLBACK DATA: Updated to reflect the user's current 1314 milestone
+// FALLBACK DATA: Updated to reflect the user's current 1314 milestone and latest total counts
 const FALLBACK_STATS = {
   rating: 2041,
   globalRanking: 17076,
@@ -114,7 +114,7 @@ const FALLBACK_HISTORY = [
 
 const FALLBACK_PROGRESS = {
   totalSolved: 1314,
-  totalProblems: 3948,
+  totalProblems: 3957,
   easy: { solved: 466, total: 947 },
   medium: { solved: 677, total: 2063 },
   hard: { solved: 171, total: 938 },
@@ -495,12 +495,20 @@ export function LeetCode() {
                         "flex flex-col items-center justify-center transition-all duration-500",
                         isHoveringPie ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
                     )}>
-                        <p className="text-4xl font-bold tracking-tight">
-                            {currentProgress.totalSolved}
-                        </p>
-                        <p className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-[0.2em] mt-1">
-                            / {currentProgress.totalProblems} Solved
-                        </p>
+                        <div className="flex items-baseline gap-1">
+                            <span className="text-5xl font-bold tracking-tighter text-foreground">
+                                {currentProgress.totalSolved}
+                            </span>
+                            <span className="text-2xl font-bold text-muted-foreground/40">
+                                /{currentProgress.totalProblems}
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-2 mt-2">
+                            <Check className="h-5 w-5 text-emerald-500" strokeWidth={3} />
+                            <span className="text-xl font-bold text-foreground/90 tracking-tight">
+                                Solved
+                            </span>
+                        </div>
                     </div>
 
                     <div className={cn(
