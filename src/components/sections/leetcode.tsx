@@ -496,16 +496,16 @@ export function LeetCode() {
                         isHoveringPie ? 'opacity-0 scale-95' : 'opacity-100 scale-100'
                     )}>
                         <div className="flex items-baseline gap-1">
-                            <span className="text-5xl font-bold tracking-tighter text-foreground">
+                            <span className="text-4xl font-bold tracking-tighter text-foreground">
                                 {currentProgress.totalSolved}
                             </span>
-                            <span className="text-2xl font-bold text-muted-foreground/40">
+                            <span className="text-lg font-bold text-muted-foreground/40">
                                 /{currentProgress.totalProblems}
                             </span>
                         </div>
-                        <div className="flex items-center gap-2 mt-2">
-                            <Check className="h-5 w-5 text-emerald-500" strokeWidth={3} />
-                            <span className="text-xl font-bold text-foreground/90 tracking-tight">
+                        <div className="flex items-center gap-2 mt-1.5">
+                            <span className="h-2 w-2 rounded-full bg-[#00FF00] animate-breathing" />
+                            <span className="text-sm font-black text-foreground/70 tracking-[0.2em] uppercase">
                                 Solved
                             </span>
                         </div>
