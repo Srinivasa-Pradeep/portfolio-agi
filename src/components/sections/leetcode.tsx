@@ -61,7 +61,7 @@ function FlipNumber({ value, className }: { value: string | number; className?: 
   );
 }
 
-// FALLBACK DATA: Used if API fails or is unavailable
+// FALLBACK DATA: Updated to reflect the user's current 1314 milestone
 const FALLBACK_STATS = {
   rating: 2041,
   globalRanking: 17076,
@@ -113,10 +113,10 @@ const FALLBACK_HISTORY = [
 ];
 
 const FALLBACK_PROGRESS = {
-  totalSolved: 1298,
+  totalSolved: 1314,
   totalProblems: 3948,
   easy: { solved: 466, total: 947 },
-  medium: { solved: 661, total: 2063 },
+  medium: { solved: 677, total: 2063 },
   hard: { solved: 171, total: 938 },
   acceptanceRate: "68.03%",
 };
@@ -498,8 +498,8 @@ export function LeetCode() {
                         <p className="text-4xl font-bold tracking-tight">
                             {currentProgress.totalSolved}
                         </p>
-                        <p className="flex items-center justify-center gap-1.5 mt-1 text-sm font-medium text-muted-foreground">
-                            Solved
+                        <p className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-[0.2em] mt-1">
+                            / {currentProgress.totalProblems} Solved
                         </p>
                     </div>
 
