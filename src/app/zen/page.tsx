@@ -86,7 +86,7 @@ export default function ZenPage() {
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    // Removed the colon as requested, using a space for a cleaner look
+    // Removed the colon for a cleaner, more abstract technical look
     return `${String(minutes).padStart(2, '0')} ${String(secs).padStart(2, '0')}`;
   };
 
@@ -227,16 +227,16 @@ export default function ZenPage() {
               {getButton()}
             </div>
             
-            <div className="flex items-center justify-center gap-6">
+            <div className="flex items-center justify-center">
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button 
-                      variant="outline" 
+                      variant="ghost" 
                       size="icon" 
                       onClick={handleReset} 
                       disabled={sessionState === 'idle' && sessionsCompleted === 0}
-                      className="h-12 w-12 rounded-full border-border/40 hover:bg-primary/10"
+                      className="h-12 w-12 rounded-full hover:bg-primary/10 opacity-30 hover:opacity-100 transition-opacity"
                     >
                       <RefreshCw className="h-5 w-5" />
                     </Button>
@@ -246,21 +246,6 @@ export default function ZenPage() {
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
-
-              <div className="flex flex-col items-center gap-1">
-                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Deep_Work_History</p>
-                 <div className="flex gap-1.5">
-                    {[...Array(5)].map((_, i) => (
-                      <div 
-                        key={i} 
-                        className={cn(
-                          "h-1.5 w-6 rounded-full transition-all duration-500",
-                          i < sessionsCompleted ? "bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "bg-border/20"
-                        )} 
-                      />
-                    ))}
-                 </div>
-              </div>
             </div>
           </div>
         </div>
