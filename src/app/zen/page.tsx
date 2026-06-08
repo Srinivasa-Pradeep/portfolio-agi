@@ -262,35 +262,36 @@ export default function ZenPage() {
             </div>
           </div>
 
-          <div className={cn(
-            "flex flex-col items-center gap-8 w-full max-w-sm transition-all duration-1000",
-            sessionState === 'running' ? "opacity-20 hover:opacity-100" : "opacity-100"
-          )}>
-            <div className="w-full">
+          <div className="flex flex-col items-center w-full max-w-sm">
+            <div className={cn(
+              "w-full transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
+              sessionState === 'running' ? "opacity-20 hover:opacity-100" : "opacity-100"
+            )}>
               {getButton()}
             </div>
             
-            {sessionState !== 'idle' && (
-              <div className="flex items-center justify-center animate-in fade-in zoom-in slide-in-from-bottom-4 duration-1000">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={handleReset} 
-                        className="h-12 w-12 rounded-full hover:bg-primary/10 opacity-30 hover:opacity-100 transition-opacity"
-                      >
-                        <RefreshCw className="h-5 w-5" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Reset Session</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-            )}
+            <div className={cn(
+              "w-full flex items-center justify-center overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
+              sessionState === 'idle' ? "max-h-0 opacity-0 mt-0 pointer-events-none translate-y-4" : "max-h-24 opacity-100 mt-8 translate-y-0"
+            )}>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={handleReset} 
+                      className="h-12 w-12 rounded-full hover:bg-primary/10 opacity-30 hover:opacity-100 transition-opacity"
+                    >
+                      <RefreshCw className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Reset Session</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
           </div>
         </div>
       </main>

@@ -737,7 +737,7 @@ export function LeetCode() {
                   <div className="mt-auto">
                     <Button asChild variant="outline" className="w-full rounded-2xl group/btn hover:bg-primary hover:text-primary-foreground border-border dark:border-white/10">
                       <a href={solution.link} target="_blank" rel="noopener noreferrer">
-                        <Code className="mr-2 h-4 w-4" /> View Solution
+                        <Code className="mr-2 h-3 w-3" /> View Solution
                       </a>
                     </Button>
                   </div>
