@@ -12,32 +12,24 @@ type ZenTreeProps = {
 const PETAL_LAYERS = 5;
 
 // This function calculates the rotation and opacity for a petal layer.
-// The flower grows layer by layer with each completed session.
-// During a session, the new layer fades in, but its shape remains static.
 const getLayerStyle = (layerIndex: number, sessions: number, progress: number, state: ZenTreeProps['state']) => {
-  const baseRotation = -15; // Rotation for a fully "open" petal layer.
+  const baseRotation = -15; 
 
   let rotation = 0;
-  let opacity = 0; // Default for future layers, starting from 0 opacity.
+  let opacity = 0; 
 
-  // For layers from completed sessions: fully open and visible.
   if (sessions > layerIndex) {
     rotation = baseRotation;
-    opacity = 1;
+    opacity = 0.8;
   }
-  // For the layer of the current session:
   else if (sessions === layerIndex) {
-    // The petals are in a fixed "open" position for the whole session.
     rotation = baseRotation;
-
-    // The opacity increases from 0 to 1 as the timer progresses.
     if (state === 'running' || state === 'paused') {
-      opacity = progress; // Directly map progress to opacity.
+      opacity = 0.2 + (progress * 0.6); 
     } else if (state === 'complete') {
-      opacity = 1;
+      opacity = 0.8;
     }
   }
-  // Future layers (those beyond the current session) will have opacity = 0.
 
   return { rotation, opacity };
 };
@@ -54,29 +46,25 @@ export function ZenTree({ sessions, progress, state }: ZenTreeProps) {
   const currentLayer = sessions < PETAL_LAYERS ? sessions : PETAL_LAYERS -1;
 
   return (
-    <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-lg overflow-visible">
+    <svg viewBox="0 0 200 200" className="w-full h-full drop-shadow-2xl overflow-visible filter saturate-[0.8] contrast-[1.1]">
       <defs>
         <radialGradient id="lotus-glow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-          <stop offset="0%" style={{ stopColor: 'hsl(var(--primary) / 0.8)', stopOpacity: 0.8 }} />
-          <stop offset="60%" style={{ stopColor: 'hsl(var(--primary) / 0.3)', stopOpacity: 0.5 }} />
-          <stop offset="100%" style={{ stopColor: 'hsl(var(--primary) / 0)', stopOpacity: 0 }} />
+          <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0.6 }} />
+          <stop offset="100%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0 }} />
         </radialGradient>
-         <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-            <feMerge>
-                <feMergeNode in="coloredBlur"/>
-                <feMergeNode in="SourceGraphic"/>
-            </feMerge>
+        <filter id="petal-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
         </filter>
       </defs>
       
       <g className={cn(state === 'running' && 'animate-slow-rotate')} style={{ transformOrigin: 'center' }}>
 
-        {/* Pulsating Glow */}
+        {/* Pulsating Heart */}
         <circle 
           cx="100" 
           cy="100" 
-          r="12" 
+          r="15" 
           fill="url(#lotus-glow)" 
           className={cn("transition-all duration-1000", state === 'running' && 'animate-pulse')} 
         />
@@ -84,8 +72,8 @@ export function ZenTree({ sessions, progress, state }: ZenTreeProps) {
         {/* Petal Layers */}
         {[...Array(PETAL_LAYERS)].map((_, i) => {
           const { rotation, opacity } = getLayerStyle(i, sessions, progress, state);
-          const scale = 1 + i * 0.18;
-          const isGrowing = currentLayer === i && state === 'running';
+          const scale = 0.8 + i * 0.25;
+          const isGrowing = i === sessions && state === 'running';
 
           return (
             <g 
@@ -93,39 +81,38 @@ export function ZenTree({ sessions, progress, state }: ZenTreeProps) {
               transform={`translate(100 100) scale(${scale}) translate(-100 -100)`}
               className={cn(
                   "transition-opacity duration-1000",
-                  state === 'paused' && 'opacity-50'
+                  state === 'paused' && 'opacity-40'
               )}
               style={{ opacity: opacity }}
             >
               <g style={{ 
                   transform: `rotate(${rotation}deg)`, 
-                  transformOrigin: '100px 140px',
-                  transition: 'transform 1s cubic-bezier(0.4, 0, 0.2, 1)',
-                  filter: isGrowing ? 'url(#glow)' : 'none',
+                  transformOrigin: '100px 100px',
+                  transition: 'transform 2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  filter: isGrowing ? 'url(#petal-glow)' : 'none',
               }}>
-                  <path d="M100 90 C 80 80, 80 60, 100 40 C 120 60, 120 80, 100 90 Z" 
-                        className="fill-current text-pink-400/20 dark:text-pink-400/10" 
-                        transform="rotate(0 100 100)" />
-                  <path d="M100 90 C 80 80, 80 60, 100 40 C 120 60, 120 80, 100 90 Z" 
-                        className="fill-current text-pink-400/40 dark:text-pink-400/20" 
-                        transform="rotate(72 100 100)" />
-                  <path d="M100 90 C 80 80, 80 60, 100 40 C 120 60, 120 80, 100 90 Z" 
-                        className="fill-current text-pink-400/60 dark:text-pink-400/30" 
-                        transform="rotate(144 100 100)" />
-                  <path d="M100 90 C 80 80, 80 60, 100 40 C 120 60, 120 80, 100 90 Z" 
-                        className="fill-current text-pink-400/50 dark:text-pink-400/20" 
-                        transform="rotate(216 100 100)" />
-                  <path d="M100 90 C 80 80, 80 60, 100 40 C 120 60, 120 80, 100 90 Z" 
-                        className="fill-current text-pink-400/30 dark:text-pink-400/10" 
-                        transform="rotate(288 100 100)" />
+                  {/* Symmetrical Petal Design */}
+                  {[0, 72, 144, 216, 288].map((angle) => (
+                    <path 
+                        key={angle}
+                        d="M100 100 C 85 85, 85 50, 100 30 C 115 50, 115 85, 100 100 Z" 
+                        className={cn(
+                            "fill-primary/20 stroke-primary/30 stroke-[0.5]",
+                            i % 2 === 0 ? "fill-primary/10" : "fill-primary/25"
+                        )} 
+                        transform={`rotate(${angle} 100 100)`} 
+                    />
+                  ))}
               </g>
             </g>
           )
         })}
         
-        {/* Center Bud */}
-        <circle cx="100" cy="100" r="10" className="fill-current text-yellow-300/80 dark:text-yellow-200/80" />
+        {/* Center Bud - Technical Core */}
+        <circle cx="100" cy="100" r="8" className="fill-primary shadow-[0_0_15px_hsl(var(--primary))]" />
+        <circle cx="100" cy="100" r="12" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.2" strokeDasharray="2,2" className="animate-spin" style={{ animationDuration: '10s' }} />
       </g>
     </svg>
   );
 }
+

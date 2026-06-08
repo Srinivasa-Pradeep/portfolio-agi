@@ -4,8 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { CameraMirror } from '@/components/camera-mirror';
-import { Play, Pause, RefreshCw, Sparkles, ArrowLeft, Camera } from 'lucide-react';
+import { Play, Pause, RefreshCw, Sparkles, ArrowLeft, Wind } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -13,6 +12,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import Link from 'next/link';
+import { ZenTree } from '@/components/zen-tree';
+import { cn } from '@/lib/utils';
 
 const FOCUS_DURATION = 20 * 60; // 20 minutes
 
@@ -20,12 +21,17 @@ export default function ZenPage() {
   const [timeRemaining, setTimeRemaining] = useState(FOCUS_DURATION);
   const [sessionState, setSessionState] = useState<'idle' | 'running' | 'paused' | 'complete'>('idle');
   const [sessionsCompleted, setSessionsCompleted] = useState(0);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined = undefined;
 
     if (sessionState === 'running' && timeRemaining > 0) {
-      document.title = `${formatTime(timeRemaining)} - Zen Mode`;
+      document.title = `${formatTime(timeRemaining)} - Deep Focus`;
       interval = setInterval(() => {
         setTimeRemaining(prevTime => prevTime - 1);
       }, 1000);
@@ -93,81 +99,165 @@ export default function ZenPage() {
     switch (sessionState) {
       case 'idle':
         return (
-          <Button size="lg" onClick={handleStart} className="w-full shadow-lg">
-            <Camera className="mr-2 h-5 w-5" /> Start Mirror Focus
+          <Button size="lg" onClick={handleStart} className="w-full h-14 rounded-2xl shadow-lg font-bold text-lg group">
+            <Wind className="mr-2 h-5 w-5 transition-transform group-hover:rotate-12" /> Start Deep Focus
           </Button>
         );
       case 'running':
         return (
-          <Button size="lg" variant="secondary" onClick={handlePause} className="w-full shadow-md">
-            <Pause className="mr-2 h-5 w-5" /> Pause
+          <Button size="lg" variant="secondary" onClick={handlePause} className="w-full h-14 rounded-2xl shadow-md font-bold text-lg">
+            <Pause className="mr-2 h-5 w-5" /> Pause Session
           </Button>
         );
       case 'paused':
         return (
-          <Button size="lg" onClick={handleResume} className="w-full shadow-lg">
-            <Play className="mr-2 h-5 w-5" /> Resume
+          <Button size="lg" onClick={handleResume} className="w-full h-14 rounded-2xl shadow-lg font-bold text-lg">
+            <Play className="mr-2 h-5 w-5" /> Resume Focus
           </Button>
         );
       case 'complete':
         return (
-          <Button size="lg" onClick={handleContinue} className="w-full shadow-lg animate-slow-pulse">
+          <Button size="lg" onClick={handleContinue} className="w-full h-14 rounded-2xl shadow-lg animate-slow-pulse font-bold text-lg">
             <Sparkles className="mr-2 h-5 w-5" /> Another 20 Minutes
           </Button>
         );
     }
   };
 
+  if (!mounted) return null;
+
   return (
-    <div className="flex min-h-screen flex-col bg-background dark:bg-transparent">
+    <div className="flex min-h-screen flex-col bg-background relative overflow-hidden">
+      {/* Cinematic Background Elements */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
+      </div>
+
       <Header />
-      <main className="flex-1 pt-24 flex items-center justify-center">
-        <div className="container flex flex-col items-center justify-center text-center gap-8 py-12 md:py-20">
-          <div className="absolute top-28 left-6">
-              <Button asChild variant="ghost">
-                <Link href="/#about">
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back to Main
-                </Link>
-              </Button>
-          </div>
-        
-          <h1 className="font-headline text-4xl font-bold tracking-tight text-primary md:text-5xl">
-            Zen Mode.
-          </h1>
-          <p className="max-w-2xl text-lg text-muted-foreground lora italic">
-            "Believe." — Face yourself, affirm your greatness.
-          </p>
+      
+      <main className="flex-1 relative z-10 flex flex-col items-center justify-center px-6">
+        <div className="absolute top-28 left-6 md:left-12">
+            <Button asChild variant="ghost" className="hover:bg-primary/10 rounded-full group">
+              <Link href="/#about">
+                  <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                  Return to Pit
+              </Link>
+            </Button>
+        </div>
 
-          <div className="relative w-full max-w-xs sm:max-w-sm h-[450px] my-6">
-            <CameraMirror isActive={sessionState === 'running'} progress={progress} />
-          </div>
-
-          <div className="text-6xl font-bold font-mono tracking-tighter text-foreground/80">
-            {formatTime(timeRemaining)}
+        <div className="w-full max-w-2xl flex flex-col items-center gap-12 py-20">
+          <div className="text-center space-y-4">
+            <h1 className="font-headline text-4xl md:text-6xl font-black tracking-tighter text-primary italic uppercase">
+              Zen Mode.
+            </h1>
+            <p className="max-w-prose text-lg text-muted-foreground lora italic">
+              "Quiet the mind and the soul will speak."
+            </p>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="w-64 h-11">
+          {/* Central Art Piece */}
+          <div className="relative w-full aspect-square max-w-[400px] flex items-center justify-center">
+            {/* The Growth Mandala */}
+            <div className={cn(
+              "absolute inset-0 transition-all duration-1000 transform-gpu",
+              sessionState === 'running' ? "scale-110 rotate-12" : "scale-100 rotate-0"
+            )}>
+              <ZenTree 
+                sessions={sessionsCompleted} 
+                progress={progress} 
+                state={sessionState} 
+              />
+            </div>
+
+            {/* Technical Progress Halo */}
+            <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none drop-shadow-[0_0_15px_hsl(var(--primary)/0.2)]" viewBox="0 0 100 100">
+               <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="48" 
+                  fill="none" 
+                  stroke="hsl(var(--primary))" 
+                  strokeWidth="0.5" 
+                  strokeOpacity="0.1"
+               />
+               <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="48" 
+                  fill="none" 
+                  stroke="hsl(var(--primary))" 
+                  strokeWidth="1.5" 
+                  strokeDasharray="301.59" 
+                  strokeDashoffset={301.59 * (1 - progress)}
+                  className="transition-all duration-1000 ease-linear"
+                  strokeLinecap="round"
+               />
+            </svg>
+
+            {/* Centered Timer Overlay */}
+            <div className="relative z-20 flex flex-col items-center">
+                <div className={cn(
+                  "text-6xl md:text-7xl font-bold font-mono tracking-tighter transition-all duration-700",
+                  sessionState === 'running' ? "text-primary drop-shadow-[0_0_20px_hsl(var(--primary)/0.4)]" : "text-muted-foreground/60"
+                )}>
+                  {formatTime(timeRemaining)}
+                </div>
+                <div className="mt-2 h-1.5 w-12 rounded-full bg-primary/10 overflow-hidden">
+                    <div 
+                      className="h-full bg-primary shadow-[0_0_10px_hsl(var(--primary))]" 
+                      style={{ width: `${progress * 100}%` }}
+                    />
+                </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-8 w-full max-w-sm">
+            <div className="w-full">
               {getButton()}
             </div>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon" onClick={handleReset} disabled={sessionState === 'idle' && sessionsCompleted === 0}>
-                    <RefreshCw className="h-5 w-5" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Reset Session</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            
+            <div className="flex items-center justify-center gap-6">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      size="icon" 
+                      onClick={handleReset} 
+                      disabled={sessionState === 'idle' && sessionsCompleted === 0}
+                      className="h-12 w-12 rounded-full border-border/40 hover:bg-primary/10"
+                    >
+                      <RefreshCw className="h-5 w-5" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Reset Session</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <div className="flex flex-col items-center gap-1">
+                 <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Deep_Work_History</p>
+                 <div className="flex gap-1.5">
+                    {[...Array(5)].map((_, i) => (
+                      <div 
+                        key={i} 
+                        className={cn(
+                          "h-1.5 w-6 rounded-full transition-all duration-500",
+                          i < sessionsCompleted ? "bg-primary shadow-[0_0_8px_hsl(var(--primary))]" : "bg-border/20"
+                        )} 
+                      />
+                    ))}
+                 </div>
+              </div>
+            </div>
           </div>
-           <p className="text-muted-foreground">Sessions completed: {sessionsCompleted}</p>
         </div>
       </main>
+      
       <Footer />
     </div>
   );
 }
+

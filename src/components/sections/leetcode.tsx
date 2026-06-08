@@ -505,7 +505,7 @@ export function LeetCode() {
                         </div>
                         <div className="flex items-center gap-2 mt-1.5">
                             <span className="h-2 w-2 rounded-full bg-[#00FF00] animate-breathing" />
-                            <span className="text-sm font-black text-foreground/70 tracking-[0.2em] uppercase">
+                            <span className="text-sm font-black text-foreground/70 tracking-[0.2em">
                                 Solved
                             </span>
                         </div>
