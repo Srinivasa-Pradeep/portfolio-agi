@@ -3,11 +3,13 @@
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import { usePathname } from 'next/navigation';
 
 export function LiveClock() {
   const [dateTime, setDateTime] = useState({ time: '', date: '' });
   const [isMounted, setIsMounted] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const pathname = usePathname();
 
   useEffect(() => {
     setIsMounted(true);
@@ -43,14 +45,9 @@ export function LiveClock() {
     };
   }, []);
 
-  if (!isMounted) {
-    // Skeleton loader to prevent layout shift and show loading state
-    return (
-      <div className="fixed top-6 right-6 z-50 flex animate-pulse flex-col items-end gap-1.5">
-        <div className="h-4 w-24 rounded-md bg-muted" />
-        <div className="h-3 w-20 rounded-md bg-muted" />
-      </div>
-    );
+  if (!isMounted || pathname === '/zen') {
+    // Hide completely on Zen page or during loading
+    return null;
   }
   
   return (
