@@ -12,6 +12,8 @@ import {
 import Link from 'next/link';
 import { ZenTree } from '@/components/zen-tree';
 import { cn } from '@/lib/utils';
+import { useTheme } from 'next-themes';
+import { useMusic } from '@/context/music-context';
 
 const FOCUS_DURATION = 20 * 60; // 20 minutes
 
@@ -20,10 +22,50 @@ export default function ZenPage() {
   const [sessionState, setSessionState] = useState<'idle' | 'running' | 'paused' | 'complete'>('idle');
   const [sessionsCompleted, setSessionsCompleted] = useState(0);
   const [mounted, setMounted] = useState(false);
+  
+  const { setTheme, resolvedTheme } = useTheme();
+  const { togglePlayPause: toggleGlobalMusic } = useMusic();
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Keyboard shortcut listener
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        (e.key.toLowerCase() === 't' || e.key.toLowerCase() === 'm') && 
+        !(e.target instanceof HTMLInputElement) && 
+        !(e.target instanceof HTMLTextAreaElement)
+      ) {
+        if (e.key.toLowerCase() === 't') {
+          // Haptic feedback
+          if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
+            window.navigator.vibrate(24);
+          }
+          
+          const isDark = document.documentElement.classList.contains('dark');
+          const nextTheme = isDark ? 'light' : 'dark';
+
+          if (!document.startViewTransition) {
+            setTheme(nextTheme);
+            return;
+          }
+
+          document.startViewTransition(() => {
+            setTheme(nextTheme);
+          });
+        }
+        
+        if (e.key.toLowerCase() === 'm') {
+          toggleGlobalMusic();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [resolvedTheme, setTheme, toggleGlobalMusic]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined = undefined;
@@ -86,7 +128,6 @@ export default function ZenPage() {
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    // Removed the colon for a cleaner, more abstract technical look
     return `${String(minutes).padStart(2, '0')} ${String(secs).padStart(2, '0')}`;
   };
 
@@ -127,14 +168,12 @@ export default function ZenPage() {
 
   return (
     <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden">
-      {/* Cinematic Background Elements */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
       </div>
       
       <main className="flex-1 relative z-10 flex flex-col items-center justify-center px-6">
-        {/* Immersive Escape Link - Fades away to prevent distraction */}
         <div className={cn(
           "fixed top-8 left-8 transition-opacity duration-1000",
           sessionState === 'running' ? "opacity-20 hover:opacity-100" : "opacity-100"
@@ -160,9 +199,7 @@ export default function ZenPage() {
             </p>
           </div>
 
-          {/* Central Art Piece */}
           <div className="relative w-full aspect-square max-w-[450px] flex items-center justify-center">
-            {/* The Growth Mandala */}
             <div className={cn(
               "absolute inset-0 transition-all duration-1000 transform-gpu",
               sessionState === 'running' ? "scale-110 rotate-12" : "scale-100 rotate-0"
@@ -174,7 +211,6 @@ export default function ZenPage() {
               />
             </div>
 
-            {/* Technical Progress Halo */}
             <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none drop-shadow-[0_0_25px_hsl(var(--primary)/0.2)]" viewBox="0 0 100 100">
                <circle 
                   cx="50" 
@@ -199,7 +235,6 @@ export default function ZenPage() {
                />
             </svg>
 
-            {/* Centered Immersive Timer - No colon, refined tracking */}
             <div className="relative z-20 flex flex-col items-center">
                 <div className={cn(
                   "text-7xl md:text-8xl font-bold font-mono tracking-tighter transition-all duration-1000",
@@ -227,26 +262,27 @@ export default function ZenPage() {
               {getButton()}
             </div>
             
-            <div className="flex items-center justify-center">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      onClick={handleReset} 
-                      disabled={sessionState === 'idle' && sessionsCompleted === 0}
-                      className="h-12 w-12 rounded-full hover:bg-primary/10 opacity-30 hover:opacity-100 transition-opacity"
-                    >
-                      <RefreshCw className="h-5 w-5" />
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Reset Session</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
+            {sessionState !== 'idle' && (
+              <div className="flex items-center justify-center animate-in fade-in slide-in-from-bottom-2 duration-700">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={handleReset} 
+                        className="h-12 w-12 rounded-full hover:bg-primary/10 opacity-30 hover:opacity-100 transition-opacity"
+                      >
+                        <RefreshCw className="h-5 w-5" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Reset Session</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            )}
           </div>
         </div>
       </main>
