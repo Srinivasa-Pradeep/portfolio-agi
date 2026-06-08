@@ -86,7 +86,8 @@ export default function ZenPage() {
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    // Removed the colon as requested, using a space for a cleaner look
+    return `${String(minutes).padStart(2, '0')} ${String(secs).padStart(2, '0')}`;
   };
 
   const progress = useMemo(() => {
@@ -133,7 +134,7 @@ export default function ZenPage() {
       </div>
       
       <main className="flex-1 relative z-10 flex flex-col items-center justify-center px-6">
-        {/* Subtle Escape Route - Fades during session */}
+        {/* Immersive Escape Link - Fades away to prevent distraction */}
         <div className={cn(
           "fixed top-8 left-8 transition-opacity duration-1000",
           sessionState === 'running' ? "opacity-20 hover:opacity-100" : "opacity-100"
@@ -149,7 +150,7 @@ export default function ZenPage() {
         <div className="w-full max-w-2xl flex flex-col items-center gap-12 py-20">
           <div className={cn(
             "text-center space-y-4 transition-all duration-1000",
-            sessionState === 'running' ? "opacity-0 -translate-y-8" : "opacity-100 translate-y-0"
+            sessionState === 'running' ? "opacity-0 -translate-y-8 pointer-events-none" : "opacity-100 translate-y-0"
           )}>
             <h1 className="font-headline text-4xl md:text-6xl font-black tracking-tighter text-primary italic uppercase">
               Zen Mode.
@@ -198,7 +199,7 @@ export default function ZenPage() {
                />
             </svg>
 
-            {/* Centered Immersive Timer */}
+            {/* Centered Immersive Timer - No colon, refined tracking */}
             <div className="relative z-20 flex flex-col items-center">
                 <div className={cn(
                   "text-7xl md:text-8xl font-bold font-mono tracking-tighter transition-all duration-1000",
