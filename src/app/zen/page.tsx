@@ -2,8 +2,6 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
-import { Header } from '@/components/header';
-import { Footer } from '@/components/footer';
 import { Play, Pause, RefreshCw, Sparkles, ArrowLeft, Wind } from 'lucide-react';
 import {
   Tooltip,
@@ -127,18 +125,20 @@ export default function ZenPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex min-h-screen flex-col bg-background relative overflow-hidden">
+    <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden">
       {/* Cinematic Background Elements */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
       </div>
-
-      <Header />
       
       <main className="flex-1 relative z-10 flex flex-col items-center justify-center px-6">
-        <div className="absolute top-28 left-6 md:left-12">
-            <Button asChild variant="ghost" className="hover:bg-primary/10 rounded-full group">
+        {/* Subtle Escape Route - Fades during session */}
+        <div className={cn(
+          "fixed top-8 left-8 transition-opacity duration-1000",
+          sessionState === 'running' ? "opacity-20 hover:opacity-100" : "opacity-100"
+        )}>
+            <Button asChild variant="ghost" className="hover:bg-primary/10 rounded-full group px-6">
               <Link href="/#about">
                   <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                   Return to Pit
@@ -147,7 +147,10 @@ export default function ZenPage() {
         </div>
 
         <div className="w-full max-w-2xl flex flex-col items-center gap-12 py-20">
-          <div className="text-center space-y-4">
+          <div className={cn(
+            "text-center space-y-4 transition-all duration-1000",
+            sessionState === 'running' ? "opacity-0 -translate-y-8" : "opacity-100 translate-y-0"
+          )}>
             <h1 className="font-headline text-4xl md:text-6xl font-black tracking-tighter text-primary italic uppercase">
               Zen Mode.
             </h1>
@@ -157,7 +160,7 @@ export default function ZenPage() {
           </div>
 
           {/* Central Art Piece */}
-          <div className="relative w-full aspect-square max-w-[400px] flex items-center justify-center">
+          <div className="relative w-full aspect-square max-w-[450px] flex items-center justify-center">
             {/* The Growth Mandala */}
             <div className={cn(
               "absolute inset-0 transition-all duration-1000 transform-gpu",
@@ -171,7 +174,7 @@ export default function ZenPage() {
             </div>
 
             {/* Technical Progress Halo */}
-            <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none drop-shadow-[0_0_15px_hsl(var(--primary)/0.2)]" viewBox="0 0 100 100">
+            <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none drop-shadow-[0_0_25px_hsl(var(--primary)/0.2)]" viewBox="0 0 100 100">
                <circle 
                   cx="50" 
                   cy="50" 
@@ -179,7 +182,7 @@ export default function ZenPage() {
                   fill="none" 
                   stroke="hsl(var(--primary))" 
                   strokeWidth="0.5" 
-                  strokeOpacity="0.1"
+                  strokeOpacity="0.05"
                />
                <circle 
                   cx="50" 
@@ -187,7 +190,7 @@ export default function ZenPage() {
                   r="48" 
                   fill="none" 
                   stroke="hsl(var(--primary))" 
-                  strokeWidth="1.5" 
+                  strokeWidth="1.2" 
                   strokeDasharray="301.59" 
                   strokeDashoffset={301.59 * (1 - progress)}
                   className="transition-all duration-1000 ease-linear"
@@ -195,15 +198,18 @@ export default function ZenPage() {
                />
             </svg>
 
-            {/* Centered Timer Overlay */}
+            {/* Centered Immersive Timer */}
             <div className="relative z-20 flex flex-col items-center">
                 <div className={cn(
-                  "text-6xl md:text-7xl font-bold font-mono tracking-tighter transition-all duration-700",
-                  sessionState === 'running' ? "text-primary drop-shadow-[0_0_20px_hsl(var(--primary)/0.4)]" : "text-muted-foreground/60"
+                  "text-7xl md:text-8xl font-bold font-mono tracking-tighter transition-all duration-1000",
+                  sessionState === 'running' ? "text-primary drop-shadow-[0_0_30px_hsl(var(--primary)/0.4)]" : "text-muted-foreground/30"
                 )}>
                   {formatTime(timeRemaining)}
                 </div>
-                <div className="mt-2 h-1.5 w-12 rounded-full bg-primary/10 overflow-hidden">
+                <div className={cn(
+                  "mt-4 h-1 w-16 rounded-full bg-primary/10 overflow-hidden transition-opacity duration-1000",
+                  sessionState === 'running' ? "opacity-100" : "opacity-0"
+                )}>
                     <div 
                       className="h-full bg-primary shadow-[0_0_10px_hsl(var(--primary))]" 
                       style={{ width: `${progress * 100}%` }}
@@ -212,7 +218,10 @@ export default function ZenPage() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-8 w-full max-w-sm">
+          <div className={cn(
+            "flex flex-col items-center gap-8 w-full max-w-sm transition-all duration-1000",
+            sessionState === 'running' ? "opacity-20 hover:opacity-100" : "opacity-100"
+          )}>
             <div className="w-full">
               {getButton()}
             </div>
@@ -255,9 +264,6 @@ export default function ZenPage() {
           </div>
         </div>
       </main>
-      
-      <Footer />
     </div>
   );
 }
-
