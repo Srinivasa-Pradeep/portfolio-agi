@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, RefreshCw, Sparkles, ArrowLeft, Wind } from 'lucide-react';
 import {
@@ -25,9 +25,11 @@ export default function ZenPage() {
   
   const { setTheme, resolvedTheme } = useTheme();
   const { togglePlayPause: toggleGlobalMusic } = useMusic();
+  const switchAudioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
+    switchAudioRef.current = new Audio('/music/switch.mp3');
   }, []);
 
   // Keyboard shortcut listener
@@ -39,6 +41,12 @@ export default function ZenPage() {
         !(e.target instanceof HTMLTextAreaElement)
       ) {
         if (e.key.toLowerCase() === 't') {
+          // Audio feedback
+          if (switchAudioRef.current) {
+            switchAudioRef.current.currentTime = 0;
+            switchAudioRef.current.play().catch(() => {});
+          }
+
           // Haptic feedback
           if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
             window.navigator.vibrate(24);
@@ -263,7 +271,7 @@ export default function ZenPage() {
             </div>
             
             {sessionState !== 'idle' && (
-              <div className="flex items-center justify-center animate-in fade-in slide-in-from-bottom-2 duration-700">
+              <div className="flex items-center justify-center animate-in fade-in zoom-in slide-in-from-bottom-4 duration-1000">
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
