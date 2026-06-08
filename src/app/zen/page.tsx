@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Play, Pause, RefreshCw, Sparkles, ArrowLeft, Wind } from 'lucide-react';
 import {
@@ -32,11 +32,37 @@ export default function ZenPage() {
     switchAudioRef.current = new Audio('/music/switch.mp3');
   }, []);
 
+  const handleStart = useCallback(() => {
+    setSessionState('running');
+  }, []);
+
+  const handlePause = useCallback(() => {
+    setSessionState('paused');
+    document.title = 'Zen Mode (Paused)';
+  }, []);
+
+  const handleResume = useCallback(() => {
+    setSessionState('running');
+  }, []);
+
+  const handleContinue = useCallback(() => {
+    setTimeRemaining(FOCUS_DURATION);
+    setSessionState('running');
+    document.title = 'Zen Mode';
+  }, []);
+
+  const handleReset = useCallback(() => {
+    setTimeRemaining(FOCUS_DURATION);
+    setSessionState('idle');
+    setSessionsCompleted(0);
+    document.title = 'Zen Mode';
+  }, []);
+
   // Keyboard shortcut listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
-        (e.key.toLowerCase() === 't' || e.key.toLowerCase() === 'm') && 
+        (e.key.toLowerCase() === 't' || e.key.toLowerCase() === 'm' || e.code === 'Space') && 
         !(e.target instanceof HTMLInputElement) && 
         !(e.target instanceof HTMLTextAreaElement)
       ) {
@@ -68,12 +94,22 @@ export default function ZenPage() {
         if (e.key.toLowerCase() === 'm') {
           toggleGlobalMusic();
         }
+
+        if (e.code === 'Space') {
+          e.preventDefault(); // Stop page scroll
+          switch (sessionState) {
+            case 'idle': handleStart(); break;
+            case 'running': handlePause(); break;
+            case 'paused': handleResume(); break;
+            case 'complete': handleContinue(); break;
+          }
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [resolvedTheme, setTheme, toggleGlobalMusic]);
+  }, [resolvedTheme, setTheme, toggleGlobalMusic, sessionState, handleStart, handlePause, handleResume, handleContinue]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined = undefined;
@@ -107,32 +143,6 @@ export default function ZenPage() {
     }
   }, []);
 
-  const handleStart = () => {
-    setSessionState('running');
-  };
-
-  const handlePause = () => {
-    setSessionState('paused');
-    document.title = 'Zen Mode (Paused)';
-  };
-
-  const handleResume = () => {
-    setSessionState('running');
-  };
-
-  const handleContinue = () => {
-    setTimeRemaining(FOCUS_DURATION);
-    setSessionState('running');
-    document.title = 'Zen Mode';
-  };
-
-  const handleReset = () => {
-    setTimeRemaining(FOCUS_DURATION);
-    setSessionState('idle');
-    setSessionsCompleted(0);
-    document.title = 'Zen Mode';
-  };
-
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -143,30 +153,36 @@ export default function ZenPage() {
     return (FOCUS_DURATION - timeRemaining) / FOCUS_DURATION;
   }, [timeRemaining]);
 
+  const SpaceHint = () => (
+    <kbd className="ml-3 hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-primary-foreground/10 px-1.5 font-mono text-[10px] font-medium text-inherit opacity-40">
+      Space
+    </kbd>
+  );
+
   const getButton = () => {
     switch (sessionState) {
       case 'idle':
         return (
           <Button size="lg" onClick={handleStart} className="w-full h-14 rounded-2xl shadow-lg font-bold text-lg group">
-            <Wind className="mr-2 h-5 w-5 transition-transform group-hover:rotate-12" /> Start Deep Focus
+            <Wind className="mr-2 h-5 w-5 transition-transform group-hover:rotate-12" /> Start Deep Focus <SpaceHint />
           </Button>
         );
       case 'running':
         return (
           <Button size="lg" variant="secondary" onClick={handlePause} className="w-full h-14 rounded-2xl shadow-md font-bold text-lg">
-            <Pause className="mr-2 h-5 w-5" /> Pause Session
+            <Pause className="mr-2 h-5 w-5" /> Pause Session <SpaceHint />
           </Button>
         );
       case 'paused':
         return (
           <Button size="lg" onClick={handleResume} className="w-full h-14 rounded-2xl shadow-lg font-bold text-lg">
-            <Play className="mr-2 h-5 w-5" /> Resume Focus
+            <Play className="mr-2 h-5 w-5" /> Resume Focus <SpaceHint />
           </Button>
         );
       case 'complete':
         return (
           <Button size="lg" onClick={handleContinue} className="w-full h-14 rounded-2xl shadow-lg animate-slow-pulse font-bold text-lg">
-            <Sparkles className="mr-2 h-5 w-5" /> Another 20 Minutes
+            <Sparkles className="mr-2 h-5 w-5" /> Another 20 Minutes <SpaceHint />
           </Button>
         );
     }
@@ -264,15 +280,16 @@ export default function ZenPage() {
 
           <div className="flex flex-col items-center w-full max-w-sm">
             <div className={cn(
-              "w-full transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
-              sessionState === 'running' ? "opacity-20 hover:opacity-100" : "opacity-100"
+              "w-full transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] transform-gpu",
+              sessionState === 'running' ? "opacity-20 hover:opacity-100" : "opacity-100",
+              sessionState !== 'idle' ? "-translate-y-4" : "translate-y-0"
             )}>
               {getButton()}
             </div>
             
             <div className={cn(
-              "w-full flex items-center justify-center overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
-              sessionState === 'idle' ? "max-h-0 opacity-0 mt-0 pointer-events-none translate-y-4" : "max-h-24 opacity-100 mt-8 translate-y-0"
+              "w-full flex items-center justify-center overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] transform-gpu",
+              sessionState === 'idle' ? "max-h-0 opacity-0 mt-0 pointer-events-none translate-y-8" : "max-h-24 opacity-100 mt-4 translate-y-0"
             )}>
               <TooltipProvider>
                 <Tooltip>
