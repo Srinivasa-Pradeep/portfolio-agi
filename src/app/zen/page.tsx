@@ -26,11 +26,51 @@ export default function ZenPage() {
   const { setTheme, resolvedTheme } = useTheme();
   const { togglePlayPause: toggleGlobalMusic } = useMusic();
   const switchAudioRef = useRef<HTMLAudioElement | null>(null);
+  const wakeLockRef = useRef<any>(null);
 
   useEffect(() => {
     setMounted(true);
     switchAudioRef.current = new Audio('/music/switch.mp3');
   }, []);
+
+  // Screen Wake Lock Management
+  const requestWakeLock = useCallback(async () => {
+    if ('wakeLock' in navigator) {
+      try {
+        wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
+      } catch (err) {
+        console.error(`${err.name}, ${err.message}`);
+      }
+    }
+  }, []);
+
+  const releaseWakeLock = useCallback(async () => {
+    if (wakeLockRef.current !== null) {
+      await wakeLockRef.current.release();
+      wakeLockRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (sessionState === 'running') {
+      requestWakeLock();
+    } else {
+      releaseWakeLock();
+    }
+    
+    return () => { releaseWakeLock(); };
+  }, [sessionState, requestWakeLock, releaseWakeLock]);
+
+  // Re-request wake lock if visibility changes
+  useEffect(() => {
+    const handleVisibilityChange = async () => {
+      if (wakeLockRef.current !== null && document.visibilityState === 'visible' && sessionState === 'running') {
+        await requestWakeLock();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [sessionState, requestWakeLock]);
 
   const handleStart = useCallback(() => {
     setSessionState('running');
@@ -67,13 +107,11 @@ export default function ZenPage() {
         !(e.target instanceof HTMLTextAreaElement)
       ) {
         if (e.key.toLowerCase() === 't') {
-          // Audio feedback
           if (switchAudioRef.current) {
             switchAudioRef.current.currentTime = 0;
             switchAudioRef.current.play().catch(() => {});
           }
 
-          // Haptic feedback
           if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
             window.navigator.vibrate(24);
           }
@@ -81,12 +119,12 @@ export default function ZenPage() {
           const isDark = document.documentElement.classList.contains('dark');
           const nextTheme = isDark ? 'light' : 'dark';
 
-          if (!document.startViewTransition) {
+          if (!(document as any).startViewTransition) {
             setTheme(nextTheme);
             return;
           }
 
-          document.startViewTransition(() => {
+          (document as any).startViewTransition(() => {
             setTheme(nextTheme);
           });
         }
@@ -96,7 +134,7 @@ export default function ZenPage() {
         }
 
         if (e.code === 'Space') {
-          e.preventDefault(); // Stop page scroll
+          e.preventDefault(); 
           switch (sessionState) {
             case 'idle': handleStart(); break;
             case 'running': handlePause(); break;
@@ -154,7 +192,7 @@ export default function ZenPage() {
   }, [timeRemaining]);
 
   const SpaceHint = () => (
-    <kbd className="ml-3 hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border bg-primary-foreground/10 px-1.5 font-mono text-[10px] font-medium text-inherit opacity-40">
+    <kbd className="ml-3 hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border border-primary/20 bg-primary-foreground/10 px-1.5 font-mono text-[10px] font-bold text-inherit opacity-60">
       Space
     </kbd>
   );
@@ -163,25 +201,25 @@ export default function ZenPage() {
     switch (sessionState) {
       case 'idle':
         return (
-          <Button size="lg" onClick={handleStart} className="w-full h-14 rounded-2xl shadow-lg font-bold text-lg group">
+          <Button size="lg" onClick={handleStart} className="w-full h-14 rounded-2xl shadow-lg font-bold text-lg group transition-all duration-500">
             <Wind className="mr-2 h-5 w-5 transition-transform group-hover:rotate-12" /> Start Deep Focus <SpaceHint />
           </Button>
         );
       case 'running':
         return (
-          <Button size="lg" variant="secondary" onClick={handlePause} className="w-full h-14 rounded-2xl shadow-md font-bold text-lg">
+          <Button size="lg" variant="secondary" onClick={handlePause} className="w-full h-14 rounded-2xl shadow-md font-bold text-lg transition-all duration-500">
             <Pause className="mr-2 h-5 w-5" /> Pause Session <SpaceHint />
           </Button>
         );
       case 'paused':
         return (
-          <Button size="lg" onClick={handleResume} className="w-full h-14 rounded-2xl shadow-lg font-bold text-lg">
+          <Button size="lg" onClick={handleResume} className="w-full h-14 rounded-2xl shadow-lg font-bold text-lg transition-all duration-500">
             <Play className="mr-2 h-5 w-5" /> Resume Focus <SpaceHint />
           </Button>
         );
       case 'complete':
         return (
-          <Button size="lg" onClick={handleContinue} className="w-full h-14 rounded-2xl shadow-lg animate-slow-pulse font-bold text-lg">
+          <Button size="lg" onClick={handleContinue} className="w-full h-14 rounded-2xl shadow-lg animate-slow-pulse font-bold text-lg transition-all duration-500">
             <Sparkles className="mr-2 h-5 w-5" /> Another 20 Minutes <SpaceHint />
           </Button>
         );
@@ -191,18 +229,20 @@ export default function ZenPage() {
   if (!mounted) return null;
 
   return (
-    <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden">
+    <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden selection:bg-primary/20">
+      {/* Background Ambience */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
       </div>
       
       <main className="flex-1 relative z-10 flex flex-col items-center justify-center px-6">
+        {/* Subtle Escape Route */}
         <div className={cn(
-          "fixed top-8 left-8 transition-opacity duration-1000",
-          sessionState === 'running' ? "opacity-20 hover:opacity-100" : "opacity-100"
+          "fixed top-8 left-8 transition-all duration-1000 transform-gpu",
+          sessionState === 'running' ? "opacity-10 -translate-x-2 hover:opacity-100 hover:translate-x-0" : "opacity-100 translate-x-0"
         )}>
-            <Button asChild variant="ghost" className="hover:bg-primary/10 rounded-full group px-6">
+            <Button asChild variant="ghost" className="hover:bg-primary/10 rounded-full group px-6 text-muted-foreground hover:text-primary">
               <Link href="/#about">
                   <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                   Return to Pit
@@ -211,9 +251,10 @@ export default function ZenPage() {
         </div>
 
         <div className="w-full max-w-2xl flex flex-col items-center gap-12 py-20">
+          {/* Header Texts - Fade out during session */}
           <div className={cn(
-            "text-center space-y-4 transition-all duration-1000",
-            sessionState === 'running' ? "opacity-0 -translate-y-8 pointer-events-none" : "opacity-100 translate-y-0"
+            "text-center space-y-4 transition-all duration-1000 transform-gpu",
+            sessionState === 'running' ? "opacity-0 -translate-y-8 pointer-events-none scale-95" : "opacity-100 translate-y-0 scale-100"
           )}>
             <h1 className="font-headline text-4xl md:text-6xl font-black tracking-tighter text-primary italic uppercase">
               Zen Mode.
@@ -223,6 +264,7 @@ export default function ZenPage() {
             </p>
           </div>
 
+          {/* Visual Focus Core */}
           <div className="relative w-full aspect-square max-w-[450px] flex items-center justify-center">
             <div className={cn(
               "absolute inset-0 transition-all duration-1000 transform-gpu",
@@ -235,6 +277,7 @@ export default function ZenPage() {
               />
             </div>
 
+            {/* Technical Progress Halo */}
             <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none drop-shadow-[0_0_25px_hsl(var(--primary)/0.2)]" viewBox="0 0 100 100">
                <circle 
                   cx="50" 
@@ -259,16 +302,17 @@ export default function ZenPage() {
                />
             </svg>
 
+            {/* Cinematic Countdown */}
             <div className="relative z-20 flex flex-col items-center">
                 <div className={cn(
-                  "text-7xl md:text-8xl font-bold font-mono tracking-tighter transition-all duration-1000",
-                  sessionState === 'running' ? "text-primary drop-shadow-[0_0_30px_hsl(var(--primary)/0.4)]" : "text-muted-foreground/30"
+                  "text-7xl md:text-8xl font-bold font-mono tracking-tighter transition-all duration-1000 transform-gpu",
+                  sessionState === 'running' ? "text-primary drop-shadow-[0_0_30px_hsl(var(--primary)/0.4)] scale-110" : "text-muted-foreground/30 scale-100"
                 )}>
                   {formatTime(timeRemaining)}
                 </div>
                 <div className={cn(
-                  "mt-4 h-1 w-16 rounded-full bg-primary/10 overflow-hidden transition-opacity duration-1000",
-                  sessionState === 'running' ? "opacity-100" : "opacity-0"
+                  "mt-4 h-1 w-16 rounded-full bg-primary/10 overflow-hidden transition-all duration-1000",
+                  sessionState === 'running' ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 )}>
                     <div 
                       className="h-full bg-primary shadow-[0_0_10px_hsl(var(--primary))]" 
@@ -278,6 +322,7 @@ export default function ZenPage() {
             </div>
           </div>
 
+          {/* Interactive Controls */}
           <div className="flex flex-col items-center w-full max-w-sm">
             <div className={cn(
               "w-full transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] transform-gpu",
@@ -287,6 +332,7 @@ export default function ZenPage() {
               {getButton()}
             </div>
             
+            {/* Slick Reveal Reset Button */}
             <div className={cn(
               "w-full flex items-center justify-center overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] transform-gpu",
               sessionState === 'idle' ? "max-h-0 opacity-0 mt-0 pointer-events-none translate-y-8" : "max-h-24 opacity-100 mt-4 translate-y-0"
