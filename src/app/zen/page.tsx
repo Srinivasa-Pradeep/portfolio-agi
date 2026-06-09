@@ -72,6 +72,7 @@ export default function ZenPage() {
   // Lamp State
   const [lampActive, setLampActive] = useState(false);
   const [lampIntensity, setLampIntensity] = useState(85);
+  const [peekControls, setPeekControls] = useState(false);
   
   const { setTheme, resolvedTheme } = useTheme();
   const { togglePlayPause: toggleGlobalMusic } = useMusic();
@@ -129,7 +130,6 @@ export default function ZenPage() {
 
   const handlePause = useCallback(() => {
     setSessionState('paused');
-    document.title = 'Zen Mode (Paused)';
   }, []);
 
   const handleResume = useCallback(() => {
@@ -139,14 +139,12 @@ export default function ZenPage() {
   const handleContinue = useCallback(() => {
     setTimeRemaining(FOCUS_DURATION);
     setSessionState('running');
-    document.title = 'Zen Mode';
   }, []);
 
   const handleReset = useCallback(() => {
     setTimeRemaining(FOCUS_DURATION);
     setSessionState('idle');
     setSessionsCompleted(0);
-    document.title = 'Zen Mode';
   }, []);
 
   const playSwitchSound = useCallback(() => {
@@ -158,6 +156,20 @@ export default function ZenPage() {
       window.navigator.vibrate(24);
     }
   }, []);
+
+  const toggleLamp = useCallback(() => {
+    if (resolvedTheme === 'dark') {
+      playSwitchSound();
+      setLampActive(prev => {
+        const next = !prev;
+        if (next) {
+          setPeekControls(true);
+          setTimeout(() => setPeekControls(false), 2000);
+        }
+        return next;
+      });
+    }
+  }, [resolvedTheme, playSwitchSound]);
 
   // Keyboard shortcut listener
   useEffect(() => {
@@ -187,10 +199,7 @@ export default function ZenPage() {
         }
 
         if (e.key.toLowerCase() === 'r') {
-          if (resolvedTheme === 'dark') {
-            playSwitchSound();
-            setLampActive(prev => !prev);
-          }
+          toggleLamp();
         }
 
         if (e.code === 'Space') {
@@ -207,21 +216,18 @@ export default function ZenPage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [resolvedTheme, setTheme, toggleGlobalMusic, sessionState, handleStart, handlePause, handleResume, handleContinue, playSwitchSound]);
+  }, [resolvedTheme, setTheme, toggleGlobalMusic, sessionState, handleStart, handlePause, handleResume, handleContinue, playSwitchSound, toggleLamp]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined = undefined;
 
     if (sessionState === 'running' && timeRemaining > 0) {
-      const formatted = formatTime(timeRemaining);
-      document.title = `${formatted} - Deep Focus`;
       interval = setInterval(() => {
         setTimeRemaining(prevTime => prevTime - 1);
       }, 1000);
     } else if (timeRemaining === 0 && sessionState === 'running') {
       setSessionState('complete');
       setSessionsCompleted(prev => prev + 1);
-      document.title = 'Session Complete ✨';
       if ('Notification' in window && Notification.permission === 'granted') {
         new Notification('Focus Session Complete ✨', {
           body: 'Believe in yourself. You did it.',
@@ -310,7 +316,7 @@ export default function ZenPage() {
             className="w-[800px] h-[1000px] rounded-full blur-[180px] transition-all duration-300"
             style={{ 
               backgroundColor: `rgba(255, 253, 210, ${lampIntensity / 100 * 0.99})`,
-              boxShadow: `0 0 ${lampIntensity * 6}px ${lampIntensity * 4.5}px rgba(255, 253, 210, 0.55)`
+              boxShadow: `0 0 ${lampIntensity * 8}px ${lampIntensity * 6}px rgba(255, 253, 210, 0.55)`
             }}
           />
           <div 
@@ -321,6 +327,7 @@ export default function ZenPage() {
       )}
       
       <main className="flex-1 relative z-10 flex flex-col items-center justify-center px-6">
+        {/* Navigation & Toggle Group - Highest layer for interaction */}
         <div className={cn(
           "fixed top-8 left-8 flex items-center gap-4 transition-all duration-1000 transform-gpu z-[100]",
           sessionState === 'running' ? "opacity-10 hover:opacity-100" : "opacity-100"
@@ -341,7 +348,7 @@ export default function ZenPage() {
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      onClick={() => { playSwitchSound(); setLampActive(!lampActive); }}
+                      onClick={toggleLamp}
                       className={cn(
                         "h-10 w-10 rounded-full transition-all duration-500",
                         lampActive ? "bg-primary/10 text-primary shadow-[0_0_20px_rgba(255,253,210,0.6)]" : "text-muted-foreground hover:bg-primary/5"
@@ -369,9 +376,10 @@ export default function ZenPage() {
           )}>
             <div className={cn(
               "w-56 flex flex-col gap-6 transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] transform-gpu",
-              lampActive 
+              (lampActive && (peekControls || true)) 
                 ? "opacity-0 -translate-x-10 group-hover/lamp-controls:opacity-100 group-hover/lamp-controls:translate-x-0" 
-                : "opacity-0 pointer-events-none"
+                : "opacity-0 pointer-events-none",
+              peekControls && "opacity-100 translate-x-0"
             )}>
                <div className="flex flex-col gap-1">
                   <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-widest px-1">Luminance_{lampIntensity}%</span>
