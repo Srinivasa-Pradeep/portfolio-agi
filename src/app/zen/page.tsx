@@ -45,7 +45,6 @@ export default function ZenPage() {
         wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
       } catch (err: any) {
         // Silently fail if permissions are disallowed to avoid error overlays
-        // console.warn('WakeLock could not be acquired:', err.message);
       }
     }
   }, []);
