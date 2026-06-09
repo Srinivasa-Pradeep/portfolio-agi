@@ -198,7 +198,7 @@ export default function ZenPage() {
   }, [timeRemaining]);
 
   const SpaceHint = () => (
-    <kbd className="ml-3 hidden sm:inline-flex h-6 select-none items-center justify-center gap-1 rounded-md border border-primary/30 bg-primary-foreground/10 px-2 font-mono text-[14px] font-black text-inherit opacity-80 shadow-inner">
+    <kbd className="ml-4 hidden sm:inline-flex h-7 min-w-[3.5rem] select-none items-center justify-center rounded-md border border-primary/40 bg-primary-foreground/10 px-6 font-mono text-[16px] font-black text-inherit opacity-90 shadow-[inset_0_0_8px_rgba(255,255,255,0.05)]">
       ␣
     </kbd>
   );
@@ -207,25 +207,25 @@ export default function ZenPage() {
     switch (sessionState) {
       case 'idle':
         return (
-          <Button size="lg" onClick={handleStart} className="w-full h-14 rounded-2xl shadow-lg font-bold text-lg group transition-all duration-500">
+          <Button size="lg" onClick={handleStart} className="w-full h-16 rounded-2xl shadow-lg font-bold text-lg group transition-all duration-500">
             <Wind className="mr-2 h-5 w-5 transition-transform group-hover:rotate-12" /> Start Deep Focus <SpaceHint />
           </Button>
         );
       case 'running':
         return (
-          <Button size="lg" variant="secondary" onClick={handlePause} className="w-full h-14 rounded-2xl shadow-md font-bold text-lg transition-all duration-500">
+          <Button size="lg" variant="secondary" onClick={handlePause} className="w-full h-16 rounded-2xl shadow-md font-bold text-lg transition-all duration-500">
             <Pause className="mr-2 h-5 w-5" /> Pause Session <SpaceHint />
           </Button>
         );
       case 'paused':
         return (
-          <Button size="lg" onClick={handleResume} className="w-full h-14 rounded-2xl shadow-lg font-bold text-lg transition-all duration-500">
+          <Button size="lg" onClick={handleResume} className="w-full h-16 rounded-2xl shadow-lg font-bold text-lg transition-all duration-500">
             <Play className="mr-2 h-5 w-5" /> Resume Focus <SpaceHint />
           </Button>
         );
       case 'complete':
         return (
-          <Button size="lg" onClick={handleContinue} className="w-full h-14 rounded-2xl shadow-lg animate-slow-pulse font-bold text-lg transition-all duration-500">
+          <Button size="lg" onClick={handleContinue} className="w-full h-16 rounded-2xl shadow-lg animate-slow-pulse font-bold text-lg transition-all duration-500">
             <Sparkles className="mr-2 h-5 w-5" /> Another 20 Minutes <SpaceHint />
           </Button>
         );
@@ -244,19 +244,19 @@ export default function ZenPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
       </div>
 
-      {/* High-Fidelity Ultra-Luminous Reading Lamp - Exclusive to Dark Mode */}
+      {/* High-Fidelity Ultra-Luminous Lighthouse Reading Lamp - Exclusive to Dark Mode */}
       {isDarkMode && (
         <div 
           className={cn(
             "fixed left-0 top-1/2 -translate-y-1/2 z-0 pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
-            lampActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
+            lampActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-40"
           )}
         >
           <div 
-            className="w-[600px] h-[850px] rounded-full blur-[140px] transition-all duration-300"
+            className="w-[700px] h-[950px] rounded-full blur-[160px] transition-all duration-300"
             style={{ 
-              backgroundColor: `rgba(255, 253, 210, ${lampIntensity / 100 * 0.95})`,
-              boxShadow: `0 0 ${lampIntensity * 4}px ${lampIntensity * 2.5}px rgba(255, 253, 210, 0.35)`
+              backgroundColor: `rgba(255, 253, 210, ${lampIntensity / 100 * 0.98})`,
+              boxShadow: `0 0 ${lampIntensity * 6}px ${lampIntensity * 3.5}px rgba(255, 253, 210, 0.45)`
             }}
           />
         </div>
@@ -288,7 +288,7 @@ export default function ZenPage() {
                       onClick={() => setLampActive(!lampActive)}
                       className={cn(
                         "h-10 w-10 rounded-full transition-all duration-500",
-                        lampActive ? "bg-primary/10 text-primary shadow-[0_0_15px_rgba(255,253,210,0.5)]" : "text-muted-foreground hover:bg-primary/5"
+                        lampActive ? "bg-primary/10 text-primary shadow-[0_0_20px_rgba(255,253,210,0.6)]" : "text-muted-foreground hover:bg-primary/5"
                       )}
                     >
                       <LampDesk className={cn("h-5 w-5 transition-transform", lampActive && "rotate-12")} />
@@ -305,12 +305,12 @@ export default function ZenPage() {
         {/* Lamp Intensity Controller - Only in Dark Mode */}
         {isDarkMode && (
           <div className={cn(
-            "fixed left-12 top-[60%] z-50 w-48 flex flex-col gap-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            "fixed left-12 top-[65%] z-50 w-56 flex flex-col gap-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
             lampActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
           )}>
              <div className="flex items-center justify-between px-1">
                 <SunMedium className="h-3 w-3 text-muted-foreground" />
-                <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-widest">Intensity_{lampIntensity}%</span>
+                <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-widest">Luminance_{lampIntensity}%</span>
              </div>
              <Slider 
                value={[lampIntensity]} 
