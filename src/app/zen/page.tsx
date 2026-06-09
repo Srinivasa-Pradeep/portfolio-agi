@@ -38,7 +38,7 @@ export default function ZenPage() {
     switchAudioRef.current = new Audio('/music/switch.mp3');
   }, []);
 
-  // Screen Wake Lock Management
+  // Screen Wake Lock Management - Keeps system awake during focus
   const requestWakeLock = useCallback(async () => {
     if ('wakeLock' in navigator) {
       try {
@@ -66,7 +66,7 @@ export default function ZenPage() {
     return () => { releaseWakeLock(); };
   }, [sessionState, requestWakeLock, releaseWakeLock]);
 
-  // Re-request wake lock if visibility changes
+  // Re-request wake lock if visibility changes (e.g. user tabs back in)
   useEffect(() => {
     const handleVisibilityChange = async () => {
       if (wakeLockRef.current !== null && document.visibilityState === 'visible' && sessionState === 'running') {
@@ -189,7 +189,6 @@ export default function ZenPage() {
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    // Removed colon as per user instruction
     return `${String(minutes).padStart(2, '0')} ${String(secs).padStart(2, '0')}`;
   };
 
@@ -199,7 +198,7 @@ export default function ZenPage() {
 
   const SpaceHint = () => (
     <kbd className="ml-3 hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border border-primary/20 bg-primary-foreground/10 px-1.5 font-mono text-[10px] font-bold text-inherit opacity-60">
-      Space
+      ␣
     </kbd>
   );
 
@@ -242,7 +241,7 @@ export default function ZenPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
       </div>
 
-      {/* High-Fidelity Reading Lamp Glow */}
+      {/* High-Fidelity Reading Lamp Glow - Optimized for true night reading */}
       <div 
         className={cn(
           "fixed left-0 top-1/2 -translate-y-1/2 z-0 pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
@@ -250,10 +249,10 @@ export default function ZenPage() {
         )}
       >
         <div 
-          className="w-[500px] h-[700px] rounded-full blur-[120px] transition-all duration-300"
+          className="w-[600px] h-[850px] rounded-full blur-[140px] transition-all duration-300"
           style={{ 
-            backgroundColor: `rgba(255, 253, 210, ${lampIntensity / 100 * 0.4})`,
-            boxShadow: `0 0 ${lampIntensity * 2}px ${lampIntensity}px rgba(255, 253, 210, 0.15)`
+            backgroundColor: `rgba(255, 253, 220, ${lampIntensity / 100 * 0.95})`,
+            boxShadow: `0 0 ${lampIntensity * 3}px ${lampIntensity * 2}px rgba(255, 253, 210, 0.25)`
           }}
         />
       </div>
@@ -366,7 +365,7 @@ export default function ZenPage() {
                />
             </svg>
 
-            {/* Cinematic Countdown - Colon removed as requested */}
+            {/* Cinematic Countdown */}
             <div className="relative z-20 flex flex-col items-center">
                 <div className={cn(
                   "text-7xl md:text-8xl font-bold font-mono tracking-tighter transition-all duration-1000 transform-gpu",
