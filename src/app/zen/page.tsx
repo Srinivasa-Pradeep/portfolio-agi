@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, RefreshCw, Sparkles, ArrowLeft, Wind } from 'lucide-react';
+import { Play, Pause, RefreshCw, Sparkles, ArrowLeft, Wind, LampDesk, SunMedium } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -14,6 +14,7 @@ import { ZenTree } from '@/components/zen-tree';
 import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 import { useMusic } from '@/context/music-context';
+import { Slider } from '@/components/ui/slider';
 
 const FOCUS_DURATION = 20 * 60; // 20 minutes
 
@@ -22,6 +23,10 @@ export default function ZenPage() {
   const [sessionState, setSessionState] = useState<'idle' | 'running' | 'paused' | 'complete'>('idle');
   const [sessionsCompleted, setSessionsCompleted] = useState(0);
   const [mounted, setMounted] = useState(false);
+  
+  // Lamp State
+  const [lampActive, setLampActive] = useState(false);
+  const [lampIntensity, setLampIntensity] = useState(70);
   
   const { setTheme, resolvedTheme } = useTheme();
   const { togglePlayPause: toggleGlobalMusic } = useMusic();
@@ -38,7 +43,7 @@ export default function ZenPage() {
     if ('wakeLock' in navigator) {
       try {
         wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
-      } catch (err) {
+      } catch (err: any) {
         console.error(`${err.name}, ${err.message}`);
       }
     }
@@ -184,6 +189,7 @@ export default function ZenPage() {
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
+    // Removed colon as per user instruction
     return `${String(minutes).padStart(2, '0')} ${String(secs).padStart(2, '0')}`;
   };
 
@@ -230,17 +236,33 @@ export default function ZenPage() {
 
   return (
     <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden selection:bg-primary/20">
-      {/* Background Ambience */}
+      {/* Immersive Background Ambience */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
       </div>
+
+      {/* High-Fidelity Reading Lamp Glow */}
+      <div 
+        className={cn(
+          "fixed left-0 top-1/2 -translate-y-1/2 z-0 pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
+          lampActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
+        )}
+      >
+        <div 
+          className="w-[500px] h-[700px] rounded-full blur-[120px] transition-all duration-300"
+          style={{ 
+            backgroundColor: `rgba(255, 253, 210, ${lampIntensity / 100 * 0.4})`,
+            boxShadow: `0 0 ${lampIntensity * 2}px ${lampIntensity}px rgba(255, 253, 210, 0.15)`
+          }}
+        />
+      </div>
       
       <main className="flex-1 relative z-10 flex flex-col items-center justify-center px-6">
-        {/* Subtle Escape Route */}
+        {/* Subtle Escape Route & Control Dock */}
         <div className={cn(
-          "fixed top-8 left-8 transition-all duration-1000 transform-gpu",
-          sessionState === 'running' ? "opacity-10 -translate-x-2 hover:opacity-100 hover:translate-x-0" : "opacity-100 translate-x-0"
+          "fixed top-8 left-8 flex items-center gap-4 transition-all duration-1000 transform-gpu",
+          sessionState === 'running' ? "opacity-10 hover:opacity-100" : "opacity-100"
         )}>
             <Button asChild variant="ghost" className="hover:bg-primary/10 rounded-full group px-6 text-muted-foreground hover:text-primary">
               <Link href="/#about">
@@ -248,6 +270,48 @@ export default function ZenPage() {
                   Return to Pit
               </Link>
             </Button>
+            
+            <div className="h-8 w-px bg-border/20 mx-2" />
+            
+            {/* Lamp Toggle */}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => setLampActive(!lampActive)}
+                    className={cn(
+                      "h-10 w-10 rounded-full transition-all duration-500",
+                      lampActive ? "bg-primary/10 text-primary shadow-[0_0_15px_rgba(255,253,210,0.5)]" : "text-muted-foreground hover:bg-primary/5"
+                    )}
+                  >
+                    <LampDesk className={cn("h-5 w-5 transition-transform", lampActive && "rotate-12")} />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{lampActive ? "Turn Off Reading Lamp" : "Enable Reading Mode"}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+        </div>
+
+        {/* Lamp Intensity Controller - Slick Horizontal Glide */}
+        <div className={cn(
+          "fixed left-12 top-[60%] z-50 w-48 flex flex-col gap-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
+          lampActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
+        )}>
+           <div className="flex items-center justify-between px-1">
+              <SunMedium className="h-3 w-3 text-muted-foreground" />
+              <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-widest">Intensity_{lampIntensity}%</span>
+           </div>
+           <Slider 
+             value={[lampIntensity]} 
+             onValueChange={(vals) => setLampIntensity(vals[0])} 
+             max={100} 
+             step={1} 
+             className="cursor-pointer"
+           />
         </div>
 
         <div className="w-full max-w-2xl flex flex-col items-center gap-12 py-20">
@@ -302,7 +366,7 @@ export default function ZenPage() {
                />
             </svg>
 
-            {/* Cinematic Countdown */}
+            {/* Cinematic Countdown - Colon removed as requested */}
             <div className="relative z-20 flex flex-col items-center">
                 <div className={cn(
                   "text-7xl md:text-8xl font-bold font-mono tracking-tighter transition-all duration-1000 transform-gpu",
