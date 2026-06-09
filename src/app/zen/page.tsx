@@ -198,12 +198,11 @@ export default function ZenPage() {
   }, [timeRemaining]);
 
   /**
-   * SpaceHint - A premium long-form technical symbol kbd.
-   * Matches the user's provided bracket reference.
+   * SpaceHint - Premium 'Space' text hint.
    */
   const SpaceHint = () => (
     <kbd className="ml-5 hidden sm:inline-flex h-8 min-w-[5rem] select-none items-center justify-center rounded-xl border border-primary/30 bg-primary-foreground/10 px-4 transition-all duration-300 shadow-[inset_0_0_12px_rgba(255,255,255,0.03)] group-hover:border-primary/60 group-hover:bg-primary-foreground/20">
-      <span className="h-2 w-10 border-l-2 border-r-2 border-b-2 border-current rounded-b-[4px] opacity-80" />
+      <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Space</span>
     </kbd>
   );
 
