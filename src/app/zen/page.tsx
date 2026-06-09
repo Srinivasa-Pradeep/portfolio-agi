@@ -39,14 +39,13 @@ export default function ZenPage() {
   }, []);
 
   // Screen Wake Lock Management - Keeps system awake during focus
-  // Gracefully handles environments where permissions policy might disallow wake lock
   const requestWakeLock = useCallback(async () => {
     if ('wakeLock' in navigator) {
       try {
         wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
       } catch (err: any) {
         // Silently fail if permissions are disallowed to avoid error overlays
-        console.warn('WakeLock could not be acquired:', err.message);
+        // console.warn('WakeLock could not be acquired:', err.message);
       }
     }
   }, []);
@@ -317,24 +316,31 @@ export default function ZenPage() {
             )}
         </div>
 
-        {/* Extraordinary Intensity Controller - Only in Dark Mode */}
+        {/* Extraordinary Intensity Controller - Smooth Side Reveal - Only in Dark Mode */}
         {isDarkMode && (
           <div className={cn(
-            "fixed left-12 top-[65%] z-50 w-56 flex flex-col gap-4 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
-            lampActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
+            "fixed left-0 top-0 bottom-0 z-50 flex flex-col justify-center px-12 group/lamp-controls transition-all duration-700",
+            !lampActive && "pointer-events-none"
           )}>
-             <div className="flex items-center justify-between px-1">
-                <SunMedium className="h-3 w-3 text-muted-foreground" />
-                <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-widest">Luminance_{lampIntensity}%</span>
-             </div>
-             <Slider 
-               value={[lampIntensity]} 
-               onValueChange={(vals) => setLampIntensity(vals[0])} 
-               max={100} 
-               step={1} 
-               className="cursor-pointer"
-             />
-             <p className="text-[8px] font-mono text-muted-foreground/40 uppercase tracking-[0.3em] text-center">Optimized_For_Hardcopy_Reading</p>
+            <div className={cn(
+              "w-56 flex flex-col gap-4 transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] transform-gpu",
+              lampActive 
+                ? "opacity-0 -translate-x-10 group-hover/lamp-controls:opacity-100 group-hover/lamp-controls:translate-x-0" 
+                : "opacity-0 pointer-events-none"
+            )}>
+               <div className="flex items-center justify-between px-1">
+                  <SunMedium className="h-3 w-3 text-muted-foreground" />
+                  <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-widest">Luminance_{lampIntensity}%</span>
+               </div>
+               <Slider 
+                 value={[lampIntensity]} 
+                 onValueChange={(vals) => setLampIntensity(vals[0])} 
+                 max={100} 
+                 step={1} 
+                 className="cursor-pointer"
+               />
+               <p className="text-[8px] font-mono text-muted-foreground/40 uppercase tracking-[0.3em] text-center">Optimized_For_Hardcopy_Reading</p>
+            </div>
           </div>
         )}
 
