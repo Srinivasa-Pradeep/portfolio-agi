@@ -107,24 +107,26 @@ export default function ZenPage() {
     document.title = 'Zen Mode';
   }, []);
 
+  const playSwitchSound = useCallback(() => {
+    if (switchAudioRef.current) {
+      switchAudioRef.current.currentTime = 0;
+      switchAudioRef.current.play().catch(() => {});
+    }
+    if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
+      window.navigator.vibrate(24);
+    }
+  }, []);
+
   // Keyboard shortcut listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
-        (e.key.toLowerCase() === 't' || e.key.toLowerCase() === 'm' || e.code === 'Space') && 
+        (e.key.toLowerCase() === 't' || e.key.toLowerCase() === 'm' || e.key.toLowerCase() === 'r' || e.code === 'Space') && 
         !(e.target instanceof HTMLInputElement) && 
         !(e.target instanceof HTMLTextAreaElement)
       ) {
         if (e.key.toLowerCase() === 't') {
-          if (switchAudioRef.current) {
-            switchAudioRef.current.currentTime = 0;
-            switchAudioRef.current.play().catch(() => {});
-          }
-
-          if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
-            window.navigator.vibrate(24);
-          }
-          
+          playSwitchSound();
           const isDark = document.documentElement.classList.contains('dark');
           const nextTheme = isDark ? 'light' : 'dark';
 
@@ -142,6 +144,13 @@ export default function ZenPage() {
           toggleGlobalMusic();
         }
 
+        if (e.key.toLowerCase() === 'r') {
+          if (resolvedTheme === 'dark') {
+            playSwitchSound();
+            setLampActive(prev => !prev);
+          }
+        }
+
         if (e.code === 'Space') {
           e.preventDefault(); 
           switch (sessionState) {
@@ -156,7 +165,7 @@ export default function ZenPage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [resolvedTheme, setTheme, toggleGlobalMusic, sessionState, handleStart, handlePause, handleResume, handleContinue]);
+  }, [resolvedTheme, setTheme, toggleGlobalMusic, sessionState, handleStart, handlePause, handleResume, handleContinue, playSwitchSound]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined = undefined;
@@ -298,7 +307,7 @@ export default function ZenPage() {
                     <Button 
                       variant="ghost" 
                       size="icon" 
-                      onClick={() => setLampActive(!lampActive)}
+                      onClick={() => { playSwitchSound(); setLampActive(!lampActive); }}
                       className={cn(
                         "h-10 w-10 rounded-full transition-all duration-500",
                         lampActive ? "bg-primary/10 text-primary shadow-[0_0_20px_rgba(255,253,210,0.6)]" : "text-muted-foreground hover:bg-primary/5"
@@ -307,8 +316,11 @@ export default function ZenPage() {
                       <LampDesk className={cn("h-5 w-5 transition-transform", lampActive && "rotate-12")} />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>
+                  <TooltipContent className="flex items-center gap-2">
                     <p>{lampActive ? "Turn Off Reading Lamp" : "Enable Reading Mode"}</p>
+                    <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                      R
+                    </kbd>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
