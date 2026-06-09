@@ -14,9 +14,40 @@ import { ZenTree } from '@/components/zen-tree';
 import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 import { useMusic } from '@/context/music-context';
-import { Slider } from '@/components/ui/slider';
+import * as SliderPrimitive from "@radix-ui/react-slider";
 
 const FOCUS_DURATION = 20 * 60; // 20 minutes
+
+/**
+ * LuminanceSlider - A custom-engineered slider where the Sun icon is the controller.
+ * The Sun revolves dynamically as it is dragged.
+ */
+function LuminanceSlider({ value, onValueChange }: { value: number, onValueChange: (val: number) => void }) {
+  return (
+    <SliderPrimitive.Root
+      className="relative flex w-full touch-none select-none items-center h-10 group/slider cursor-pointer"
+      value={[value]}
+      max={100}
+      step={1}
+      onValueChange={(vals) => onValueChange(vals[0])}
+    >
+      <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-primary/10 backdrop-blur-sm border border-white/5">
+        <SliderPrimitive.Range className="absolute h-full bg-primary/40 shadow-[0_0_10px_hsl(var(--primary)/0.3)]" />
+      </SliderPrimitive.Track>
+      <SliderPrimitive.Thumb 
+        className="relative block h-8 w-8 rounded-full bg-transparent focus-visible:outline-none disabled:pointer-events-none transition-transform active:scale-110"
+        aria-label="Intensity"
+      >
+        <div 
+            className="flex items-center justify-center w-full h-full transition-all duration-300"
+            style={{ transform: `rotate(${value * 3.6}deg)` }}
+        >
+            <SunMedium className="h-6 w-6 text-primary drop-shadow-[0_0_8px_rgba(255,253,210,0.8)]" />
+        </div>
+      </SliderPrimitive.Thumb>
+    </SliderPrimitive.Root>
+  );
+}
 
 export default function ZenPage() {
   const [timeRemaining, setTimeRemaining] = useState(FOCUS_DURATION);
@@ -38,7 +69,6 @@ export default function ZenPage() {
     switchAudioRef.current = new Audio('/music/switch.mp3');
   }, []);
 
-  // Screen Wake Lock Management - Keeps system awake during focus
   const requestWakeLock = useCallback(async () => {
     if ('wakeLock' in navigator) {
       try {
@@ -66,11 +96,9 @@ export default function ZenPage() {
     } else {
       releaseWakeLock();
     }
-    
     return () => { releaseWakeLock(); };
   }, [sessionState, requestWakeLock, releaseWakeLock]);
 
-  // Re-request wake lock if visibility changes (e.g. user tabs back in)
   useEffect(() => {
     const handleVisibilityChange = async () => {
       if (wakeLockRef.current !== null && document.visibilityState === 'visible' && sessionState === 'running') {
@@ -210,9 +238,6 @@ export default function ZenPage() {
     return (FOCUS_DURATION - timeRemaining) / FOCUS_DURATION;
   }, [timeRemaining]);
 
-  /**
-   * SpaceHint - Premium 'Space' text hint.
-   */
   const SpaceHint = () => (
     <kbd className="ml-5 hidden sm:inline-flex h-8 min-w-[5rem] select-none items-center justify-center rounded-xl border border-primary/30 bg-primary-foreground/10 px-4 transition-all duration-300 shadow-[inset_0_0_12px_rgba(255,255,255,0.03)] group-hover:border-primary/60 group-hover:bg-primary-foreground/20">
       <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">Space</span>
@@ -254,13 +279,11 @@ export default function ZenPage() {
 
   return (
     <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden selection:bg-primary/20">
-      {/* Immersive Background Ambience */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.03),transparent_70%)]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
       </div>
 
-      {/* Extraordinary Luminous Lighthouse Reading Lamp - Optimized for Night Reading */}
       {isDarkMode && (
         <div 
           className={cn(
@@ -268,7 +291,6 @@ export default function ZenPage() {
             lampActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-60"
           )}
         >
-          {/* Main Illuminator - Massive spread for hardcopy books */}
           <div 
             className="w-[800px] h-[1000px] rounded-full blur-[180px] transition-all duration-300"
             style={{ 
@@ -276,7 +298,6 @@ export default function ZenPage() {
               boxShadow: `0 0 ${lampIntensity * 6}px ${lampIntensity * 4.5}px rgba(255, 253, 210, 0.55)`
             }}
           />
-          {/* Intense Technical Core Glow */}
           <div 
             className="absolute left-0 top-1/2 -translate-y-1/2 w-40 h-[600px] rounded-full blur-[100px] bg-white/20 mix-blend-overlay"
             style={{ opacity: lampIntensity / 100 }}
@@ -285,7 +306,6 @@ export default function ZenPage() {
       )}
       
       <main className="flex-1 relative z-10 flex flex-col items-center justify-center px-6">
-        {/* Subtle Escape Route & Control Dock */}
         <div className={cn(
           "fixed top-8 left-8 flex items-center gap-4 transition-all duration-1000 transform-gpu",
           sessionState === 'running' ? "opacity-10 hover:opacity-100" : "opacity-100"
@@ -299,7 +319,6 @@ export default function ZenPage() {
             
             <div className="h-8 w-px bg-border/20 mx-2" />
             
-            {/* Lamp Toggle - Only in Dark Mode */}
             {isDarkMode && (
               <TooltipProvider>
                 <Tooltip>
@@ -327,36 +346,30 @@ export default function ZenPage() {
             )}
         </div>
 
-        {/* Extraordinary Intensity Controller - Smooth Side Reveal - Only in Dark Mode */}
         {isDarkMode && (
           <div className={cn(
             "fixed left-0 top-0 bottom-0 z-50 flex flex-col justify-center px-12 group/lamp-controls transition-all duration-700",
             !lampActive && "pointer-events-none"
           )}>
             <div className={cn(
-              "w-56 flex flex-col gap-4 transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] transform-gpu",
+              "w-56 flex flex-col gap-6 transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] transform-gpu",
               lampActive 
                 ? "opacity-0 -translate-x-10 group-hover/lamp-controls:opacity-100 group-hover/lamp-controls:translate-x-0" 
                 : "opacity-0 pointer-events-none"
             )}>
-               <div className="flex items-center justify-between px-1">
-                  <SunMedium className="h-3 w-3 text-muted-foreground" />
-                  <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-widest">Luminance_{lampIntensity}%</span>
+               <div className="flex flex-col gap-1">
+                  <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-widest px-1">Luminance_{lampIntensity}%</span>
+                  <LuminanceSlider 
+                    value={lampIntensity} 
+                    onValueChange={setLampIntensity} 
+                  />
                </div>
-               <Slider 
-                 value={[lampIntensity]} 
-                 onValueChange={(vals) => setLampIntensity(vals[0])} 
-                 max={100} 
-                 step={1} 
-                 className="cursor-pointer"
-               />
                <p className="text-[8px] font-mono text-muted-foreground/40 uppercase tracking-[0.3em] text-center">Optimized_For_Hardcopy_Reading</p>
             </div>
           </div>
         )}
 
         <div className="w-full max-w-2xl flex flex-col items-center gap-12 py-20">
-          {/* Header Texts - Fade out during session */}
           <div className={cn(
             "text-center space-y-4 transition-all duration-1000 transform-gpu",
             sessionState === 'running' ? "opacity-0 -translate-y-8 pointer-events-none scale-95" : "opacity-100 translate-y-0 scale-100"
@@ -369,7 +382,6 @@ export default function ZenPage() {
             </p>
           </div>
 
-          {/* Visual Focus Core */}
           <div className="relative w-full aspect-square max-w-[450px] flex items-center justify-center">
             <div className={cn(
               "absolute inset-0 transition-all duration-1000 transform-gpu",
@@ -382,32 +394,15 @@ export default function ZenPage() {
               />
             </div>
 
-            {/* Technical Progress Halo */}
             <svg className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none drop-shadow-[0_0_25px_hsl(var(--primary)/0.2)]" viewBox="0 0 100 100">
+               <circle cx="50" cy="50" r="48" fill="none" stroke="hsl(var(--primary))" strokeWidth="0.5" strokeOpacity="0.05" />
                <circle 
-                  cx="50" 
-                  cy="50" 
-                  r="48" 
-                  fill="none" 
-                  stroke="hsl(var(--primary))" 
-                  strokeWidth="0.5" 
-                  strokeOpacity="0.05"
-               />
-               <circle 
-                  cx="50" 
-                  cy="50" 
-                  r="48" 
-                  fill="none" 
-                  stroke="hsl(var(--primary))" 
-                  strokeWidth="1.2" 
-                  strokeDasharray="301.59" 
-                  strokeDashoffset={301.59 * (1 - progress)}
-                  className="transition-all duration-1000 ease-linear"
-                  strokeLinecap="round"
+                  cx="50" cy="50" r="48" fill="none" stroke="hsl(var(--primary))" strokeWidth="1.2" 
+                  strokeDasharray="301.59" strokeDashoffset={301.59 * (1 - progress)}
+                  className="transition-all duration-1000 ease-linear" strokeLinecap="round"
                />
             </svg>
 
-            {/* Cinematic Countdown - No Colon */}
             <div className="relative z-20 flex flex-col items-center">
                 <div className={cn(
                   "text-7xl md:text-8xl font-bold font-mono tracking-tighter transition-all duration-1000 transform-gpu",
@@ -419,15 +414,11 @@ export default function ZenPage() {
                   "mt-4 h-1 w-16 rounded-full bg-primary/10 overflow-hidden transition-all duration-1000",
                   sessionState === 'running' ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 )}>
-                    <div 
-                      className="h-full bg-primary shadow-[0_0_10px_hsl(var(--primary))]" 
-                      style={{ width: `${progress * 100}%` }}
-                    />
+                    <div className="h-full bg-primary shadow-[0_0_10px_hsl(var(--primary))]" style={{ width: `${progress * 100}%` }} />
                 </div>
             </div>
           </div>
 
-          {/* Interactive Controls */}
           <div className="flex flex-col items-center w-full max-w-sm">
             <div className={cn(
               "w-full transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] transform-gpu",
@@ -437,7 +428,6 @@ export default function ZenPage() {
               {getButton()}
             </div>
             
-            {/* Slick Reveal Reset Button */}
             <div className={cn(
               "w-full flex items-center justify-center overflow-hidden transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] transform-gpu",
               sessionState === 'idle' ? "max-h-0 opacity-0 mt-0 pointer-events-none translate-y-8" : "max-h-24 opacity-100 mt-4 translate-y-0"
@@ -446,17 +436,13 @@ export default function ZenPage() {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button 
-                      variant="ghost" 
-                      size="icon" 
-                      onClick={handleReset} 
+                      variant="ghost" size="icon" onClick={handleReset} 
                       className="h-12 w-12 rounded-full hover:bg-primary/10 opacity-30 hover:opacity-100 transition-opacity"
                     >
                       <RefreshCw className="h-5 w-5" />
                     </Button>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Reset Session</p>
-                  </TooltipContent>
+                  <TooltipContent><p>Reset Session</p></TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </div>
