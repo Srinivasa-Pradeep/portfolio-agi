@@ -158,7 +158,8 @@ export default function ZenPage() {
     let interval: NodeJS.Timeout | undefined = undefined;
 
     if (sessionState === 'running' && timeRemaining > 0) {
-      document.title = `${formatTime(timeRemaining)} - Deep Focus`;
+      const formatted = formatTime(timeRemaining);
+      document.title = `${formatted} - Deep Focus`;
       interval = setInterval(() => {
         setTimeRemaining(prevTime => prevTime - 1);
       }, 1000);
@@ -197,7 +198,7 @@ export default function ZenPage() {
   }, [timeRemaining]);
 
   const SpaceHint = () => (
-    <kbd className="ml-3 hidden sm:inline-flex h-5 select-none items-center gap-1 rounded border border-primary/20 bg-primary-foreground/10 px-1.5 font-mono text-[10px] font-bold text-inherit opacity-60">
+    <kbd className="ml-3 hidden sm:inline-flex h-6 select-none items-center justify-center gap-1 rounded-md border border-primary/30 bg-primary-foreground/10 px-2 font-mono text-[14px] font-black text-inherit opacity-80 shadow-inner">
       ␣
     </kbd>
   );
@@ -233,6 +234,8 @@ export default function ZenPage() {
 
   if (!mounted) return null;
 
+  const isDarkMode = resolvedTheme === 'dark';
+
   return (
     <div className="flex h-screen w-full flex-col bg-background relative overflow-hidden selection:bg-primary/20">
       {/* Immersive Background Ambience */}
@@ -241,21 +244,23 @@ export default function ZenPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
       </div>
 
-      {/* High-Fidelity Reading Lamp Glow - Optimized for true night reading */}
-      <div 
-        className={cn(
-          "fixed left-0 top-1/2 -translate-y-1/2 z-0 pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
-          lampActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
-        )}
-      >
+      {/* High-Fidelity Ultra-Luminous Reading Lamp - Exclusive to Dark Mode */}
+      {isDarkMode && (
         <div 
-          className="w-[600px] h-[850px] rounded-full blur-[140px] transition-all duration-300"
-          style={{ 
-            backgroundColor: `rgba(255, 253, 220, ${lampIntensity / 100 * 0.95})`,
-            boxShadow: `0 0 ${lampIntensity * 3}px ${lampIntensity * 2}px rgba(255, 253, 210, 0.25)`
-          }}
-        />
-      </div>
+          className={cn(
+            "fixed left-0 top-1/2 -translate-y-1/2 z-0 pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            lampActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"
+          )}
+        >
+          <div 
+            className="w-[600px] h-[850px] rounded-full blur-[140px] transition-all duration-300"
+            style={{ 
+              backgroundColor: `rgba(255, 253, 210, ${lampIntensity / 100 * 0.95})`,
+              boxShadow: `0 0 ${lampIntensity * 4}px ${lampIntensity * 2.5}px rgba(255, 253, 210, 0.35)`
+            }}
+          />
+        </div>
+      )}
       
       <main className="flex-1 relative z-10 flex flex-col items-center justify-center px-6">
         {/* Subtle Escape Route & Control Dock */}
@@ -272,46 +277,50 @@ export default function ZenPage() {
             
             <div className="h-8 w-px bg-border/20 mx-2" />
             
-            {/* Lamp Toggle */}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => setLampActive(!lampActive)}
-                    className={cn(
-                      "h-10 w-10 rounded-full transition-all duration-500",
-                      lampActive ? "bg-primary/10 text-primary shadow-[0_0_15px_rgba(255,253,210,0.5)]" : "text-muted-foreground hover:bg-primary/5"
-                    )}
-                  >
-                    <LampDesk className={cn("h-5 w-5 transition-transform", lampActive && "rotate-12")} />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{lampActive ? "Turn Off Reading Lamp" : "Enable Reading Mode"}</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            {/* Lamp Toggle - Only in Dark Mode */}
+            {isDarkMode && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={() => setLampActive(!lampActive)}
+                      className={cn(
+                        "h-10 w-10 rounded-full transition-all duration-500",
+                        lampActive ? "bg-primary/10 text-primary shadow-[0_0_15px_rgba(255,253,210,0.5)]" : "text-muted-foreground hover:bg-primary/5"
+                      )}
+                    >
+                      <LampDesk className={cn("h-5 w-5 transition-transform", lampActive && "rotate-12")} />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{lampActive ? "Turn Off Reading Lamp" : "Enable Reading Mode"}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
         </div>
 
-        {/* Lamp Intensity Controller - Slick Horizontal Glide */}
-        <div className={cn(
-          "fixed left-12 top-[60%] z-50 w-48 flex flex-col gap-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
-          lampActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
-        )}>
-           <div className="flex items-center justify-between px-1">
-              <SunMedium className="h-3 w-3 text-muted-foreground" />
-              <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-widest">Intensity_{lampIntensity}%</span>
-           </div>
-           <Slider 
-             value={[lampIntensity]} 
-             onValueChange={(vals) => setLampIntensity(vals[0])} 
-             max={100} 
-             step={1} 
-             className="cursor-pointer"
-           />
-        </div>
+        {/* Lamp Intensity Controller - Only in Dark Mode */}
+        {isDarkMode && (
+          <div className={cn(
+            "fixed left-12 top-[60%] z-50 w-48 flex flex-col gap-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            lampActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
+          )}>
+             <div className="flex items-center justify-between px-1">
+                <SunMedium className="h-3 w-3 text-muted-foreground" />
+                <span className="text-[10px] font-mono font-bold text-muted-foreground uppercase tracking-widest">Intensity_{lampIntensity}%</span>
+             </div>
+             <Slider 
+               value={[lampIntensity]} 
+               onValueChange={(vals) => setLampIntensity(vals[0])} 
+               max={100} 
+               step={1} 
+               className="cursor-pointer"
+             />
+          </div>
+        )}
 
         <div className="w-full max-w-2xl flex flex-col items-center gap-12 py-20">
           {/* Header Texts - Fade out during session */}
@@ -365,7 +374,7 @@ export default function ZenPage() {
                />
             </svg>
 
-            {/* Cinematic Countdown */}
+            {/* Cinematic Countdown - No Colon */}
             <div className="relative z-20 flex flex-col items-center">
                 <div className={cn(
                   "text-7xl md:text-8xl font-bold font-mono tracking-tighter transition-all duration-1000 transform-gpu",
