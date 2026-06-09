@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Play, Pause, RefreshCw, Sparkles, ArrowLeft, Wind, LampDesk, SunMedium } from 'lucide-react';
+import { Play, Pause, RefreshCw, Sparkles, ArrowLeft, Wind, LampDesk, SunMedium, Moon } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -19,8 +19,8 @@ import * as SliderPrimitive from "@radix-ui/react-slider";
 const FOCUS_DURATION = 20 * 60; // 20 minutes
 
 /**
- * LuminanceSlider - A custom-engineered slider where the Sun icon is the controller.
- * The Sun revolves dynamically as it is dragged.
+ * LuminanceSlider - A custom-engineered celestial controller.
+ * The handle morphs from a Moon to a Sun as it revolves across the intensity spectrum.
  */
 function LuminanceSlider({ value, onValueChange }: { value: number, onValueChange: (val: number) => void }) {
   return (
@@ -39,10 +39,24 @@ function LuminanceSlider({ value, onValueChange }: { value: number, onValueChang
         aria-label="Intensity"
       >
         <div 
-            className="flex items-center justify-center w-full h-full transition-all duration-300"
+            className="flex items-center justify-center w-full h-full transition-all duration-300 relative"
             style={{ transform: `rotate(${value * 3.6}deg)` }}
         >
-            <SunMedium className="h-6 w-6 text-primary drop-shadow-[0_0_8px_rgba(255,253,210,0.8)]" />
+            {/* The Morphing Eclipse Icons */}
+            <Moon 
+                className="absolute h-5 w-5 text-muted-foreground/60 transition-all duration-500" 
+                style={{ 
+                    opacity: Math.max(0, 1 - (value / 60)),
+                    transform: `scale(${Math.max(0.6, 1 - (value / 100))})`
+                }} 
+            />
+            <SunMedium 
+                className="absolute h-6 w-6 text-primary drop-shadow-[0_0_8px_rgba(255,253,210,0.8)] transition-all duration-500" 
+                style={{ 
+                    opacity: Math.min(1, value / 40),
+                    transform: `scale(${Math.min(1, 0.5 + (value / 100))})`
+                }}
+            />
         </div>
       </SliderPrimitive.Thumb>
     </SliderPrimitive.Root>
@@ -74,7 +88,7 @@ export default function ZenPage() {
       try {
         wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
       } catch (err: any) {
-        // Silently fail if permissions are disallowed to avoid error overlays
+        // Silently fail to avoid permission policy error overlays
       }
     }
   }, []);
@@ -291,6 +305,7 @@ export default function ZenPage() {
             lampActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-60"
           )}
         >
+          {/* Extraordinary "Super-Nova" Luminous Field */}
           <div 
             className="w-[800px] h-[1000px] rounded-full blur-[180px] transition-all duration-300"
             style={{ 
@@ -346,6 +361,7 @@ export default function ZenPage() {
             )}
         </div>
 
+        {/* Ghost-Activation Interaction Zone */}
         {isDarkMode && (
           <div className={cn(
             "fixed left-0 top-0 bottom-0 z-50 flex flex-col justify-center px-12 group/lamp-controls transition-all duration-700",
