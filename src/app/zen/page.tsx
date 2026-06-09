@@ -322,7 +322,7 @@ export default function ZenPage() {
       
       <main className="flex-1 relative z-10 flex flex-col items-center justify-center px-6">
         <div className={cn(
-          "fixed top-8 left-8 flex items-center gap-4 transition-all duration-1000 transform-gpu",
+          "fixed top-8 left-8 flex items-center gap-4 transition-all duration-1000 transform-gpu z-[100]",
           sessionState === 'running' ? "opacity-10 hover:opacity-100" : "opacity-100"
         )}>
             <Button asChild variant="ghost" className="hover:bg-primary/10 rounded-full group px-6 text-muted-foreground hover:text-primary">
