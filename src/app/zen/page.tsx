@@ -39,20 +39,26 @@ export default function ZenPage() {
   }, []);
 
   // Screen Wake Lock Management - Keeps system awake during focus
+  // Gracefully handles environments where permissions policy might disallow wake lock
   const requestWakeLock = useCallback(async () => {
     if ('wakeLock' in navigator) {
       try {
         wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
       } catch (err: any) {
-        console.error(`${err.name}, ${err.message}`);
+        // Silently fail if permissions are disallowed to avoid error overlays
+        console.warn('WakeLock could not be acquired:', err.message);
       }
     }
   }, []);
 
   const releaseWakeLock = useCallback(async () => {
     if (wakeLockRef.current !== null) {
-      await wakeLockRef.current.release();
-      wakeLockRef.current = null;
+      try {
+        await wakeLockRef.current.release();
+        wakeLockRef.current = null;
+      } catch (err) {
+        // Ignore release errors
+      }
     }
   }, []);
 
