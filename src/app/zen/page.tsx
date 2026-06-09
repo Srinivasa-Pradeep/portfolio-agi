@@ -26,7 +26,7 @@ export default function ZenPage() {
   
   // Lamp State
   const [lampActive, setLampActive] = useState(false);
-  const [lampIntensity, setLampIntensity] = useState(70);
+  const [lampIntensity, setLampIntensity] = useState(85);
   
   const { setTheme, resolvedTheme } = useTheme();
   const { togglePlayPause: toggleGlobalMusic } = useMusic();
@@ -197,9 +197,13 @@ export default function ZenPage() {
     return (FOCUS_DURATION - timeRemaining) / FOCUS_DURATION;
   }, [timeRemaining]);
 
+  /**
+   * SpaceHint - A premium long-form technical symbol kbd.
+   * Matches the user's provided bracket reference.
+   */
   const SpaceHint = () => (
-    <kbd className="ml-4 hidden sm:inline-flex h-7 min-w-[3.5rem] select-none items-center justify-center rounded-md border border-primary/40 bg-primary-foreground/10 px-6 font-mono text-[16px] font-black text-inherit opacity-90 shadow-[inset_0_0_8px_rgba(255,255,255,0.05)]">
-      ␣
+    <kbd className="ml-5 hidden sm:inline-flex h-8 min-w-[5rem] select-none items-center justify-center rounded-xl border border-primary/30 bg-primary-foreground/10 px-4 transition-all duration-300 shadow-[inset_0_0_12px_rgba(255,255,255,0.03)] group-hover:border-primary/60 group-hover:bg-primary-foreground/20">
+      <span className="h-2 w-10 border-l-2 border-r-2 border-b-2 border-current rounded-b-[4px] opacity-80" />
     </kbd>
   );
 
@@ -207,25 +211,25 @@ export default function ZenPage() {
     switch (sessionState) {
       case 'idle':
         return (
-          <Button size="lg" onClick={handleStart} className="w-full h-16 rounded-2xl shadow-lg font-bold text-lg group transition-all duration-500">
+          <Button size="lg" onClick={handleStart} className="w-full h-16 rounded-2xl shadow-lg font-bold text-lg group transition-all duration-500 overflow-hidden">
             <Wind className="mr-2 h-5 w-5 transition-transform group-hover:rotate-12" /> Start Deep Focus <SpaceHint />
           </Button>
         );
       case 'running':
         return (
-          <Button size="lg" variant="secondary" onClick={handlePause} className="w-full h-16 rounded-2xl shadow-md font-bold text-lg transition-all duration-500">
+          <Button size="lg" variant="secondary" onClick={handlePause} className="w-full h-16 rounded-2xl shadow-md font-bold text-lg transition-all duration-500 group overflow-hidden">
             <Pause className="mr-2 h-5 w-5" /> Pause Session <SpaceHint />
           </Button>
         );
       case 'paused':
         return (
-          <Button size="lg" onClick={handleResume} className="w-full h-16 rounded-2xl shadow-lg font-bold text-lg transition-all duration-500">
+          <Button size="lg" onClick={handleResume} className="w-full h-16 rounded-2xl shadow-lg font-bold text-lg transition-all duration-500 group overflow-hidden">
             <Play className="mr-2 h-5 w-5" /> Resume Focus <SpaceHint />
           </Button>
         );
       case 'complete':
         return (
-          <Button size="lg" onClick={handleContinue} className="w-full h-16 rounded-2xl shadow-lg animate-slow-pulse font-bold text-lg transition-all duration-500">
+          <Button size="lg" onClick={handleContinue} className="w-full h-16 rounded-2xl shadow-lg animate-slow-pulse font-bold text-lg transition-all duration-500 group overflow-hidden">
             <Sparkles className="mr-2 h-5 w-5" /> Another 20 Minutes <SpaceHint />
           </Button>
         );
@@ -244,20 +248,26 @@ export default function ZenPage() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
       </div>
 
-      {/* High-Fidelity Ultra-Luminous Lighthouse Reading Lamp - Exclusive to Dark Mode */}
+      {/* Extraordinary Luminous Lighthouse Reading Lamp - Optimized for Night Reading */}
       {isDarkMode && (
         <div 
           className={cn(
-            "fixed left-0 top-1/2 -translate-y-1/2 z-0 pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)]",
-            lampActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-40"
+            "fixed left-0 top-1/2 -translate-y-1/2 z-0 pointer-events-none transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] will-change-transform",
+            lampActive ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-60"
           )}
         >
+          {/* Main Illuminator - Massive spread for hardcopy books */}
           <div 
-            className="w-[700px] h-[950px] rounded-full blur-[160px] transition-all duration-300"
+            className="w-[800px] h-[1000px] rounded-full blur-[180px] transition-all duration-300"
             style={{ 
-              backgroundColor: `rgba(255, 253, 210, ${lampIntensity / 100 * 0.98})`,
-              boxShadow: `0 0 ${lampIntensity * 6}px ${lampIntensity * 3.5}px rgba(255, 253, 210, 0.45)`
+              backgroundColor: `rgba(255, 253, 210, ${lampIntensity / 100 * 0.99})`,
+              boxShadow: `0 0 ${lampIntensity * 6}px ${lampIntensity * 4.5}px rgba(255, 253, 210, 0.55)`
             }}
+          />
+          {/* Intense Technical Core Glow */}
+          <div 
+            className="absolute left-0 top-1/2 -translate-y-1/2 w-40 h-[600px] rounded-full blur-[100px] bg-white/20 mix-blend-overlay"
+            style={{ opacity: lampIntensity / 100 }}
           />
         </div>
       )}
@@ -302,10 +312,10 @@ export default function ZenPage() {
             )}
         </div>
 
-        {/* Lamp Intensity Controller - Only in Dark Mode */}
+        {/* Extraordinary Intensity Controller - Only in Dark Mode */}
         {isDarkMode && (
           <div className={cn(
-            "fixed left-12 top-[65%] z-50 w-56 flex flex-col gap-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            "fixed left-12 top-[65%] z-50 w-56 flex flex-col gap-4 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
             lampActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
           )}>
              <div className="flex items-center justify-between px-1">
@@ -319,6 +329,7 @@ export default function ZenPage() {
                step={1} 
                className="cursor-pointer"
              />
+             <p className="text-[8px] font-mono text-muted-foreground/40 uppercase tracking-[0.3em] text-center">Optimized_For_Hardcopy_Reading</p>
           </div>
         )}
 
