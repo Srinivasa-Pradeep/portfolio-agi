@@ -39,6 +39,7 @@ function FormatMessage({ content }: { content: string }) {
 
 export function LizChat() {
   const [isOpen, setIsOpen] = useState(false);
+  const [autoHide, setAutoHide] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     { role: 'model', content: "Hello. I am **Liz**. How can I help you understand Srini's work or the journey he is on?" }
   ]);
@@ -46,6 +47,14 @@ export function LizChat() {
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // Auto-hide trigger logic after 10 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAutoHide(true);
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -104,20 +113,21 @@ export function LizChat() {
 
   return (
     <>
-      {/* 1. Left "Talk with Liz" Blade Trigger */}
+      {/* 1. Left "Talk with Liz" Blade Trigger - Features Auto-Hide and Hover reveal */}
       <div className={cn(
-        "fixed left-0 top-1/2 -translate-y-1/2 z-[100] transition-all duration-700",
-        isOpen ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100"
+        "fixed left-0 top-1/2 -translate-y-1/2 z-[100] transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group/trigger",
+        isOpen ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100",
+        autoHide && !isOpen ? "-translate-x-[calc(100%-8px)] hover:translate-x-0" : "translate-x-0"
       )}>
         <button
             onClick={() => setIsOpen(true)}
-            className="group relative flex flex-col items-center gap-4 py-8 w-10 bg-background/10 backdrop-blur-xl border-y border-r border-white/10 rounded-r-2xl shadow-2xl transition-all hover:w-12 active:scale-95 text-foreground/40 hover:text-primary"
+            className="group/btn relative flex flex-col items-center gap-4 py-8 w-10 bg-background/10 backdrop-blur-xl border-y border-r border-white/10 rounded-r-2xl shadow-2xl transition-all hover:w-12 active:scale-95 text-foreground/40 hover:text-primary"
         >
             <Command className="h-4 w-4" />
             <span className="[writing-mode:vertical-lr] text-[8px] font-black uppercase tracking-[0.4em] opacity-60">Talk with Liz</span>
             
             {/* Minimalist Shortcut Hint */}
-            <div className="mt-4 flex flex-col items-center gap-1 opacity-0 group-hover:opacity-40 transition-opacity duration-500">
+            <div className="mt-4 flex flex-col items-center gap-1 opacity-0 group-hover/btn:opacity-40 transition-opacity duration-500">
                 <span className="text-[9px] font-bold">⌘</span>
                 <span className="text-[9px] font-bold">K</span>
             </div>
@@ -196,7 +206,7 @@ export function LizChat() {
                 </div>
             </ScrollArea>
 
-            {/* Input Bar */}
+            {/* Input Bar - Flawless Pill Design */}
             <div className="p-6 bg-white/5 border-t border-white/5">
                 <div className="relative">
                     <div className="flex items-center bg-background/30 backdrop-blur-2xl border border-white/10 rounded-full shadow-inner px-4 overflow-hidden focus-within:ring-2 focus-within:ring-primary/10 transition-all">
@@ -218,7 +228,7 @@ export function LizChat() {
                             variant="ghost"
                             onClick={() => handleSendMessage(inputValue)}
                             disabled={!inputValue.trim() || isLoading}
-                            className="h-10 w-10 rounded-full hover:bg-primary hover:text-primary-foreground transition-all shrink-0"
+                            className="h-10 w-10 rounded-full hover:bg-primary hover:text-primary-foreground transition-all shrink-0 mr-1"
                         >
                             <Send className="h-4 w-4" />
                         </Button>
