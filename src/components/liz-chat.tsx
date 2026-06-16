@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { X, Send, Sparkles, MessageSquare, Command } from 'lucide-react';
+import { X, Send, Sparkles, MessageSquare, Command, CornerDownLeft } from 'lucide-react';
 import { talkToLiz } from '@/app/actions';
 
 type Message = {
@@ -74,7 +74,7 @@ export function LizChat() {
     setInputValue('');
     setIsLoading(true);
 
-    // Pass history (excluding current message) to talkToLiz
+    // Pass current message to talkToLiz
     const result = await talkToLiz(content, messages);
     
     if (result.success) {
@@ -105,13 +105,13 @@ export function LizChat() {
       {/* 2. Centered Spotlight Modal - Pure iOS Glass Morphism */}
       <div 
         className={cn(
-            "fixed inset-0 z-[200] flex items-start justify-center pt-[15vh] px-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
-            isOpen ? "pointer-events-auto bg-black/30 backdrop-blur-md opacity-100" : "pointer-events-none bg-transparent opacity-0"
+            "fixed inset-0 z-[200] flex items-start justify-center pt-[12vh] px-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            isOpen ? "pointer-events-auto bg-black/40 backdrop-blur-md opacity-100" : "pointer-events-none bg-transparent opacity-0"
         )}
         onClick={(e) => { if(e.target === e.currentTarget) setIsOpen(false); }}
       >
         <div className={cn(
-            "w-full max-w-2xl bg-background/60 dark:bg-background/40 backdrop-blur-3xl border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.4)] transition-all duration-500 transform-gpu overflow-hidden rounded-[40px]",
+            "w-full max-w-2xl bg-background/60 dark:bg-background/40 backdrop-blur-3xl border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] transition-all duration-500 transform-gpu overflow-hidden rounded-[40px]",
             isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95"
         )}>
             {/* Header Area */}
@@ -136,8 +136,8 @@ export function LizChat() {
             </div>
 
             {/* Conversation Stream */}
-            <ScrollArea className="h-[400px] px-6" data-lenis-prevent>
-                <div className="py-8 space-y-8">
+            <ScrollArea className="h-[450px] px-6" data-lenis-prevent>
+                <div className="py-8 space-y-10">
                     {messages.map((msg, i) => (
                         <div 
                             key={i} 
@@ -147,20 +147,20 @@ export function LizChat() {
                             )}
                         >
                             <div className={cn(
-                                "px-5 py-3.5 rounded-[22px] text-sm leading-relaxed max-w-[85%] transition-all",
+                                "px-6 py-4 rounded-[26px] text-sm leading-relaxed max-w-[88%] shadow-sm transition-all",
                                 msg.role === 'user' 
-                                    ? "bg-primary text-primary-foreground font-medium rounded-tr-none shadow-lg" 
-                                    : "bg-secondary/30 backdrop-blur-xl border border-white/10 rounded-tl-none lora italic text-foreground/90 font-medium px-6 pr-6" // pr-6 for zero-clipping
+                                    ? "bg-primary text-primary-foreground font-medium rounded-tr-none" 
+                                    : "bg-secondary/30 backdrop-blur-xl border border-white/10 rounded-tl-none lora italic text-foreground/90 font-medium pr-7" // pr-7 to prevent italic clipping
                             )}>
                                 {msg.content}
                             </div>
-                            <span className="text-[8px] font-bold uppercase tracking-widest opacity-20 px-2 group-hover:opacity-50 transition-opacity">
+                            <span className="text-[8px] font-bold uppercase tracking-widest opacity-20 px-3 group-hover:opacity-50 transition-opacity">
                                 {msg.role === 'user' ? 'Sent' : 'Liz'}
                             </span>
                         </div>
                     ))}
                     {isLoading && (
-                        <div className="flex items-center gap-3 px-2 text-primary/40">
+                        <div className="flex items-center gap-3 px-3 text-primary/40">
                             <Sparkles className="h-3 w-3 animate-pulse" />
                             <span className="text-[10px] uppercase tracking-widest font-medium tracking-[0.2em]">Thinking...</span>
                         </div>
@@ -172,7 +172,7 @@ export function LizChat() {
             {/* Input Bar */}
             <div className="p-6 bg-white/5 border-t border-white/5">
                 <div className="relative">
-                    <div className="flex items-center bg-background/30 backdrop-blur-2xl border border-white/10 rounded-[24px] shadow-inner px-4 overflow-hidden focus-within:ring-2 focus-within:ring-primary/10 transition-all">
+                    <div className="flex items-center bg-background/30 backdrop-blur-2xl border border-white/10 rounded-[28px] shadow-inner px-4 overflow-hidden focus-within:ring-2 focus-within:ring-primary/10 transition-all">
                         <Input 
                             ref={inputRef}
                             value={inputValue}
@@ -184,7 +184,7 @@ export function LizChat() {
                               }
                             }}
                             placeholder="Ask about Amazon, MBRDI, or PSG iTech..."
-                            className="flex-1 bg-transparent border-none text-base focus-visible:ring-0 shadow-none px-2 h-14 font-medium placeholder:text-muted-foreground/30"
+                            className="flex-1 bg-transparent border-none text-base focus-visible:ring-0 shadow-none px-3 h-14 font-medium placeholder:text-muted-foreground/30"
                         />
                         <Button 
                             size="icon" 
@@ -196,13 +196,18 @@ export function LizChat() {
                             <Send className="h-4 w-4" />
                         </Button>
                     </div>
-                    <div className="mt-3 flex justify-between items-center px-2">
-                        <p className="text-[9px] font-medium text-muted-foreground/30 uppercase tracking-widest">Built to become</p>
-                        <div className="flex items-center gap-3 opacity-40">
-                           <div className="flex items-center gap-1">
-                             <span className="text-[9px] font-bold bg-secondary/50 px-1.5 py-0.5 rounded border border-border/50">SHIFT</span>
-                             <span className="text-[9px] font-bold bg-secondary/50 px-1.5 py-0.5 rounded border border-border/50">ENTER</span>
-                             <span className="text-[9px] text-muted-foreground uppercase tracking-widest ml-1">to toggle</span>
+                    
+                    {/* Visual Shortcut Hint Bar */}
+                    <div className="mt-4 flex justify-between items-center px-4">
+                        <p className="text-[9px] font-medium text-muted-foreground/30 uppercase tracking-[0.3em]">Built to become</p>
+                        <div className="flex items-center gap-4 opacity-40 group/hints">
+                           <div className="flex items-center gap-1.5 transition-all group-hover/hints:opacity-100">
+                             <div className="flex items-center gap-1 bg-secondary/40 px-2 py-1 rounded-lg border border-border/40 shadow-sm">
+                                <span className="text-[9px] font-black tracking-tighter">SHIFT</span>
+                                <span className="text-[8px] opacity-40">+</span>
+                                <CornerDownLeft className="h-2.5 w-2.5" />
+                             </div>
+                             <span className="text-[9px] text-muted-foreground uppercase tracking-widest ml-1 font-bold">to toggle</span>
                            </div>
                         </div>
                     </div>
