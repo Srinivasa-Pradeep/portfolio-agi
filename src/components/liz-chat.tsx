@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { X, Send, Sparkles, Command, CornerDownLeft, Mic, MicOff } from 'lucide-react';
@@ -268,12 +267,12 @@ export function LizChat() {
                 </div>
             </ScrollArea>
 
-            {/* Simple Modern Input Section - No Glass Effects */}
-            <div className="p-4 sm:p-6 bg-card border-t border-border/40">
-                <div className="relative group/input">
-                    <div className="flex items-center bg-secondary rounded-full px-2 sm:px-4 transition-all focus-within:ring-1 focus-within:ring-primary/20">
+            {/* Flat, Solid Input Section - Zero Glass Effects */}
+            <div className="p-4 sm:p-6 bg-card border-t border-border/10">
+                <div className="relative">
+                    <div className="flex items-center bg-secondary rounded-full px-2 sm:px-4">
                         
-                        {/* Voice to Text Button - Steady state indication */}
+                        {/* Voice to Text Button - Steady state */}
                         <Button 
                             variant="ghost" 
                             size="icon"
@@ -288,7 +287,8 @@ export function LizChat() {
                             {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                         </Button>
 
-                        <Input 
+                        {/* Native input to ensure no inherited ShadCN borders/rings */}
+                        <input 
                             ref={inputRef}
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
@@ -299,10 +299,10 @@ export function LizChat() {
                               }
                             }}
                             placeholder={isRecording ? "Listening..." : "Ask Liz anything..."}
-                            className="flex-1 bg-transparent border-none text-sm sm:text-base focus-visible:ring-0 shadow-none px-2 sm:px-4 h-12 sm:h-14 font-medium placeholder:text-muted-foreground/30"
+                            className="flex-1 bg-transparent border-none outline-none text-sm sm:text-base px-2 sm:px-4 h-12 sm:h-14 font-medium placeholder:text-muted-foreground/30 text-foreground"
                         />
 
-                        {/* Minimalist Send Button */}
+                        {/* Send Button */}
                         <Button 
                             size="icon" 
                             variant="ghost"
@@ -310,17 +310,17 @@ export function LizChat() {
                             disabled={!inputValue.trim() || isLoading}
                             className={cn(
                                 "h-10 w-10 rounded-full transition-all shrink-0 ml-1",
-                                inputValue.trim() ? "text-primary opacity-100 scale-100" : "text-muted-foreground/20 opacity-0 scale-75 pointer-events-none"
+                                inputValue.trim() ? "text-primary opacity-100 scale-100" : "text-muted-foreground/10 opacity-0 scale-75 pointer-events-none"
                             )}
                         >
                             <Send className="h-4 w-4" />
                         </Button>
                     </div>
                     
-                    {/* Interior Footer Info */}
+                    {/* Minimalist Footer Info */}
                     <div className="mt-3 flex justify-between items-center px-4">
                         <p className="text-[8px] sm:text-[9px] font-medium text-muted-foreground/20 uppercase tracking-[0.3em]">Driven by Grit & Logic</p>
-                        <div className="hidden sm:flex items-center gap-3 opacity-0 group-focus-within/input:opacity-20 transition-opacity duration-700">
+                        <div className="hidden sm:flex items-center gap-3 opacity-0 group-focus-within:opacity-20 transition-opacity duration-700">
                              <div className="flex items-center gap-1.5">
                                 <span className="text-[9px] font-black tracking-tighter">ENTER</span>
                                 <CornerDownLeft className="h-2 w-2" />
