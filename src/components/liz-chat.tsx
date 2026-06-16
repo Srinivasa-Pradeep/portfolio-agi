@@ -199,7 +199,7 @@ export function LizChat() {
             {/* Input Bar */}
             <div className="p-6 bg-white/5 border-t border-white/5">
                 <div className="relative">
-                    <div className="flex items-center bg-background/30 backdrop-blur-2xl border border-white/10 rounded-[28px] shadow-inner px-4 overflow-hidden focus-within:ring-2 focus-within:ring-primary/10 transition-all">
+                    <div className="flex items-center bg-background/30 backdrop-blur-2xl border border-white/10 rounded-full shadow-inner px-4 overflow-hidden focus-within:ring-2 focus-within:ring-primary/10 transition-all">
                         <Input 
                             ref={inputRef}
                             value={inputValue}
@@ -218,7 +218,7 @@ export function LizChat() {
                             variant="ghost"
                             onClick={() => handleSendMessage(inputValue)}
                             disabled={!inputValue.trim() || isLoading}
-                            className="h-10 w-10 rounded-2xl hover:bg-primary hover:text-primary-foreground transition-all"
+                            className="h-10 w-10 rounded-full hover:bg-primary hover:text-primary-foreground transition-all shrink-0"
                         >
                             <Send className="h-4 w-4" />
                         </Button>
