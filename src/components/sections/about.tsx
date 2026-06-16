@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks, BookOpen, ArrowUpRight, Github } from 'lucide-react';
+import { ListChecks, BookOpen, ArrowUpRight, Github, Sparkles } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Accordion,
@@ -53,6 +53,23 @@ import { TypingEffect } from '@/components/typing-effect';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
+/**
+ * ShiningLink - A specialized link component with a subtle sweeping light effect.
+ */
+function ShiningLink({ href, children }: { href: string, children: ReactNode }) {
+  return (
+    <Link 
+      href={href} 
+      className="relative inline-flex items-center gap-1.5 font-bold text-primary group"
+    >
+      <span className="relative z-10 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#fff,55%,hsl(var(--primary)))] bg-[size:200%_100%] animate-shine decoration-primary/30 underline underline-offset-4 hover:decoration-primary transition-all duration-300">
+        {children}
+      </span>
+      <Sparkles className="h-3 w-3 text-primary/40 group-hover:text-primary transition-colors duration-300" />
+    </Link>
+  );
+}
+
 interface ManifestoItem {
   id: string;
   question: string;
@@ -63,14 +80,14 @@ const manifestoItems: ManifestoItem[] = [
   {
     id: "curiosity",
     question: "What am I endlessly curious about?",
-    answer: "Almost everything. Technology is my craft, but my curiosity spills over into everything—from how we think to how systems work at scale. I'm trying to become a polymath, someone who can find the hidden threads that connect seemingly unrelated worlds."
+    answer: "Almost everything. Technology is my craft, but my curiosity spills over into everything—from how we think to how systems work at scale. I aspire to become a polymath, someone who can find the hidden threads that connect seemingly unrelated worlds."
   },
   {
     id: "peace",
     question: "Where do I find peace?",
     answer: (
       <>
-        By the sea, surrounded by nature, or simply sitting with my own thoughts. There's something about open horizons and quiet air that brings a clarity I can't find anywhere else. I even built this <Link href="/zen" className="underline decoration-primary/30 hover:text-primary transition-all duration-300">Zen Mode</Link> specifically to capture and share that feeling of stillness.
+        By the sea, surrounded by nature, or simply sitting with my own thoughts. There's something about open horizons and quiet air that brings a clarity I can't find anywhere else. I even built this <ShiningLink href="/zen">Zen Mode</ShiningLink> specifically to capture and share that feeling of stillness.
       </>
     )
   },
@@ -79,7 +96,7 @@ const manifestoItems: ManifestoItem[] = [
     question: "What shapes the way I think?",
     answer: (
       <>
-        It's a mix of books, late-night conversations, and a lot of reflection. I'm fascinated by ideas that challenge my own assumptions and force me to see the world differently. You can see some of the volumes that changed me in my <Link href="/books" className="underline decoration-primary/30 hover:text-primary transition-all duration-300">personal library</Link>.
+        It's a mix of books, late-night conversations, and a lot of reflection. I'm fascinated by ideas that challenge my own assumptions and force me to see the world differently. You can see some of the volumes that changed me in my <ShiningLink href="/books">personal library</ShiningLink>.
       </>
     )
   },
@@ -631,8 +648,7 @@ export function About() {
                           </span>
                         </AccordionTrigger>
                         <AccordionContent className="pb-6 pt-0">
-                          <div className="max-w-3xl border-l-2 border-primary/20 pl-5 py-1 font-mono text-sm leading-relaxed text-muted-foreground bg-muted/5 rounded-r-sm">
-                            <span className="text-primary/40 mr-2">$</span>
+                          <div className="max-w-3xl border-l border-primary/10 pl-5 py-2 leading-relaxed text-foreground/80">
                             {item.answer}
                           </div>
                         </AccordionContent>
@@ -648,4 +664,3 @@ export function About() {
     </section>
   );
 }
-
