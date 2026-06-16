@@ -268,12 +268,12 @@ export function LizChat() {
                 </div>
             </ScrollArea>
 
-            {/* Modern Minimalist Input Rail - Cleaned of Glass Effect */}
-            <div className="p-4 sm:p-6 bg-white/5 border-t border-white/5">
+            {/* Simple Modern Input Section - No Glass Effects */}
+            <div className="p-4 sm:p-6 bg-card border-t border-border/40">
                 <div className="relative group/input">
-                    <div className="flex items-center bg-secondary/50 rounded-full px-2 sm:px-4 transition-all focus-within:bg-secondary/80 focus-within:ring-1 focus-within:ring-primary/10">
+                    <div className="flex items-center bg-secondary rounded-full px-2 sm:px-4 transition-all focus-within:ring-1 focus-within:ring-primary/20">
                         
-                        {/* Voice to Text Button - Simplified steady active state */}
+                        {/* Voice to Text Button - Steady state indication */}
                         <Button 
                             variant="ghost" 
                             size="icon"
@@ -281,7 +281,7 @@ export function LizChat() {
                             className={cn(
                                 "h-10 w-10 rounded-full transition-all shrink-0",
                                 isRecording 
-                                  ? "bg-primary text-primary-foreground shadow-[0_0_15px_hsl(var(--primary)/0.4)]" 
+                                  ? "bg-primary text-primary-foreground" 
                                   : "text-muted-foreground/40 hover:text-primary"
                             )}
                         >
