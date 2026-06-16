@@ -158,7 +158,8 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  if (theme === 'light') {
+  // Hides the main dock in Light and Spring modes to maintain a minimalist aesthetic
+  if (theme === 'light' || theme === 'spring') {
     return (
       <div 
         className={cn(

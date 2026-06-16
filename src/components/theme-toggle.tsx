@@ -37,8 +37,8 @@ export function ThemeToggle() {
       });
     }
 
-    // 3. Visual rotation
-    setRotation(r => r + 120); // Rotating by 120 deg for 3 states
+    // 3. Visual rotation logic (120 deg increments for 3 states)
+    setRotation(r => r + 120);
     
     // 4. Cycle logic: light -> dark -> spring
     const themes = ['light', 'dark', 'spring'];
@@ -73,6 +73,16 @@ export function ThemeToggle() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [toggleTheme]);
 
+  // Dynamic tooltip based on what the toggle will do
+  const getTooltipContent = () => {
+    switch (theme) {
+        case 'light': return 'Switch to Dark Mode';
+        case 'dark': return 'Switch to Spring Mode';
+        case 'spring': return 'Switch to Light Mode';
+        default: return 'Cycle Atmosphere';
+    }
+  };
+
   return (
     <TooltipProvider>
       <Tooltip>
@@ -95,7 +105,7 @@ export function ThemeToggle() {
           </Button>
         </TooltipTrigger>
         <TooltipContent side="top" className="flex items-center gap-2 px-3 py-1.5">
-          <span className="text-xs font-medium">Cycle Atmosphere</span>
+          <span className="text-xs font-medium">{getTooltipContent()}</span>
           <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
             T
           </kbd>
