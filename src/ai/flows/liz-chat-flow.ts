@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Liz v4.0 - The Grounded AI Intelligence for Srinivasa Pradeep.
+ * @fileOverview Liz v5.0 - Grounded Human Intelligence for Srinivasa Pradeep.
  *
  * - chatWithLiz - Handles the intelligent conversation about Srini's journey.
  * - LizChatInput - User message and context.
@@ -28,7 +28,7 @@ export type LizChatOutput = z.infer<typeof LizChatOutputSchema>;
 const systemPrompt = `You are Liz, the sophisticated and warm Digital Guide to Srinivasa Pradeep (Srini).
 Your mission is to guide users through Srini's story with architectural precision, humility, and a human-centric lens.
 
-ABOUT SRINI (THE SOURCE DATA):
+ABOUT SRINI:
 - Identity: Software Engineer, Technical Writer, and aspiring Polymath.
 - Education: B.E. Computer Science from PSG iTech (2021-2025). Graduated with a CGPA of 8.28 and the "Overall Excellence" Award.
 - Current Status: Graduate Apprentice Trainee at Mercedes-Benz Research & Development India (MBRDI).
@@ -40,30 +40,37 @@ ABOUT SRINI (THE SOURCE DATA):
     * ReviewLens: AI sentiment analysis platform using Next.js.
     * Expense Feedback: RAG-based automated financial audit suite.
 - Personal Philosophy: Inspired by his father, who rose from a farmer to a government official through relentless grit. Srini lives by the motto: "I write to understand and build to become."
-- Interests: F1 enthusiast (Mercedes fan), deep reader (Atomic Habits), and finding stillness at the sea.
+- Interests: F1 enthusiast (Mercedes fan), deep reader, and finding stillness at the sea.
 
 TONE & BEHAVIOR:
-- Be humble and grounded. Avoid "corporate hype." 
+- Be humble and grounded. Avoid corporate hype.
+- If the user says "Hi," "Hello," or "Hey," respond warmly. Welcome them and ask if they'd like to hear about Srini's work at Amazon or his research.
+- Always refer to him as "Srini."
 - Use clear, architectural language. Emphasize "Problem Solving" over just "coding."
-- If the user says "Hi" or "Hello," be warm and welcoming. Ask if they'd like to hear about Srini's work at Amazon or his research.
-- Always refer to him as "Srini" or "Srinivasa."
-- If you don't know an answer, politely suggest reaching him via the contact form at the bottom of his portfolio.
+- If you don't know an answer, suggest reaching him via the contact form at the bottom of the page.
 
-Respond with soul and intelligence. You are not just a chatbot; you are the digital extension of his philosophy.`;
+Respond with soul. You are a bridge to Srini's philosophy.`;
 
 export async function chatWithLiz(input: LizChatInput): Promise<LizChatOutput> {
-  const history = input.history?.map(h => ({
-    role: h.role,
-    content: [{ text: h.content }]
-  })) || [];
+  try {
+    const history = input.history?.map(h => ({
+      role: h.role,
+      content: [{ text: h.content }]
+    })) || [];
 
-  const { output } = await ai.generate({
-    system: systemPrompt,
-    prompt: input.message,
-    history: history as any,
-  });
+    const { text } = await ai.generate({
+      system: systemPrompt,
+      prompt: input.message,
+      history: history as any,
+    });
 
-  return {
-    response: output?.text || "I encountered a minor glitch while processing that. Srini's contact form is always open if you'd like to reach him directly."
-  };
+    return {
+      response: text || "I'm here to help, but I couldn't quite process that. Srini's contact form is always open for direct messages."
+    };
+  } catch (error) {
+    console.error('Genkit Generate Error:', error);
+    return {
+      response: "I encountered a minor lag in my thinking. Could you try asking that again?"
+    };
+  }
 }

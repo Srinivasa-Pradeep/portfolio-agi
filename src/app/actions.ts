@@ -50,7 +50,6 @@ export async function submitContactForm(
     // 1. Categorize the message with AI
     const result = await categorizeContactFormSubmission({ message });
     category = result.category;
-    console.log('AI categorization result:', category);
 
     // 2. Send the email
     try {
@@ -61,7 +60,6 @@ export async function submitContactForm(
         react: ContactFormEmail({ name, email, message, category }),
         text: `Name: ${name}\nEmail: ${email}\nCategory: ${category}\nMessage: ${message}`,
       });
-       console.log('Email sent successfully');
     } catch (emailError) {
         console.error('Email sending failed:', emailError);
     }
@@ -83,18 +81,15 @@ export async function submitContactForm(
 /**
  * Server Action for interacting with Liz
  */
-export async function talkToLiz(message: string, history: any[] = []) {
+export async function talkToLiz(message: string, history: { role: 'user' | 'model', content: string }[] = []) {
   try {
     const result = await chatWithLiz({ 
       message, 
-      history: history.map(m => ({ 
-        role: m.role, 
-        content: m.content 
-      })) 
+      history 
     });
     return { success: true, response: result.response };
   } catch (error) {
-    console.error('Liz Chat Error:', error);
-    return { success: false, response: "I encountered a minor glitch while retrieving that information. Please try again." };
+    console.error('Liz Action Error:', error);
+    return { success: false, response: "I encountered a minor glitch. Please try asking again." };
   }
 }
