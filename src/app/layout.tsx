@@ -6,7 +6,6 @@ import { Toaster } from '@/components/ui/toaster';
 import { CustomCursor } from '@/components/custom-cursor';
 import { LiveClock } from '@/components/live-clock';
 import { MusicProvider } from '@/context/music-context';
-import { SpringProvider } from '@/context/spring-context';
 import { SpringOverlay } from '@/components/spring-overlay';
 import { ConditionalParticles } from '@/components/conditional-particles';
 import { SmoothScroll } from '@/components/smooth-scroll';
@@ -40,18 +39,16 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <MusicProvider>
-            <SpringProvider>
-              <SmoothScroll>
-                <SpringOverlay />
-                <ConditionalParticles />
-                <CustomCursor />
-                <LiveClock />
-                <div className="bg-background dark:bg-transparent min-h-screen transition-colors duration-700">
-                  {children}
-                </div>
-                <Toaster />
-              </SmoothScroll>
-            </SpringProvider>
+            <SmoothScroll>
+              <SpringOverlay />
+              <ConditionalParticles />
+              <CustomCursor />
+              <LiveClock />
+              <div className="bg-background dark:bg-transparent min-h-screen transition-colors duration-700">
+                {children}
+              </div>
+              <Toaster />
+            </SmoothScroll>
           </MusicProvider>
         </ThemeProvider>
       </body>

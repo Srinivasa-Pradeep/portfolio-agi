@@ -15,7 +15,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { MusicPlayer } from './music-player';
-import { SpringToggle } from './spring-toggle';
 import { useTheme } from 'next-themes';
 
 const navItems = [
@@ -117,7 +116,7 @@ export function Header() {
   const [mouseX, setMouseX] = useState<number | null>(null);
   const [isAtBottom, setIsAtBottom] = useState(false);
   const pathname = usePathname();
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
 
   useEffect(() => {
     setIsMounted(true);
@@ -159,7 +158,7 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  if (resolvedTheme === 'light') {
+  if (theme === 'light') {
     return (
       <div 
         className={cn(
@@ -167,7 +166,6 @@ export function Header() {
           isAtBottom ? "opacity-0 translate-y-10 pointer-events-none" : "opacity-100 translate-y-0"
         )}
       >
-        <SpringToggle />
         <MusicPlayer />
         <ThemeToggle />
       </div>
@@ -212,7 +210,6 @@ export function Header() {
             </div>
 
             <div className="flex items-center gap-2 ml-1">
-                <SpringToggle />
                 <MusicPlayer />
                 <ThemeToggle />
                 {isMounted && (

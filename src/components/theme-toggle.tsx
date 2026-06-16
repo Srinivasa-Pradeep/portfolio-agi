@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Moon, Sun } from 'lucide-react';
+import { Moon, Sun, Flower } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/tooltip';
 
 export function ThemeToggle() {
-  const { setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [rotation, setRotation] = React.useState(0);
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
 
@@ -38,22 +38,24 @@ export function ThemeToggle() {
     }
 
     // 3. Visual rotation
-    setRotation(r => r + 360);
+    setRotation(r => r + 120); // Rotating by 120 deg for 3 states
     
-    const isDark = document.documentElement.classList.contains('dark');
+    // 4. Cycle logic: light -> dark -> spring
+    const themes = ['light', 'dark', 'spring'];
+    const nextTheme = themes[(themes.indexOf(theme || 'light') + 1) % themes.length];
 
-    // 4. View Transition API for smooth reveal
-    if (!document.startViewTransition) {
-      setTheme(isDark ? 'light' : 'dark');
+    // 5. View Transition API for smooth reveal
+    if (!(document as any).startViewTransition) {
+      setTheme(nextTheme);
       return;
     }
 
     setTimeout(() => {
-        document.startViewTransition(() => {
-            setTheme(isDark ? 'light' : 'dark');
+        (document as any).startViewTransition(() => {
+            setTheme(nextTheme);
         });
     }, 50);
-  }, [setTheme]);
+  }, [setTheme, theme]);
 
   // Keyboard shortcut listener
   React.useEffect(() => {
@@ -85,14 +87,15 @@ export function ThemeToggle() {
               className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-1000 ease-[cubic-bezier(0.3,1.5,0.5,1)] will-change-transform"
               style={{ transform: `rotate(${rotation}deg)` }}
             >
-              <Sun className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all duration-500 dark:-rotate-90 dark:scale-0" />
-              <Moon className="absolute inset-0 h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all duration-500 dark:rotate-0 dark:scale-100" />
+              <Sun className={`absolute inset-0 h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'light' ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0'}`} />
+              <Moon className={`absolute inset-0 h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'dark' ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0'}`} />
+              <Flower className={`absolute inset-0 h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'spring' ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0'}`} />
             </div>
             <span className="sr-only">Toggle theme</span>
           </Button>
         </TooltipTrigger>
         <TooltipContent side="top" className="flex items-center gap-2 px-3 py-1.5">
-          <span className="text-xs font-medium">Toggle mode</span>
+          <span className="text-xs font-medium">Cycle Atmosphere</span>
           <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
             T
           </kbd>

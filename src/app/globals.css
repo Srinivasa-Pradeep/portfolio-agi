@@ -85,6 +85,14 @@
     --accent: 142 20% 85%; /* Soft leaf green */
     --accent-foreground: 142 40% 20%;
     --ring: 25 30% 15%;
+    --radius: 0.8rem;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 98%;
+    --easy: 165 70% 40%;
+    --info: 210 90% 55%;
+    --info-foreground: 210 90% 15%;
+    --feedback: 270 90% 65%;
+    --feedback-foreground: 270 90% 25%;
   }
 }
 
