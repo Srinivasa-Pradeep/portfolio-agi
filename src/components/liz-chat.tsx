@@ -44,13 +44,19 @@ export function LizChat() {
     }
   }, [messages, isLoading]);
 
-  // Keyboard shortcut: Cmd+K or Ctrl+K to toggle
+  // Keyboard shortcut: Shift+Enter to toggle, Escape to close
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        setIsOpen(prev => !prev);
+      // Global toggle: Shift + Enter
+      if (e.shiftKey && e.key === 'Enter' && !isOpen) {
+        // Only trigger if not typing in another input
+        if (!(e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)) {
+          e.preventDefault();
+          setIsOpen(true);
+        }
       }
+      
+      // Close on Escape
       if (e.key === 'Escape' && isOpen) {
         setIsOpen(false);
       }
@@ -68,6 +74,7 @@ export function LizChat() {
     setInputValue('');
     setIsLoading(true);
 
+    // Pass history (excluding current message) to talkToLiz
     const result = await talkToLiz(content, messages);
     
     if (result.success) {
@@ -80,7 +87,7 @@ export function LizChat() {
 
   return (
     <>
-      {/* 1. Left Tab Trigger - Minimalist and New */}
+      {/* 1. Left Tab Trigger - Refined Minimalist Glass */}
       <div className={cn(
         "fixed left-0 top-1/2 -translate-y-1/2 z-[100] transition-all duration-700",
         isOpen ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100"
@@ -88,43 +95,43 @@ export function LizChat() {
         <Button
             variant="ghost"
             onClick={() => setIsOpen(true)}
-            className="group relative h-32 w-10 flex flex-col items-center justify-center gap-4 rounded-r-2xl bg-primary text-primary-foreground shadow-2xl border border-white/10 transition-all hover:w-12 active:scale-95"
+            className="group relative h-32 w-10 flex flex-col items-center justify-center gap-4 rounded-r-3xl bg-background/20 backdrop-blur-lg border border-white/10 shadow-2xl transition-all hover:w-12 active:scale-95 text-foreground/60 hover:text-primary"
         >
             <MessageSquare className="h-4 w-4" />
-            <span className="[writing-mode:vertical-lr] text-[10px] font-black uppercase tracking-[0.4em]">Ask_Liz</span>
+            <span className="[writing-mode:vertical-lr] text-[9px] font-black uppercase tracking-[0.4em] opacity-80">Ask_Liz</span>
         </Button>
       </div>
 
-      {/* 2. Centered Spotlight Modal - Refined & Awesome */}
+      {/* 2. Centered Spotlight Modal - Pure iOS Glass Morphism */}
       <div 
         className={cn(
             "fixed inset-0 z-[200] flex items-start justify-center pt-[15vh] px-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
-            isOpen ? "pointer-events-auto bg-black/40 backdrop-blur-md opacity-100" : "pointer-events-none bg-transparent opacity-0"
+            isOpen ? "pointer-events-auto bg-black/30 backdrop-blur-md opacity-100" : "pointer-events-none bg-transparent opacity-0"
         )}
         onClick={(e) => { if(e.target === e.currentTarget) setIsOpen(false); }}
       >
         <div className={cn(
-            "w-full max-w-2xl bg-background/80 backdrop-blur-3xl border border-white/10 shadow-2xl transition-all duration-500 transform-gpu overflow-hidden rounded-[32px]",
+            "w-full max-w-2xl bg-background/60 dark:bg-background/40 backdrop-blur-3xl border border-white/10 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.4)] transition-all duration-500 transform-gpu overflow-hidden rounded-[40px]",
             isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95"
         )}>
             {/* Header Area */}
-            <div className="p-6 flex items-center justify-between border-b border-white/5 bg-black/5">
+            <div className="p-6 flex items-center justify-between border-b border-white/5 bg-white/5">
                 <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
-                        <Command className="h-5 w-5 text-primary" />
+                    <div className="h-10 w-10 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
+                        <Command className="h-5 w-5 text-primary/70" />
                     </div>
                     <div>
                         <h2 className="text-lg font-bold tracking-tight">Talk with Liz</h2>
-                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest opacity-60">Ask about my journey</p>
+                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest opacity-60">Grounded Intelligence</p>
                     </div>
                 </div>
                 <Button 
                     variant="ghost" 
                     size="icon" 
                     onClick={() => setIsOpen(false)}
-                    className="rounded-full hover:bg-primary/10 h-8 w-8"
+                    className="rounded-full hover:bg-white/10 h-10 w-10 transition-colors"
                 >
-                    <X className="h-4 w-4" />
+                    <X className="h-5 w-5 opacity-40 hover:opacity-100" />
                 </Button>
             </div>
 
@@ -140,22 +147,22 @@ export function LizChat() {
                             )}
                         >
                             <div className={cn(
-                                "px-5 py-3.5 rounded-[22px] text-sm leading-relaxed max-w-[85%] px-1 pr-2",
+                                "px-5 py-3.5 rounded-[22px] text-sm leading-relaxed max-w-[85%] transition-all",
                                 msg.role === 'user' 
-                                    ? "bg-primary text-primary-foreground font-medium rounded-tr-none shadow-md" 
-                                    : "bg-secondary/30 backdrop-blur-xl border border-white/5 rounded-tl-none lora italic text-foreground/90 font-medium"
+                                    ? "bg-primary text-primary-foreground font-medium rounded-tr-none shadow-lg" 
+                                    : "bg-secondary/30 backdrop-blur-xl border border-white/10 rounded-tl-none lora italic text-foreground/90 font-medium px-6 pr-6" // pr-6 for zero-clipping
                             )}>
                                 {msg.content}
                             </div>
-                            <span className="text-[8px] font-bold uppercase tracking-widest opacity-30 px-1">
-                                {msg.role === 'user' ? 'You' : 'Liz'}
+                            <span className="text-[8px] font-bold uppercase tracking-widest opacity-20 px-2 group-hover:opacity-50 transition-opacity">
+                                {msg.role === 'user' ? 'Sent' : 'Liz'}
                             </span>
                         </div>
                     ))}
                     {isLoading && (
                         <div className="flex items-center gap-3 px-2 text-primary/40">
                             <Sparkles className="h-3 w-3 animate-pulse" />
-                            <span className="text-[10px] uppercase tracking-widest font-medium">Liz is thinking...</span>
+                            <span className="text-[10px] uppercase tracking-widest font-medium tracking-[0.2em]">Thinking...</span>
                         </div>
                     )}
                     <div ref={scrollRef} />
@@ -163,32 +170,40 @@ export function LizChat() {
             </ScrollArea>
 
             {/* Input Bar */}
-            <div className="p-6 bg-black/5 border-t border-white/5">
+            <div className="p-6 bg-white/5 border-t border-white/5">
                 <div className="relative">
-                    <div className="flex items-center bg-background/50 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-inner px-4 overflow-hidden focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+                    <div className="flex items-center bg-background/30 backdrop-blur-2xl border border-white/10 rounded-[24px] shadow-inner px-4 overflow-hidden focus-within:ring-2 focus-within:ring-primary/10 transition-all">
                         <Input 
                             ref={inputRef}
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
-                            onKeyDown={(e) => { if(e.key === 'Enter') handleSendMessage(inputValue); }}
+                            onKeyDown={(e) => { 
+                              if(e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                handleSendMessage(inputValue);
+                              }
+                            }}
                             placeholder="Ask about Amazon, MBRDI, or PSG iTech..."
-                            className="flex-1 bg-transparent border-none text-base focus-visible:ring-0 shadow-none px-0 h-14 font-medium placeholder:text-muted-foreground/30"
+                            className="flex-1 bg-transparent border-none text-base focus-visible:ring-0 shadow-none px-2 h-14 font-medium placeholder:text-muted-foreground/30"
                         />
                         <Button 
                             size="icon" 
                             variant="ghost"
                             onClick={() => handleSendMessage(inputValue)}
                             disabled={!inputValue.trim() || isLoading}
-                            className="h-10 w-10 rounded-xl hover:bg-primary/10 hover:text-primary transition-all"
+                            className="h-10 w-10 rounded-2xl hover:bg-primary hover:text-primary-foreground transition-all"
                         >
                             <Send className="h-4 w-4" />
                         </Button>
                     </div>
-                    <div className="mt-3 flex justify-between items-center px-1">
-                        <p className="text-[9px] font-medium text-muted-foreground/40 uppercase tracking-widest">Grounded in reality</p>
-                        <div className="flex items-center gap-1.5 opacity-40">
-                           <span className="text-[9px] font-bold bg-secondary px-1.5 py-0.5 rounded border border-border">ESC</span>
-                           <span className="text-[9px] text-muted-foreground uppercase tracking-widest">to close</span>
+                    <div className="mt-3 flex justify-between items-center px-2">
+                        <p className="text-[9px] font-medium text-muted-foreground/30 uppercase tracking-widest">Built to become</p>
+                        <div className="flex items-center gap-3 opacity-40">
+                           <div className="flex items-center gap-1">
+                             <span className="text-[9px] font-bold bg-secondary/50 px-1.5 py-0.5 rounded border border-border/50">SHIFT</span>
+                             <span className="text-[9px] font-bold bg-secondary/50 px-1.5 py-0.5 rounded border border-border/50">ENTER</span>
+                             <span className="text-[9px] text-muted-foreground uppercase tracking-widest ml-1">to toggle</span>
+                           </div>
                         </div>
                     </div>
                 </div>
