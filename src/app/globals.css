@@ -10,7 +10,7 @@
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 0 0% 0%; /* Premium Black */
+    --primary: 0 0% 0%;
     --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -43,7 +43,7 @@
     --card-foreground: 0 0% 92%;
     --popover: 0 0% 3%;
     --popover-foreground: 0 0% 92%;
-    --primary: 240 5% 85%; /* Shining Silver */
+    --primary: 240 5% 85%;
     --primary-foreground: 240 5% 10%;
     --secondary: 0 0% 7%;
     --secondary-foreground: 0 0% 92%;
@@ -67,6 +67,25 @@
     --feedback: 270 90% 65%;
     --feedback-foreground: 270 90% 25%;
   }
+
+  /* Spring Mode - Sandal Palette */
+  .spring {
+    --background: 36 67% 97%; /* Premium Sandalwood / Beige */
+    --foreground: 25 30% 20%;
+    --card: 36 67% 98%;
+    --card-foreground: 25 30% 20%;
+    --primary: 25 30% 15%;
+    --primary-foreground: 36 67% 97%;
+    --secondary: 36 40% 90%;
+    --secondary-foreground: 25 30% 20%;
+    --border: 36 20% 85%;
+    --input: 36 20% 85%;
+    --muted: 36 20% 92%;
+    --muted-foreground: 25 15% 45%;
+    --accent: 142 20% 85%; /* Soft leaf green */
+    --accent-foreground: 142 40% 20%;
+    --ring: 25 30% 15%;
+  }
 }
 
 @layer base {
@@ -79,11 +98,11 @@
     text-rendering: optimizeSpeed;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    transition: background-color 0.8s ease, color 0.8s ease;
   }
   html {
     @apply scroll-smooth;
   }
-  /* Lenis requirements */
   html.lenis, html.lenis body {
     height: auto;
   }
@@ -99,8 +118,6 @@
   .lenis.lenis-scrolling iframe {
     pointer-events: none;
   }
-
-  /* Hide default cursor */
   .no-cursor, .no-cursor * {
     cursor: none;
   }
@@ -110,6 +127,17 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+@keyframes flower-shower {
+  0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg) translateX(20px); opacity: 0; }
+}
+
+.animate-flower-shower {
+  animation: flower-shower linear infinite;
 }
 
 @keyframes vibrate-alert {
@@ -136,18 +164,12 @@
 }
 
 @keyframes reveal-down {
-  from {
-    clip-path: inset(0 0 100% 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-  }
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
 }
 
 @keyframes fade-out {
-  to {
-    opacity: 0;
-  }
+  to { opacity: 0; }
 }
 
 ::view-transition-old(root) {
@@ -173,21 +195,9 @@
 }
 
 @keyframes paper-unfold {
-  0% { 
-    transform: scale(0.1) rotateX(45deg) rotateY(-45deg) rotateZ(10deg);
-    filter: blur(10px) brightness(0.5);
-    opacity: 0;
-  }
-  50% {
-     transform: scale(0.6) rotateX(10deg) rotateY(10deg) rotateZ(-5deg);
-     filter: blur(2px) brightness(0.8);
-     opacity: 1;
-  }
-  100% { 
-    transform: scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-    filter: blur(0px) brightness(1);
-    opacity: 1;
-  }
+  0% { transform: scale(0.1) rotateX(45deg) rotateY(-45deg) rotateZ(10deg); filter: blur(10px) brightness(0.5); opacity: 0; }
+  50% { transform: scale(0.6) rotateX(10deg) rotateY(10deg) rotateZ(-5deg); filter: blur(2px) brightness(0.8); opacity: 1; }
+  100% { transform: scale(1) rotateX(0deg) rotateY(0deg) rotateZ(0deg); filter: blur(0px) brightness(1); opacity: 1; }
 }
 
 .animate-paper-unfold {

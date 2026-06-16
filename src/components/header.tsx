@@ -15,6 +15,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { MusicPlayer } from './music-player';
+import { SpringToggle } from './spring-toggle';
 import { useTheme } from 'next-themes';
 
 const navItems = [
@@ -124,13 +125,11 @@ export function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // 1. Rock bottom detection
       const scrollHeight = document.documentElement.scrollHeight;
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
       const clientHeight = window.innerHeight;
       setIsAtBottom(scrollTop + clientHeight >= scrollHeight - 20);
 
-      // 2. Active section detection
       if (pathname !== '/') {
         setActiveSection('');
         return;
@@ -160,26 +159,25 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  // In Light Mode, hide the standalone buttons normally but hide at rock bottom
   if (resolvedTheme === 'light') {
     return (
       <div 
         className={cn(
-          "fixed bottom-8 right-8 z-50 flex items-center gap-4 transition-all duration-700 ease-in-out transform-gpu",
+          "fixed bottom-8 right-8 z-[110] flex items-center gap-4 transition-all duration-700 ease-in-out transform-gpu",
           isAtBottom ? "opacity-0 translate-y-10 pointer-events-none" : "opacity-100 translate-y-0"
         )}
       >
+        <SpringToggle />
         <MusicPlayer />
         <ThemeToggle />
       </div>
     );
   }
 
-  // Full Dock for Dark Mode - Hides at rock bottom
   return (
     <header 
       className={cn(
-        "fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 transition-all duration-700 ease-in-out transform-gpu",
+        "fixed bottom-6 left-1/2 -translate-x-1/2 z-[110] px-4 transition-all duration-700 ease-in-out transform-gpu",
         isAtBottom ? "opacity-0 translate-y-10 pointer-events-none" : "opacity-100 translate-y-0"
       )}
       onMouseMove={(e) => setMouseX(e.clientX)}
@@ -214,6 +212,7 @@ export function Header() {
             </div>
 
             <div className="flex items-center gap-2 ml-1">
+                <SpringToggle />
                 <MusicPlayer />
                 <ThemeToggle />
                 {isMounted && (
@@ -252,4 +251,3 @@ export function Header() {
     </header>
   );
 }
-

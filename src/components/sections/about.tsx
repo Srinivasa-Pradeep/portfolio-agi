@@ -649,7 +649,7 @@ export function About() {
                           </span>
                         </AccordionTrigger>
                         <AccordionContent className="pb-6 pt-0">
-                          <div className="max-w-3xl border-l border-primary/10 pl-5 py-2 leading-relaxed text-foreground/80 lora italic pr-1">
+                          <div className="max-w-3xl border-l border-primary/10 pl-5 py-2 leading-relaxed text-foreground/80 lora italic pr-2 px-1">
                             {item.answer}
                           </div>
                         </AccordionContent>
@@ -665,4 +665,3 @@ export function About() {
     </section>
   );
 }
-
