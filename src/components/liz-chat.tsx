@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { X, Send, Sparkles, MessageSquare, Command, CornerDownLeft } from 'lucide-react';
+import { X, Send, Sparkles, Command, CornerDownLeft } from 'lucide-react';
 import { talkToLiz } from '@/app/actions';
 
 type Message = {
@@ -17,12 +17,14 @@ type Message = {
  * FormatMessage - Renders bold text from markdown-style ** markers.
  */
 function FormatMessage({ content }: { content: string }) {
+  if (!content) return null;
+  // Regex to match **text** and capture it including the stars
   const parts = content.split(/(\*\*.*?\*\*)/g);
   return (
     <>
       {parts.map((part, i) => {
         if (part.startsWith('**') && part.endsWith('**')) {
-          return <strong key={i} className="font-bold text-foreground">{part.slice(2, -2)}</strong>;
+          return <strong key={i} className="font-bold text-foreground brightness-125">{part.slice(2, -2)}</strong>;
         }
         return part;
       })}
@@ -62,11 +64,10 @@ export function LizChat() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.shiftKey && e.key === 'Enter' && !isOpen) {
-        if (!(e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)) {
-          e.preventDefault();
-          setIsOpen(true);
-        }
+      // Cmd+K or Ctrl+K summoning
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsOpen(prev => !prev);
       }
       
       if (e.key === 'Escape' && isOpen) {
@@ -98,41 +99,36 @@ export function LizChat() {
 
   return (
     <>
-      {/* 1. Left Tab Trigger - Now with External Shortcut Hint */}
+      {/* 1. Left "Intelligence Blade" Trigger */}
       <div className={cn(
         "fixed left-0 top-1/2 -translate-y-1/2 z-[100] transition-all duration-700",
         isOpen ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100"
       )}>
-        <div className="flex flex-col items-start gap-2">
-            <Button
-                variant="ghost"
-                onClick={() => setIsOpen(true)}
-                className="group relative h-40 w-12 flex flex-col items-center justify-center gap-6 rounded-r-[32px] bg-background/20 backdrop-blur-xl border border-white/10 shadow-2xl transition-all hover:w-14 active:scale-95 text-foreground/60 hover:text-primary"
-            >
-                <div className="flex flex-col items-center gap-4">
-                    <MessageSquare className="h-4 w-4" />
-                    <span className="[writing-mode:vertical-lr] text-[9px] font-black uppercase tracking-[0.5em] opacity-80">Ask_Liz</span>
-                </div>
-                
-                {/* External Shortcut Hint */}
-                <div className="flex flex-col items-center gap-1 opacity-40 group-hover:opacity-100 transition-opacity">
-                    <div className="px-1.5 py-0.5 rounded-md bg-secondary/50 border border-border/20 text-[7px] font-black">SHIFT</div>
-                    <CornerDownLeft className="h-3 w-3" />
-                </div>
-            </Button>
-        </div>
+        <button
+            onClick={() => setIsOpen(true)}
+            className="group relative flex flex-col items-center gap-4 py-8 w-10 bg-background/10 backdrop-blur-xl border-y border-r border-white/10 rounded-r-2xl shadow-2xl transition-all hover:w-12 active:scale-95 text-foreground/40 hover:text-primary"
+        >
+            <Command className="h-4 w-4" />
+            <span className="[writing-mode:vertical-lr] text-[8px] font-black uppercase tracking-[0.4em] opacity-60">Intelligence</span>
+            
+            {/* Minimalist Shortcut Hint */}
+            <div className="mt-4 flex flex-col items-center gap-1 opacity-0 group-hover:opacity-40 transition-opacity duration-500">
+                <span className="text-[9px] font-bold">⌘</span>
+                <span className="text-[9px] font-bold">K</span>
+            </div>
+        </button>
       </div>
 
       {/* 2. Centered Spotlight Modal - Pure iOS Glass Morphism */}
       <div 
         className={cn(
-            "fixed inset-0 z-[200] flex items-start justify-center pt-[10vh] px-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            "fixed inset-0 z-[200] flex items-start justify-center pt-[12vh] px-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
             isOpen ? "pointer-events-auto bg-black/40 backdrop-blur-md opacity-100" : "pointer-events-none bg-transparent opacity-0"
         )}
         onClick={(e) => { if(e.target === e.currentTarget) setIsOpen(false); }}
       >
         <div className={cn(
-            "w-full max-w-2xl bg-background/60 dark:bg-background/40 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] transition-all duration-500 transform-gpu overflow-hidden rounded-[40px]",
+            "w-full max-w-2xl bg-background/70 dark:bg-background/40 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] transition-all duration-500 transform-gpu overflow-hidden rounded-[40px]",
             isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95"
         )}>
             {/* Header Area */}
@@ -143,12 +139,12 @@ export function LizChat() {
                     </div>
                     <div>
                         <h2 className="text-lg font-bold tracking-tight">Talk with Liz</h2>
-                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest opacity-60">Grounded Intelligence</p>
+                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest opacity-60">Architectural Guidance</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="hidden sm:flex items-center gap-1.5 opacity-20 hover:opacity-50 transition-opacity">
-                         <span className="text-[9px] font-bold uppercase tracking-widest">Esc to exit</span>
+                         <span className="text-[9px] font-bold uppercase tracking-[0.2em]">Esc to exit</span>
                     </div>
                     <Button 
                         variant="ghost" 
