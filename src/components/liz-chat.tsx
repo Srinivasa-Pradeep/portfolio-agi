@@ -68,11 +68,11 @@ export function LizChat() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto-hide trigger logic after 10 seconds
+  // Auto-hide trigger logic after 5 seconds (Reduced from 10s)
   useEffect(() => {
     const timer = setTimeout(() => {
       setAutoHide(true);
-    }, 10000);
+    }, 5000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -144,7 +144,7 @@ export function LizChat() {
 
   return (
     <>
-      {/* 1. Left "Talk with Liz" Blade Trigger - Features Auto-Hide and Hover reveal */}
+      {/* 1. Left "Talk with Liz" Blade Trigger - Features 5s Auto-Hide and Hover reveal */}
       <div className={cn(
         "fixed left-0 top-1/2 -translate-y-1/2 z-[100] transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group/trigger",
         isOpen ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100",
@@ -152,40 +152,40 @@ export function LizChat() {
       )}>
         <button
             onClick={() => setIsOpen(true)}
-            className="group/btn relative flex flex-col items-center gap-4 py-8 w-10 bg-background/10 backdrop-blur-xl border-y border-r border-white/10 rounded-r-2xl shadow-2xl transition-all hover:w-12 active:scale-95 text-foreground/40 hover:text-primary"
+            className="group/btn relative flex flex-col items-center gap-4 py-8 w-10 sm:w-12 bg-background/10 backdrop-blur-xl border-y border-r border-white/10 rounded-r-2xl shadow-2xl transition-all hover:w-12 sm:hover:w-14 active:scale-95 text-foreground/40 hover:text-primary"
         >
             <Command className="h-4 w-4" />
             <span className="[writing-mode:vertical-lr] text-[8px] font-black uppercase tracking-[0.4em] opacity-60">Talk with Liz</span>
             
-            {/* Minimalist Shortcut Hint */}
-            <div className="mt-4 flex flex-col items-center gap-1 opacity-0 group-hover/btn:opacity-40 transition-opacity duration-500">
+            {/* Minimalist Shortcut Hint - Only for Desktop */}
+            <div className="hidden sm:flex mt-4 flex-col items-center gap-1 opacity-0 group-hover/btn:opacity-40 transition-opacity duration-500">
                 <span className="text-[9px] font-bold">⌘</span>
                 <span className="text-[9px] font-bold">K</span>
             </div>
         </button>
       </div>
 
-      {/* 2. Centered Spotlight Modal - Pure iOS Glass Morphism */}
+      {/* 2. Centered Spotlight Modal - Pure iOS Glass Morphism with Mobile Responsiveness */}
       <div 
         className={cn(
-            "fixed inset-0 z-[200] flex items-start justify-center pt-[12vh] px-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            "fixed inset-0 z-[200] flex items-start justify-center pt-[8vh] sm:pt-[12vh] px-4 sm:px-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
             isOpen ? "pointer-events-auto bg-black/40 backdrop-blur-md opacity-100" : "pointer-events-none bg-transparent opacity-0"
         )}
         onClick={(e) => { if(e.target === e.currentTarget) setIsOpen(false); }}
       >
         <div className={cn(
-            "w-full max-w-2xl bg-background/70 dark:bg-background/40 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] transition-all duration-500 transform-gpu overflow-hidden rounded-[40px]",
+            "w-full max-w-2xl bg-background/70 dark:bg-background/40 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] transition-all duration-500 transform-gpu overflow-hidden rounded-[32px] sm:rounded-[40px]",
             isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95"
         )}>
             {/* Header Area */}
-            <div className="p-6 flex items-center justify-between border-b border-white/5 bg-white/5">
-                <div className="flex items-center gap-4">
-                    <div className="h-10 w-10 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
-                        <Command className="h-5 w-5 text-primary/70" />
+            <div className="p-4 sm:p-6 flex items-center justify-between border-b border-white/5 bg-white/5">
+                <div className="flex items-center gap-3 sm:gap-4">
+                    <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl sm:rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
+                        <Command className="h-4 w-4 sm:h-5 sm:w-5 text-primary/70" />
                     </div>
                     <div>
-                        <h2 className="text-lg font-bold tracking-tight">Talk with Liz</h2>
-                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest opacity-60">Personal Assistant</p>
+                        <h2 className="text-base sm:text-lg font-bold tracking-tight">Talk with Liz</h2>
+                        <p className="text-[9px] sm:text-[10px] font-medium text-muted-foreground uppercase tracking-widest opacity-60">Personal Assistant</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -196,16 +196,16 @@ export function LizChat() {
                         variant="ghost" 
                         size="icon" 
                         onClick={() => setIsOpen(false)}
-                        className="rounded-full hover:bg-white/10 h-10 w-10 transition-colors"
+                        className="rounded-full hover:bg-white/10 h-8 w-8 sm:h-10 sm:w-10 transition-colors"
                     >
-                        <X className="h-5 w-5 opacity-40 hover:opacity-100" />
+                        <X className="h-4 w-4 sm:h-5 sm:w-5 opacity-40 hover:opacity-100" />
                     </Button>
                 </div>
             </div>
 
             {/* Conversation Stream */}
-            <ScrollArea className="h-[480px] px-6" data-lenis-prevent>
-                <div className="py-8 space-y-10">
+            <ScrollArea className="h-[400px] sm:h-[480px] px-4 sm:px-6" data-lenis-prevent>
+                <div className="py-6 sm:py-8 space-y-8 sm:space-y-10">
                     {messages.map((msg, i) => (
                         <div 
                             key={i} 
@@ -215,10 +215,10 @@ export function LizChat() {
                             )}
                         >
                             <div className={cn(
-                                "px-6 py-4 rounded-[26px] text-sm leading-relaxed max-w-[88%] shadow-sm border border-white/5 transition-all",
+                                "px-4 sm:px-6 py-3 sm:py-4 rounded-[22px] sm:rounded-[26px] text-sm leading-relaxed max-w-[92%] sm:max-w-[88%] shadow-sm border border-white/5 transition-all",
                                 msg.role === 'user' 
                                     ? "bg-primary text-primary-foreground font-medium rounded-tr-none" 
-                                    : "bg-secondary/30 backdrop-blur-xl rounded-tl-none lora italic text-foreground/90 font-medium pr-7" 
+                                    : "bg-secondary/30 backdrop-blur-xl rounded-tl-none lora italic text-foreground/90 font-medium pr-6 sm:pr-7" 
                             )}>
                                 <FormatMessage content={msg.content} onNavClick={handleNavAction} />
                             </div>
@@ -238,9 +238,9 @@ export function LizChat() {
             </ScrollArea>
 
             {/* Input Bar - Flawless Pill Design */}
-            <div className="p-6 bg-white/5 border-t border-white/5">
+            <div className="p-4 sm:p-6 bg-white/5 border-t border-white/5">
                 <div className="relative">
-                    <div className="flex items-center bg-background/30 backdrop-blur-2xl border border-white/10 rounded-full shadow-inner px-4 overflow-hidden focus-within:ring-2 focus-within:ring-primary/10 transition-all">
+                    <div className="flex items-center bg-background/30 backdrop-blur-2xl border border-white/10 rounded-full shadow-inner px-3 sm:px-4 overflow-hidden focus-within:ring-2 focus-within:ring-primary/10 transition-all">
                         <Input 
                             ref={inputRef}
                             value={inputValue}
@@ -251,24 +251,24 @@ export function LizChat() {
                                 handleSendMessage(inputValue);
                               }
                             }}
-                            placeholder="Ask about Amazon, MBRDI, or PSG iTech..."
-                            className="flex-1 bg-transparent border-none text-base focus-visible:ring-0 shadow-none px-3 h-14 font-medium placeholder:text-muted-foreground/30"
+                            placeholder="Ask about Amazon, MBRDI..."
+                            className="flex-1 bg-transparent border-none text-sm sm:text-base focus-visible:ring-0 shadow-none px-2 sm:px-3 h-12 sm:h-14 font-medium placeholder:text-muted-foreground/30"
                         />
                         <Button 
                             size="icon" 
                             variant="ghost"
                             onClick={() => handleSendMessage(inputValue)}
                             disabled={!inputValue.trim() || isLoading}
-                            className="h-10 w-10 rounded-full hover:bg-primary hover:text-primary-foreground transition-all shrink-0 mr-1"
+                            className="h-8 w-8 sm:h-10 sm:w-10 rounded-full hover:bg-primary hover:text-primary-foreground transition-all shrink-0 mr-1"
                         >
-                            <Send className="h-4 w-4" />
+                            <Send className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                         </Button>
                     </div>
                     
                     {/* Interior Footer Info */}
-                    <div className="mt-4 flex justify-between items-center px-4">
-                        <p className="text-[9px] font-medium text-muted-foreground/30 uppercase tracking-[0.3em]">Driven by Grit & Logic</p>
-                        <div className="flex items-center gap-4 opacity-30">
+                    <div className="mt-3 sm:mt-4 flex justify-between items-center px-4">
+                        <p className="text-[8px] sm:text-[9px] font-medium text-muted-foreground/30 uppercase tracking-[0.3em]">Driven by Grit & Logic</p>
+                        <div className="hidden sm:flex items-center gap-4 opacity-30">
                            <div className="flex items-center gap-1.5">
                              <div className="flex items-center gap-1 bg-secondary/40 px-2 py-1 rounded-lg border border-border/40 shadow-sm">
                                 <span className="text-[9px] font-black tracking-tighter">ENTER</span>
