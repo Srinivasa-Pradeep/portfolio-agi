@@ -68,7 +68,7 @@
     --feedback-foreground: 270 90% 25%;
   }
 
-  /* Spring Mode - Sandal Palette */
+  /* Spring Mode - Sandal & Light Rose Palette */
   .spring {
     --background: 36 67% 97%; /* Premium Sandalwood / Beige */
     --foreground: 25 30% 20%;
@@ -82,8 +82,8 @@
     --input: 36 20% 85%;
     --muted: 36 20% 92%;
     --muted-foreground: 25 15% 45%;
-    --accent: 142 20% 85%; /* Soft leaf green */
-    --accent-foreground: 142 40% 20%;
+    --accent: 350 40% 90%; /* Light Rose Pink */
+    --accent-foreground: 350 40% 20%;
     --ring: 25 30% 15%;
     --radius: 0.8rem;
     --destructive: 0 72% 51%;
