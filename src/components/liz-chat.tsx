@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { X, Send, Sparkles, Command, CornerDownLeft } from 'lucide-react';
+import { X, Send, Sparkles, Command, CornerDownLeft, Mic, MicOff } from 'lucide-react';
 import { talkToLiz } from '@/app/actions';
 
 type Message = {
@@ -65,16 +65,56 @@ export function LizChat() {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const recognitionRef = useRef<any>(null);
 
-  // Auto-hide trigger logic after 5 seconds (Reduced from 10s)
+  // Auto-hide trigger logic after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setAutoHide(true);
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Initialize Speech Recognition
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        recognitionRef.current = new SpeechRecognition();
+        recognitionRef.current.continuous = false;
+        recognitionRef.current.interimResults = false;
+        recognitionRef.current.lang = 'en-US';
+
+        recognitionRef.current.onresult = (event: any) => {
+          const transcript = event.results[0][0].transcript;
+          setInputValue(prev => prev + (prev ? ' ' : '') + transcript);
+          setIsRecording(false);
+        };
+
+        recognitionRef.current.onerror = () => {
+          setIsRecording(false);
+        };
+
+        recognitionRef.current.onend = () => {
+          setIsRecording(false);
+        };
+      }
+    }
+  }, []);
+
+  const toggleRecording = () => {
+    if (!recognitionRef.current) return;
+    if (isRecording) {
+      recognitionRef.current.stop();
+    } else {
+      recognitionRef.current.start();
+      setIsRecording(true);
+    }
+  };
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -98,7 +138,6 @@ export function LizChat() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Cmd+K or Ctrl+K summoning
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
         setIsOpen(prev => !prev);
@@ -133,7 +172,6 @@ export function LizChat() {
 
   const handleNavAction = (id: string) => {
     setIsOpen(false);
-    // Short timeout to allow modal to start closing before scroll
     setTimeout(() => {
       const element = document.getElementById(id);
       if (element) {
@@ -144,7 +182,7 @@ export function LizChat() {
 
   return (
     <>
-      {/* 1. Left "Talk with Liz" Blade Trigger - Features 5s Auto-Hide and Hover reveal */}
+      {/* 1. Left Blade Trigger */}
       <div className={cn(
         "fixed left-0 top-1/2 -translate-y-1/2 z-[100] transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group/trigger",
         isOpen ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100",
@@ -156,8 +194,6 @@ export function LizChat() {
         >
             <Command className="h-4 w-4" />
             <span className="[writing-mode:vertical-lr] text-[8px] font-black uppercase tracking-[0.4em] opacity-60">Talk with Liz</span>
-            
-            {/* Minimalist Shortcut Hint - Only for Desktop */}
             <div className="hidden sm:flex mt-4 flex-col items-center gap-1 opacity-0 group-hover/btn:opacity-40 transition-opacity duration-500">
                 <span className="text-[9px] font-bold">⌘</span>
                 <span className="text-[9px] font-bold">K</span>
@@ -165,7 +201,7 @@ export function LizChat() {
         </button>
       </div>
 
-      {/* 2. Centered Spotlight Modal - Pure iOS Glass Morphism with Mobile Responsiveness */}
+      {/* 2. Spotlight Modal */}
       <div 
         className={cn(
             "fixed inset-0 z-[200] flex items-start justify-center pt-[8vh] sm:pt-[12vh] px-4 sm:px-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
@@ -188,19 +224,14 @@ export function LizChat() {
                         <p className="text-[9px] sm:text-[10px] font-medium text-muted-foreground uppercase tracking-widest opacity-60">Personal Assistant</p>
                     </div>
                 </div>
-                <div className="flex items-center gap-4">
-                    <div className="hidden sm:flex items-center gap-1.5 opacity-20 hover:opacity-50 transition-opacity">
-                         <span className="text-[9px] font-bold uppercase tracking-[0.2em]">Esc to exit</span>
-                    </div>
-                    <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={() => setIsOpen(false)}
-                        className="rounded-full hover:bg-white/10 h-8 w-8 sm:h-10 sm:w-10 transition-colors"
-                    >
-                        <X className="h-4 w-4 sm:h-5 sm:w-5 opacity-40 hover:opacity-100" />
-                    </Button>
-                </div>
+                <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => setIsOpen(false)}
+                    className="rounded-full hover:bg-white/10 h-8 w-8 sm:h-10 sm:w-10 transition-colors"
+                >
+                    <X className="h-4 w-4 sm:h-5 sm:w-5 opacity-40 hover:opacity-100" />
+                </Button>
             </div>
 
             {/* Conversation Stream */}
@@ -237,10 +268,24 @@ export function LizChat() {
                 </div>
             </ScrollArea>
 
-            {/* Input Bar - Flawless Pill Design */}
+            {/* Modern Minimalist Input Rail */}
             <div className="p-4 sm:p-6 bg-white/5 border-t border-white/5">
-                <div className="relative">
-                    <div className="flex items-center bg-background/30 backdrop-blur-2xl border border-white/10 rounded-full shadow-inner px-3 sm:px-4 overflow-hidden focus-within:ring-2 focus-within:ring-primary/10 transition-all">
+                <div className="relative group/input">
+                    <div className="flex items-center bg-background/20 backdrop-blur-3xl border border-white/5 rounded-full px-2 sm:px-4 transition-all focus-within:bg-background/40 focus-within:ring-1 focus-within:ring-primary/20">
+                        
+                        {/* Voice to Text Button */}
+                        <Button 
+                            variant="ghost" 
+                            size="icon"
+                            onClick={toggleRecording}
+                            className={cn(
+                                "h-10 w-10 rounded-full transition-all shrink-0",
+                                isRecording ? "bg-primary/20 text-primary animate-pulse shadow-[0_0_15px_hsl(var(--primary)/0.4)]" : "text-muted-foreground/40 hover:text-primary"
+                            )}
+                        >
+                            {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                        </Button>
+
                         <Input 
                             ref={inputRef}
                             value={inputValue}
@@ -251,31 +296,33 @@ export function LizChat() {
                                 handleSendMessage(inputValue);
                               }
                             }}
-                            placeholder="Ask about Amazon, MBRDI..."
-                            className="flex-1 bg-transparent border-none text-sm sm:text-base focus-visible:ring-0 shadow-none px-2 sm:px-3 h-12 sm:h-14 font-medium placeholder:text-muted-foreground/30"
+                            placeholder={isRecording ? "Listening..." : "Ask Liz anything..."}
+                            className="flex-1 bg-transparent border-none text-sm sm:text-base focus-visible:ring-0 shadow-none px-2 sm:px-4 h-12 sm:h-14 font-medium placeholder:text-muted-foreground/20"
                         />
+
+                        {/* Minimalist Send Button */}
                         <Button 
                             size="icon" 
                             variant="ghost"
                             onClick={() => handleSendMessage(inputValue)}
                             disabled={!inputValue.trim() || isLoading}
-                            className="h-8 w-8 sm:h-10 sm:w-10 rounded-full hover:bg-primary hover:text-primary-foreground transition-all shrink-0 mr-1"
+                            className={cn(
+                                "h-10 w-10 rounded-full transition-all shrink-0 ml-1",
+                                inputValue.trim() ? "text-primary opacity-100 scale-100" : "text-muted-foreground/20 opacity-0 scale-75 pointer-events-none"
+                            )}
                         >
-                            <Send className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                            <Send className="h-4 w-4" />
                         </Button>
                     </div>
                     
                     {/* Interior Footer Info */}
-                    <div className="mt-3 sm:mt-4 flex justify-between items-center px-4">
-                        <p className="text-[8px] sm:text-[9px] font-medium text-muted-foreground/30 uppercase tracking-[0.3em]">Driven by Grit & Logic</p>
-                        <div className="hidden sm:flex items-center gap-4 opacity-30">
-                           <div className="flex items-center gap-1.5">
-                             <div className="flex items-center gap-1 bg-secondary/40 px-2 py-1 rounded-lg border border-border/40 shadow-sm">
+                    <div className="mt-3 flex justify-between items-center px-4">
+                        <p className="text-[8px] sm:text-[9px] font-medium text-muted-foreground/20 uppercase tracking-[0.3em]">Driven by Grit & Logic</p>
+                        <div className="hidden sm:flex items-center gap-3 opacity-0 group-focus-within/input:opacity-20 transition-opacity duration-700">
+                             <div className="flex items-center gap-1.5">
                                 <span className="text-[9px] font-black tracking-tighter">ENTER</span>
-                                <CornerDownLeft className="h-2.5 w-2.5" />
+                                <CornerDownLeft className="h-2 w-2" />
                              </div>
-                             <span className="text-[9px] text-muted-foreground uppercase tracking-widest ml-1 font-bold">to send</span>
-                           </div>
                         </div>
                     </div>
                 </div>
