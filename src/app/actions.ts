@@ -87,7 +87,10 @@ export async function talkToLiz(message: string, history: any[] = []) {
   try {
     const result = await chatWithLiz({ 
       message, 
-      history: history.map(m => ({ role: m.role, content: m.content })) 
+      history: history.map(m => ({ 
+        role: m.role, 
+        content: m.content 
+      })) 
     });
     return { success: true, response: result.response };
   } catch (error) {

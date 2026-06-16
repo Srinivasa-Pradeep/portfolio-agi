@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
-import { X, Send, Cpu, Loader2, Sparkles, Command } from 'lucide-react';
+import { X, Send, Cpu, Loader2, Sparkles, MessageSquareCode, Command } from 'lucide-react';
 import { talkToLiz } from '@/app/actions';
 
 type Message = {
@@ -16,7 +16,7 @@ type Message = {
 export function LizChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', content: "I am Liz. Your digital guide. Ask me anything about Srini's technical builds or personal philosophy." }
+    { role: 'model', content: "I am Liz. Your digital guide. Ask me anything about Srini's technical builds or the philosophy that drives him." }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +33,7 @@ export function LizChat() {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   // Keyboard shortcut: Cmd+K or Ctrl+K to toggle
   useEffect(() => {
@@ -60,102 +60,133 @@ export function LizChat() {
 
     const result = await talkToLiz(content, messages);
     
-    setMessages(prev => [...prev, { role: 'model', content: result.response }]);
+    if (result.success) {
+        setMessages(prev => [...prev, { role: 'model', content: result.response }]);
+    } else {
+        setMessages(prev => [...prev, { role: 'model', content: "I encountered a minor glitch. Please try asking again." }]);
+    }
     setIsLoading(false);
   };
 
   return (
     <>
-      {/* 1. Subtle Global Trigger - Integrated into Header flow but rendered fixed */}
-      <div className="fixed bottom-8 right-32 z-[150] pointer-events-auto flex items-center md:right-40">
+      {/* 1. Futuristic Side Trigger - Minimalist Vertical Tab */}
+      <div className={cn(
+        "fixed right-0 top-1/2 -translate-y-1/2 z-[100] transition-all duration-700",
+        isOpen ? "translate-x-full opacity-0" : "translate-x-0 opacity-100"
+      )}>
         <Button
             variant="ghost"
-            size="icon"
             onClick={() => setIsOpen(true)}
-            className="group relative h-10 w-10 rounded-full bg-secondary/20 backdrop-blur-md border border-border/20 shadow-xl transition-all hover:scale-110 active:scale-95"
+            className="group relative h-32 w-10 flex flex-col items-center justify-center gap-4 rounded-l-2xl bg-primary text-primary-foreground shadow-2xl border border-white/10 transition-all hover:w-12 active:scale-95"
         >
-            <div className="absolute inset-0 bg-primary/10 blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity animate-pulse" />
-            <Cpu className="h-4 w-4 text-primary/60 group-hover:text-primary transition-colors" />
+            <Cpu className="h-4 w-4 animate-pulse" />
+            <span className="[writing-mode:vertical-lr] text-[10px] font-black uppercase tracking-[0.4em] rotate-180">Ask_Liz</span>
         </Button>
       </div>
 
-      {/* 2. Spotlight Overlay */}
+      {/* 2. Floating Intelligence Sidebar - Apple Glass Morphism */}
       <div 
         className={cn(
-            "fixed inset-0 z-[200] flex items-start justify-center pt-24 px-4 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
-            isOpen ? "opacity-100 pointer-events-auto backdrop-blur-sm" : "opacity-0 pointer-events-none"
+            "fixed inset-0 z-[200] flex justify-end transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            isOpen ? "pointer-events-auto bg-black/10 backdrop-blur-sm" : "pointer-events-none bg-transparent"
         )}
         onClick={(e) => { if(e.target === e.currentTarget) setIsOpen(false); }}
       >
         <div className={cn(
-            "w-full max-w-2xl flex flex-col gap-4 transition-all duration-500 transform-gpu",
-            isOpen ? "translate-y-0 scale-100" : "-translate-y-12 scale-95"
+            "w-full max-w-[450px] h-full flex flex-col bg-background/60 backdrop-blur-3xl border-l border-white/10 shadow-[-40px_0_80px_-20px_rgba(0,0,0,0.4)] transition-all duration-700 transform-gpu",
+            isOpen ? "translate-x-0" : "translate-x-full"
         )}>
-            {/* The Intelligence Bar */}
-            <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/5 to-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
-                <div className="relative h-16 w-full flex items-center bg-background/80 backdrop-blur-3xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden px-6">
-                    <Command className="h-5 w-5 text-muted-foreground/40 mr-4" />
-                    <Input 
-                        ref={inputRef}
-                        value={inputValue}
-                        onChange={(e) => setInputValue(e.target.value)}
-                        onKeyDown={(e) => { if(e.key === 'Enter') handleSendMessage(inputValue); }}
-                        placeholder="Ask Liz about Amazon, MedQuery, or Srini's story..."
-                        className="flex-1 bg-transparent border-none text-lg focus-visible:ring-0 shadow-none px-0 font-medium placeholder:text-muted-foreground/30"
-                    />
-                    <div className="flex items-center gap-2">
-                        {isLoading ? (
-                            <Loader2 className="h-4 w-4 animate-spin text-primary/60" />
-                        ) : (
-                            <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-secondary/50 border border-border/40">
-                                <span className="text-[10px] font-black font-mono text-muted-foreground/60">ESC</span>
-                            </div>
-                        )}
+            {/* Header Area */}
+            <div className="p-8 flex items-center justify-between border-b border-white/5">
+                <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner">
+                        <Cpu className="h-6 w-6 text-primary animate-pulse" />
+                    </div>
+                    <div>
+                        <h2 className="text-xl font-bold tracking-tighter">Liz Intelligence</h2>
+                        <p className="text-[10px] font-mono uppercase tracking-[0.3em] text-muted-foreground/60">Digital_Consciousness_v4.0</p>
                     </div>
                 </div>
+                <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => setIsOpen(false)}
+                    className="rounded-full hover:bg-primary/10"
+                >
+                    <X className="h-5 w-5" />
+                </Button>
             </div>
 
-            {/* The Conversation Log - Only shows when there are user messages */}
-            {messages.length > 0 && (
-                <div className="w-full bg-background/60 backdrop-blur-2xl border border-white/10 rounded-[32px] shadow-2xl overflow-hidden max-h-[60vh] flex flex-col animate-in fade-in slide-in-from-top-4 duration-500">
-                    <ScrollArea className="flex-1 p-8" data-lenis-prevent>
-                        <div className="space-y-8">
-                            {messages.map((msg, i) => (
-                                <div 
-                                    key={i} 
-                                    className={cn(
-                                        "flex flex-col gap-2 max-w-[90%]",
-                                        msg.role === 'user' ? "ml-auto items-end" : "items-start"
-                                    )}
-                                >
-                                    <div className={cn(
-                                        "px-5 py-4 rounded-[24px] text-sm leading-relaxed transition-all",
-                                        msg.role === 'user' 
-                                            ? "bg-primary text-primary-foreground rounded-tr-none shadow-lg" 
-                                            : "bg-secondary/40 backdrop-blur-md border border-white/5 rounded-tl-none lora italic text-foreground/90 font-medium"
-                                    )}>
-                                        {msg.content}
-                                    </div>
-                                    <span className="text-[8px] uppercase tracking-[0.2em] font-mono opacity-30 px-1">
-                                        {msg.role === 'user' ? 'QUERY_SOURCE' : 'LIZ_v3.0'}
-                                    </span>
-                                </div>
-                            ))}
-                            {isLoading && (
-                                <div className="flex items-center gap-3 px-2 text-primary/40 animate-pulse">
-                                    <Sparkles className="h-3 w-3" />
-                                    <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Analyzing_Neural_Paths...</span>
-                                </div>
+            {/* Conversation Stream - data-lenis-prevent fixes the background scrolling */}
+            <ScrollArea className="flex-1 px-8" data-lenis-prevent>
+                <div className="py-10 space-y-10">
+                    {messages.map((msg, i) => (
+                        <div 
+                            key={i} 
+                            className={cn(
+                                "flex flex-col gap-3 group animate-in fade-in slide-in-from-bottom-2 duration-500",
+                                msg.role === 'user' ? "items-end" : "items-start"
                             )}
-                            <div ref={scrollRef} />
+                        >
+                            <div className={cn(
+                                "px-6 py-4 rounded-[28px] text-sm leading-relaxed transition-all max-w-[85%]",
+                                msg.role === 'user' 
+                                    ? "bg-primary text-primary-foreground rounded-tr-none shadow-xl font-medium" 
+                                    : "bg-secondary/30 backdrop-blur-xl border border-white/5 rounded-tl-none lora italic text-foreground/90 font-medium px-1 pr-2"
+                            )}>
+                                {msg.content}
+                            </div>
+                            <div className="flex items-center gap-2 opacity-30 group-hover:opacity-60 transition-opacity">
+                                <span className="text-[8px] uppercase tracking-[0.2em] font-mono">
+                                    {msg.role === 'user' ? 'SRINI_GUEST' : 'LIZ_CORE'}
+                                </span>
+                            </div>
                         </div>
-                    </ScrollArea>
-                    <div className="p-4 bg-white/5 border-t border-white/5 flex justify-center">
-                        <p className="text-[8px] font-mono text-muted-foreground/30 uppercase tracking-[0.4em]">Direct_Access_Neural_Link</p>
+                    ))}
+                    {isLoading && (
+                        <div className="flex items-center gap-4 px-2 text-primary/40 animate-pulse">
+                            <Sparkles className="h-4 w-4" />
+                            <span className="text-[10px] font-mono uppercase tracking-[0.4em]">Analyzing_Neural_Paths...</span>
+                        </div>
+                    )}
+                    <div ref={scrollRef} />
+                </div>
+            </ScrollArea>
+
+            {/* Intelligence Input Bar */}
+            <div className="p-8 bg-black/5 border-t border-white/5">
+                <div className="relative group">
+                    <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-primary/5 to-primary/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                    <div className="relative h-14 w-full flex items-center bg-background/80 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden px-5">
+                        <Input 
+                            ref={inputRef}
+                            value={inputValue}
+                            onChange={(e) => setInputValue(e.target.value)}
+                            onKeyDown={(e) => { if(e.key === 'Enter') handleSendMessage(inputValue); }}
+                            placeholder="Ask about Amazon, MBRDI, or MedQuery..."
+                            className="flex-1 bg-transparent border-none text-base focus-visible:ring-0 shadow-none px-0 font-medium placeholder:text-muted-foreground/30"
+                        />
+                        <div className="flex items-center gap-3">
+                            <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-md bg-secondary/50 border border-border/40">
+                                <span className="text-[9px] font-black font-mono text-muted-foreground/60">ENT</span>
+                            </div>
+                            <Button 
+                                size="icon" 
+                                variant="ghost"
+                                onClick={() => handleSendMessage(inputValue)}
+                                disabled={!inputValue.trim() || isLoading}
+                                className="h-10 w-10 rounded-full hover:bg-primary/20 hover:text-primary transition-all"
+                            >
+                                <Send className="h-4 w-4" />
+                            </Button>
+                        </div>
                     </div>
                 </div>
-            )}
+                <div className="mt-4 flex justify-center">
+                    <p className="text-[8px] font-mono text-muted-foreground/30 uppercase tracking-[0.4em]">Neural_Link_Synchronized</p>
+                </div>
+            </div>
         </div>
       </div>
     </>
