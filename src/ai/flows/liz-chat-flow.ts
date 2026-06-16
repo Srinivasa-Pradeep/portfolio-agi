@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Liz v11.0 - Digital Guide & Portfolio Concierge for Srinivasa Pradeep.
+ * @fileOverview Liz v13.0 - Digital Guide & Portfolio Concierge for Srinivasa Pradeep.
  *
  * - chatWithLiz - Handles the intelligent conversation about Srini's journey.
  * - LizChatInput - User message and context.
@@ -72,6 +72,14 @@ export async function chatWithLiz(input: LizChatInput): Promise<LizChatOutput> {
       system: systemPrompt,
       prompt: input.message,
       history: history as any,
+      config: {
+        safetySettings: [
+          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
+          { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
+          { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
+          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
+        ]
+      }
     });
 
     return {

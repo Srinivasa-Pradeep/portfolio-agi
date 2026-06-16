@@ -14,26 +14,22 @@ type Message = {
 
 /**
  * FormatMessage - Renders bold text and agentic navigation links.
- * Enhanced for high visibility and functional navigation.
  */
 function FormatMessage({ content, onNavClick }: { content: string; onNavClick: (id: string) => void }) {
   if (!content) return null;
 
-  // Split by bold markers (**text**) and link markers ([text](#id))
   const parts = content.split(/(\*\*.*?\*\*|\[.*?\]\(#.*?\))/g);
 
   return (
     <>
       {parts.map((part, i) => {
-        // Handle Bold
         if (part.startsWith('**') && part.endsWith('**')) {
           return (
-            <strong key={i} className="font-bold text-foreground brightness-150 drop-shadow-sm">
+            <strong key={i} className="font-bold text-foreground brightness-150 drop-shadow-sm px-0.5">
               {part.slice(2, -2)}
             </strong>
           );
         }
-        // Handle Nav Links [Text](#id)
         if (part.startsWith('[') && part.includes('](#')) {
           const match = part.match(/\[(.*?)\]\(#(.*?)\)/);
           if (match) {
@@ -43,7 +39,7 @@ function FormatMessage({ content, onNavClick }: { content: string; onNavClick: (
               <button
                 key={i}
                 onClick={() => onNavClick(id)}
-                className="font-bold text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all duration-300 mx-0.5"
+                className="font-bold text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all duration-300 mx-1"
               >
                 {text}
               </button>
@@ -70,7 +66,6 @@ export function LizChat() {
   const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<any>(null);
 
-  // Auto-hide trigger logic after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       setAutoHide(true);
@@ -78,7 +73,6 @@ export function LizChat() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Initialize Speech Recognition
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -181,7 +175,6 @@ export function LizChat() {
 
   return (
     <>
-      {/* 1. Left Blade Trigger */}
       <div className={cn(
         "fixed left-0 top-1/2 -translate-y-1/2 z-[100] transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group/trigger",
         isOpen ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100",
@@ -200,7 +193,6 @@ export function LizChat() {
         </button>
       </div>
 
-      {/* 2. Spotlight Modal */}
       <div 
         className={cn(
             "fixed inset-0 z-[200] flex items-start justify-center pt-[8vh] sm:pt-[12vh] px-4 sm:px-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
@@ -209,10 +201,9 @@ export function LizChat() {
         onClick={(e) => { if(e.target === e.currentTarget) setIsOpen(false); }}
       >
         <div className={cn(
-            "w-full max-w-2xl bg-background/70 dark:bg-background/40 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] transition-all duration-500 transform-gpu overflow-hidden rounded-[32px] sm:rounded-[40px]",
+            "w-full max-w-2xl bg-white/10 dark:bg-black/20 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] transition-all duration-500 transform-gpu overflow-hidden rounded-[32px] sm:rounded-[40px]",
             isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95"
         )}>
-            {/* Header Area */}
             <div className="p-4 sm:p-6 flex items-center justify-between border-b border-white/5 bg-white/5">
                 <div className="flex items-center gap-3 sm:gap-4">
                     <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl sm:rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
@@ -233,7 +224,6 @@ export function LizChat() {
                 </Button>
             </div>
 
-            {/* Conversation Stream */}
             <ScrollArea className="h-[400px] sm:h-[480px] px-4 sm:px-6" data-lenis-prevent>
                 <div className="py-6 sm:py-8 space-y-8 sm:space-y-10">
                     {messages.map((msg, i) => (
@@ -248,7 +238,7 @@ export function LizChat() {
                                 "px-4 sm:px-6 py-3 sm:py-4 rounded-[22px] sm:rounded-[26px] text-sm leading-relaxed max-w-[92%] sm:max-w-[88%] shadow-sm border border-white/5 transition-all",
                                 msg.role === 'user' 
                                     ? "bg-primary text-primary-foreground font-medium rounded-tr-none" 
-                                    : "bg-secondary/30 backdrop-blur-xl rounded-tl-none lora italic text-foreground/90 font-medium pr-6 sm:pr-7" 
+                                    : "bg-white/5 backdrop-blur-xl rounded-tl-none lora italic text-foreground/90 font-medium pr-6 sm:pr-7" 
                             )}>
                                 <FormatMessage content={msg.content} onNavClick={handleNavAction} />
                             </div>
@@ -267,12 +257,9 @@ export function LizChat() {
                 </div>
             </ScrollArea>
 
-            {/* Flat, Solid Input Section - Zero Glass Effects */}
-            <div className="p-4 sm:p-6 bg-card border-t border-border/10">
+            <div className="p-4 sm:p-6 bg-transparent border-t border-white/5">
                 <div className="relative">
-                    <div className="flex items-center bg-secondary rounded-full px-2 sm:px-4">
-                        
-                        {/* Voice to Text Button - Steady state */}
+                    <div className="flex items-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-2 sm:px-4 shadow-inner">
                         <Button 
                             variant="ghost" 
                             size="icon"
@@ -287,7 +274,6 @@ export function LizChat() {
                             {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                         </Button>
 
-                        {/* Native input to ensure no inherited ShadCN borders/rings */}
                         <input 
                             ref={inputRef}
                             value={inputValue}
@@ -302,7 +288,6 @@ export function LizChat() {
                             className="flex-1 bg-transparent border-none outline-none text-sm sm:text-base px-2 sm:px-4 h-12 sm:h-14 font-medium placeholder:text-muted-foreground/30 text-foreground"
                         />
 
-                        {/* Send Button */}
                         <Button 
                             size="icon" 
                             variant="ghost"
@@ -317,7 +302,6 @@ export function LizChat() {
                         </Button>
                     </div>
                     
-                    {/* Minimalist Footer Info */}
                     <div className="mt-3 flex justify-between items-center px-4">
                         <p className="text-[8px] sm:text-[9px] font-medium text-muted-foreground/20 uppercase tracking-[0.3em]">Driven by Grit & Logic</p>
                         <div className="hidden sm:flex items-center gap-3 opacity-0 group-focus-within:opacity-20 transition-opacity duration-700">
