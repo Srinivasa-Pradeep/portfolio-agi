@@ -15,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 import { useMusic } from '@/context/music-context';
 import * as SliderPrimitive from "@radix-ui/react-slider";
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const FOCUS_DURATION = 20 * 60; // 20 minutes
 
@@ -74,7 +75,7 @@ export default function ZenPage() {
   const [lampIntensity, setLampIntensity] = useState(85);
   const [peekControls, setPeekControls] = useState(false);
   
-  const { setTheme, resolvedTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const { togglePlayPause: toggleGlobalMusic } = useMusic();
   const switchAudioRef = useRef<HTMLAudioElement | null>(null);
   const wakeLockRef = useRef<any>(null);
@@ -181,8 +182,10 @@ export default function ZenPage() {
       ) {
         if (e.key.toLowerCase() === 't') {
           playSwitchSound();
-          const isDark = document.documentElement.classList.contains('dark');
-          const nextTheme = isDark ? 'light' : 'dark';
+          
+          // Updated to cycle through all 3 themes
+          const themes = ['light', 'dark', 'spring'];
+          const nextTheme = themes[(themes.indexOf(theme || 'light') + 1) % themes.length];
 
           if (!(document as any).startViewTransition) {
             setTheme(nextTheme);
@@ -216,7 +219,7 @@ export default function ZenPage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [resolvedTheme, setTheme, toggleGlobalMusic, sessionState, handleStart, handlePause, handleResume, handleContinue, playSwitchSound, toggleLamp]);
+  }, [theme, setTheme, toggleGlobalMusic, sessionState, handleStart, handlePause, handleResume, handleContinue, playSwitchSound, toggleLamp]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined = undefined;
@@ -340,6 +343,8 @@ export default function ZenPage() {
             </Button>
             
             <div className="h-8 w-px bg-border/20 mx-2" />
+
+            <ThemeToggle />
             
             {isDarkMode && (
               <TooltipProvider>
