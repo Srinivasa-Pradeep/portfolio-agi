@@ -1,3 +1,4 @@
+
 'use client';
 
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
@@ -19,7 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks, BookOpen, ArrowUpRight, Github, Sparkles } from 'lucide-react';
+import { ListChecks, BookOpen, ArrowUpRight, Github } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Accordion,
@@ -55,17 +56,17 @@ import Link from 'next/link';
 
 /**
  * ShiningLink - A specialized link component with a subtle sweeping light effect.
+ * Now polished to be minimalist without icons for an architectural look.
  */
 function ShiningLink({ href, children }: { href: string, children: ReactNode }) {
   return (
     <Link 
       href={href} 
-      className="relative inline-flex items-center gap-1.5 font-bold text-primary group"
+      className="relative inline-flex items-center font-bold text-primary group"
     >
       <span className="relative z-10 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#fff,55%,hsl(var(--primary)))] bg-[size:200%_100%] animate-shine decoration-primary/30 underline underline-offset-4 hover:decoration-primary transition-all duration-300">
         {children}
       </span>
-      <Sparkles className="h-3 w-3 text-primary/40 group-hover:text-primary transition-colors duration-300" />
     </Link>
   );
 }
@@ -80,14 +81,14 @@ const manifestoItems: ManifestoItem[] = [
   {
     id: "curiosity",
     question: "What am I endlessly curious about?",
-    answer: "Almost everything. Technology is my craft, but my curiosity spills over into everything—from how we think to how systems work at scale. I aspire to become a polymath, someone who can find the hidden threads that connect seemingly unrelated worlds."
+    answer: "Almost everything. Technology may be my craft, but my curiosity extends far beyond it. I aspire to become a polymath: someone who learns across disciplines and connects ideas that don't seem related at first glance."
   },
   {
     id: "peace",
     question: "Where do I find peace?",
     answer: (
       <>
-        By the sea, surrounded by nature, or simply sitting with my own thoughts. There's something about open horizons and quiet air that brings a clarity I can't find anywhere else. I even built this <ShiningLink href="/zen">Zen Mode</ShiningLink> specifically to capture and share that feeling of stillness.
+        By the sea, surrounded by nature, or simply sitting with my thoughts. There's something about open horizons, quiet moments, and fresh air that brings clarity and reminds me what truly matters. I even built this <ShiningLink href="/zen">Zen Mode</ShiningLink> specifically to capture and share that feeling of stillness.
       </>
     )
   },
@@ -96,19 +97,19 @@ const manifestoItems: ManifestoItem[] = [
     question: "What shapes the way I think?",
     answer: (
       <>
-        It's a mix of books, late-night conversations, and a lot of reflection. I'm fascinated by ideas that challenge my own assumptions and force me to see the world differently. You can see some of the volumes that changed me in my <ShiningLink href="/books">personal library</ShiningLink>.
+        It's a mix of books, late-night conversations, and reflection. I'm fascinated by ideas that challenge assumptions and change the way we see the world. You can see some of the volumes that changed me in my <ShiningLink href="/books">personal library</ShiningLink>.
       </>
     )
   },
   {
     id: "optimization",
     question: "What am I currently optimizing?",
-    answer: "Myself. Not just for writing better code, but for being a clearer thinker, a better communicator, and a more reliable teammate. I truly believe that small, intentional improvements are the only things that compound into remarkable results over time."
+    answer: "Myself. Not just as an engineer, but as a thinker, communicator, and teammate. I believe small, intentional improvements are the only things that compound into remarkable results over time."
   },
   {
     id: "motivation",
     question: "What motivates me every day?",
-    answer: "My father. He started his 20s as a farmer and transitioned into a government role by his 30s, giving everything he could to ensure my life had a better starting line. His resilience and quiet grit are the engines behind my own discipline."
+    answer: "My father. He started his 20s as a farmer and transitioned into a government role by his 30s, providing everything he could for the betterment of my life. His resilience and quiet grit are the engines behind my own discipline."
   }
 ];
 
@@ -375,7 +376,7 @@ export function About() {
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
-                                { text: 'ശ്രീനിവാസ பிரதீப்', className: 'font-chilanka text-xs text-foreground/90' },
+                                { text: 'ശ്രീനിവാസ பிரதீപ്', className: 'font-chilanka text-xs text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
@@ -648,7 +649,7 @@ export function About() {
                           </span>
                         </AccordionTrigger>
                         <AccordionContent className="pb-6 pt-0">
-                          <div className="max-w-3xl border-l border-primary/10 pl-5 py-2 leading-relaxed text-foreground/80">
+                          <div className="max-w-3xl border-l border-primary/10 pl-5 py-2 leading-relaxed text-foreground/80 lora italic">
                             {item.answer}
                           </div>
                         </AccordionContent>
