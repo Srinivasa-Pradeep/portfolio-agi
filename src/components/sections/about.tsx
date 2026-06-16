@@ -63,27 +63,35 @@ const manifestoItems: ManifestoItem[] = [
   {
     id: "curiosity",
     question: "What am I endlessly curious about?",
-    answer: "Almost everything. Technology is my craft, but my curiosity is borderless. I thrive on 'Learning and Being Curious,' aiming to be a polymath who bridges unrelated disciplines—from philosophy to physics—to find novel, high-impact solutions."
+    answer: "Almost everything. Technology may be my craft, but my curiosity extends far beyond it. I aspire to become a polymath—someone who learns across disciplines and connects ideas that don't seem related at first glance."
   },
   {
     id: "peace",
     question: "Where do I find peace?",
-    answer: "By the sea or in the quietude of open horizons. These moments of reflection provide the internal clarity needed to navigate complex ambiguity and maintain a relentless focus on what truly matters."
+    answer: (
+      <>
+        By the sea, surrounded by nature, or simply sitting with my thoughts. There's something about open horizons and quiet moments that brings clarity and reminds me what truly matters. I even created a <Link href="/zen" className="underline decoration-primary/30 hover:text-primary transition-all duration-300">Zen Mode</Link> to capture this feeling of stillness.
+      </>
+    )
   },
   {
     id: "thinking",
     question: "What shapes the way I think?",
-    answer: "A synthesis of diverse perspectives—books, deep conversations, and lived experiences. I seek out ideas that challenge my assumptions, fostering a mindset that stays open, adaptable, and humble even in high-pressure environments."
+    answer: (
+      <>
+        Books, conversations, and deep reflection. I'm fascinated by ideas that challenge my assumptions and change the way we see the world. You can find some of the volumes that shaped me in my <Link href="/books" className="underline decoration-primary/30 hover:text-primary transition-all duration-300">personal library</Link>.
+      </>
+    )
   },
   {
     id: "optimization",
     question: "What am I currently optimizing?",
-    answer: "Myself. I apply the principle of 'Insisting on the Highest Standards' not just to my code, but to my growth as a thinker and teammate. I believe compounding small, intentional improvements leads to remarkable engineering excellence."
+    answer: "Myself. Not just as an engineer, but as a thinker, communicator, and teammate. I truly believe that small, intentional improvements compound into remarkable results over time."
   },
   {
     id: "motivation",
     question: "What motivates me every day?",
-    answer: "The legacy of my father. He transformed his path from a farmer in his 20s to a government servant in his 30s, embodying 'Ownership' and sacrifice to ensure I had the foundation to excel. His grit is the engine behind my discipline."
+    answer: "My father. He started his 20s as a farmer and transitioned into a government role by his 30s, providing everything he could for my betterment. His resilience and grit are the engines behind my discipline."
   }
 ];
 

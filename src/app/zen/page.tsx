@@ -443,7 +443,7 @@ export default function ZenPage() {
             </div>
           </div>
 
-          <div className="flex flex-col items-center w-full max-w-sm">
+          <div className="flex flex-col items-center w-full max-sm:max-w-[280px]">
             <div className={cn(
               "w-full transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] transform-gpu",
               sessionState === 'running' ? "opacity-20 hover:opacity-100" : "opacity-100",
