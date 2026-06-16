@@ -9,6 +9,7 @@ import { MusicProvider } from '@/context/music-context';
 import { SpringOverlay } from '@/components/spring-overlay';
 import { ConditionalParticles } from '@/components/conditional-particles';
 import { SmoothScroll } from '@/components/smooth-scroll';
+import { LizChat } from '@/components/liz-chat';
 
 export const metadata: Metadata = {
   title: 'Srini Portfolio',
@@ -48,6 +49,7 @@ export default function RootLayout({
                 {children}
               </div>
               <Toaster />
+              <LizChat />
             </SmoothScroll>
           </MusicProvider>
         </ThemeProvider>

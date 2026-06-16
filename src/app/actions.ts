@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 import { categorizeContactFormSubmission } from '@/ai/flows/categorize-contact-form-submission';
+import { chatWithLiz } from '@/ai/flows/liz-chat-flow';
 import { Resend } from 'resend';
 import { ContactFormEmail } from '@/components/emails/contact-form-email';
 
@@ -54,8 +55,6 @@ export async function submitContactForm(
     // 2. Send the email
     try {
       await resend.emails.send({
-        // NOTE: This "from" address is a verified domain on Resend.
-        // You can create your own at https://resend.com/domains
         from: 'Portfolio <onboarding@resend.dev>',
         to: ['drivefiles2004@gmail.com'],
         subject: `New Portfolio Message: ${category}`,
@@ -65,8 +64,6 @@ export async function submitContactForm(
        console.log('Email sent successfully');
     } catch (emailError) {
         console.error('Email sending failed:', emailError);
-        // We won't block the user feedback for an email error.
-        // In a real app, you'd want to queue this for a retry.
     }
 
     return {
@@ -76,10 +73,22 @@ export async function submitContactForm(
     };
   } catch (error) {
     console.error('Error processing contact form:', error);
-    // This will catch errors from the AI categorization
     return {
       message: 'An unexpected error occurred processing your message. Please try again later.',
       success: false,
     };
+  }
+}
+
+/**
+ * Server Action for interacting with Liz
+ */
+export async function talkToLiz(message: string, history: any[] = []) {
+  try {
+    const result = await chatWithLiz({ message, history });
+    return { success: true, response: result.response };
+  } catch (error) {
+    console.error('Liz Chat Error:', error);
+    return { success: false, response: "I encountered a minor glitch while retrieving that information. Please try again." };
   }
 }
