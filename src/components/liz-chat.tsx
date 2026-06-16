@@ -15,6 +15,7 @@ type Message = {
 
 /**
  * FormatMessage - Renders bold text from markdown-style ** markers.
+ * Enhanced for high visibility against glass backgrounds.
  */
 function FormatMessage({ content }: { content: string }) {
   if (!content) return null;
@@ -24,7 +25,11 @@ function FormatMessage({ content }: { content: string }) {
     <>
       {parts.map((part, i) => {
         if (part.startsWith('**') && part.endsWith('**')) {
-          return <strong key={i} className="font-bold text-foreground brightness-125">{part.slice(2, -2)}</strong>;
+          return (
+            <strong key={i} className="font-bold text-foreground brightness-150 drop-shadow-sm">
+              {part.slice(2, -2)}
+            </strong>
+          );
         }
         return part;
       })}
@@ -139,7 +144,7 @@ export function LizChat() {
                     </div>
                     <div>
                         <h2 className="text-lg font-bold tracking-tight">Talk with Liz</h2>
-                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest opacity-60">Architectural Guidance</p>
+                        <p className="text-[10px] font-medium text-muted-foreground uppercase tracking-widest opacity-60">Personal Assistant</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -221,7 +226,7 @@ export function LizChat() {
                     
                     {/* Interior Footer Info */}
                     <div className="mt-4 flex justify-between items-center px-4">
-                        <p className="text-[9px] font-medium text-muted-foreground/30 uppercase tracking-[0.3em]">I write to understand and build to become</p>
+                        <p className="text-[9px] font-medium text-muted-foreground/30 uppercase tracking-[0.3em]">Driven by Grit & Logic</p>
                         <div className="flex items-center gap-4 opacity-30">
                            <div className="flex items-center gap-1.5">
                              <div className="flex items-center gap-1 bg-secondary/40 px-2 py-1 rounded-lg border border-border/40 shadow-sm">
