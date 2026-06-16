@@ -268,19 +268,21 @@ export function LizChat() {
                 </div>
             </ScrollArea>
 
-            {/* Modern Minimalist Input Rail */}
+            {/* Modern Minimalist Input Rail - Cleaned of Glass Effect */}
             <div className="p-4 sm:p-6 bg-white/5 border-t border-white/5">
                 <div className="relative group/input">
-                    <div className="flex items-center bg-background/20 backdrop-blur-3xl border border-white/5 rounded-full px-2 sm:px-4 transition-all focus-within:bg-background/40 focus-within:ring-1 focus-within:ring-primary/20">
+                    <div className="flex items-center bg-secondary/50 rounded-full px-2 sm:px-4 transition-all focus-within:bg-secondary/80 focus-within:ring-1 focus-within:ring-primary/10">
                         
-                        {/* Voice to Text Button */}
+                        {/* Voice to Text Button - Simplified steady active state */}
                         <Button 
                             variant="ghost" 
                             size="icon"
                             onClick={toggleRecording}
                             className={cn(
                                 "h-10 w-10 rounded-full transition-all shrink-0",
-                                isRecording ? "bg-primary/20 text-primary animate-pulse shadow-[0_0_15px_hsl(var(--primary)/0.4)]" : "text-muted-foreground/40 hover:text-primary"
+                                isRecording 
+                                  ? "bg-primary text-primary-foreground shadow-[0_0_15px_hsl(var(--primary)/0.4)]" 
+                                  : "text-muted-foreground/40 hover:text-primary"
                             )}
                         >
                             {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
@@ -297,7 +299,7 @@ export function LizChat() {
                               }
                             }}
                             placeholder={isRecording ? "Listening..." : "Ask Liz anything..."}
-                            className="flex-1 bg-transparent border-none text-sm sm:text-base focus-visible:ring-0 shadow-none px-2 sm:px-4 h-12 sm:h-14 font-medium placeholder:text-muted-foreground/20"
+                            className="flex-1 bg-transparent border-none text-sm sm:text-base focus-visible:ring-0 shadow-none px-2 sm:px-4 h-12 sm:h-14 font-medium placeholder:text-muted-foreground/30"
                         />
 
                         {/* Minimalist Send Button */}
