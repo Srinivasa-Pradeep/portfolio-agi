@@ -61,43 +61,29 @@ interface ManifestoItem {
 
 const manifestoItems: ManifestoItem[] = [
   {
-    id: "vision",
-    question: "What defines my engineering approach?",
-    answer: "Clean, fast, invisible. I build systems that work so well you forget they're there."
+    id: "curiosity",
+    question: "What am I endlessly curious about?",
+    answer: "Almost everything. Technology is my craft, but my curiosity is borderless. I thrive on 'Learning and Being Curious,' aiming to be a polymath who bridges unrelated disciplines—from philosophy to physics—to find novel, high-impact solutions."
   },
   {
-    id: "growth",
-    question: "How do I maintain technical excellence?",
-    answer: "Analytical grit is a muscle. I maintain a Knight-level discipline on LeetCode to stay sharp."
+    id: "peace",
+    question: "Where do I find peace?",
+    answer: "By the sea or in the quietude of open horizons. These moments of reflection provide the internal clarity needed to navigate complex ambiguity and maintain a relentless focus on what truly matters."
   },
   {
-    id: "collaboration",
-    question: "What is my philosophy on teamwork?",
-    answer: "Software is a team sport. I prioritize documentation, active listening, and tight feedback loops."
+    id: "thinking",
+    question: "What shapes the way I think?",
+    answer: "A synthesis of diverse perspectives—books, deep conversations, and lived experiences. I seek out ideas that challenge my assumptions, fostering a mindset that stays open, adaptable, and humble even in high-pressure environments."
   },
   {
-    id: "beyond",
-    question: "What drives me outside of the IDE?",
-    answer: (
-      <>
-        Reflections on Medium, focus through{" "}
-        <Link 
-          href="/zen" 
-          className="relative inline-block font-bold hover:underline underline-offset-4 decoration-primary/30 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#ffffff,55%,hsl(var(--primary)))] bg-[size:200%_100%]"
-          style={{ animation: 'shine 4s linear infinite' }}
-        >
-          Zen Mode
-        </Link>, 
-        F1 precision, and a love to read{" "}
-        <Link 
-          href="/books" 
-          className="relative inline-block font-bold hover:underline underline-offset-4 decoration-primary/30 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#ffffff,55%,hsl(var(--primary)))] bg-[size:200%_100%]"
-          style={{ animation: 'shine 4s linear infinite' }}
-        >
-          books
-        </Link>.
-      </>
-    )
+    id: "optimization",
+    question: "What am I currently optimizing?",
+    answer: "Myself. I apply the principle of 'Insisting on the Highest Standards' not just to my code, but to my growth as a thinker and teammate. I believe compounding small, intentional improvements leads to remarkable engineering excellence."
+  },
+  {
+    id: "motivation",
+    question: "What motivates me every day?",
+    answer: "The legacy of my father. He transformed his path from a farmer in his 20s to a government servant in his 30s, embodying 'Ownership' and sacrifice to ensure I had the foundation to excel. His grit is the engine behind my discipline."
   }
 ];
 
@@ -169,14 +155,9 @@ const techStack = [
   { name: 'Linux/Unix', Icon: SiLinux },
 ];
 
-/**
- * ResearchPublication - A minimalist technical junction.
- * MedQuery AI (The Paper) published in PeerJ (The Journal).
- */
 function ResearchPublication() {
   return (
     <div className="group relative mt-6 pl-10 py-6 transition-all duration-500">
-      {/* Minimalist Vertical Indicator - Matches career path style */}
       <div className="absolute left-0 top-0 bottom-0 w-px bg-border/30 group-hover:bg-primary/20 transition-colors duration-700" />
       <div className="absolute left-[-4px] top-10 h-2 w-2 rounded-full bg-primary/20 ring-4 ring-background group-hover:bg-primary group-hover:shadow-[0_0_10px_hsl(var(--primary))] transition-all duration-500" />
 
@@ -504,16 +485,10 @@ export function About() {
                 Experience
               </h3>
               <div className="relative mt-12 flex items-center justify-center gap-12 md:gap-16">
-                {/* Animated Career Path System - Refined Sequential Junctions */}
                 <div className="absolute inset-x-0 top-[110%] -translate-y-1/2 h-px z-0 pointer-events-none hidden sm:block">
                   <div className="mx-auto w-[65%] h-full relative flex items-center justify-between">
-                    {/* Background Track */}
                     <div className="absolute inset-0 bg-border/20" />
-                    
-                    {/* Flowing Animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/60 to-transparent w-full bg-[length:200%_100%] animate-shine" />
-
-                    {/* Career Junctions (Dots) */}
                     <div className="w-1.5 h-1.5 rounded-full bg-primary/40 ring-4 ring-background relative z-10" />
                     <div className="w-1.5 h-1.5 rounded-full bg-primary/40 ring-4 ring-background relative z-10" />
                     <div className="w-2.5 h-2.5 rounded-full bg-[#00FF00] shadow-[0_0_10px_#00FF00] animate-pulse ring-4 ring-background relative z-10" />
@@ -634,7 +609,6 @@ export function About() {
               <div className="space-y-0">
                 {manifestoItems.map((item, index) => (
                   <div key={item.id} className="relative">
-                    {/* Minimalist Shining Line Separator */}
                     {index !== 0 && (
                       <div className="relative h-px w-full overflow-hidden bg-border/5 mb-0.5">
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent w-full bg-[length:200%_100%] animate-shine" />
