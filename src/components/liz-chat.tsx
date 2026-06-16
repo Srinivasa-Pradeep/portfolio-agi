@@ -104,7 +104,7 @@ export function LizChat() {
 
   return (
     <>
-      {/* 1. Left "Intelligence Blade" Trigger */}
+      {/* 1. Left "Talk with Liz" Blade Trigger */}
       <div className={cn(
         "fixed left-0 top-1/2 -translate-y-1/2 z-[100] transition-all duration-700",
         isOpen ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100"
@@ -114,7 +114,7 @@ export function LizChat() {
             className="group relative flex flex-col items-center gap-4 py-8 w-10 bg-background/10 backdrop-blur-xl border-y border-r border-white/10 rounded-r-2xl shadow-2xl transition-all hover:w-12 active:scale-95 text-foreground/40 hover:text-primary"
         >
             <Command className="h-4 w-4" />
-            <span className="[writing-mode:vertical-lr] text-[8px] font-black uppercase tracking-[0.4em] opacity-60">Intelligence</span>
+            <span className="[writing-mode:vertical-lr] text-[8px] font-black uppercase tracking-[0.4em] opacity-60">Talk with Liz</span>
             
             {/* Minimalist Shortcut Hint */}
             <div className="mt-4 flex flex-col items-center gap-1 opacity-0 group-hover:opacity-40 transition-opacity duration-500">
