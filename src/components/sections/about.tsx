@@ -63,14 +63,14 @@ const manifestoItems: ManifestoItem[] = [
   {
     id: "curiosity",
     question: "What am I endlessly curious about?",
-    answer: "Almost everything. Technology may be my craft, but my curiosity extends far beyond it. I aspire to become a polymath—someone who learns across disciplines and connects ideas that don't seem related at first glance."
+    answer: "Almost everything. Technology is my craft, but my curiosity spills over into everything—from how we think to how systems work at scale. I'm trying to become a polymath, someone who can find the hidden threads that connect seemingly unrelated worlds."
   },
   {
     id: "peace",
     question: "Where do I find peace?",
     answer: (
       <>
-        By the sea, surrounded by nature, or simply sitting with my thoughts. There's something about open horizons and quiet moments that brings clarity and reminds me what truly matters. I even created a <Link href="/zen" className="underline decoration-primary/30 hover:text-primary transition-all duration-300">Zen Mode</Link> to capture this feeling of stillness.
+        By the sea, surrounded by nature, or simply sitting with my own thoughts. There's something about open horizons and quiet air that brings a clarity I can't find anywhere else. I even built this <Link href="/zen" className="underline decoration-primary/30 hover:text-primary transition-all duration-300">Zen Mode</Link> specifically to capture and share that feeling of stillness.
       </>
     )
   },
@@ -79,19 +79,19 @@ const manifestoItems: ManifestoItem[] = [
     question: "What shapes the way I think?",
     answer: (
       <>
-        Books, conversations, and deep reflection. I'm fascinated by ideas that challenge my assumptions and change the way we see the world. You can find some of the volumes that shaped me in my <Link href="/books" className="underline decoration-primary/30 hover:text-primary transition-all duration-300">personal library</Link>.
+        It's a mix of books, late-night conversations, and a lot of reflection. I'm fascinated by ideas that challenge my own assumptions and force me to see the world differently. You can see some of the volumes that changed me in my <Link href="/books" className="underline decoration-primary/30 hover:text-primary transition-all duration-300">personal library</Link>.
       </>
     )
   },
   {
     id: "optimization",
     question: "What am I currently optimizing?",
-    answer: "Myself. Not just as an engineer, but as a thinker, communicator, and teammate. I truly believe that small, intentional improvements compound into remarkable results over time."
+    answer: "Myself. Not just for writing better code, but for being a clearer thinker, a better communicator, and a more reliable teammate. I truly believe that small, intentional improvements are the only things that compound into remarkable results over time."
   },
   {
     id: "motivation",
     question: "What motivates me every day?",
-    answer: "My father. He started his 20s as a farmer and transitioned into a government role by his 30s, providing everything he could for my betterment. His resilience and grit are the engines behind my discipline."
+    answer: "My father. He started his 20s as a farmer and transitioned into a government role by his 30s, giving everything he could to ensure my life had a better starting line. His resilience and quiet grit are the engines behind my own discipline."
   }
 ];
 
@@ -648,3 +648,4 @@ export function About() {
     </section>
   );
 }
+
