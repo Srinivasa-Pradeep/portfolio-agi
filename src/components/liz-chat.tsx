@@ -14,22 +14,42 @@ type Message = {
 };
 
 /**
- * FormatMessage - Renders bold text from markdown-style ** markers.
- * Enhanced for high visibility against glass backgrounds.
+ * FormatMessage - Renders bold text and agentic navigation links.
+ * Enhanced for high visibility and functional navigation.
  */
-function FormatMessage({ content }: { content: string }) {
+function FormatMessage({ content, onNavClick }: { content: string; onNavClick: (id: string) => void }) {
   if (!content) return null;
-  // Regex to match **text** and capture it including the stars
-  const parts = content.split(/(\*\*.*?\*\*)/g);
+
+  // Split by bold markers (**text**) and link markers ([text](#id))
+  const parts = content.split(/(\*\*.*?\*\*|\[.*?\]\(#.*?\))/g);
+
   return (
     <>
       {parts.map((part, i) => {
+        // Handle Bold
         if (part.startsWith('**') && part.endsWith('**')) {
           return (
             <strong key={i} className="font-bold text-foreground brightness-150 drop-shadow-sm">
               {part.slice(2, -2)}
             </strong>
           );
+        }
+        // Handle Nav Links [Text](#id)
+        if (part.startsWith('[') && part.includes('](#')) {
+          const match = part.match(/\[(.*?)\]\(#(.*?)\)/);
+          if (match) {
+            const text = match[1];
+            const id = match[2];
+            return (
+              <button
+                key={i}
+                onClick={() => onNavClick(id)}
+                className="font-bold text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all duration-300 mx-0.5"
+              >
+                {text}
+              </button>
+            );
+          }
         }
         return part;
       })}
@@ -41,7 +61,7 @@ export function LizChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [autoHide, setAutoHide] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', content: "Hello. I am **Liz**. How can I help you understand Srini's work or the journey he is on?" }
+    { role: 'model', content: "Hello. I am **Liz**, Srini's personal assistant. How can I help you navigate his journey? Perhaps you'd like to see his [Amazon experience](#about) or his latest [Featured Projects](#projects)?" }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -109,6 +129,17 @@ export function LizChat() {
         setMessages(prev => [...prev, { role: 'model', content: "I encountered a minor **glitch**. Could you try asking that again?" }]);
     }
     setIsLoading(false);
+  };
+
+  const handleNavAction = (id: string) => {
+    setIsOpen(false);
+    // Short timeout to allow modal to start closing before scroll
+    setTimeout(() => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300);
   };
 
   return (
@@ -189,7 +220,7 @@ export function LizChat() {
                                     ? "bg-primary text-primary-foreground font-medium rounded-tr-none" 
                                     : "bg-secondary/30 backdrop-blur-xl rounded-tl-none lora italic text-foreground/90 font-medium pr-7" 
                             )}>
-                                <FormatMessage content={msg.content} />
+                                <FormatMessage content={msg.content} onNavClick={handleNavAction} />
                             </div>
                             <span className="text-[8px] font-bold uppercase tracking-widest opacity-20 px-3 group-hover:opacity-50 transition-opacity">
                                 {msg.role === 'user' ? 'Sent' : 'Liz'}
