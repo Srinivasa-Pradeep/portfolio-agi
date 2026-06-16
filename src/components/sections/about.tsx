@@ -1,4 +1,3 @@
-
 'use client';
 
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
@@ -57,6 +56,7 @@ import Link from 'next/link';
 /**
  * ShiningLink - A specialized link component with a subtle sweeping light effect.
  * Now polished to be minimalist without icons for an architectural look.
+ * Added px-1 to prevent italic clipping of trailing characters.
  */
 function ShiningLink({ href, children }: { href: string, children: ReactNode }) {
   return (
@@ -64,7 +64,7 @@ function ShiningLink({ href, children }: { href: string, children: ReactNode }) 
       href={href} 
       className="relative inline-flex items-center font-bold text-primary group"
     >
-      <span className="relative z-10 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#fff,55%,hsl(var(--primary)))] bg-[size:200%_100%] animate-shine decoration-primary/30 underline underline-offset-4 hover:decoration-primary transition-all duration-300">
+      <span className="relative z-10 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#fff,55%,hsl(var(--primary)))] bg-[size:200%_100%] animate-shine decoration-primary/30 underline underline-offset-4 hover:decoration-primary transition-all duration-300 px-1">
         {children}
       </span>
     </Link>
@@ -201,7 +201,7 @@ function ResearchPublication() {
           </div>
         </div>
 
-        <p className="text-sm text-foreground/80 leading-relaxed max-w-2xl lora italic font-medium">
+        <p className="text-sm text-foreground/80 leading-relaxed max-w-2xl lora italic font-medium pr-1">
           Architecting a high-precision Natural Language to SQL framework, bridging the gap between complex medical databases and clinical practitioners with absolute reliability.
         </p>
 
@@ -578,7 +578,7 @@ export function About() {
                                 className="flex items-start gap-3"
                               >
                                 <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                                <span className="text-sm text-muted-foreground">
+                                <span className="text-sm text-muted-foreground pr-1">
                                   {detail}
                                 </span>
                               </li>
@@ -649,7 +649,7 @@ export function About() {
                           </span>
                         </AccordionTrigger>
                         <AccordionContent className="pb-6 pt-0">
-                          <div className="max-w-3xl border-l border-primary/10 pl-5 py-2 leading-relaxed text-foreground/80 lora italic">
+                          <div className="max-w-3xl border-l border-primary/10 pl-5 py-2 leading-relaxed text-foreground/80 lora italic pr-1">
                             {item.answer}
                           </div>
                         </AccordionContent>
@@ -665,3 +665,4 @@ export function About() {
     </section>
   );
 }
+
