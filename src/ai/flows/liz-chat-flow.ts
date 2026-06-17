@@ -79,7 +79,7 @@ const chatWithLizFlow = ai.defineFlow(
   },
   async (input) => {
     try {
-      console.log('LIZ_FLOW: Executing with provided API key for model gemini-1.5-flash');
+      console.log('LIZ_FLOW: Executing with provided key for model gemini-1.5-flash-latest');
 
       const history =
         input.history?.map((h) => ({
@@ -88,7 +88,7 @@ const chatWithLizFlow = ai.defineFlow(
         })) || [];
 
       const {text} = await ai.generate({
-        model: googleAI.model('gemini-1.5-flash'),
+        model: googleAI.model('gemini-1.5-flash-latest'),
         system: systemPrompt,
         prompt: input.message,
         history: history as any,
