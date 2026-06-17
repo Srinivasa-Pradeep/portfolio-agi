@@ -125,6 +125,150 @@
       "description": "Manifest by Roxie Nafousi",
       "imageUrl": "https://m.media-amazon.com/images/I/71dtfDCdTvL._SY522_.jpg",
       "imageHint": "book cover manifest"
+    },
+    {
+      "id": "book-clear-thinking",
+      "description": "Clear Thinking by Shane Parrish",
+      "imageUrl": "https://picsum.photos/seed/book6/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-surrounded-idiots",
+      "description": "Surrounded by Idiots by Thomas Erikson",
+      "imageUrl": "https://picsum.photos/seed/book7/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-diary-ceo",
+      "description": "The Diary of a CEO by Steven Bartlett",
+      "imageUrl": "https://picsum.photos/seed/book8/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-sum-afterlives",
+      "description": "Sum by David Eagleman",
+      "imageUrl": "https://picsum.photos/seed/book9/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-project-hail-mary",
+      "description": "Project Hail Mary by Andy Weir",
+      "imageUrl": "https://picsum.photos/seed/book10/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-clarity-paras",
+      "description": "The Book of Clarity by Paras Chopra",
+      "imageUrl": "https://picsum.photos/seed/book11/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-three-body",
+      "description": "The Three-Body Problem by Cixin Liu",
+      "imageUrl": "https://picsum.photos/seed/book12/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-unlocking-hypergrowth",
+      "description": "Unlocking Hypergrowth by Frank Slootman",
+      "imageUrl": "https://picsum.photos/seed/book13/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-think-again",
+      "description": "Think Again by Adam Grant",
+      "imageUrl": "https://picsum.photos/seed/book14/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-courage-disliked",
+      "description": "The courage to be disliked by Ichiro Kishimi",
+      "imageUrl": "https://picsum.photos/seed/book15/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-joys-hashing",
+      "description": "The Joys of Hashing by Thomas Mailund",
+      "imageUrl": "https://picsum.photos/seed/book16/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-programming-pearls",
+      "description": "Programming Pearls by Jon Bentley",
+      "imageUrl": "https://picsum.photos/seed/book17/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-pragmatic-thinking",
+      "description": "Pragmatic Thinking and Learning by Andy Hunt",
+      "imageUrl": "https://picsum.photos/seed/book18/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-high-perf-go",
+      "description": "Hands-On High Performance with Go",
+      "imageUrl": "https://picsum.photos/seed/book19/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-go-lang",
+      "description": "Go Programming Language by Alan A. A. Donovan",
+      "imageUrl": "https://picsum.photos/seed/book20/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-ddia",
+      "description": "Designing Data-Intensive Applications",
+      "imageUrl": "https://picsum.photos/seed/book21/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-deep-work",
+      "description": "Deep Work by Cal Newport",
+      "imageUrl": "https://picsum.photos/seed/book22/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-db-systems",
+      "description": "Database Systems by Hector Garcia-Molina",
+      "imageUrl": "https://picsum.photos/seed/book23/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-db-internals",
+      "description": "Database Internals by Alex Petrov",
+      "imageUrl": "https://picsum.photos/seed/book24/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-concurrency-go",
+      "description": "Concurrency in Go by Katherine Cox-Buday",
+      "imageUrl": "https://picsum.photos/seed/book25/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-microservices",
+      "description": "Building Microservices by Sam Newman",
+      "imageUrl": "https://picsum.photos/seed/book26/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-blitzscaling",
+      "description": "Blitzscaling by Reid Hoffman",
+      "imageUrl": "https://picsum.photos/seed/book27/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-mastering-go",
+      "description": "Mastering Go by Mihalis Tsoukalos",
+      "imageUrl": "https://picsum.photos/seed/book28/400/600",
+      "imageHint": "book cover"
+    },
+    {
+      "id": "book-info-retrieval",
+      "description": "Introduction To Information Retrieval",
+      "imageUrl": "https://picsum.photos/seed/book29/400/600",
+      "imageHint": "book cover"
     }
   ]
 }
