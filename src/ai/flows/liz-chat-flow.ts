@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -96,7 +97,6 @@ const chatWithLizFlow = ai.defineFlow(
         response: text,
       };
     } catch (error: any) {
-      // Re-throw or handle as a readable system error
       throw new Error(`[LIZ_SYSTEM_ERROR]: ${error.message || "Model execution failed"}`);
     }
   }

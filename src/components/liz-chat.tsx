@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -160,7 +161,6 @@ export function LizChat() {
 
     try {
       const result = await talkToLiz(content, messages);
-      // Directly display the response (which includes system error messages if talkToLiz fails)
       setMessages(prev => [...prev, { role: 'model', content: result.response }]);
     } catch (err: any) {
       setMessages(prev => [...prev, { role: 'model', content: `**SYSTEM_ERROR**: ${err.message}` }]);
@@ -185,7 +185,7 @@ export function LizChat() {
                 background: isOpen 
                   ? 'transparent' 
                   : `linear-gradient(hsl(var(--background)/0.1), hsl(var(--background)/0.1)) padding-box, 
-                     conic-gradient(from ${triggerAngle}deg, transparent 0deg, #4285F4 20deg, #EA4335 40deg, #FBBC05 60deg, #34A85 green 80deg, transparent 100deg) border-box`,
+                     conic-gradient(from ${triggerAngle}deg, transparent 0deg, #4285F4 20deg, #EA4335 40deg, #FBBC05 60deg, #34A853 80deg, transparent 100deg) border-box`,
                 border: '1.5px solid transparent'
             }}
             className={cn(
