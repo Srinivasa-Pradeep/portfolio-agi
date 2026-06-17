@@ -10,8 +10,8 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { cn } from '@/lib/utils';
 
 /**
- * @fileOverview The Personal Library - Reimagined as a high-fidelity architectural rack.
- * Unified borders across all themes to preserve the premium feel.
+ * @fileOverview The Personal Library - Fully interactive architectural rack.
+ * Every book redirects to its respective Amazon page.
  */
 
 interface Book {
@@ -19,51 +19,237 @@ interface Book {
   author: string;
   category: 'logic' | 'growth' | 'imagination';
   imageId: string;
+  amazonLink: string;
 }
 
 const bookCollection: Book[] = [
   // Logic (Tech & Systems)
-  { title: "Designing Data-Intensive Applications", author: "Martin Kleppmann", category: "logic", imageId: "book-ddia" },
-  { title: "Database Internals", author: "Alex Petrov", category: "logic", imageId: "book-db-internals" },
-  { title: "Building Microservices", author: "Sam Newman", category: "logic", imageId: "book-microservices" },
-  { title: "Programming Pearls", author: "Jon Bentley", category: "logic", imageId: "book-programming-pearls" },
-  { title: "Clean Code", author: "Robert C. Martin", category: "logic", imageId: "book-clean-code" },
-  { title: "The Pragmatic Programmer", author: "Andrew Hunt & David Thomas", category: "logic", imageId: "book-pragmatic-programmer" },
-  { title: "Hands-On High Performance with Go", author: "Bob Strecansky", category: "logic", imageId: "book-high-perf-go" },
-  { title: "Go Programming Language", author: "Alan A. A. Donovan", category: "logic", imageId: "book-go-lang" },
-  { title: "Concurrency in Go", author: "Katherine Cox-Buday", category: "logic", imageId: "book-concurrency-go" },
-  { title: "Mastering Go", author: "Mihalis Tsoukalos", category: "logic", imageId: "book-mastering-go" },
-  { title: "Introduction To Information Retrieval", author: "Christopher Manning", category: "logic", imageId: "book-info-retrieval" },
-  { title: "Database Systems", author: "Hector Garcia-Molina", category: "logic", imageId: "book-db-systems" },
-  { title: "The Joys of Hashing", author: "Thomas Mailund", category: "logic", imageId: "book-joys-hashing" },
+  { 
+    title: "Designing Data-Intensive Applications", 
+    author: "Martin Kleppmann", 
+    category: "logic", 
+    imageId: "book-ddia",
+    amazonLink: "https://www.amazon.com/s?k=Designing+Data-Intensive+Applications+Martin+Kleppmann"
+  },
+  { 
+    title: "Database Internals", 
+    author: "Alex Petrov", 
+    category: "logic", 
+    imageId: "book-db-internals",
+    amazonLink: "https://www.amazon.com/s?k=Database+Internals+Alex+Petrov"
+  },
+  { 
+    title: "Building Microservices", 
+    author: "Sam Newman", 
+    category: "logic", 
+    imageId: "book-microservices",
+    amazonLink: "https://www.amazon.com/s?k=Building+Microservices+Sam+Newman"
+  },
+  { 
+    title: "Programming Pearls", 
+    author: "Jon Bentley", 
+    category: "logic", 
+    imageId: "book-programming-pearls",
+    amazonLink: "https://www.amazon.com/s?k=Programming+Pearls+Jon+Bentley"
+  },
+  { 
+    title: "Clean Code", 
+    author: "Robert C. Martin", 
+    category: "logic", 
+    imageId: "book-clean-code",
+    amazonLink: "https://www.amazon.com/s?k=Clean+Code+Robert+C.+Martin"
+  },
+  { 
+    title: "The Pragmatic Programmer", 
+    author: "Andrew Hunt & David Thomas", 
+    category: "logic", 
+    imageId: "book-pragmatic-programmer",
+    amazonLink: "https://www.amazon.com/s?k=The+Pragmatic+Programmer+Andrew+Hunt"
+  },
+  { 
+    title: "Hands-On High Performance with Go", 
+    author: "Bob Strecansky", 
+    category: "logic", 
+    imageId: "book-high-perf-go",
+    amazonLink: "https://www.amazon.com/s?k=Hands-On+High+Performance+with+Go+Bob+Strecansky"
+  },
+  { 
+    title: "Go Programming Language", 
+    author: "Alan A. A. Donovan", 
+    category: "logic", 
+    imageId: "book-go-lang",
+    amazonLink: "https://www.amazon.com/s?k=Go+Programming+Language+Alan+Donovan"
+  },
+  { 
+    title: "Concurrency in Go", 
+    author: "Katherine Cox-Buday", 
+    category: "logic", 
+    imageId: "book-concurrency-go",
+    amazonLink: "https://www.amazon.com/s?k=Concurrency+in+Go+Katherine+Cox-Buday"
+  },
+  { 
+    title: "Mastering Go", 
+    author: "Mihalis Tsoukalos", 
+    category: "logic", 
+    imageId: "book-mastering-go",
+    amazonLink: "https://www.amazon.com/s?k=Mastering+Go+Mihalis+Tsoukalos"
+  },
+  { 
+    title: "Introduction To Information Retrieval", 
+    author: "Christopher Manning", 
+    category: "logic", 
+    imageId: "book-info-retrieval",
+    amazonLink: "https://www.amazon.com/s?k=Introduction+To+Information+Retrieval+Christopher+Manning"
+  },
+  { 
+    title: "Database Systems", 
+    author: "Hector Garcia-Molina", 
+    category: "logic", 
+    imageId: "book-db-systems",
+    amazonLink: "https://www.amazon.com/s?k=Database+Systems+Hector+Garcia-Molina"
+  },
+  { 
+    title: "The Joys of Hashing", 
+    author: "Thomas Mailund", 
+    category: "logic", 
+    imageId: "book-joys-hashing",
+    amazonLink: "https://www.amazon.com/s?k=The+Joys+of+Hashing+Thomas+Mailund"
+  },
   
   // Growth (Mindset & Business)
-  { title: "Clear Thinking", author: "Shane Parrish", category: "growth", imageId: "book-clear-thinking" },
-  { title: "Atomic Habits", author: "James Clear", category: "growth", imageId: "book-atomic-habits" },
-  { title: "Deep Work", author: "Cal Newport", category: "growth", imageId: "book-deep-work" },
-  { title: "Think Again", author: "Adam Grant", category: "growth", imageId: "book-think-again" },
-  { title: "Surrounded by Idiots", author: "Thomas Erikson", category: "growth", imageId: "book-surrounded-idiots" },
-  { title: "The Diary of a CEO", author: "Steven Bartlett", category: "growth", imageId: "book-diary-ceo" },
-  { title: "The courage to be disliked", author: "Ichiro Kishimi", category: "growth", imageId: "book-courage-disliked" },
-  { title: "Man's Search for Meaning", author: "Viktor Frankl", category: "growth", imageId: "book-search-meaning" },
-  { title: "Pragmatic Thinking and Learning", author: "Andy Hunt", category: "growth", imageId: "book-pragmatic-thinking" },
-  { title: "Zero to One", author: "Peter Thiel", category: "growth", imageId: "book-zero-to-one" },
-  { title: "Blitzscaling", author: "Reid Hoffman", category: "growth", imageId: "book-blitzscaling" },
-  { title: "Unlocking Hypergrowth", author: "Frank Slootman", category: "growth", imageId: "book-unlocking-hypergrowth" },
-  { title: "Manifest", author: "Roxie Nafousi", category: "growth", imageId: "book-manifest" },
-  { title: "The Book of Clarity", author: "Paras Chopra", category: "growth", imageId: "book-clarity-paras" },
+  { 
+    title: "Clear Thinking", 
+    author: "Shane Parrish", 
+    category: "growth", 
+    imageId: "book-clear-thinking",
+    amazonLink: "https://www.amazon.com/s?k=Clear+Thinking+Shane+Parrish"
+  },
+  { 
+    title: "Atomic Habits", 
+    author: "James Clear", 
+    category: "growth", 
+    imageId: "book-atomic-habits",
+    amazonLink: "https://www.amazon.com/s?k=Atomic+Habits+James+Clear"
+  },
+  { 
+    title: "Deep Work", 
+    author: "Cal Newport", 
+    category: "growth", 
+    imageId: "book-deep-work",
+    amazonLink: "https://www.amazon.com/s?k=Deep+Work+Cal+Newport"
+  },
+  { 
+    title: "Think Again", 
+    author: "Adam Grant", 
+    category: "growth", 
+    imageId: "book-think-again",
+    amazonLink: "https://www.amazon.com/s?k=Think+Again+Adam+Grant"
+  },
+  { 
+    title: "Surrounded by Idiots", 
+    author: "Thomas Erikson", 
+    category: "growth", 
+    imageId: "book-surrounded-idiots",
+    amazonLink: "https://www.amazon.com/s?k=Surrounded+by+Idiots+Thomas+Erikson"
+  },
+  { 
+    title: "The Diary of a CEO", 
+    author: "Steven Bartlett", 
+    category: "growth", 
+    imageId: "book-diary-ceo",
+    amazonLink: "https://www.amazon.com/s?k=The+Diary+of+a+CEO+Steven+Bartlett"
+  },
+  { 
+    title: "The courage to be disliked", 
+    author: "Ichiro Kishimi", 
+    category: "growth", 
+    imageId: "book-courage-disliked",
+    amazonLink: "https://www.amazon.com/s?k=The+courage+to+be+disliked+Ichiro+Kishimi"
+  },
+  { 
+    title: "Man's Search for Meaning", 
+    author: "Viktor Frankl", 
+    category: "growth", 
+    imageId: "book-search-meaning",
+    amazonLink: "https://www.amazon.com/s?k=Man%27s+Search+for+Meaning+Viktor+Frankl"
+  },
+  { 
+    title: "Pragmatic Thinking and Learning", 
+    author: "Andy Hunt", 
+    category: "growth", 
+    imageId: "book-pragmatic-thinking",
+    amazonLink: "https://www.amazon.com/s?k=Pragmatic+Thinking+and+Learning+Andy+Hunt"
+  },
+  { 
+    title: "Zero to One", 
+    author: "Peter Thiel", 
+    category: "growth", 
+    imageId: "book-zero-to-one",
+    amazonLink: "https://www.amazon.com/s?k=Zero+to+One+Peter+Thiel"
+  },
+  { 
+    title: "Blitzscaling", 
+    author: "Reid Hoffman", 
+    category: "growth", 
+    imageId: "book-blitzscaling",
+    amazonLink: "https://www.amazon.com/s?k=Blitzscaling+Reid+Hoffman"
+  },
+  { 
+    title: "Unlocking Hypergrowth", 
+    author: "Frank Slootman", 
+    category: "growth", 
+    imageId: "book-unlocking-hypergrowth",
+    amazonLink: "https://www.amazon.com/s?k=Unlocking+Hypergrowth+Frank+Slootman"
+  },
+  { 
+    title: "Manifest", 
+    author: "Roxie Nafousi", 
+    category: "growth", 
+    imageId: "book-manifest",
+    amazonLink: "https://www.amazon.com/s?k=Manifest+Roxie+Nafousi"
+  },
+  { 
+    title: "The Book of Clarity", 
+    author: "Paras Chopra", 
+    category: "growth", 
+    imageId: "book-clarity-paras",
+    amazonLink: "https://www.amazon.com/s?k=The+Book+of+Clarity+Paras+Chopra"
+  },
 
   // Imagination
-  { title: "Project Hail Mary", author: "Andy Weir", category: "imagination", imageId: "book-project-hail-mary" },
-  { title: "The Three-Body Problem", author: "Cixin Liu", category: "imagination", imageId: "book-three-body" },
-  { title: "Sum: Forty Tales from the Afterlives", author: "David Eagleman", category: "imagination", imageId: "book-sum-afterlives" },
+  { 
+    title: "Project Hail Mary", 
+    author: "Andy Weir", 
+    category: "imagination", 
+    imageId: "book-project-hail-mary",
+    amazonLink: "https://www.amazon.com/s?k=Project+Hail+Mary+Andy+Weir"
+  },
+  { 
+    title: "The Three-Body Problem", 
+    author: "Cixin Liu", 
+    category: "imagination", 
+    imageId: "book-three-body",
+    amazonLink: "https://www.amazon.com/s?k=The+Three-Body+Problem+Cixin+Liu"
+  },
+  { 
+    title: "Sum: Forty Tales from the Afterlives", 
+    author: "David Eagleman", 
+    category: "imagination", 
+    imageId: "book-sum-afterlives",
+    amazonLink: "https://www.amazon.com/s?k=Sum+Forty+Tales+from+the+Afterlives+David+Eagleman"
+  },
 ];
 
 function BookCard({ book }: { book: Book }) {
   const image = PlaceHolderImages.find(p => p.id === book.imageId);
   
   return (
-    <div className="group relative flex flex-col items-center gap-4">
+    <a 
+      href={book.amazonLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group relative flex flex-col items-center gap-4 cursor-pointer no-underline block"
+    >
       {/* 3D-ish Book Container */}
       <div className="relative aspect-[2/3] w-full perspective-[1000px]">
         <div className={cn(
@@ -91,7 +277,7 @@ function BookCard({ book }: { book: Book }) {
         <h3 className="line-clamp-2 text-xs font-black tracking-tight text-foreground/90 uppercase h-8">{book.title}</h3>
         <p className="line-clamp-1 text-[10px] text-muted-foreground font-mono uppercase opacity-60 mt-1">{book.author}</p>
       </div>
-    </div>
+    </a>
   );
 }
 
