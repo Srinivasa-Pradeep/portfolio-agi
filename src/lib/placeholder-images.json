@@ -219,8 +219,8 @@
     {
       "id": "book-ddia",
       "description": "Designing Data-Intensive Applications",
-      "imageUrl": "https://picsum.photos/seed/book21/400/600",
-      "imageHint": "book cover"
+      "imageUrl": "https://dataintensive.net/images/book-cover.png",
+      "imageHint": "book cover ddia"
     },
     {
       "id": "book-deep-work",
