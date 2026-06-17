@@ -14,7 +14,10 @@ function FormatMessage({ content }: { content: string }) {
   if (!content) return null;
 
   // Replace em-dashes with space-dash-space as requested
-  const cleanContent = content.replace(/—/g, ' - ');
+  const cleanContent = content
+    .replace(/—/g, ' - ')
+    .replace(/--/g, ' - ')
+    .replace(/–/g, ' - ');
 
   // Split by bold pattern (supports **bold** and *bold*)
   const parts = cleanContent.split(/(\*\*.*?\*\*|\*.*?\*)/g);
@@ -40,16 +43,38 @@ function FormatMessage({ content }: { content: string }) {
 export function LizChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [autoHide, setAutoHide] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState<any[]>([
     { role: 'model', content: "Hello. I am **Liz**, Srini's personal assistant. How can I help you explore his world today?" }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   
+  // State for the mouse-reactive border angle
+  const [triggerAngle, setTriggerAngle] = useState(0);
+  
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<any>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  /**
+   * Calculates the angle from the trigger button's center to the mouse position.
+   * This drives the conic gradient rotation for the "rounding" effect.
+   */
+  const handleTriggerMouseMove = (e: React.MouseEvent) => {
+    if (!triggerRef.current) return;
+    const rect = triggerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rad = Math.atan2(y - centerY, x - centerX);
+    const deg = (rad * (180 / Math.PI) + 90);
+    
+    setTriggerAngle(deg);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -73,13 +98,8 @@ export function LizChat() {
           setIsRecording(false);
         };
 
-        recognitionRef.current.onerror = () => {
-          setIsRecording(false);
-        };
-
-        recognitionRef.current.onend = () => {
-          setIsRecording(false);
-        };
+        recognitionRef.current.onerror = () => setIsRecording(false);
+        recognitionRef.current.onend = () => setIsRecording(false);
       }
     }
   }, []);
@@ -132,7 +152,7 @@ export function LizChat() {
   const handleSendMessage = async (content: string) => {
     if (!content.trim() || isLoading) return;
 
-    const userMessage: Message = { role: 'user', content };
+    const userMessage = { role: 'user', content };
     const currentMessages = [...messages, userMessage];
     setMessages(currentMessages);
     setInputValue('');
@@ -156,24 +176,27 @@ export function LizChat() {
         autoHide && !isOpen ? "-translate-x-[calc(100%-8px)] hover:translate-x-0" : "translate-x-0"
       )}>
         <button
+            ref={triggerRef}
             onClick={() => setIsOpen(true)}
+            onMouseMove={handleTriggerMouseMove}
             className={cn(
                 "group/btn relative flex flex-col items-center gap-4 py-8 w-10 sm:w-12 shadow-2xl transition-all duration-500",
                 "bg-background/10 backdrop-blur-2xl border-y border-r border-white/10 rounded-r-2xl",
                 "hover:w-12 sm:hover:w-14 active:scale-95 text-foreground/40 hover:text-primary overflow-hidden"
             )}
         >
-            {/* Gem-style Animated "Rounding" Border Background */}
-            <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-700 pointer-events-none z-0">
-                <div 
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] aspect-square animate-[spin_3s_linear_infinite]"
-                    style={{
-                        background: 'conic-gradient(from 0deg, transparent 0deg, transparent 180deg, #4285F4 220deg, #EA4335 260deg, #FBBC05 300deg, #34A853 340deg, transparent 360deg)'
-                    }}
-                />
-            </div>
+            {/* 
+                Mouse-Reactive Border Gradient 
+                This layer tracks the mouse angle for a high-fidelity "rounding" flow.
+            */}
+            <div 
+                className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none z-0"
+                style={{
+                    background: `conic-gradient(from ${triggerAngle}deg, #4285F4, #EA4335, #FBBC05, #34A853, #4285F4)`
+                }}
+            />
             
-            {/* Inner Content Mask */}
+            {/* Inner Content Mask - creates the thin border effect */}
             <div className="absolute inset-[1.5px] left-0 bg-background/95 backdrop-blur-3xl rounded-r-[calc(1rem-1.5px)] z-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
 
             <div className="relative z-10 flex flex-col items-center gap-4">

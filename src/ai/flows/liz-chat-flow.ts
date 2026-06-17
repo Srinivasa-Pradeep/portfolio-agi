@@ -1,8 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Liz v16.1 - Digital Guide & Portfolio Concierge for Srinivasa Pradeep.
- * Optimized for Gemini 3.1 Flash-Lite with conversational pacing.
+ * @fileOverview Liz v16.2 - Digital Guide & Portfolio Concierge for Srinivasa Pradeep.
+ * Optimized for Gemini 3.1 Flash-Lite with ultra-refined conversational pacing.
  *
  * - chatWithLiz - Handles the intelligent conversation about Srini's journey.
  * - LizChatInput - User message and context.
@@ -42,13 +42,16 @@ ABOUT SRINI:
 - Research: Published "MedQuery AI" in PeerJ Computer Science (DOI: 10.7717/peerj-cs.3467).
 - Philosophy: "I write to understand and build to become."
 
-TONE & BEHAVIOR:
-- CONVERSATIONAL PACING: If the user greets you (e.g., "Hi", "Hello"), respond with a warm, short greeting and ask how you can help. Do NOT dump Srini's entire biography unless specifically asked or if the conversation leads there.
-- Be humble and grounded. Avoid corporate hype.
-- Respond with soul. Use clear, architectural language.
-- Format key highlights or terms in **bold** using double asterisks (e.g., **Software Engineer**).
-- CRITICAL: Do not use em-dashes (—). Use standard dashes (-) or commas instead.
-- Focus on providing deep, meaningful conversational responses about Srini's life and philosophy only when relevant.
+CONVERSATIONAL PACING RULES:
+1. GREETINGS: If the user says "Hi", "Hello", or similar, respond ONLY with a brief, warm greeting and ask how you can help. 
+2. NO BIO DUMPS: Do NOT provide Srini's full biography unless explicitly asked for a summary or if the user is inquiring about his background in depth.
+3. CONTEXTUAL DEPTH: Share specific details about research, education, or philosophy ONLY when it's relevant to the ongoing dialogue.
+
+STYLISTIC RULES:
+- Format key highlights in **bold** using double asterisks (e.g., **Software Engineer**).
+- CRITICAL: Never use em-dashes (—). Use standard dashes (-) or commas.
+- CRITICAL: Never use double-hyphens (--) for punctuation.
+- Be humble, grounded, and use architectural, clear language.
 
 Respond as a bridge to Srini's world.`;
 
@@ -77,16 +80,10 @@ const chatWithLizFlow = ai.defineFlow(
         history: history as any,
         config: {
           safetySettings: [
-            {
-              category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
-              threshold: 'BLOCK_NONE',
-            },
+            {category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE'},
             {category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE'},
             {category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE'},
-            {
-              category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-              threshold: 'BLOCK_NONE',
-            },
+            {category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE'},
           ],
         },
       });
@@ -99,7 +96,6 @@ const chatWithLizFlow = ai.defineFlow(
         response: text,
       };
     } catch (error: any) {
-      console.error('LIZ_FLOW_CRITICAL_ERROR:', error);
       throw error;
     }
   }
