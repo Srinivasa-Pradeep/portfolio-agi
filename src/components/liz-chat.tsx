@@ -7,11 +7,6 @@ import { cn } from '@/lib/utils';
 import { X, Send, Sparkles, Command, CornerDownLeft, Mic, MicOff } from 'lucide-react';
 import { talkToLiz } from '@/app/actions';
 
-type Message = {
-  role: 'user' | 'model';
-  content: string;
-};
-
 /**
  * FormatMessage - Renders bold text and cleans em-dashes.
  */
@@ -162,13 +157,32 @@ export function LizChat() {
       )}>
         <button
             onClick={() => setIsOpen(true)}
-            className="group/btn relative flex flex-col items-center gap-4 py-8 w-10 sm:w-12 bg-background/10 backdrop-blur-xl border-y border-r border-white/10 rounded-r-2xl shadow-2xl transition-all hover:w-12 sm:hover:w-14 active:scale-95 text-foreground/40 hover:text-primary"
+            className={cn(
+                "group/btn relative flex flex-col items-center gap-4 py-8 w-10 sm:w-12 shadow-2xl transition-all duration-500",
+                "bg-background/10 backdrop-blur-2xl border-y border-r border-white/10 rounded-r-2xl",
+                "hover:w-12 sm:hover:w-14 active:scale-95 text-foreground/40 hover:text-primary overflow-hidden"
+            )}
         >
-            <Command className="h-4 w-4" />
-            <span className="[writing-mode:vertical-lr] text-[8px] font-black uppercase tracking-[0.4em] opacity-60">Talk with Liz</span>
-            <div className="hidden sm:flex mt-4 flex-col items-center gap-1 opacity-0 group-hover/btn:opacity-40 transition-opacity duration-500">
-                <span className="text-[9px] font-bold">⌘</span>
-                <span className="text-[9px] font-bold">K</span>
+            {/* Gem-style Animated "Rounding" Border Background */}
+            <div className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-700 pointer-events-none z-0">
+                <div 
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] aspect-square animate-[spin_3s_linear_infinite]"
+                    style={{
+                        background: 'conic-gradient(from 0deg, transparent 0deg, transparent 180deg, #4285F4 220deg, #EA4335 260deg, #FBBC05 300deg, #34A853 340deg, transparent 360deg)'
+                    }}
+                />
+            </div>
+            
+            {/* Inner Content Mask */}
+            <div className="absolute inset-[1.5px] left-0 bg-background/95 backdrop-blur-3xl rounded-r-[calc(1rem-1.5px)] z-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+
+            <div className="relative z-10 flex flex-col items-center gap-4">
+                <Command className="h-4 w-4 transition-transform group-hover/btn:scale-110 group-hover/btn:text-primary" />
+                <span className="[writing-mode:vertical-lr] text-[8px] font-black uppercase tracking-[0.4em] opacity-60">Talk with Liz</span>
+                <div className="hidden sm:flex mt-4 flex-col items-center gap-1 opacity-0 group-hover/btn:opacity-40 transition-opacity duration-500">
+                    <span className="text-[9px] font-bold">⌘</span>
+                    <span className="text-[9px] font-bold">K</span>
+                </div>
             </div>
         </button>
       </div>
