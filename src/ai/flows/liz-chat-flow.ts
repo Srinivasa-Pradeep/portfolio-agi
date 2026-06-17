@@ -10,6 +10,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import {googleAI} from '@genkit-ai/google-genai';
 
 const LizChatInputSchema = z.object({
   message: z.string().describe("The user's question or message."),
@@ -86,9 +87,10 @@ const chatWithLizFlow = ai.defineFlow(
           content: [{text: h.content}],
         })) || [];
 
-      console.log('LIZ_FLOW: Calling ai.generate with Gemini 1.5 Flash...');
+      console.log('LIZ_FLOW: Calling ai.generate with explicit Gemini 1.5 Flash reference...');
       
       const {text} = await ai.generate({
+        model: googleAI.model('gemini-1.5-flash'),
         system: systemPrompt,
         prompt: input.message,
         history: history as any,
