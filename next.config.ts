@@ -51,6 +51,12 @@ const nextConfig: NextConfig = {
         hostname: 'media.formula1.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'dataintensive.net',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
