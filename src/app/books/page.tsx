@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview The Personal Library - Reimagined as a high-fidelity architectural rack.
+ * Unified borders across all themes to preserve the premium feel.
  */
 
 interface Book {
@@ -66,9 +67,9 @@ function BookCard({ book }: { book: Book }) {
       {/* 3D-ish Book Container */}
       <div className="relative aspect-[2/3] w-full perspective-[1000px]">
         <div className={cn(
-            "relative h-full w-full overflow-hidden rounded-[4px] shadow-[0_15px_35px_rgba(0,0,0,0.4)] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
-            "group-hover:-translate-y-4 group-hover:rotate-y-[-20deg] group-hover:shadow-[20px_40px_60px_rgba(0,0,0,0.6)]",
-            "border-l-[12px] border-l-black/10 ring-1 ring-white/5"
+            "relative h-full w-full overflow-hidden rounded-[4px] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            "group-hover:-translate-y-4 group-hover:rotate-y-[-20deg] group-hover:shadow-[20px_40px_60px_rgba(0,0,0,0.4)]",
+            "border-l-[12px] border-l-primary/10 ring-1 ring-border shadow-[0_15px_35px_rgba(0,0,0,0.15)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.6)]"
         )}>
             {image && (
                 <Image
@@ -78,8 +79,8 @@ function BookCard({ book }: { book: Book }) {
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
             )}
-            {/* The Spine Glow */}
-            <div className="absolute inset-y-0 left-0 w-[12px] bg-gradient-to-r from-black/30 via-white/5 to-transparent z-10" />
+            {/* The Spine Glow - Using Primary for theme awareness */}
+            <div className="absolute inset-y-0 left-0 w-[12px] bg-gradient-to-r from-primary/10 via-primary/5 to-transparent z-10" />
             
             {/* Glassy Finish Overlay */}
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 opacity-30 group-hover:opacity-100 transition-opacity duration-700" />
@@ -96,8 +97,8 @@ function BookCard({ book }: { book: Book }) {
 
 function SectionShelf({ title, icon: Icon, books }: { title: string, icon: any, books: Book[] }) {
     return (
-        <section className="mb-32 relative">
-            <div className="flex items-center gap-4 mb-12">
+        <section className="mb-24 relative">
+            <div className="flex items-center gap-4 mb-10">
                 <div className="p-3 rounded-2xl bg-primary/5 border border-primary/10">
                     <Icon className="h-6 w-6 text-primary" />
                 </div>
@@ -107,15 +108,15 @@ function SectionShelf({ title, icon: Icon, books }: { title: string, icon: any, 
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-x-8 gap-y-16 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 relative z-10">
+            <div className="grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 relative z-10">
                 {books.map((book) => (
                     <BookCard key={book.title} book={book} />
                 ))}
             </div>
 
             {/* The Architectural Shelf Line */}
-            <div className="absolute bottom-[-20px] left-0 right-0 h-1 bg-border/20 rounded-full blur-[0.5px]">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent animate-shine" />
+            <div className="absolute bottom-[-20px] left-0 right-0 h-px bg-border/40 rounded-full">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent animate-shine" />
             </div>
         </section>
     );
@@ -135,7 +136,7 @@ export default function BooksPage() {
       </div>
 
       <Header />
-      <main className="flex-1 relative z-10 pt-12 md:pt-16">
+      <main className="flex-1 relative z-10 pt-8 md:pt-10">
         <div className="container max-w-7xl pb-12 md:pb-20">
           <div className="mb-8 md:mb-12 flex justify-start">
             <Button asChild variant="ghost" className="-ml-4 hover:bg-primary/5 group rounded-full px-6 transition-all duration-300">
@@ -146,7 +147,7 @@ export default function BooksPage() {
             </Button>
           </div>
 
-          <div className="mb-20 md:mb-32 flex flex-col items-center text-center">
+          <div className="mb-16 md:mb-24 flex flex-col items-center text-center">
             <div className="h-16 w-16 rounded-3xl bg-primary/10 flex items-center justify-center mb-8 border border-primary/20 shadow-inner group overflow-hidden">
                 <Library className="h-8 w-8 text-primary animate-pulse" />
             </div>
