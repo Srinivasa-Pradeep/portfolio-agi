@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Moon, Sun, Flower } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { flushSync } from 'react-dom';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -16,6 +17,7 @@ import {
  * ThemeToggle - A high-fidelity "Celestial Controller".
  * Features automatic synchronization with keyboard shortcuts and a 
  * counter-rotation system to keep icons upright during transitions.
+ * Uses flushSync for reliable View Transition capture in React.
  */
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -60,14 +62,18 @@ export function ThemeToggle() {
     const themes = ['light', 'dark', 'spring'];
     const nextTheme = themes[(themes.indexOf(theme || 'light') + 1) % themes.length];
 
-    // 4. View Transition API
+    // 4. View Transition API with flushSync
+    // Using flushSync ensures React updates the DOM immediately so the 
+    // browser can capture the "after" snapshot for the transition.
     if (!(document as any).startViewTransition) {
       setTheme(nextTheme);
       return;
     }
 
     (document as any).startViewTransition(() => {
-        setTheme(nextTheme);
+        flushSync(() => {
+            setTheme(nextTheme);
+        });
     });
   }, [setTheme, theme]);
 

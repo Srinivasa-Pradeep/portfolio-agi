@@ -75,7 +75,7 @@ export default function ZenPage() {
   const [lampIntensity, setLampIntensity] = useState(85);
   const [peekControls, setPeekControls] = useState(false);
   
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const { togglePlayPause: toggleGlobalMusic } = useMusic();
   const switchAudioRef = useRef<HTMLAudioElement | null>(null);
   const wakeLockRef = useRef<any>(null);
@@ -172,31 +172,15 @@ export default function ZenPage() {
     }
   }, [resolvedTheme, playSwitchSound]);
 
-  // Keyboard shortcut listener
+  // Keyboard shortcut listener for Page-Specific actions
+  // Note: 'T' is removed here as it is handled by the global ThemeToggle component
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (
-        (e.key.toLowerCase() === 't' || e.key.toLowerCase() === 'm' || e.key.toLowerCase() === 'r' || e.code === 'Space') && 
+        (e.key.toLowerCase() === 'm' || e.key.toLowerCase() === 'r' || e.code === 'Space') && 
         !(e.target instanceof HTMLInputElement) && 
         !(e.target instanceof HTMLTextAreaElement)
       ) {
-        if (e.key.toLowerCase() === 't') {
-          playSwitchSound();
-          
-          // Updated to cycle through all 3 themes
-          const themes = ['light', 'dark', 'spring'];
-          const nextTheme = themes[(themes.indexOf(theme || 'light') + 1) % themes.length];
-
-          if (!(document as any).startViewTransition) {
-            setTheme(nextTheme);
-            return;
-          }
-
-          (document as any).startViewTransition(() => {
-            setTheme(nextTheme);
-          });
-        }
-        
         if (e.key.toLowerCase() === 'm') {
           toggleGlobalMusic();
         }
@@ -219,7 +203,7 @@ export default function ZenPage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [theme, setTheme, toggleGlobalMusic, sessionState, handleStart, handlePause, handleResume, handleContinue, playSwitchSound, toggleLamp]);
+  }, [toggleGlobalMusic, sessionState, handleStart, handlePause, handleResume, handleContinue, toggleLamp]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined = undefined;
