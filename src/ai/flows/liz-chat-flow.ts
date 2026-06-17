@@ -1,8 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Liz v14.0 - Digital Guide & Portfolio Concierge for Srinivasa Pradeep.
- * Powered by Gemini 3.5 Flash.
+ * @fileOverview Liz v15.0 - Digital Guide & Portfolio Concierge for Srinivasa Pradeep.
+ * Powered by Gemini 3.1 Flash-Lite.
  *
  * - chatWithLiz - Handles the intelligent conversation about Srini's journey.
  * - LizChatInput - User message and context.
@@ -80,7 +80,7 @@ const chatWithLizFlow = ai.defineFlow(
   },
   async (input) => {
     try {
-      console.log('LIZ_FLOW: Executing with Gemini 3.5 Flash');
+      console.log('LIZ_FLOW: Executing with Gemini 3.1 Flash-Lite');
 
       const history =
         input.history?.map((h) => ({
@@ -89,7 +89,7 @@ const chatWithLizFlow = ai.defineFlow(
         })) || [];
 
       const {text} = await ai.generate({
-        model: googleAI.model('gemini-3.5-flash'),
+        model: googleAI.model('gemini-3.1-flash-lite'),
         system: systemPrompt,
         prompt: input.message,
         history: history as any,
