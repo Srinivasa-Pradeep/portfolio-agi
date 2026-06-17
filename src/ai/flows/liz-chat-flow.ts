@@ -87,7 +87,7 @@ const chatWithLizFlow = ai.defineFlow(
           content: [{text: h.content}],
         })) || [];
 
-      console.log('LIZ_FLOW: Calling ai.generate with Gemini 2.0 Flash and updated API key...');
+      console.log('LIZ_FLOW: Calling ai.generate with Gemini 2.0 Flash...');
       
       const {text} = await ai.generate({
         model: googleAI.model('gemini-2.0-flash'),
