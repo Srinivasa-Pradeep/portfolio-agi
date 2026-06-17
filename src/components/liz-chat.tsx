@@ -13,7 +13,7 @@ import { talkToLiz } from '@/app/actions';
 function FormatMessage({ content }: { content: string }) {
   if (!content) return null;
 
-  // Replace em-dashes with space-dash-space as requested
+  // Replace em-dashes and double-hyphens with space-dash-space as requested
   const cleanContent = content
     .replace(/—/g, ' - ')
     .replace(/--/g, ' - ')
@@ -60,7 +60,7 @@ export function LizChat() {
 
   /**
    * Calculates the angle from the trigger button's center to the mouse position.
-   * This drives the conic gradient rotation for the "rounding" effect.
+   * Drives the conic gradient rotation for the "rounding" effect.
    */
   const handleTriggerMouseMove = (e: React.MouseEvent) => {
     if (!triggerRef.current) return;
@@ -160,6 +160,7 @@ export function LizChat() {
 
     try {
       const result = await talkToLiz(content, messages);
+      // Directly display the response (which includes system error messages if talkToLiz fails)
       setMessages(prev => [...prev, { role: 'model', content: result.response }]);
     } catch (err: any) {
       setMessages(prev => [...prev, { role: 'model', content: `**SYSTEM_ERROR**: ${err.message}` }]);
@@ -179,26 +180,20 @@ export function LizChat() {
             ref={triggerRef}
             onClick={() => setIsOpen(true)}
             onMouseMove={handleTriggerMouseMove}
+            style={{
+                // High-precision background-clip technique for the animated border
+                background: isOpen 
+                  ? 'transparent' 
+                  : `linear-gradient(hsl(var(--background)/0.1), hsl(var(--background)/0.1)) padding-box, 
+                     conic-gradient(from ${triggerAngle}deg, transparent 0deg, #4285F4 20deg, #EA4335 40deg, #FBBC05 60deg, #34A85 green 80deg, transparent 100deg) border-box`,
+                border: '1.5px solid transparent'
+            }}
             className={cn(
                 "group/btn relative flex flex-col items-center gap-4 py-8 w-10 sm:w-12 shadow-2xl transition-all duration-500",
-                "bg-background/10 backdrop-blur-2xl border-y border-r border-white/10 rounded-r-2xl",
-                "hover:w-12 sm:hover:w-14 active:scale-95 text-foreground/40 hover:text-primary overflow-hidden"
+                "backdrop-blur-2xl rounded-r-2xl overflow-hidden",
+                "hover:w-12 sm:hover:w-14 active:scale-95 text-foreground/40 hover:text-primary"
             )}
         >
-            {/* 
-                Mouse-Reactive Border Gradient 
-                This layer tracks the mouse angle for a high-fidelity "rounding" flow.
-            */}
-            <div 
-                className="absolute inset-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300 pointer-events-none z-0"
-                style={{
-                    background: `conic-gradient(from ${triggerAngle}deg, #4285F4, #EA4335, #FBBC05, #34A853, #4285F4)`
-                }}
-            />
-            
-            {/* Inner Content Mask - creates the thin border effect */}
-            <div className="absolute inset-[1.5px] left-0 bg-background/95 backdrop-blur-3xl rounded-r-[calc(1rem-1.5px)] z-0 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-
             <div className="relative z-10 flex flex-col items-center gap-4">
                 <Command className="h-4 w-4 transition-transform group-hover/btn:scale-110 group-hover/btn:text-primary" />
                 <span className="[writing-mode:vertical-lr] text-[8px] font-black uppercase tracking-[0.4em] opacity-60">Talk with Liz</span>

@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Liz v16.2 - Digital Guide & Portfolio Concierge for Srinivasa Pradeep.
+ * @fileOverview Liz v16.3 - Digital Guide & Portfolio Concierge for Srinivasa Pradeep.
  * Optimized for Gemini 3.1 Flash-Lite with ultra-refined conversational pacing.
  *
  * - chatWithLiz - Handles the intelligent conversation about Srini's journey.
@@ -47,10 +47,10 @@ CONVERSATIONAL PACING RULES:
 2. NO BIO DUMPS: Do NOT provide Srini's full biography unless explicitly asked for a summary or if the user is inquiring about his background in depth.
 3. CONTEXTUAL DEPTH: Share specific details about research, education, or philosophy ONLY when it's relevant to the ongoing dialogue.
 
-STYLISTIC RULES:
+STYLISTIC RULES (STRICT):
 - Format key highlights in **bold** using double asterisks (e.g., **Software Engineer**).
-- CRITICAL: Never use em-dashes (—). Use standard dashes (-) or commas.
-- CRITICAL: Never use double-hyphens (--) for punctuation.
+- CRITICAL: NEVER use em-dashes (—). Use standard dashes (-) or commas.
+- CRITICAL: NEVER use double-hyphens (--) for punctuation.
 - Be humble, grounded, and use architectural, clear language.
 
 Respond as a bridge to Srini's world.`;
@@ -96,7 +96,8 @@ const chatWithLizFlow = ai.defineFlow(
         response: text,
       };
     } catch (error: any) {
-      throw error;
+      // Re-throw or handle as a readable system error
+      throw new Error(`[LIZ_SYSTEM_ERROR]: ${error.message || "Model execution failed"}`);
     }
   }
 );
