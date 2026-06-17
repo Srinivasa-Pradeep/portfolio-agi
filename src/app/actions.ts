@@ -88,8 +88,12 @@ export async function talkToLiz(message: string, history: { role: 'user' | 'mode
       history 
     });
     return { success: true, response: result.response };
-  } catch (error) {
-    console.error('Liz Action Error:', error);
-    return { success: false, response: "I encountered a minor glitch. Please try asking again." };
+  } catch (error: any) {
+    // Surface the actual error message for debugging purposes
+    console.error('TALK_TO_LIZ_ACTION_ERROR:', error);
+    return { 
+      success: false, 
+      response: `[LIZ_SYSTEM_ERROR]: ${error?.message || "An unknown model error occurred."}` 
+    };
   }
 }

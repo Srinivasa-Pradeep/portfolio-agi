@@ -12,16 +12,21 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const LizChatInputSchema = z.object({
-  message: z.string().describe('The user\'s question or message.'),
-  history: z.array(z.object({
-    role: z.enum(['user', 'model']),
-    content: z.string()
-  })).optional().describe('The conversation history.'),
+  message: z.string().describe("The user's question or message."),
+  history: z
+    .array(
+      z.object({
+        role: z.enum(['user', 'model']),
+        content: z.string(),
+      })
+    )
+    .optional()
+    .describe('The conversation history.'),
 });
 export type LizChatInput = z.infer<typeof LizChatInputSchema>;
 
 const LizChatOutputSchema = z.object({
-  response: z.string().describe('Liz\'s response to the user.'),
+  response: z.string().describe("Liz's response to the user."),
 });
 export type LizChatOutput = z.infer<typeof LizChatOutputSchema>;
 
@@ -62,33 +67,54 @@ Example: "You can explore his specific contributions in the [Featured Projects](
 Respond with soul. You are a bridge to Srini's philosophy.`;
 
 export async function chatWithLiz(input: LizChatInput): Promise<LizChatOutput> {
-  try {
-    const history = input.history?.map(h => ({
-      role: h.role,
-      content: [{ text: h.content }]
-    })) || [];
-
-    const { text } = await ai.generate({
-      system: systemPrompt,
-      prompt: input.message,
-      history: history as any,
-      config: {
-        safetySettings: [
-          { category: 'HARM_CATEGORY_DANGEROUS_CONTENT', threshold: 'BLOCK_NONE' },
-          { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
-          { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE' },
-          { category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT', threshold: 'BLOCK_NONE' },
-        ]
-      }
-    });
-
-    return {
-      response: text || "I'm here to help, but I couldn't quite process that. Srini's contact form is always open for direct messages."
-    };
-  } catch (error) {
-    console.error('Genkit Generate Error:', error);
-    return {
-      response: "I encountered a minor lag in my thinking. Could you try asking that again?"
-    };
-  }
+  return chatWithLizFlow(input);
 }
+
+const chatWithLizFlow = ai.defineFlow(
+  {
+    name: 'chatWithLizFlow',
+    inputSchema: LizChatInputSchema,
+    outputSchema: LizChatOutputSchema,
+  },
+  async (input) => {
+    try {
+      const history =
+        input.history?.map((h) => ({
+          role: h.role,
+          content: [{text: h.content}],
+        })) || [];
+
+      const {text} = await ai.generate({
+        system: systemPrompt,
+        prompt: input.message,
+        history: history as any,
+        config: {
+          safetySettings: [
+            {
+              category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+              threshold: 'BLOCK_NONE',
+            },
+            {category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE'},
+            {category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_NONE'},
+            {
+              category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+              threshold: 'BLOCK_NONE',
+            },
+          ],
+        },
+      });
+
+      if (!text) {
+        throw new Error('Gemini API returned an empty response.');
+      }
+
+      return {
+        response: text,
+      };
+    } catch (error) {
+      // Log the full error to the console for debugging
+      console.error('LIZ_FLOW_CRITICAL_ERROR:', error);
+      throw error;
+    }
+  }
+);
