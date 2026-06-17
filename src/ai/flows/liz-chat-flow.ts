@@ -87,10 +87,10 @@ const chatWithLizFlow = ai.defineFlow(
           content: [{text: h.content}],
         })) || [];
 
-      console.log('LIZ_FLOW: Calling ai.generate with explicit Gemini 1.5 Flash reference...');
+      console.log('LIZ_FLOW: Calling ai.generate with explicit Gemini 2.0 Flash reference...');
       
       const {text} = await ai.generate({
-        model: googleAI.model('gemini-1.5-flash'),
+        model: googleAI.model('gemini-2.0-flash'),
         system: systemPrompt,
         prompt: input.message,
         history: history as any,
