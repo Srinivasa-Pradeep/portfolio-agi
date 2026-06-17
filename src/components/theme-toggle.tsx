@@ -12,16 +12,30 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+/**
+ * ThemeToggle - A high-fidelity "Celestial Controller".
+ * Features automatic synchronization with keyboard shortcuts and a 
+ * counter-rotation system to keep icons upright during transitions.
+ */
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
   const [rotation, setRotation] = React.useState(0);
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
+  const lastTheme = React.useRef(theme);
 
   // Initialize the audio instance on mount
   React.useEffect(() => {
     audioRef.current = new Audio('/music/switch.mp3');
     audioRef.current.load();
   }, []);
+
+  // Synchronize rotation with theme changes (handles keyboard shortcuts & mouse clicks)
+  React.useEffect(() => {
+    if (theme && theme !== lastTheme.current) {
+        setRotation(r => r + 120);
+        lastTheme.current = theme;
+    }
+  }, [theme]);
 
   const toggleTheme = React.useCallback(() => {
     // 1. Haptic feedback (subtle pulse)
@@ -32,29 +46,22 @@ export function ThemeToggle() {
     // 2. Play the toggle SFX
     if (audioRef.current) {
       audioRef.current.currentTime = 0; 
-      audioRef.current.play().catch(() => {
-        // Silent catch for browsers blocking autoplay before interaction
-      });
+      audioRef.current.play().catch(() => {});
     }
 
-    // 3. Visual rotation logic (120 deg increments for 3 states)
-    setRotation(r => r + 120);
-    
-    // 4. Cycle logic: light -> dark -> spring
+    // 3. Cycle logic: light -> dark -> spring
     const themes = ['light', 'dark', 'spring'];
     const nextTheme = themes[(themes.indexOf(theme || 'light') + 1) % themes.length];
 
-    // 5. View Transition API for smooth reveal
+    // 4. View Transition API for smooth reveal
     if (!(document as any).startViewTransition) {
       setTheme(nextTheme);
       return;
     }
 
-    setTimeout(() => {
-        (document as any).startViewTransition(() => {
-            setTheme(nextTheme);
-        });
-    }, 50);
+    (document as any).startViewTransition(() => {
+        setTheme(nextTheme);
+    });
   }, [setTheme, theme]);
 
   // Keyboard shortcut listener
@@ -73,7 +80,6 @@ export function ThemeToggle() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [toggleTheme]);
 
-  // Dynamic tooltip based on what the toggle will do
   const getTooltipContent = () => {
     switch (theme) {
         case 'light': return 'Switch to Dark Mode';
@@ -91,15 +97,22 @@ export function ThemeToggle() {
             variant="ghost" 
             size="icon" 
             onClick={toggleTheme} 
-            className="relative rounded-full transition-all duration-500 ease-[cubic-bezier(0.3,1.5,0.5,1)] hover:scale-125 hover:bg-accent/50 active:scale-95"
+            className="relative rounded-full transition-all duration-500 ease-[cubic-bezier(0.3,1.5,0.5,1)] hover:scale-125 hover:bg-accent/50 active:scale-95 overflow-hidden"
           >
+            {/* The Celestial Container - Spins 120deg each transition */}
             <div
               className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-1000 ease-[cubic-bezier(0.3,1.5,0.5,1)] will-change-transform"
               style={{ transform: `rotate(${rotation}deg)` }}
             >
-              <Sun className={`absolute inset-0 h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'light' ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0'}`} />
-              <Moon className={`absolute inset-0 h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'dark' ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0'}`} />
-              <Flower className={`absolute inset-0 h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'spring' ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-0 opacity-0'}`} />
+              {/* Counter-Rotating Icons - Ensures they always end up upright (0deg world space) */}
+              <div 
+                className="absolute inset-0 flex items-center justify-center transition-transform duration-1000 ease-[cubic-bezier(0.3,1.5,0.5,1)]"
+                style={{ transform: `rotate(${-rotation}deg)` }}
+              >
+                <Sun className={`h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'light' ? 'scale-100 opacity-100 rotate-0' : 'scale-0 opacity-0 rotate-90'}`} />
+                <Moon className={`absolute h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'dark' ? 'scale-100 opacity-100 rotate-0' : 'scale-0 opacity-0 rotate-90'}`} />
+                <Flower className={`absolute h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'spring' ? 'scale-100 opacity-100 rotate-0' : 'scale-0 opacity-0 rotate-90'}`} />
+              </div>
             </div>
             <span className="sr-only">Toggle theme</span>
           </Button>
