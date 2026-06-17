@@ -338,7 +338,7 @@ export default function ZenPage() {
             <Button asChild variant="ghost" className="hover:bg-primary/10 rounded-full group px-6 text-muted-foreground hover:text-primary">
               <Link href="/#about">
                   <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                  Return to Pit
+                  Return to About
               </Link>
             </Button>
             
