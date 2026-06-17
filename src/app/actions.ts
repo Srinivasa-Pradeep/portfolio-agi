@@ -6,7 +6,8 @@ import { chatWithLiz } from '@/ai/flows/liz-chat-flow';
 import { Resend } from 'resend';
 import { ContactFormEmail } from '@/components/emails/contact-form-email';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend with a fallback to prevent crash if env var is missing
+const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
 const contactSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
@@ -51,17 +52,21 @@ export async function submitContactForm(
     const result = await categorizeContactFormSubmission({ message });
     category = result.category;
 
-    // 2. Send the email
-    try {
-      await resend.emails.send({
-        from: 'Portfolio <onboarding@resend.dev>',
-        to: ['drivefiles2004@gmail.com'],
-        subject: `New Portfolio Message: ${category}`,
-        react: ContactFormEmail({ name, email, message, category }),
-        text: `Name: ${name}\nEmail: ${email}\nCategory: ${category}\nMessage: ${message}`,
-      });
-    } catch (emailError) {
-        console.error('Email sending failed:', emailError);
+    // 2. Send the email (only if a valid key exists)
+    if (process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 're_placeholder') {
+        try {
+          await resend.emails.send({
+            from: 'Portfolio <onboarding@resend.dev>',
+            to: ['drivefiles2004@gmail.com'],
+            subject: `New Portfolio Message: ${category}`,
+            react: ContactFormEmail({ name, email, message, category }),
+            text: `Name: ${name}\nEmail: ${email}\nCategory: ${category}\nMessage: ${message}`,
+          });
+        } catch (emailError) {
+            console.error('Email sending failed:', emailError);
+        }
+    } else {
+        console.warn('Skipping email delivery: RESEND_API_KEY is not configured.');
     }
 
     return {
@@ -84,8 +89,7 @@ export async function submitContactForm(
 export async function talkToLiz(message: string, history: { role: 'user' | 'model', content: string }[] = []) {
   try {
     console.log('TALK_TO_LIZ_ACTION: Received request:', message);
-    console.log('TALK_TO_LIZ_ACTION: History length:', history.length);
-
+    
     const result = await chatWithLiz({ 
       message, 
       history 
@@ -94,10 +98,8 @@ export async function talkToLiz(message: string, history: { role: 'user' | 'mode
     console.log('TALK_TO_LIZ_ACTION: Flow executed successfully.');
     return { success: true, response: result.response };
   } catch (error: any) {
-    // CRITICAL: Log the full error to the server console
     console.error('TALK_TO_LIZ_ACTION_CRITICAL_ERROR:', error);
     
-    // Return a structured error response that the UI can now display
     return { 
       success: false, 
       response: `[LIZ_SYSTEM_ERROR]: ${error?.message || "An unknown model execution error occurred."}` 
