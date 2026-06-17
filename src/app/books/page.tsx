@@ -290,7 +290,6 @@ function SectionShelf({ title, icon: Icon, books }: { title: string, icon: any, 
                 </div>
                 <div>
                     <h2 className="text-2xl font-black tracking-tighter uppercase italic">{title}</h2>
-                    <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.4em] mt-1">Sector_Initialization_Complete</p>
                 </div>
             </div>
 
@@ -328,7 +327,7 @@ export default function BooksPage() {
             <Button asChild variant="ghost" className="-ml-4 hover:bg-primary/5 group rounded-full px-6 transition-all duration-300">
               <Link href="/#about">
                 <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                Return to Pit
+                Return to About
               </Link>
             </Button>
           </div>
@@ -365,7 +364,6 @@ export default function BooksPage() {
           />
 
           <div className="mt-40 text-center pb-20">
-             <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.6em]">End_of_Catalogue</p>
              <p className="text-xs text-muted-foreground/40 mt-4 lora italic">More pages waiting to be turned...</p>
           </div>
         </div>
