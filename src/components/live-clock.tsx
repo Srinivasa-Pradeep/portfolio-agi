@@ -45,8 +45,8 @@ export function LiveClock() {
     };
   }, []);
 
-  if (!isMounted || pathname === '/zen') {
-    // Hide completely on Zen page or during loading
+  if (!isMounted || pathname === '/zen' || pathname === '/books') {
+    // Hide completely on Zen page, Books page, or during loading
     return null;
   }
   

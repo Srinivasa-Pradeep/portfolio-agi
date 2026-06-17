@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Header } from '@/components/header';
@@ -155,7 +154,7 @@ export default function BooksPage() {
               Volumes.
             </h1>
             <p className="mt-6 max-w-2xl text-lg md:text-xl text-muted-foreground lora italic leading-relaxed px-4">
-              "I read not to agree and believe, but to weigh and consider."
+              "A reader lives a thousand lives before he dies . . . The man who never reads lives only one."
             </p>
             <div className="mt-8 h-px w-32 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
           </div>
