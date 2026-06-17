@@ -153,14 +153,24 @@ export function LizChat() {
     setInputValue('');
     setIsLoading(true);
 
-    const result = await talkToLiz(content, messages);
-    
-    if (result.success) {
-        setMessages(prev => [...prev, { role: 'model', content: result.response }]);
-    } else {
-        setMessages(prev => [...prev, { role: 'model', content: "I encountered a minor **glitch**. Could you try asking that again?" }]);
+    try {
+      console.log('UI: Sending message to Server Action...');
+      const result = await talkToLiz(content, messages);
+      
+      if (result.success) {
+          console.log('UI: Response received successfully.');
+          setMessages(prev => [...prev, { role: 'model', content: result.response }]);
+      } else {
+          console.error('UI: Server Action returned error:', result.response);
+          // DISPLAY ACTUAL ERROR INSTEAD OF FALLBACK
+          setMessages(prev => [...prev, { role: 'model', content: result.response }]);
+      }
+    } catch (err: any) {
+      console.error('UI: Critical catch block triggered:', err);
+      setMessages(prev => [...prev, { role: 'model', content: `**CRITICAL_UI_ERROR**: ${err.message}` }]);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const handleNavAction = (id: string) => {

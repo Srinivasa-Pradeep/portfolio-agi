@@ -83,17 +83,24 @@ export async function submitContactForm(
  */
 export async function talkToLiz(message: string, history: { role: 'user' | 'model', content: string }[] = []) {
   try {
+    console.log('TALK_TO_LIZ_ACTION: Received request:', message);
+    console.log('TALK_TO_LIZ_ACTION: History length:', history.length);
+
     const result = await chatWithLiz({ 
       message, 
       history 
     });
+
+    console.log('TALK_TO_LIZ_ACTION: Flow executed successfully.');
     return { success: true, response: result.response };
   } catch (error: any) {
-    // Surface the actual error message for debugging purposes
-    console.error('TALK_TO_LIZ_ACTION_ERROR:', error);
+    // CRITICAL: Log the full error to the server console
+    console.error('TALK_TO_LIZ_ACTION_CRITICAL_ERROR:', error);
+    
+    // Return a structured error response that the UI can now display
     return { 
       success: false, 
-      response: `[LIZ_SYSTEM_ERROR]: ${error?.message || "An unknown model error occurred."}` 
+      response: `[LIZ_SYSTEM_ERROR]: ${error?.message || "An unknown model execution error occurred."}` 
     };
   }
 }

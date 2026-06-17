@@ -78,12 +78,16 @@ const chatWithLizFlow = ai.defineFlow(
   },
   async (input) => {
     try {
+      console.log('LIZ_FLOW: Starting execution for prompt:', input.message);
+
       const history =
         input.history?.map((h) => ({
           role: h.role,
           content: [{text: h.content}],
         })) || [];
 
+      console.log('LIZ_FLOW: Calling ai.generate with Gemini 1.5 Flash...');
+      
       const {text} = await ai.generate({
         system: systemPrompt,
         prompt: input.message,
@@ -105,15 +109,19 @@ const chatWithLizFlow = ai.defineFlow(
       });
 
       if (!text) {
-        throw new Error('Gemini API returned an empty response.');
+        console.error('LIZ_FLOW: Gemini returned null/empty text.');
+        throw new Error('Gemini API returned an empty response candidate.');
       }
 
+      console.log('LIZ_FLOW: Successfully parsed model text.');
       return {
         response: text,
       };
-    } catch (error) {
+    } catch (error: any) {
       // Log the full error to the console for debugging
       console.error('LIZ_FLOW_CRITICAL_ERROR:', error);
+      
+      // Re-throw so the Server Action can catch it and return it to the UI
       throw error;
     }
   }
