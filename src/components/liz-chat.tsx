@@ -46,7 +46,7 @@ export function LizChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [autoHide, setAutoHide] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', content: "Hello. I am **Liz**, Srini's personal assistant. How can I help you understand his journey or his philosophy on problem-solving today?" }
+    { role: 'model', content: "Hello. I am **Liz**, Srini's personal assistant. How can I help you explore his world today?" }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -144,19 +144,10 @@ export function LizChat() {
     setIsLoading(true);
 
     try {
-      console.log('UI: Sending message to Server Action...');
       const result = await talkToLiz(content, messages);
-      
-      if (result.success) {
-          console.log('UI: Response received successfully.');
-          setMessages(prev => [...prev, { role: 'model', content: result.response }]);
-      } else {
-          console.error('UI: Server Action returned error:', result.response);
-          setMessages(prev => [...prev, { role: 'model', content: result.response }]);
-      }
+      setMessages(prev => [...prev, { role: 'model', content: result.response }]);
     } catch (err: any) {
-      console.error('UI: Critical catch block triggered:', err);
-      setMessages(prev => [...prev, { role: 'model', content: `**CRITICAL_UI_ERROR**: ${err.message}` }]);
+      setMessages(prev => [...prev, { role: 'model', content: `**SYSTEM_ERROR**: ${err.message}` }]);
     } finally {
       setIsLoading(false);
     }

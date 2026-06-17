@@ -65,8 +65,6 @@ export async function submitContactForm(
         } catch (emailError) {
             console.error('Email sending failed:', emailError);
         }
-    } else {
-        console.warn('Skipping email delivery: RESEND_API_KEY is not configured.');
     }
 
     return {
@@ -88,18 +86,14 @@ export async function submitContactForm(
  */
 export async function talkToLiz(message: string, history: { role: 'user' | 'model', content: string }[] = []) {
   try {
-    console.log('TALK_TO_LIZ_ACTION: Received request:', message);
-    
     const result = await chatWithLiz({ 
       message, 
       history 
     });
 
-    console.log('TALK_TO_LIZ_ACTION: Flow executed successfully.');
     return { success: true, response: result.response };
   } catch (error: any) {
-    console.error('TALK_TO_LIZ_ACTION_CRITICAL_ERROR:', error);
-    
+    console.error('TALK_TO_LIZ_ACTION_ERROR:', error);
     return { 
       success: false, 
       response: `[LIZ_SYSTEM_ERROR]: ${error?.message || "An unknown model execution error occurred."}` 

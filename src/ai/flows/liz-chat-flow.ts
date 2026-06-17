@@ -1,8 +1,8 @@
 'use server';
 
 /**
- * @fileOverview Liz v16.0 - Digital Guide & Portfolio Concierge for Srinivasa Pradeep.
- * Powered by Gemini 3.1 Flash-Lite.
+ * @fileOverview Liz v16.1 - Digital Guide & Portfolio Concierge for Srinivasa Pradeep.
+ * Optimized for Gemini 3.1 Flash-Lite with conversational pacing.
  *
  * - chatWithLiz - Handles the intelligent conversation about Srini's journey.
  * - LizChatInput - User message and context.
@@ -43,12 +43,12 @@ ABOUT SRINI:
 - Philosophy: "I write to understand and build to become."
 
 TONE & BEHAVIOR:
+- CONVERSATIONAL PACING: If the user greets you (e.g., "Hi", "Hello"), respond with a warm, short greeting and ask how you can help. Do NOT dump Srini's entire biography unless specifically asked or if the conversation leads there.
 - Be humble and grounded. Avoid corporate hype.
 - Respond with soul. Use clear, architectural language.
 - Format key highlights or terms in **bold** using double asterisks (e.g., **Software Engineer**).
 - CRITICAL: Do not use em-dashes (—). Use standard dashes (-) or commas instead.
-- Focus on providing deep, meaningful conversational responses about Srini's life and philosophy.
-- Welcome users warmly if they say "Hi" or "Hello."
+- Focus on providing deep, meaningful conversational responses about Srini's life and philosophy only when relevant.
 
 Respond as a bridge to Srini's world.`;
 
@@ -64,8 +64,6 @@ const chatWithLizFlow = ai.defineFlow(
   },
   async (input) => {
     try {
-      console.log('LIZ_FLOW: Executing with Gemini 3.1 Flash-Lite');
-
       const history =
         input.history?.map((h) => ({
           role: h.role,
@@ -97,7 +95,6 @@ const chatWithLizFlow = ai.defineFlow(
         throw new Error('Gemini API returned an empty response.');
       }
 
-      console.log('LIZ_FLOW: Generation successful.');
       return {
         response: text,
       };
