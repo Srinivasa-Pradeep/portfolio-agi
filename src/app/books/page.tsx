@@ -135,9 +135,9 @@ export default function BooksPage() {
       </div>
 
       <Header />
-      <main className="flex-1 relative z-10 pt-32">
-        <div className="container max-w-7xl py-12 md:py-20">
-          <div className="mb-12 flex justify-start">
+      <main className="flex-1 relative z-10 pt-12 md:pt-16">
+        <div className="container max-w-7xl pb-12 md:pb-20">
+          <div className="mb-8 md:mb-12 flex justify-start">
             <Button asChild variant="ghost" className="-ml-4 hover:bg-primary/5 group rounded-full px-6 transition-all duration-300">
               <Link href="/#about">
                 <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
@@ -146,7 +146,7 @@ export default function BooksPage() {
             </Button>
           </div>
 
-          <div className="mb-32 flex flex-col items-center text-center">
+          <div className="mb-20 md:mb-32 flex flex-col items-center text-center">
             <div className="h-16 w-16 rounded-3xl bg-primary/10 flex items-center justify-center mb-8 border border-primary/20 shadow-inner group overflow-hidden">
                 <Library className="h-8 w-8 text-primary animate-pulse" />
             </div>
