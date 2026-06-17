@@ -13,12 +13,12 @@ type Message = {
 };
 
 /**
- * FormatMessage - Renders bold text and agentic navigation links.
+ * FormatMessage - Renders bold text.
  */
-function FormatMessage({ content, onNavClick }: { content: string; onNavClick: (id: string) => void }) {
+function FormatMessage({ content }: { content: string }) {
   if (!content) return null;
 
-  const parts = content.split(/(\*\*.*?\*\*|\[.*?\]\(#.*?\))/g);
+  const parts = content.split(/(\*\*.*?\*\*)/g);
 
   return (
     <>
@@ -30,22 +30,6 @@ function FormatMessage({ content, onNavClick }: { content: string; onNavClick: (
             </strong>
           );
         }
-        if (part.startsWith('[') && part.includes('](#')) {
-          const match = part.match(/\[(.*?)\]\(#(.*?)\)/);
-          if (match) {
-            const text = match[1];
-            const id = match[2];
-            return (
-              <button
-                key={i}
-                onClick={() => onNavClick(id)}
-                className="font-bold text-primary underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all duration-300 mx-1"
-              >
-                {text}
-              </button>
-            );
-          }
-        }
         return part;
       })}
     </>
@@ -56,7 +40,7 @@ export function LizChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [autoHide, setAutoHide] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', content: "Hello. I am **Liz**, Srini's personal assistant. How can I help you navigate his journey? Perhaps you'd like to see his [Amazon experience](#about) or his latest [Featured Projects](#projects)?" }
+    { role: 'model', content: "Hello. I am **Liz**, Srini's personal assistant. How can I help you understand his journey or his philosophy on problem-solving today?" }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -162,7 +146,6 @@ export function LizChat() {
           setMessages(prev => [...prev, { role: 'model', content: result.response }]);
       } else {
           console.error('UI: Server Action returned error:', result.response);
-          // DISPLAY ACTUAL ERROR INSTEAD OF FALLBACK
           setMessages(prev => [...prev, { role: 'model', content: result.response }]);
       }
     } catch (err: any) {
@@ -171,16 +154,6 @@ export function LizChat() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleNavAction = (id: string) => {
-    setIsOpen(false);
-    setTimeout(() => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 300);
   };
 
   return (
@@ -250,7 +223,7 @@ export function LizChat() {
                                     ? "bg-primary text-primary-foreground font-medium rounded-tr-none" 
                                     : "bg-white/5 backdrop-blur-xl rounded-tl-none lora italic text-foreground/90 font-medium pr-6 sm:pr-7" 
                             )}>
-                                <FormatMessage content={msg.content} onNavClick={handleNavAction} />
+                                <FormatMessage content={msg.content} />
                             </div>
                             <span className="text-[8px] font-bold uppercase tracking-widest opacity-20 px-3 group-hover:opacity-50 transition-opacity">
                                 {msg.role === 'user' ? 'Sent' : 'Liz'}
