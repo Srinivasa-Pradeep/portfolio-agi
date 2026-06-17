@@ -53,6 +53,7 @@ export function LizChat() {
   
   // State for the mouse-reactive border angle
   const [triggerAngle, setTriggerAngle] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
   
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -174,24 +175,26 @@ export function LizChat() {
       <div className={cn(
         "fixed left-0 top-1/2 -translate-y-1/2 z-[100] transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group/trigger",
         isOpen ? "-translate-x-full opacity-0" : "translate-x-0 opacity-100",
-        autoHide && !isOpen ? "-translate-x-[calc(100%-8px)] hover:translate-x-0" : "translate-x-0"
+        autoHide && !isOpen && !isHovering ? "-translate-x-[calc(100%-8px)]" : "translate-x-0"
       )}>
         <button
             ref={triggerRef}
             onClick={() => setIsOpen(true)}
             onMouseMove={handleTriggerMouseMove}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
             style={{
-                // High-precision background-clip technique for the animated border
-                background: isOpen 
-                  ? 'transparent' 
-                  : `linear-gradient(hsl(var(--background)/0.1), hsl(var(--background)/0.1)) padding-box, 
-                     conic-gradient(from ${triggerAngle}deg, transparent 0deg, #4285F4 20deg, #EA4335 40deg, #FBBC05 60deg, #34A853 80deg, transparent 100deg) border-box`,
+                // Dual-layer background-clip technique for a perfect curved border path
+                background: `linear-gradient(hsl(var(--background)), hsl(var(--background))) padding-box, 
+                             ${isHovering 
+                               ? `conic-gradient(from ${triggerAngle}deg, transparent 0deg, #4285F4 15deg, #EA4335 30deg, #FBBC05 45deg, #34A853 60deg, transparent 90deg) border-box` 
+                               : 'hsl(var(--border)/0.2) border-box'}`,
                 border: '1.5px solid transparent'
             }}
             className={cn(
-                "group/btn relative flex flex-col items-center gap-4 py-8 w-10 sm:w-12 shadow-2xl transition-all duration-500",
-                "backdrop-blur-2xl rounded-r-2xl overflow-hidden",
-                "hover:w-12 sm:hover:w-14 active:scale-95 text-foreground/40 hover:text-primary"
+                "group/btn relative flex flex-col items-center gap-4 py-8 w-12 sm:w-14 shadow-2xl transition-all duration-500",
+                "backdrop-blur-2xl rounded-r-3xl overflow-hidden",
+                "hover:w-14 sm:hover:w-16 active:scale-95 text-foreground/40 hover:text-primary"
             )}
         >
             <div className="relative z-10 flex flex-col items-center gap-4">
@@ -202,6 +205,15 @@ export function LizChat() {
                     <span className="text-[9px] font-bold">K</span>
                 </div>
             </div>
+            {/* Subtle glow layer behind the border colors */}
+            {isHovering && (
+              <div 
+                className="absolute inset-0 pointer-events-none opacity-20 blur-md transition-all duration-500"
+                style={{
+                  background: `conic-gradient(from ${triggerAngle}deg, transparent 0deg, #4285F4 15deg, #EA4335 30deg, #FBBC05 45deg, #34A853 60deg, transparent 90deg)`
+                }}
+              />
+            )}
         </button>
       </div>
 
