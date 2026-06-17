@@ -87,7 +87,7 @@ const chatWithLizFlow = ai.defineFlow(
           content: [{text: h.content}],
         })) || [];
 
-      console.log('LIZ_FLOW: Calling ai.generate with explicit Gemini 2.0 Flash reference...');
+      console.log('LIZ_FLOW: Calling ai.generate with Gemini 2.0 Flash and updated API key...');
       
       const {text} = await ai.generate({
         model: googleAI.model('gemini-2.0-flash'),
@@ -120,10 +120,7 @@ const chatWithLizFlow = ai.defineFlow(
         response: text,
       };
     } catch (error: any) {
-      // Log the full error to the console for debugging
       console.error('LIZ_FLOW_CRITICAL_ERROR:', error);
-      
-      // Re-throw so the Server Action can catch it and return it to the UI
       throw error;
     }
   }
