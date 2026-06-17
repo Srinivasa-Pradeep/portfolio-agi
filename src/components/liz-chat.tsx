@@ -13,20 +13,26 @@ type Message = {
 };
 
 /**
- * FormatMessage - Renders bold text.
+ * FormatMessage - Renders bold text and cleans em-dashes.
  */
 function FormatMessage({ content }: { content: string }) {
   if (!content) return null;
 
-  const parts = content.split(/(\*\*.*?\*\*)/g);
+  // Replace em-dashes with space-dash-space as requested
+  const cleanContent = content.replace(/—/g, ' - ');
+
+  // Split by bold pattern (supports **bold** and *bold*)
+  const parts = cleanContent.split(/(\*\*.*?\*\*|\*.*?\*)/g);
 
   return (
     <>
       {parts.map((part, i) => {
-        if (part.startsWith('**') && part.endsWith('**')) {
+        if ((part.startsWith('**') && part.endsWith('**')) || (part.startsWith('*') && part.endsWith('*'))) {
+          const isDouble = part.startsWith('**');
+          const text = isDouble ? part.slice(2, -2) : part.slice(1, -1);
           return (
-            <strong key={i} className="font-bold text-foreground brightness-150 drop-shadow-sm px-0.5">
-              {part.slice(2, -2)}
+            <strong key={i} className="font-black text-foreground brightness-125 dark:brightness-150 drop-shadow-sm px-0.5">
+              {text}
             </strong>
           );
         }
