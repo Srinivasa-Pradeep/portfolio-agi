@@ -237,8 +237,8 @@
     {
       "id": "book-db-internals",
       "description": "Database Internals by Alex Petrov",
-      "imageUrl": "https://picsum.photos/seed/book24/400/600",
-      "imageHint": "book cover"
+      "imageUrl": "https://m.media-amazon.com/images/I/91UYIt74czL._SY522_.jpg",
+      "imageHint": "book cover database internals"
     },
     {
       "id": "book-concurrency-go",
