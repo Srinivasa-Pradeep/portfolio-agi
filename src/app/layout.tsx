@@ -10,7 +10,6 @@ import { SpringOverlay } from '@/components/spring-overlay';
 import { ConditionalParticles } from '@/components/conditional-particles';
 import { SmoothScroll } from '@/components/smooth-scroll';
 import { LizChat } from '@/components/liz-chat';
-import { FirebaseClientProvider } from '@/firebase';
 
 export const metadata: Metadata = {
   title: 'Srini Portfolio',
@@ -40,21 +39,19 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <FirebaseClientProvider>
-            <MusicProvider>
-              <SmoothScroll>
-                <SpringOverlay />
-                <ConditionalParticles />
-                <CustomCursor />
-                <LiveClock />
-                <div className="bg-background dark:bg-transparent min-h-screen transition-colors duration-700">
-                  {children}
-                </div>
-                <Toaster />
-                <LizChat />
-              </SmoothScroll>
-            </MusicProvider>
-          </FirebaseClientProvider>
+          <MusicProvider>
+            <SmoothScroll>
+              <SpringOverlay />
+              <ConditionalParticles />
+              <CustomCursor />
+              <LiveClock />
+              <div className="bg-background dark:bg-transparent min-h-screen transition-colors duration-700">
+                {children}
+              </div>
+              <Toaster />
+              <LizChat />
+            </SmoothScroll>
+          </MusicProvider>
         </ThemeProvider>
       </body>
     </html>
