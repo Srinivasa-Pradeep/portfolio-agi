@@ -79,7 +79,7 @@ const chatWithLizFlow = ai.defineFlow(
   },
   async (input) => {
     try {
-      console.log('LIZ_FLOW: Starting execution for prompt:', input.message);
+      console.log('LIZ_FLOW: Executing with provided API key for model gemini-1.5-flash');
 
       const history =
         input.history?.map((h) => ({
@@ -87,10 +87,8 @@ const chatWithLizFlow = ai.defineFlow(
           content: [{text: h.content}],
         })) || [];
 
-      console.log('LIZ_FLOW: Calling ai.generate with Gemini 2.0 Flash...');
-      
       const {text} = await ai.generate({
-        model: googleAI.model('gemini-2.0-flash'),
+        model: googleAI.model('gemini-1.5-flash'),
         system: systemPrompt,
         prompt: input.message,
         history: history as any,
@@ -111,16 +109,14 @@ const chatWithLizFlow = ai.defineFlow(
       });
 
       if (!text) {
-        console.error('LIZ_FLOW: Gemini returned null/empty text.');
-        throw new Error('Gemini API returned an empty response candidate.');
+        throw new Error('Gemini API returned an empty response.');
       }
 
-      console.log('LIZ_FLOW: Successfully parsed model text.');
       return {
         response: text,
       };
     } catch (error: any) {
-      console.error('LIZ_FLOW_CRITICAL_ERROR:', error);
+      console.error('LIZ_FLOW_ERROR:', error);
       throw error;
     }
   }
