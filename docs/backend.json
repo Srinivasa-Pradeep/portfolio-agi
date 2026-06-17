@@ -1,0 +1,49 @@
+
+{
+  "entities": {
+    "StickyNote": {
+      "title": "StickyNote",
+      "description": "A digital sticky note left by a visitor.",
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "The message on the note."
+        },
+        "author": {
+          "type": "string",
+          "description": "The name of the person who left the note."
+        },
+        "color": {
+          "type": "string",
+          "description": "The color theme of the note (primary, easy, info, feedback)."
+        },
+        "rotation": {
+          "type": "number",
+          "description": "The visual rotation of the note for the board feel."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the note was created."
+        }
+      },
+      "required": [
+        "content",
+        "color",
+        "createdAt"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "google.com"
+    ]
+  },
+  "firestore": {
+    "/notes/{noteId}": {
+      "schema": "#/entities/StickyNote",
+      "description": "Public collection of sticky notes."
+    }
+  }
+}

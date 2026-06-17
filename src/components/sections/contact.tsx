@@ -10,12 +10,13 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useEffect, useRef, useActionState, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { Github, Linkedin, Mail, Send, Briefcase, Star, HelpCircle, MailQuestion, PartyPopper, RefreshCw, Plus } from 'lucide-react';
+import { Github, Linkedin, Mail, Send, Briefcase, Star, HelpCircle, MailQuestion, PartyPopper, RefreshCw, Plus, StickyNote, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
+import Link from 'next/link';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -240,7 +241,7 @@ export function Contact() {
                   </div>
               </TooltipProvider>
           </div>
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 space-y-8">
             <Card className="overflow-hidden bg-card/50 backdrop-blur-lg border-border/20 shadow-xl">
               <CardHeader>
                 <CardTitle>Send me a message</CardTitle>
@@ -280,6 +281,22 @@ export function Contact() {
                 )}
               </CardContent>
             </Card>
+
+            <div className="flex justify-center md:justify-end">
+              <Button asChild variant="ghost" className="group rounded-full px-6 py-8 hover:bg-primary/5 transition-all">
+                <Link href="/notes" className="flex items-center gap-4">
+                  <div className="p-3 rounded-2xl bg-primary/10 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500">
+                    <StickyNote className="h-6 w-6" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-bold uppercase tracking-widest text-primary">Digital Note Wall</p>
+                    <p className="text-xs text-muted-foreground flex items-center gap-2">
+                      Leave me a note <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                    </p>
+                  </div>
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
