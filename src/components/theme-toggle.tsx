@@ -23,27 +23,34 @@ export function ThemeToggle() {
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
   const lastTheme = React.useRef(theme);
 
-  // Initialize the audio instance on mount
+  // Initialize audio on mount
   React.useEffect(() => {
     audioRef.current = new Audio('/music/switch.mp3');
-    audioRef.current.load();
   }, []);
 
-  // Synchronize rotation with theme changes (handles keyboard shortcuts & mouse clicks)
+  // Synchronize rotation with theme changes (handles shortcuts & mouse clicks)
   React.useEffect(() => {
     if (theme && theme !== lastTheme.current) {
-        setRotation(r => r + 120);
+        const themes = ['light', 'dark', 'spring'];
+        const oldIndex = themes.indexOf(lastTheme.current || 'light');
+        const newIndex = themes.indexOf(theme);
+        
+        // Calculate rotation diff to always spin forward
+        let diff = newIndex - oldIndex;
+        if (diff < 0) diff += 3;
+        
+        setRotation(r => r + (diff * 120));
         lastTheme.current = theme;
     }
   }, [theme]);
 
   const toggleTheme = React.useCallback(() => {
-    // 1. Haptic feedback (subtle pulse)
+    // 1. Haptic feedback
     if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
       window.navigator.vibrate(24);
     }
 
-    // 2. Play the toggle SFX
+    // 2. Play toggle SFX
     if (audioRef.current) {
       audioRef.current.currentTime = 0; 
       audioRef.current.play().catch(() => {});
@@ -53,7 +60,7 @@ export function ThemeToggle() {
     const themes = ['light', 'dark', 'spring'];
     const nextTheme = themes[(themes.indexOf(theme || 'light') + 1) % themes.length];
 
-    // 4. View Transition API for smooth reveal
+    // 4. View Transition API
     if (!(document as any).startViewTransition) {
       setTheme(nextTheme);
       return;
@@ -99,19 +106,19 @@ export function ThemeToggle() {
             onClick={toggleTheme} 
             className="relative rounded-full transition-all duration-500 ease-[cubic-bezier(0.3,1.5,0.5,1)] hover:scale-125 hover:bg-accent/50 active:scale-95 overflow-hidden"
           >
-            {/* The Celestial Container - Spins 120deg each transition */}
+            {/* Parent container performs the primary spin */}
             <div
               className="relative h-[1.2rem] w-[1.2rem] transition-transform duration-1000 ease-[cubic-bezier(0.3,1.5,0.5,1)] will-change-transform"
               style={{ transform: `rotate(${rotation}deg)` }}
             >
-              {/* Counter-Rotating Icons - Ensures they always end up upright (0deg world space) */}
+              {/* Inner container counter-rotates to keep icons upright (0deg world space) */}
               <div 
                 className="absolute inset-0 flex items-center justify-center transition-transform duration-1000 ease-[cubic-bezier(0.3,1.5,0.5,1)]"
                 style={{ transform: `rotate(${-rotation}deg)` }}
               >
-                <Sun className={`h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'light' ? 'scale-100 opacity-100 rotate-0' : 'scale-0 opacity-0 rotate-90'}`} />
-                <Moon className={`absolute h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'dark' ? 'scale-100 opacity-100 rotate-0' : 'scale-0 opacity-0 rotate-90'}`} />
-                <Flower className={`absolute h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'spring' ? 'scale-100 opacity-100 rotate-0' : 'scale-0 opacity-0 rotate-90'}`} />
+                <Sun className={`h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'light' ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
+                <Moon className={`absolute h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'dark' ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
+                <Flower className={`absolute h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'spring' ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
               </div>
             </div>
             <span className="sr-only">Toggle theme</span>

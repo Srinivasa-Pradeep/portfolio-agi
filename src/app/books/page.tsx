@@ -255,7 +255,7 @@ function BookCard({ book }: { book: Book }) {
         <div className={cn(
             "relative h-full w-full overflow-hidden rounded-[4px] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]",
             "group-hover:-translate-y-4 group-hover:rotate-y-[-20deg] group-hover:shadow-[20px_40px_60px_rgba(0,0,0,0.4)]",
-            "border-l-[12px] border-l-primary/10 ring-1 ring-border shadow-[0_15px_35px_rgba(0,0,0,0.15)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.6)]"
+            "border-l-[12px] border-l-primary/20 ring-1 ring-border shadow-[0_15px_35px_rgba(0,0,0,0.15)] dark:ring-white/10 dark:shadow-[0_15px_35px_rgba(0,0,0,0.6)]"
         )}>
             {image && (
                 <Image
@@ -265,8 +265,8 @@ function BookCard({ book }: { book: Book }) {
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
                 />
             )}
-            {/* The Spine Glow - Using Primary for theme awareness */}
-            <div className="absolute inset-y-0 left-0 w-[12px] bg-gradient-to-r from-primary/10 via-primary/5 to-transparent z-10" />
+            {/* The Spine Glow - Optimized for Dark Mode definition */}
+            <div className="absolute inset-y-0 left-0 w-[12px] bg-gradient-to-r from-primary/30 via-primary/10 to-transparent z-10 opacity-60 group-hover:opacity-100 transition-opacity" />
             
             {/* Glassy Finish Overlay */}
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 opacity-30 group-hover:opacity-100 transition-opacity duration-700" />
@@ -321,9 +321,9 @@ export default function BooksPage() {
       </div>
 
       <Header />
-      <main className="flex-1 relative z-10 pt-8 md:pt-10">
+      <main className="flex-1 relative z-10 pt-6 md:pt-8">
         <div className="container max-w-7xl pb-12 md:pb-20">
-          <div className="mb-8 md:mb-12 flex justify-start">
+          <div className="mb-6 md:mb-8 flex justify-start">
             <Button asChild variant="ghost" className="-ml-4 hover:bg-primary/5 group rounded-full px-6 transition-all duration-300">
               <Link href="/#about">
                 <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
@@ -332,17 +332,17 @@ export default function BooksPage() {
             </Button>
           </div>
 
-          <div className="mb-16 md:mb-24 flex flex-col items-center text-center">
-            <div className="h-16 w-16 rounded-3xl bg-primary/10 flex items-center justify-center mb-8 border border-primary/20 shadow-inner group overflow-hidden">
-                <Library className="h-8 w-8 text-primary animate-pulse" />
+          <div className="mb-12 md:mb-16 flex flex-col items-center text-center">
+            <div className="h-14 w-14 rounded-3xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/20 shadow-inner group overflow-hidden">
+                <Library className="h-7 w-7 text-primary animate-pulse" />
             </div>
             <h1 className="font-headline text-5xl font-black tracking-tighter text-primary md:text-7xl lg:text-8xl italic uppercase">
               Volumes.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg md:text-xl text-muted-foreground lora italic leading-relaxed px-4">
+            <p className="mt-4 max-w-2xl text-lg md:text-xl text-muted-foreground lora italic leading-relaxed px-4">
               "A reader lives a thousand lives before he dies . . . The man who never reads lives only one."
             </p>
-            <div className="mt-8 h-px w-32 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+            <div className="mt-6 h-px w-32 bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
           </div>
 
           <SectionShelf 
