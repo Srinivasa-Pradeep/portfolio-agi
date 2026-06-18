@@ -16,7 +16,7 @@ const navLinks = [
     { id: 'leetcode', label: 'LeetCode', icon: Code, shortcut: 'L', href: '#leetcode' },
     { id: 'projects', label: 'Projects', icon: Star, shortcut: 'P', href: '#projects' },
     { id: 'contact', label: 'Contact', icon: Send, shortcut: 'C', href: '#contact' },
-    { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'Z', href: 'trigger-liz' },
+    { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'K', href: 'trigger-liz' },
 ];
 
 export function HeroCommandBar() {
@@ -29,7 +29,7 @@ export function HeroCommandBar() {
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            // Cmd + Enter or Ctrl + Enter
+            // Cmd + Enter or Ctrl + Enter to open
             if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
                 e.preventDefault();
                 togglePalette();
@@ -68,16 +68,16 @@ export function HeroCommandBar() {
 
     return (
         <>
-            {/* The Trigger Bar in Hero */}
+            {/* The Trigger Bar in Hero - Pill-shaped like Google Search */}
             <div 
                 onClick={togglePalette}
-                className="group relative flex items-center w-full bg-secondary/30 backdrop-blur-xl border border-border/40 h-14 rounded-2xl px-4 cursor-pointer transition-all duration-300 hover:bg-secondary/50 hover:border-primary/20 hover:shadow-[0_0_30px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+                className="group relative flex items-center w-full bg-secondary/30 backdrop-blur-xl border border-border/40 h-14 rounded-full px-6 cursor-pointer transition-all duration-300 hover:bg-secondary/50 hover:border-primary/20 hover:shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_40px_rgba(255,255,255,0.04)]"
             >
                 <Search className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                <span className="ml-3 text-muted-foreground/60 font-medium group-hover:text-muted-foreground transition-colors">Search anything...</span>
+                <span className="ml-4 text-muted-foreground/60 font-medium group-hover:text-muted-foreground transition-colors">Search anything...</span>
                 
                 <div className="ml-auto flex items-center gap-1.5 opacity-40 group-hover:opacity-100 transition-opacity">
-                    <kbd className="hidden sm:inline-flex h-6 select-none items-center gap-1 rounded border bg-muted px-2 font-mono text-[10px] font-bold">
+                    <kbd className="hidden sm:inline-flex h-6 select-none items-center gap-1 rounded-md border bg-muted px-2 font-mono text-[10px] font-bold">
                         <span className="text-xs">⌘</span>ENTER
                     </kbd>
                 </div>
@@ -88,7 +88,7 @@ export function HeroCommandBar() {
                 <DialogContent className="sm:max-w-[550px] p-0 gap-0 border-none bg-background/80 backdrop-blur-2xl shadow-2xl overflow-hidden rounded-[32px]">
                     <DialogHeader className="p-4 border-b border-border/20">
                         <DialogTitle className="sr-only">Command Palette</DialogTitle>
-                        <div className="flex items-center gap-3 px-2">
+                        <div className="flex items-center gap-3 px-2 pr-10">
                             <Search className="h-5 w-5 text-muted-foreground" />
                             <input 
                                 value={search}
@@ -97,7 +97,7 @@ export function HeroCommandBar() {
                                 className="flex-1 bg-transparent border-none outline-none h-10 font-medium text-lg placeholder:text-muted-foreground/40"
                                 autoFocus
                             />
-                            <kbd className="hidden sm:inline-flex h-6 items-center rounded border bg-muted px-1.5 font-mono text-[10px] font-bold text-muted-foreground">
+                            <kbd className="hidden sm:inline-flex h-6 items-center rounded-md border bg-muted px-1.5 font-mono text-[10px] font-bold text-muted-foreground">
                                 ESC
                             </kbd>
                         </div>
@@ -122,7 +122,7 @@ export function HeroCommandBar() {
                                             <p className="font-bold text-foreground/80 group-hover:text-primary transition-colors">{link.label}</p>
                                             <p className="text-xs text-muted-foreground opacity-60">Go to {link.id}</p>
                                         </div>
-                                        <kbd className="h-7 w-7 flex items-center justify-center rounded-lg border border-border/40 bg-muted/40 font-mono text-xs font-black shadow-sm transition-all group-hover:border-primary/40 group-hover:text-primary">
+                                        <kbd className="h-7 w-7 flex items-center justify-center rounded-md border border-border/40 bg-muted/40 font-mono text-xs font-black shadow-sm transition-all group-hover:border-primary/40 group-hover:text-primary">
                                             {link.shortcut}
                                         </kbd>
                                     </button>
@@ -136,17 +136,16 @@ export function HeroCommandBar() {
                     </div>
 
                     <div className="p-4 border-t border-border/20 bg-muted/20 flex justify-between items-center">
-                        <div className="flex items-center gap-4 text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest">
-                            <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-6 text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest">
+                            <div className="flex items-center gap-1.5">
                                 <CornerDownLeft className="h-3 w-3" />
                                 <span>Select</span>
                             </div>
-                            <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-1.5">
                                 <span className="text-xs">↑↓</span>
                                 <span>Move</span>
                             </div>
                         </div>
-                        <p className="text-[10px] font-black text-primary italic tracking-tight">Driven by Logic</p>
                     </div>
                 </DialogContent>
             </Dialog>
