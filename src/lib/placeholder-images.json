@@ -93,8 +93,8 @@
     {
       "id": "book-clean-code",
       "description": "Clean Code by Robert C. Martin",
-      "imageUrl": "https://picsum.photos/seed/book1/400/600",
-      "imageHint": "book cover"
+      "imageUrl": "https://www.oreilly.com/covers/urn:orm:book:9780136083238/296w/?format=webp",
+      "imageHint": "book cover clean code"
     },
     {
       "id": "book-atomic-habits",
