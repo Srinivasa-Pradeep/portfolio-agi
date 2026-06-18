@@ -324,11 +324,8 @@ export function LizChat() {
                     
                     <div className="mt-3 flex justify-between items-center px-4">
                         <p className="text-[8px] sm:text-[9px] font-medium text-muted-foreground/20 uppercase tracking-[0.3em]">Precision & Purpose</p>
-                        <div className="hidden sm:flex items-center gap-3 opacity-0 group-focus-within:opacity-20 transition-opacity duration-700">
-                             <div className="flex items-center gap-1.5">
-                                <span className="text-[9px] font-black tracking-tighter">ENTER</span>
-                                <CornerDownLeft className="h-2 w-2" />
-                             </div>
+                        <div className="hidden sm:flex items-center gap-1.5 opacity-0 group-focus-within:opacity-20 transition-opacity duration-700">
+                             <CornerDownLeft className="h-3 w-3" />
                         </div>
                     </div>
                 </div>

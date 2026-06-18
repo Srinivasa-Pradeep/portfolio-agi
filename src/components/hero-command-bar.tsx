@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
 
 const navLinks = [
     { id: 'about', label: 'About', icon: User, shortcut: 'A', href: '#about' },
@@ -32,6 +32,13 @@ export function HeroCommandBar() {
     const containerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
+    // Magnetic Stretch (Spring Motion)
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+    const springConfig = { damping: 25, stiffness: 350 };
+    const translateX = useSpring(mouseX, springConfig);
+    const translateY = useSpring(mouseY, springConfig);
+
     const filteredLinks = useMemo(() => 
         navLinks.filter(link => 
             link.label.toLowerCase().includes(search.toLowerCase())
@@ -42,7 +49,6 @@ export function HeroCommandBar() {
         const root = document.documentElement;
         if (isOpen) {
             document.body.style.overflow = 'hidden';
-            document.body.style.paddingRight = '0px'; 
             root.style.overflow = 'hidden';
             window.dispatchEvent(new CustomEvent('palette-open'));
         } else {
@@ -67,13 +73,26 @@ export function HeroCommandBar() {
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
+        
+        // Shine Position
         const localX = e.clientX - rect.left;
         const localY = e.clientY - rect.top;
         setMousePos({ x: localX, y: localY });
+
+        // Magnetic Pull (Stretch)
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const distanceX = localX - centerX;
+        const distanceY = localY - centerY;
+        
+        mouseX.set(distanceX * 0.08); // Subtle stretch towards mouse
+        mouseY.set(distanceY * 0.12);
     };
 
     const handleMouseLeave = () => {
         setMousePos({ x: 0, y: 0 });
+        mouseX.set(0);
+        mouseY.set(0);
     };
 
     const handleAction = useCallback((item: typeof navLinks[0]) => {
@@ -133,6 +152,7 @@ export function HeroCommandBar() {
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 whileHover={{ scale: 1.02 }}
+                style={{ x: translateX, y: translateY }}
                 className="group relative p-[1px] rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_40px_rgba(255,255,255,0.04)] active:scale-[0.98]"
             >
                 <div 
@@ -152,11 +172,11 @@ export function HeroCommandBar() {
                                     exit={{ opacity: 0 }}
                                     transition={{ duration: 2.2, ease: "easeInOut" }}
                                     onAnimationComplete={() => setShowLanding(false)}
-                                    className="absolute inset-[-12px] rounded-full z-0"
+                                    className="absolute inset-[-9px] rounded-full z-0"
                                     style={{
                                         background: "conic-gradient(from 0deg, transparent, #4285F4 25%, #EA4335 50%, #FBBC05 75%, #34A853 100%)",
-                                        WebkitMaskImage: 'radial-gradient(circle, transparent 62%, black 63%)',
-                                        maskImage: 'radial-gradient(circle, transparent 62%, black 63%)',
+                                        WebkitMaskImage: 'radial-gradient(circle, transparent 65%, black 66%)',
+                                        maskImage: 'radial-gradient(circle, transparent 65%, black 66%)',
                                     }}
                                 />
                             )}
@@ -168,7 +188,8 @@ export function HeroCommandBar() {
                     
                     <div className="ml-auto flex items-center gap-1.5 opacity-40 group-hover:opacity-100 transition-opacity">
                         <kbd className="hidden sm:inline-flex h-6 select-none items-center gap-1 rounded-sm border bg-muted px-2 font-mono text-[10px] font-bold">
-                            <span className="text-xs">⌘</span>ENTER
+                            <span className="text-xs">⌘</span>
+                            <CornerDownLeft className="h-2.5 w-2.5" />
                         </kbd>
                     </div>
                 </div>
