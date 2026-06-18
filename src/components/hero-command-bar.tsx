@@ -1,0 +1,155 @@
+'use client';
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { Search, Command, User, NotebookText, Code, Star, Send, CornerDownLeft } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+const navLinks = [
+    { id: 'about', label: 'About', icon: User, shortcut: 'A', href: '#about' },
+    { id: 'blogs', label: 'Blogs', icon: NotebookText, shortcut: 'B', href: '#blogs' },
+    { id: 'leetcode', label: 'LeetCode', icon: Code, shortcut: 'L', href: '#leetcode' },
+    { id: 'projects', label: 'Projects', icon: Star, shortcut: 'P', href: '#projects' },
+    { id: 'contact', label: 'Contact', icon: Send, shortcut: 'C', href: '#contact' },
+    { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'Z', href: 'trigger-liz' },
+];
+
+export function HeroCommandBar() {
+    const [isOpen, setIsOpen] = useState(false);
+    const [search, setSearch] = useState('');
+
+    const togglePalette = useCallback(() => {
+        setIsOpen(prev => !prev);
+    }, []);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // Cmd + Enter or Ctrl + Enter
+            if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+                e.preventDefault();
+                togglePalette();
+            }
+
+            // Shortcuts when palette is open
+            if (isOpen) {
+                const key = e.key.toUpperCase();
+                const item = navLinks.find(link => link.shortcut === key);
+                if (item) {
+                    e.preventDefault();
+                    handleAction(item);
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isOpen, togglePalette]);
+
+    const handleAction = (item: typeof navLinks[0]) => {
+        setIsOpen(false);
+        if (item.id === 'liz') {
+            window.dispatchEvent(new CustomEvent('open-liz'));
+        } else {
+            const element = document.getElementById(item.id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    };
+
+    const filteredLinks = navLinks.filter(link => 
+        link.label.toLowerCase().includes(search.toLowerCase())
+    );
+
+    return (
+        <>
+            {/* The Trigger Bar in Hero */}
+            <div 
+                onClick={togglePalette}
+                className="group relative flex items-center w-full bg-secondary/30 backdrop-blur-xl border border-border/40 h-14 rounded-2xl px-4 cursor-pointer transition-all duration-300 hover:bg-secondary/50 hover:border-primary/20 hover:shadow-[0_0_30px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_0_30px_rgba(255,255,255,0.05)]"
+            >
+                <Search className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                <span className="ml-3 text-muted-foreground/60 font-medium group-hover:text-muted-foreground transition-colors">Search anything...</span>
+                
+                <div className="ml-auto flex items-center gap-1.5 opacity-40 group-hover:opacity-100 transition-opacity">
+                    <kbd className="hidden sm:inline-flex h-6 select-none items-center gap-1 rounded border bg-muted px-2 font-mono text-[10px] font-bold">
+                        <span className="text-xs">⌘</span>ENTER
+                    </kbd>
+                </div>
+            </div>
+
+            {/* The Spotlight Modal */}
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <DialogContent className="sm:max-w-[550px] p-0 gap-0 border-none bg-background/80 backdrop-blur-2xl shadow-2xl overflow-hidden rounded-[32px]">
+                    <DialogHeader className="p-4 border-b border-border/20">
+                        <DialogTitle className="sr-only">Command Palette</DialogTitle>
+                        <div className="flex items-center gap-3 px-2">
+                            <Search className="h-5 w-5 text-muted-foreground" />
+                            <input 
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                placeholder="Type to navigate..."
+                                className="flex-1 bg-transparent border-none outline-none h-10 font-medium text-lg placeholder:text-muted-foreground/40"
+                                autoFocus
+                            />
+                            <kbd className="hidden sm:inline-flex h-6 items-center rounded border bg-muted px-1.5 font-mono text-[10px] font-bold text-muted-foreground">
+                                ESC
+                            </kbd>
+                        </div>
+                    </DialogHeader>
+
+                    <div className="p-2">
+                        <div className="px-3 py-2 text-[10px] font-bold text-muted-foreground/60 uppercase tracking-[0.2em]">
+                            Navigation
+                        </div>
+                        <div className="space-y-1">
+                            {filteredLinks.length > 0 ? (
+                                filteredLinks.map((link) => (
+                                    <button
+                                        key={link.id}
+                                        onClick={() => handleAction(link)}
+                                        className="w-full flex items-center gap-4 px-4 py-3 rounded-2xl hover:bg-primary/5 transition-all group text-left"
+                                    >
+                                        <div className="h-10 w-10 rounded-xl bg-secondary/50 flex items-center justify-center border border-border/20 group-hover:bg-primary group-hover:text-primary-foreground transition-all">
+                                            <link.icon className="h-5 w-5" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="font-bold text-foreground/80 group-hover:text-primary transition-colors">{link.label}</p>
+                                            <p className="text-xs text-muted-foreground opacity-60">Go to {link.id}</p>
+                                        </div>
+                                        <kbd className="h-7 w-7 flex items-center justify-center rounded-lg border border-border/40 bg-muted/40 font-mono text-xs font-black shadow-sm transition-all group-hover:border-primary/40 group-hover:text-primary">
+                                            {link.shortcut}
+                                        </kbd>
+                                    </button>
+                                ))
+                            ) : (
+                                <div className="p-8 text-center">
+                                    <p className="text-muted-foreground text-sm">No results found for "{search}"</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="p-4 border-t border-border/20 bg-muted/20 flex justify-between items-center">
+                        <div className="flex items-center gap-4 text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest">
+                            <div className="flex items-center gap-1">
+                                <CornerDownLeft className="h-3 w-3" />
+                                <span>Select</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                                <span className="text-xs">↑↓</span>
+                                <span>Move</span>
+                            </div>
+                        </div>
+                        <p className="text-[10px] font-black text-primary italic tracking-tight">Driven by Logic</p>
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </>
+    );
+}

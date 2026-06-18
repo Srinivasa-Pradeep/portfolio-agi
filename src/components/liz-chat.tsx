@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -59,6 +58,15 @@ export function LizChat() {
   const inputRef = useRef<HTMLInputElement>(null);
   const recognitionRef = useRef<any>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  /**
+   * External Trigger Support
+   */
+  useEffect(() => {
+    const handleOpenLiz = () => setIsOpen(true);
+    window.addEventListener('open-liz', handleOpenLiz);
+    return () => window.removeEventListener('open-liz', handleOpenLiz);
+  }, []);
 
   /**
    * Calculates the angle from the trigger button's center to the mouse position.

@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { GitHubContributionGraph } from "@/components/github-contribution-graph";
+import { HeroCommandBar } from "@/components/hero-command-bar";
 
 export function Hero() {
   const { resolvedTheme } = useTheme();
@@ -47,9 +48,9 @@ export function Hero() {
           </div>
         </div>
 
-        <p className="mt-6 max-w-xl text-balance text-muted-foreground md:text-lg lora italic mb-12">
-          I write to understand and build to become.
-        </p>
+        <div className="mt-8 mb-12 w-full max-w-md mx-auto">
+           <HeroCommandBar />
+        </div>
 
         {/* GitHub Contribution Graph - Interactive real-time builder graph */}
         <div className="w-full max-w-4xl mx-auto px-4 opacity-0 animate-fade-in [animation-delay:400ms]">
