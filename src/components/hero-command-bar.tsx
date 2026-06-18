@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Search, Command, User, NotebookText, Code, Star, Send, CornerDownLeft, Library, Wind } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -25,36 +25,34 @@ const navLinks = [
 export function HeroCommandBar() {
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState('');
+    const [selectedIndex, setSelectedIndex] = useState(0);
     const router = useRouter();
+
+    const filteredLinks = useMemo(() => 
+        navLinks.filter(link => 
+            link.label.toLowerCase().includes(search.toLowerCase())
+        ), [search]
+    );
+
+    // Reset selected index when search changes
+    useEffect(() => {
+        setSelectedIndex(0);
+    }, [search]);
+
+    // Dispatch custom events for Header synchronization
+    useEffect(() => {
+        if (isOpen) {
+            window.dispatchEvent(new CustomEvent('palette-open'));
+        } else {
+            window.dispatchEvent(new CustomEvent('palette-close'));
+        }
+    }, [isOpen]);
 
     const togglePalette = useCallback(() => {
         setIsOpen(prev => !prev);
     }, []);
 
-    useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) => {
-            // Cmd + Enter or Ctrl + Enter to open
-            if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-                e.preventDefault();
-                togglePalette();
-            }
-
-            // Shortcuts when palette is open
-            if (isOpen) {
-                const key = e.key.toUpperCase();
-                const item = navLinks.find(link => link.shortcut === key);
-                if (item) {
-                    e.preventDefault();
-                    handleAction(item);
-                }
-            }
-        };
-
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [isOpen, togglePalette]);
-
-    const handleAction = (item: typeof navLinks[0]) => {
+    const handleAction = useCallback((item: typeof navLinks[0]) => {
         setIsOpen(false);
         if (item.id === 'liz') {
             window.dispatchEvent(new CustomEvent('open-liz'));
@@ -66,11 +64,45 @@ export function HeroCommandBar() {
                 element.scrollIntoView({ behavior: 'smooth' });
             }
         }
-    };
+    }, [router]);
 
-    const filteredLinks = navLinks.filter(link => 
-        link.label.toLowerCase().includes(search.toLowerCase())
-    );
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // Cmd + Enter or Ctrl + Enter to open
+            if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+                e.preventDefault();
+                togglePalette();
+                return;
+            }
+
+            // Navigation when palette is open
+            if (isOpen) {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    setSelectedIndex(prev => (prev + 1) % filteredLinks.length);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    setSelectedIndex(prev => (prev - 1 + filteredLinks.length) % filteredLinks.length);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (filteredLinks[selectedIndex]) {
+                        handleAction(filteredLinks[selectedIndex]);
+                    }
+                } else {
+                    // Single-key shortcuts (A, B, etc)
+                    const key = e.key.toUpperCase();
+                    const item = navLinks.find(link => link.shortcut === key);
+                    if (item) {
+                        e.preventDefault();
+                        handleAction(item);
+                    }
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isOpen, togglePalette, filteredLinks, selectedIndex, handleAction]);
 
     return (
         <>
@@ -115,24 +147,40 @@ export function HeroCommandBar() {
                         </div>
                         <div className="space-y-1">
                             {filteredLinks.length > 0 ? (
-                                filteredLinks.map((link) => (
-                                    <button
-                                        key={link.id}
-                                        onClick={() => handleAction(link)}
-                                        className="w-full flex items-center gap-4 px-4 py-3 rounded-2xl hover:bg-primary/5 transition-all group text-left"
-                                    >
-                                        <div className="h-10 w-10 rounded-xl bg-secondary/50 flex items-center justify-center border border-border/20 group-hover:bg-primary group-hover:text-primary-foreground transition-all">
-                                            <link.icon className="h-5 w-5" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <p className="font-bold text-foreground/80 group-hover:text-primary transition-colors">{link.label}</p>
-                                            <p className="text-xs text-muted-foreground opacity-60">Go to {link.id}</p>
-                                        </div>
-                                        <kbd className="h-7 w-7 flex items-center justify-center rounded-sm border border-border/40 bg-muted/40 font-mono text-xs font-black shadow-sm transition-all group-hover:border-primary/40 group-hover:text-primary">
-                                            {link.shortcut}
-                                        </kbd>
-                                    </button>
-                                ))
+                                filteredLinks.map((link, index) => {
+                                    const isActive = index === selectedIndex;
+                                    return (
+                                        <button
+                                            key={link.id}
+                                            onClick={() => handleAction(link)}
+                                            onMouseEnter={() => setSelectedIndex(index)}
+                                            className={cn(
+                                                "w-full flex items-center gap-4 px-4 py-3 rounded-2xl transition-all group text-left",
+                                                isActive ? "bg-primary/10 shadow-sm" : "hover:bg-primary/5"
+                                            )}
+                                        >
+                                            <div className={cn(
+                                                "h-10 w-10 rounded-xl flex items-center justify-center border border-border/20 transition-all",
+                                                isActive ? "bg-primary text-primary-foreground" : "bg-secondary/50 group-hover:bg-primary group-hover:text-primary-foreground"
+                                            )}>
+                                                <link.icon className="h-5 w-5" />
+                                            </div>
+                                            <div className="flex-1">
+                                                <p className={cn(
+                                                    "font-bold transition-colors",
+                                                    isActive ? "text-primary" : "text-foreground/80 group-hover:text-primary"
+                                                )}>{link.label}</p>
+                                                <p className="text-xs text-muted-foreground opacity-60">Go to {link.id}</p>
+                                            </div>
+                                            <kbd className={cn(
+                                                "h-7 w-7 flex items-center justify-center rounded-sm border border-border/40 bg-muted/40 font-mono text-xs font-black shadow-sm transition-all",
+                                                isActive ? "border-primary/40 text-primary" : "group-hover:border-primary/40 group-hover:text-primary"
+                                            )}>
+                                                {link.shortcut}
+                                            </kbd>
+                                        </button>
+                                    );
+                                })
                             ) : (
                                 <div className="p-8 text-center">
                                     <p className="text-muted-foreground text-sm">No results found for "{search}"</p>

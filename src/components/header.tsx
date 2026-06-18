@@ -115,11 +115,23 @@ export function Header() {
   const [isMounted, setIsMounted] = useState(false);
   const [mouseX, setMouseX] = useState<number | null>(null);
   const [isAtBottom, setIsAtBottom] = useState(false);
+  const [isPaletteOpen, setIsPaletteOpen] = useState(false);
   const pathname = usePathname();
   const { theme } = useTheme();
 
   useEffect(() => {
     setIsMounted(true);
+
+    const handlePaletteOpen = () => setIsPaletteOpen(true);
+    const handlePaletteClose = () => setIsPaletteOpen(false);
+
+    window.addEventListener('palette-open', handlePaletteOpen);
+    window.addEventListener('palette-close', handlePaletteClose);
+
+    return () => {
+      window.removeEventListener('palette-open', handlePaletteOpen);
+      window.removeEventListener('palette-close', handlePaletteClose);
+    };
   }, []);
 
   useEffect(() => {
@@ -158,13 +170,13 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  // Hides the main dock in Light and Spring modes to maintain a minimalist aesthetic
-  if (theme === 'light' || theme === 'spring') {
+  // Hides the main dock in Light, Spring, or when the Command Palette is open to maintain focus
+  if (theme === 'light' || theme === 'spring' || isPaletteOpen) {
     return (
       <div 
         className={cn(
           "fixed bottom-8 right-8 z-[110] flex items-center gap-4 transition-all duration-700 ease-in-out transform-gpu",
-          isAtBottom ? "opacity-0 translate-y-10 pointer-events-none" : "opacity-100 translate-y-0"
+          (isAtBottom && !isPaletteOpen) ? "opacity-0 translate-y-10 pointer-events-none" : "opacity-100 translate-y-0"
         )}
       >
         <MusicPlayer />
