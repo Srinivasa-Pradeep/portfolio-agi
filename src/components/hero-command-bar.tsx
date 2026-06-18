@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useRouter } from 'next/navigation';
-import { motion, useSpring, useMotionValue, useTransform } from 'framer-motion';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 const navLinks = [
     { id: 'about', label: 'About', icon: User, shortcut: 'A', href: '#about' },
@@ -45,17 +45,23 @@ export function HeroCommandBar() {
         ), [search]
     );
 
+    // Background scroll locking logic
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+            window.dispatchEvent(new CustomEvent('palette-open'));
+        } else {
+            document.body.style.overflow = '';
+            window.dispatchEvent(new CustomEvent('palette-close'));
+        }
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, [isOpen]);
+
     useEffect(() => {
         setSelectedIndex(0);
     }, [search]);
-
-    useEffect(() => {
-        if (isOpen) {
-            window.dispatchEvent(new CustomEvent('palette-open'));
-        } else {
-            window.dispatchEvent(new CustomEvent('palette-close'));
-        }
-    }, [isOpen]);
 
     const togglePalette = useCallback(() => {
         setIsOpen(prev => !prev);
@@ -70,12 +76,12 @@ export function HeroCommandBar() {
         const localY = e.clientY - rect.top;
         setMousePos({ x: localX, y: localY });
 
-        // Calculate magnetic pull from center
+        // Calculate magnetic pull from center for magnification
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
         
-        const pullX = (e.clientX - centerX) * 0.15;
-        const pullY = (e.clientY - centerY) * 0.25;
+        const pullX = (e.clientX - centerX) * 0.05;
+        const pullY = (e.clientY - centerY) * 0.05;
 
         mouseX.set(pullX);
         mouseY.set(pullY);
@@ -144,6 +150,7 @@ export function HeroCommandBar() {
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
                 style={{ x: springX, y: springY }}
+                whileHover={{ scale: 1.02 }}
                 className="group relative p-[1px] rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_40px_rgba(255,255,255,0.04)] active:scale-[0.98]"
             >
                 {/* Border Shine Layer */}
@@ -188,7 +195,7 @@ export function HeroCommandBar() {
                         </div>
                     </DialogHeader>
 
-                    <div className="p-2 max-h-[60vh] overflow-y-auto scrollbar-hide" data-lenis-prevent>
+                    <div className="p-2 overflow-hidden" data-lenis-prevent>
                         <div className="px-3 py-2 text-[10px] font-bold text-muted-foreground/60 uppercase tracking-[0.2em]">
                             Navigation
                         </div>
