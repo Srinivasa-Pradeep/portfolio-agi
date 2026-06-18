@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useRouter } from 'next/navigation';
-import { motion, useSpring, useMotionValue } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const navLinks = [
     { id: 'about', label: 'About', icon: User, shortcut: 'A', href: '#about' },
@@ -31,13 +31,6 @@ export function HeroCommandBar() {
     const containerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    const springConfig = { damping: 20, stiffness: 150, mass: 0.5 };
-    const springX = useSpring(mouseX, springConfig);
-    const springY = useSpring(mouseY, springConfig);
-
     const filteredLinks = useMemo(() => 
         navLinks.filter(link => 
             link.label.toLowerCase().includes(search.toLowerCase())
@@ -48,7 +41,7 @@ export function HeroCommandBar() {
         const root = document.documentElement;
         if (isOpen) {
             document.body.style.overflow = 'hidden';
-            document.body.style.paddingRight = '0px'; // Prevent shift
+            document.body.style.paddingRight = '0px'; 
             root.style.overflow = 'hidden';
             window.dispatchEvent(new CustomEvent('palette-open'));
         } else {

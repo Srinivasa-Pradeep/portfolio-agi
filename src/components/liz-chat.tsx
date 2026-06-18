@@ -13,13 +13,11 @@ import { talkToLiz } from '@/app/actions';
 function FormatMessage({ content }: { content: string }) {
   if (!content) return null;
 
-  // Replace em-dashes and double-hyphens with space-dash-space as requested
   const cleanContent = content
     .replace(/—/g, ' - ')
     .replace(/--/g, ' - ')
     .replace(/–/g, ' - ');
 
-  // Split by bold pattern (supports **bold** and *bold*)
   const parts = cleanContent.split(/(\*\*.*?\*\*|\*.*?\*)/g);
 
   return (
@@ -50,7 +48,6 @@ export function LizChat() {
   const [isLoading, setIsLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   
-  // State for the mouse-reactive border angle
   const [triggerAngle, setTriggerAngle] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
   
@@ -59,19 +56,12 @@ export function LizChat() {
   const recognitionRef = useRef<any>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  /**
-   * External Trigger Support
-   */
   useEffect(() => {
     const handleOpenLiz = () => setIsOpen(true);
     window.addEventListener('open-liz', handleOpenLiz);
     return () => window.removeEventListener('open-liz', handleOpenLiz);
   }, []);
 
-  /**
-   * Calculates the angle from the trigger button's center to the mouse position.
-   * Drives the conic gradient rotation for the "rounding" effect.
-   */
   const handleTriggerMouseMove = (e: React.MouseEvent) => {
     if (!triggerRef.current) return;
     const rect = triggerRef.current.getBoundingClientRect();

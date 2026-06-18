@@ -170,7 +170,7 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  // Hides the main dock in Light, Spring, or when the Command Palette is open to maintain focus
+  // Adaptive nav: Hides the main dock in Light, Spring, or when the Command Palette is open
   if (theme === 'light' || theme === 'spring' || isPaletteOpen) {
     return (
       <div 
