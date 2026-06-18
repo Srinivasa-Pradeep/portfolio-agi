@@ -16,7 +16,7 @@ export function Hero() {
   
   // Reactive values for the scroll indicator
   const arrowOpacity = useTransform(scrollY, [0, 150], [1, 0]);
-  const arrowScale = useTransform(scrollY, [0, 150], [1, 0.8]);
+  const arrowY = useTransform(scrollY, [0, 150], [0, 20]);
 
   useEffect(() => {
     setMounted(true);
@@ -72,25 +72,29 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Premium Scroll Indicator */}
+      {/* Premium Scroll Indicator - Architectural Technical Design */}
       <motion.div 
-        style={{ opacity: arrowOpacity, scale: arrowScale }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 pointer-events-none z-20"
+        style={{ opacity: arrowOpacity, y: arrowY }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 pointer-events-none z-20"
       >
-        <span className="text-[9px] font-black uppercase tracking-[0.5em] text-muted-foreground/40 font-mono">
-          Explore_Odyssey
-        </span>
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ 
-            duration: 2.5, 
-            repeat: Infinity, 
-            ease: "easeInOut" 
-          }}
-          className="p-2 rounded-full border border-primary/10 bg-primary/5 backdrop-blur-sm"
-        >
-          <ChevronDown className="h-4 w-4 text-primary/30" />
-        </motion.div>
+        <div className="flex flex-col items-center gap-2">
+            <span className="text-[7px] sm:text-[9px] font-mono font-black uppercase tracking-[0.8em] text-primary/30 ml-[0.8em]">
+                Explore
+            </span>
+            <div className="relative h-16 w-px bg-primary/5 overflow-hidden">
+                <motion.div 
+                    animate={{ y: [-64, 64] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                    className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-transparent via-primary/40 to-transparent"
+                />
+            </div>
+            <motion.div
+                animate={{ y: [0, 4, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+                <ChevronDown className="h-3 w-3 text-primary/20" />
+            </motion.div>
+        </div>
       </motion.div>
 
       {/* Decorative Gradient Fade at bottom */}
