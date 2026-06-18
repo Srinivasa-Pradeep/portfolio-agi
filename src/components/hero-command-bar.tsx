@@ -31,7 +31,6 @@ export function HeroCommandBar() {
     const containerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
-    // Magnetic Motion Values
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
 
@@ -45,17 +44,20 @@ export function HeroCommandBar() {
         ), [search]
     );
 
-    // Background scroll locking logic
     useEffect(() => {
+        const root = document.documentElement;
         if (isOpen) {
             document.body.style.overflow = 'hidden';
+            root.style.overflow = 'hidden';
             window.dispatchEvent(new CustomEvent('palette-open'));
         } else {
             document.body.style.overflow = '';
+            root.style.overflow = '';
             window.dispatchEvent(new CustomEvent('palette-close'));
         }
         return () => {
             document.body.style.overflow = '';
+            root.style.overflow = '';
         };
     }, [isOpen]);
 
@@ -70,16 +72,12 @@ export function HeroCommandBar() {
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
-        
-        // Calculate position relative to container for shine effect
         const localX = e.clientX - rect.left;
         const localY = e.clientY - rect.top;
         setMousePos({ x: localX, y: localY });
 
-        // Calculate magnetic pull from center for magnification
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        
         const pullX = (e.clientX - centerX) * 0.05;
         const pullY = (e.clientY - centerY) * 0.05;
 
@@ -153,7 +151,6 @@ export function HeroCommandBar() {
                 whileHover={{ scale: 1.02 }}
                 className="group relative p-[1px] rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_40px_rgba(255,255,255,0.04)] active:scale-[0.98]"
             >
-                {/* Border Shine Layer */}
                 <div 
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none"
                     style={{
@@ -176,11 +173,11 @@ export function HeroCommandBar() {
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogContent 
                     data-lenis-prevent 
-                    className="sm:max-w-[550px] p-0 gap-0 border-none bg-background/80 backdrop-blur-2xl shadow-2xl overflow-hidden rounded-[32px]"
+                    className="sm:max-w-[550px] p-0 gap-0 border-none bg-background/80 backdrop-blur-2xl shadow-2xl overflow-hidden rounded-[32px] no-cursor"
                 >
                     <DialogHeader className="p-4 border-b border-border/20">
                         <DialogTitle className="sr-only">Command Palette</DialogTitle>
-                        <div className="flex items-center gap-3 px-2 pr-10">
+                        <div className="flex items-center gap-3 px-2 pr-16">
                             <Search className="h-5 w-5 text-muted-foreground" />
                             <input 
                                 value={search}

@@ -1,17 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { Unlock, ChevronRight, Terminal, ShieldAlert, KeyRound } from 'lucide-react';
+import { Unlock, RefreshCw, Keyboard, Timer, Gauge, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 type VaultGameProps = {
@@ -19,305 +17,205 @@ type VaultGameProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-type PuzzleStep = 'intro' | 'puzzle1' | 'puzzle2' | 'puzzle3' | 'puzzle4' | 'masterKey' | 'final';
+const PASSAGES = [
+  "I write to understand and build to become. Technology is the craft, but curiosity is the engine. Every line of code is a step toward clarity. We architect systems not just for performance, but for people. Precision is found in the smallest details of our logic.",
+  "Great software is built at the intersection of empathy and engineering. We solve problems to create a better world, one algorithm at a time. Stay humble, stay curious, and never stop building the future you want to live in.",
+  "The most complex systems are built from the simplest ideas. Architecture is the art of seeing the invisible connections between logic and life. Build with purpose, document with clarity, and always push the limits of what is possible."
+];
 
 export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
   const router = useRouter();
-  const [step, setStep] = useState<PuzzleStep>('intro');
+  const [targetText, setTargetText] = useState('');
   const [inputValue, setInputValue] = useState('');
-  const [error, setError] = useState(false);
-  const [showMasterHint, setShowMasterHint] = useState(false);
-  const [digits, setDigits] = useState<string[]>(['?', '?', '?', '?']);
-  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [timeLeft, setTimeRemaining] = useState(25);
+  const [isFinished, setIsFinished] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  
+  const generatePassage = useCallback(() => {
+    const random = Math.floor(Math.random() * PASSAGES.length);
+    setTargetText(PASSAGES[random]);
+  }, []);
 
-  // Reset game when closed
+  const resetGame = useCallback(() => {
+    setInputValue('');
+    setStartTime(null);
+    setTimeRemaining(25);
+    setIsFinished(false);
+    setIsSuccess(false);
+    generatePassage();
+    setTimeout(() => inputRef.current?.focus(), 50);
+  }, [generatePassage]);
+
   useEffect(() => {
-    if (!isOpen) {
-      setTimeout(() => {
-        setStep('intro');
-        setInputValue('');
-        setError(false);
-        setShowMasterHint(false);
-        setDigits(['?', '?', '?', '?']);
-        setIsUnlocked(false);
-      }, 300);
+    if (isOpen) {
+      resetGame();
     }
-  }, [isOpen]);
+  }, [isOpen, resetGame]);
 
-  const handleNext = () => {
-    const val = inputValue.trim().toLowerCase();
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (startTime && timeLeft > 0 && !isFinished) {
+      timer = setInterval(() => {
+        setTimeRemaining((prev) => prev - 1);
+      }, 1000);
+    } else if (timeLeft === 0 && !isFinished) {
+      handleFinish();
+    }
+    return () => clearInterval(timer);
+  }, [startTime, timeLeft, isFinished]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    if (!startTime) setStartTime(Date.now());
+    setInputValue(val);
+
+    if (val.length >= targetText.length) {
+      handleFinish(val);
+    }
+  };
+
+  const calculateStats = (finalInput: string) => {
+    const timeElapsed = startTime ? (Date.now() - startTime) / 1000 : 25;
+    const wordsTyped = finalInput.trim().split(/\s+/).length;
+    const wpm = Math.round((wordsTyped / (timeElapsed || 1)) * 60);
+
+    let correctChars = 0;
+    for (let i = 0; i < finalInput.length; i++) {
+      if (finalInput[i] === targetText[i]) correctChars++;
+    }
+    const accuracy = Math.round((correctChars / targetText.length) * 100);
+
+    return { wpm, accuracy };
+  };
+
+  const handleFinish = (finalValue = inputValue) => {
+    setIsFinished(true);
+    const { wpm, accuracy } = calculateStats(finalValue);
     
-    switch (step) {
-      case 'intro':
-        setStep('puzzle1');
-        break;
-      
-      case 'puzzle1':
-        // Math Pattern: 3, 6, 12, 24, ? (48) -> 4+8=12 -> 1+2=3 -> x2 = 6
-        if (val === '6') {
-          setDigits(['6', '?', '?', '?']);
-          setStep('puzzle2');
-          setInputValue('');
-          setError(false);
-        } else {
-          setError(true);
-        }
-        break;
-
-      case 'puzzle2':
-        // Length of "Short" = 5
-        if (val === '5') {
-          setDigits(['6', '5', '?', '?']);
-          setStep('puzzle3');
-          setInputValue('');
-          setError(false);
-        } else {
-          setError(true);
-        }
-        break;
-
-      case 'puzzle3':
-        // Trick: "How many months have 28 days?" -> 12. 12 % 3 = 0
-        if (val === '0') {
-          setDigits(['6', '5', '0', '?']);
-          setStep('puzzle4');
-          setInputValue('');
-          setError(false);
-        } else {
-          setError(true);
-        }
-        break;
-
-      case 'puzzle4':
-        // Observation: 2 cats(8), 1 dog(4), 1 bird(2). Legs=14. Sum digits=5. Minus flying(1)=4
-        if (val === '4') {
-          setDigits(['6', '5', '0', '4']);
-          setStep('masterKey');
-          setInputValue('');
-          setError(false);
-        } else {
-          setError(true);
-        }
-        break;
-
-      case 'masterKey':
-        // Final Birthday Key: 06052004
-        if (val === '06052004') {
-          setIsUnlocked(true);
-          setTimeout(() => {
-            onOpenChange(false);
-            router.push('/interviews');
-          }, 1500);
-        } else {
-          setError(true);
-          setShowMasterHint(true); // Reveal the hint with animation
-        }
-        break;
+    if (wpm >= 60 && accuracy >= 95) {
+      setIsSuccess(true);
+      setTimeout(() => {
+        onOpenChange(false);
+        router.push('/interviews');
+      }, 1500);
+    } else {
+      setIsSuccess(false);
     }
   };
 
-  const renderContent = () => {
-    if (isUnlocked) {
-      return (
-        <div className="flex flex-col items-center justify-center py-12 text-center animate-in fade-in zoom-in duration-500">
-          <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center mb-6 ring-4 ring-primary/20 animate-pulse">
-            <Unlock className="h-12 w-12 text-primary" />
-          </div>
-          <h3 className="font-headline text-3xl font-black italic tracking-tighter uppercase mb-2">Access Granted</h3>
-          <p className="text-muted-foreground font-mono text-xs uppercase tracking-widest">Master Decryption Successful.</p>
-        </div>
-      );
-    }
-
-    switch (step) {
-      case 'intro':
-        return (
-          <div className="space-y-6 py-4 animate-vibrate">
-            <div className="flex items-center gap-3 p-4 rounded-2xl bg-destructive/5 border border-destructive/20">
-              <ShieldAlert className="h-6 w-6 text-destructive shrink-0" />
-              <p className="text-sm font-mono leading-relaxed text-destructive/80">
-                SYSTEM_LOCK_ACTIVE: Unauthorized access detected. You are trapped. Extract the 4-digit code to initialize the Master Key.
-              </p>
-            </div>
-            <Button onClick={handleNext} className="w-full h-14 rounded-2xl font-black italic uppercase group">
-              Begin Extraction
-              <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-            </Button>
-          </div>
-        );
-
-      case 'puzzle1':
-        return (
-          <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
-             <div className="space-y-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_01</span>
-                <h3 className="font-headline text-xl font-bold tracking-tight">3, 6, 12, 24, ?</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed italic lora">
-                  "Find the next number. Sum its digits repeatedly until you reach a single digit. Now, multiply that result by 2."
-                </p>
-             </div>
-             <div className="relative">
-                <Input 
-                  value={inputValue}
-                  onChange={(e) => { setInputValue(e.target.value); setError(false); }}
-                  placeholder="Enter single digit..."
-                  className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
-                  autoFocus
-                />
-                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Calculation Error</p>}
-             </div>
-             <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
-          </div>
-        );
-
-      case 'puzzle2':
-        return (
-          <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
-             <div className="space-y-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_02</span>
-                <h3 className="font-headline text-xl font-bold tracking-tight italic lora">"What word becomes shorter when you add two letters to it?"</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed font-mono uppercase tracking-widest pt-2">
-                  "Count the letters of the answer."
-                </p>
-             </div>
-             <div className="relative">
-                <Input 
-                  value={inputValue}
-                  onChange={(e) => { setInputValue(e.target.value); setError(false); }}
-                  placeholder="Enter count..."
-                  className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
-                  autoFocus
-                />
-                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Invalid Answer</p>}
-             </div>
-             <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
-          </div>
-        );
-
-      case 'puzzle3':
-        return (
-          <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
-             <div className="space-y-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_03</span>
-                <h3 className="font-headline text-xl font-bold tracking-tight">"How many months have 28 days?"</h3>
-                <p className="text-xs text-muted-foreground leading-relaxed italic lora">
-                  "Take the remainder when your answer is divided by 3."
-                </p>
-             </div>
-             <div className="relative">
-                <Input 
-                  value={inputValue}
-                  onChange={(e) => { setInputValue(e.target.value); setError(false); }}
-                  placeholder="Enter single digit..."
-                  className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
-                  autoFocus
-                />
-                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Logic Failure</p>}
-             </div>
-             <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
-          </div>
-        );
-
-      case 'puzzle4':
-        return (
-          <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
-             <div className="space-y-2">
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_04</span>
-                <div className="bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-border/20 font-mono text-xs">
-                    <p>SYSTEM_SCAN:</p>
-                    <p>• 2 cats</p>
-                    <p>• 1 dog</p>
-                    <p>• 1 bird</p>
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed italic lora pt-2">
-                  "Calculate total legs. Find the sum of digits of that total, then subtract the number of animal types that are able to fly."
-                </p>
-             </div>
-             <div className="relative">
-                <Input 
-                  value={inputValue}
-                  onChange={(e) => { setInputValue(e.target.value); setError(false); }}
-                  placeholder="Enter single digit..."
-                  className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
-                  autoFocus
-                />
-                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Incorrect Count</p>}
-             </div>
-             <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
-          </div>
-        );
-
-      case 'masterKey':
-        return (
-          <div className="space-y-6 py-4 animate-in zoom-in-95 duration-500">
-             <div className="text-center space-y-2">
-                <KeyRound className="h-10 w-10 text-primary mx-auto mb-2" />
-                <h3 className="font-headline text-2xl font-black italic tracking-tighter uppercase">Initialize Master Key</h3>
-                <p className="text-xs text-muted-foreground font-mono uppercase tracking-[0.2em]">Convert Sequence 6504 to 8-digit Key</p>
-                {showMasterHint && (
-                  <p className="text-[10px] text-destructive/80 font-mono italic animate-in fade-in slide-in-from-top-1 duration-700">
-                    Hint: Something personal in DDMMYYYY format.
-                  </p>
-                )}
-             </div>
-             <div className="relative">
-                <Input 
-                  value={inputValue}
-                  onChange={(e) => { setInputValue(e.target.value); setError(false); }}
-                  placeholder="Enter 8-digit code..."
-                  maxLength={8}
-                  className={cn("h-16 bg-primary/10 border-dashed border-2 border-primary/30 font-mono text-center text-2xl tracking-[0.4em] font-black italic", error && "ring-2 ring-destructive")}
-                  autoFocus
-                />
-                {error && <p className="absolute -bottom-6 left-0 w-full text-center text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Invalid Master Key</p>}
-             </div>
-             <Button onClick={handleNext} className="w-full h-14 rounded-2xl font-black italic uppercase bg-primary text-primary-foreground hover:scale-[1.02] transition-transform">
-               Unlock Personal Blog
-             </Button>
-          </div>
-        );
-    }
-  };
+  const { wpm, accuracy } = calculateStats(inputValue);
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[450px] rounded-[32px] border-border/40 bg-card/95 backdrop-blur-2xl shadow-2xl p-8 overflow-hidden">
+      <DialogContent className="sm:max-w-[600px] rounded-[32px] border-border/40 bg-card/95 backdrop-blur-2xl shadow-2xl p-8 overflow-hidden no-cursor">
         <DialogHeader>
           <div className="flex justify-center mb-4">
-            <div className="p-3 rounded-2xl bg-secondary/50 border border-border/20">
-               <Terminal className="h-6 w-6 text-primary" />
+            <div className="p-3 rounded-2xl bg-primary/10 border border-primary/20">
+               <Keyboard className="h-6 w-6 text-primary" />
             </div>
           </div>
-          <DialogTitle className="text-center font-headline text-2xl font-bold tracking-tight">Mission: Unlock the Vault</DialogTitle>
-          <DialogDescription className="text-center text-xs font-mono uppercase tracking-widest opacity-60">
-            ENCRYPTION_LAYER_04_ACTIVE
-          </DialogDescription>
+          <DialogTitle className="text-center font-headline text-2xl font-bold tracking-tight">Unlock My Personal Blog</DialogTitle>
+          <p className="text-center text-xs font-mono uppercase tracking-[0.2em] opacity-40 mt-1">Focus Test Required</p>
         </DialogHeader>
 
-        {/* Extraction Status Bar */}
-        <div className="grid grid-cols-4 gap-3 my-4">
-            {digits.map((d, i) => (
-                <div 
-                    key={i} 
-                    className={cn(
-                        "h-16 rounded-xl flex items-center justify-center font-mono text-2xl font-black transition-all duration-500",
-                        d === '?' ? "bg-secondary/30 text-muted-foreground/30 border border-dashed border-border" : "bg-primary/10 text-primary border border-primary/20 scale-105 shadow-[0_0_15px_hsl(var(--primary)/0.2)]"
-                    )}
-                >
-                    {d}
+        <div className="mt-6 space-y-6">
+          {!isFinished ? (
+            <>
+              {/* Display Area */}
+              <div 
+                onClick={() => inputRef.current?.focus()}
+                className="relative p-6 rounded-2xl bg-secondary/30 border border-border/20 cursor-text group"
+              >
+                <div className="absolute top-4 right-6 flex items-center gap-2 text-primary/40 font-mono text-xs">
+                  <Timer className="h-3 w-3" />
+                  <span>{timeLeft}s</span>
                 </div>
-            ))}
+
+                <div className="text-lg font-mono leading-relaxed select-none tracking-tight">
+                  {targetText.split('').map((char, i) => {
+                    let color = 'text-muted-foreground/30';
+                    if (i < inputValue.length) {
+                      color = inputValue[i] === char ? 'text-primary' : 'text-destructive';
+                    }
+                    return (
+                      <span key={i} className={cn("transition-colors duration-200", color)}>
+                        {char}
+                      </span>
+                    );
+                  })}
+                  {/* Blinking Cursor */}
+                  <span className="inline-block w-[2px] h-[1.2em] bg-primary align-middle animate-pulse ml-0.5" />
+                </div>
+
+                <input 
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  className="absolute inset-0 opacity-0 cursor-text"
+                  autoFocus
+                  autoComplete="off"
+                  autoCorrect="off"
+                  onPaste={(e) => e.preventDefault()}
+                />
+              </div>
+
+              {/* Live HUD */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 rounded-xl bg-secondary/50 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <Gauge className="h-4 w-4" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">WPM</span>
+                  </div>
+                  <span className="text-xl font-black font-mono">{wpm}</span>
+                </div>
+                <div className="p-4 rounded-xl bg-secondary/50 flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-muted-foreground">
+                    <CheckCircle2 className="h-4 w-4" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Accuracy</span>
+                  </div>
+                  <span className="text-xl font-black font-mono">{accuracy}%</span>
+                </div>
+              </div>
+              <p className="text-center text-[10px] font-medium text-muted-foreground/40 uppercase tracking-widest">Target: 60 WPM / 95% Accuracy</p>
+            </>
+          ) : (
+            <div className="py-8 text-center animate-in fade-in zoom-in duration-500">
+               {isSuccess ? (
+                 <div className="space-y-4">
+                    <div className="h-16 w-16 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto ring-4 ring-emerald-500/20">
+                      <Unlock className="h-8 w-8 text-emerald-500" />
+                    </div>
+                    <h3 className="text-2xl font-black italic tracking-tighter uppercase">Access Granted</h3>
+                    <p className="text-muted-foreground text-sm italic lora">Welcome to my personal reflections.</p>
+                 </div>
+               ) : (
+                 <div className="space-y-6">
+                    <div className="h-16 w-16 rounded-full bg-destructive/10 flex items-center justify-center mx-auto ring-4 ring-destructive/20">
+                      <AlertCircle className="h-8 w-8 text-destructive" />
+                    </div>
+                    <div className="space-y-2">
+                        <h3 className="text-2xl font-black italic tracking-tighter uppercase">Incomplete</h3>
+                        <p className="text-muted-foreground text-sm">Achieved: <span className="font-bold text-foreground">{wpm} WPM</span> & <span className="font-bold text-foreground">{accuracy}% Acc</span></p>
+                    </div>
+                    <Button onClick={resetGame} className="h-12 px-8 rounded-full font-bold group">
+                      <RefreshCw className="mr-2 h-4 w-4 transition-transform group-hover:rotate-180" />
+                      Try Again
+                    </Button>
+                 </div>
+               )}
+            </div>
+          )}
         </div>
 
-        {renderContent()}
-
-        {/* Technical Footer Decoration */}
-        <div className="mt-4 pt-4 border-t border-border/10 flex justify-between items-center opacity-40">
+        <div className="mt-8 pt-4 border-t border-border/10 flex justify-between items-center opacity-40">
             <div className="flex gap-1">
                 <div className="h-1 w-4 bg-primary/40 rounded-full" />
                 <div className="h-1 w-2 bg-primary/20 rounded-full" />
             </div>
-            <span className="text-[8px] font-mono uppercase tracking-widest">Auth_ID: SRINI_004</span>
+            <span className="text-[8px] font-mono uppercase tracking-widest">AUTH_STATUS: READY</span>
         </div>
       </DialogContent>
     </Dialog>
