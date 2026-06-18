@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
     { id: 'about', label: 'About', icon: User, shortcut: 'A', href: '#about' },
@@ -25,6 +25,7 @@ const navLinks = [
 
 export function HeroCommandBar() {
     const [isOpen, setIsOpen] = useState(false);
+    const [showLanding, setShowLanding] = useState(true);
     const [search, setSearch] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -142,7 +143,25 @@ export function HeroCommandBar() {
                 />
                 
                 <div className="relative z-10 flex items-center w-full bg-secondary/30 backdrop-blur-xl border border-border/40 h-14 rounded-full px-6 cursor-pointer transition-all duration-300 group-hover:bg-secondary/50 group-hover:border-transparent">
-                    <Search className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <div className="relative flex items-center justify-center">
+                        <AnimatePresence>
+                            {showLanding && (
+                                <motion.div
+                                    initial={{ rotate: 0, opacity: 0, scale: 0.8 }}
+                                    animate={{ rotate: 360, opacity: [0, 1, 1, 0], scale: [0.8, 1.2, 1] }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 2.5, ease: "circOut" }}
+                                    onAnimationComplete={() => setShowLanding(false)}
+                                    className="absolute inset-[-12px] rounded-full blur-[10px] z-0"
+                                    style={{
+                                        background: "conic-gradient(from 0deg, transparent, #4285F4, #EA4335, #FBBC05, #34A853, transparent)",
+                                    }}
+                                />
+                            )}
+                        </AnimatePresence>
+                        <Search className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors relative z-10" />
+                    </div>
+                    
                     <span className="ml-4 text-muted-foreground/60 font-medium group-hover:text-muted-foreground transition-colors">Search anything...</span>
                     
                     <div className="ml-auto flex items-center gap-1.5 opacity-40 group-hover:opacity-100 transition-opacity">

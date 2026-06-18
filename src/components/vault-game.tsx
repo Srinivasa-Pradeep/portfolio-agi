@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -9,8 +9,9 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { Keyboard, Timer, Trophy, RotateCcw, AlertTriangle } from 'lucide-react';
+import { Unlock, ChevronRight, Terminal, ShieldAlert, KeyRound } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 type VaultGameProps = {
@@ -18,208 +19,305 @@ type VaultGameProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-const PASSAGE = "Technology is a craft that requires architectural precision. To build a world that lasts, one must understand the balance between logic and human emotion. Every line of code is a step toward becoming a better version of oneself. Stay humble, keep building, and never stop learning from the giants who came before you.";
-const TARGET_WPM = 60;
-const TIME_LIMIT = 25;
-const TARGET_ACCURACY = 95;
+type PuzzleStep = 'intro' | 'puzzle1' | 'puzzle2' | 'puzzle3' | 'puzzle4' | 'masterKey' | 'final';
 
 export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
   const router = useRouter();
-  const [userInput, setUserInput] = useState('');
-  const [timeLeft, setTimeLimit] = useState(TIME_LIMIT);
-  const [isActive, setIsActive] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
-  const [results, setResults] = useState<{ wpm: number; accuracy: number; passed: boolean } | null>(null);
-  
-  const inputRef = useRef<HTMLInputElement>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [step, setStep] = useState<PuzzleStep>('intro');
+  const [inputValue, setInputValue] = useState('');
+  const [error, setError] = useState(false);
+  const [showMasterHint, setShowMasterHint] = useState(false);
+  const [digits, setDigits] = useState<string[]>(['?', '?', '?', '?']);
+  const [isUnlocked, setIsUnlocked] = useState(false);
 
-  const calculateResults = useCallback(() => {
-    const words = PASSAGE.trim().split(/\s+/);
-    const userWords = userInput.trim().split(/\s+/);
-    const typedLength = userInput.length;
-    
-    // WPM = (Typed Characters / 5) / (Time Spent in Minutes)
-    const timeSpent = TIME_LIMIT - timeLeft;
-    const timeInMinutes = timeSpent / 60;
-    const wpm = timeInMinutes > 0 ? Math.round((typedLength / 5) / timeInMinutes) : 0;
-
-    // Accuracy
-    let correctChars = 0;
-    for (let i = 0; i < userInput.length; i++) {
-        if (userInput[i] === PASSAGE[i]) correctChars++;
-    }
-    const accuracy = typedLength > 0 ? Math.round((correctChars / typedLength) * 100) : 0;
-    
-    const passed = wpm >= TARGET_WPM && accuracy >= TARGET_ACCURACY && typedLength >= (PASSAGE.length * 0.8);
-    
-    setResults({ wpm, accuracy, passed });
-    setIsFinished(true);
-    setIsActive(false);
-
-    if (passed) {
-        setTimeout(() => {
-            onOpenChange(false);
-            router.push('/interviews');
-        }, 2000);
-    }
-  }, [userInput, timeLeft, onOpenChange, router]);
-
-  const resetGame = () => {
-    setUserInput('');
-    setTimeLimit(TIME_LIMIT);
-    setIsActive(false);
-    setIsFinished(false);
-    setResults(null);
-    if (timerRef.current) clearInterval(timerRef.current);
-    setTimeout(() => inputRef.current?.focus(), 50);
-  };
-
+  // Reset game when closed
   useEffect(() => {
-    if (isOpen) {
-        resetGame();
-    } else {
-        if (timerRef.current) clearInterval(timerRef.current);
+    if (!isOpen) {
+      setTimeout(() => {
+        setStep('intro');
+        setInputValue('');
+        setError(false);
+        setShowMasterHint(false);
+        setDigits(['?', '?', '?', '?']);
+        setIsUnlocked(false);
+      }, 300);
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    if (isActive && timeLeft > 0) {
-      timerRef.current = setInterval(() => {
-        setTimeLimit(prev => prev - 1);
-      }, 1000);
-    } else if (timeLeft === 0 && isActive) {
-      calculateResults();
-    }
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
-  }, [isActive, timeLeft, calculateResults]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (isFinished) return;
+  const handleNext = () => {
+    const val = inputValue.trim().toLowerCase();
     
-    const val = e.target.value;
-    if (!isActive && val.length > 0) {
-      setIsActive(true);
-    }
-    
-    setUserInput(val);
+    switch (step) {
+      case 'intro':
+        setStep('puzzle1');
+        break;
+      
+      case 'puzzle1':
+        // Math Pattern: 3, 6, 12, 24, ? (48) -> 4+8=12 -> 1+2=3 -> x2 = 6
+        if (val === '6') {
+          setDigits(['6', '?', '?', '?']);
+          setStep('puzzle2');
+          setInputValue('');
+          setError(false);
+        } else {
+          setError(true);
+        }
+        break;
 
-    if (val.length >= PASSAGE.length) {
-        calculateResults();
+      case 'puzzle2':
+        // Length of "Short" = 5
+        if (val === '5') {
+          setDigits(['6', '5', '?', '?']);
+          setStep('puzzle3');
+          setInputValue('');
+          setError(false);
+        } else {
+          setError(true);
+        }
+        break;
+
+      case 'puzzle3':
+        // Trick: "How many months have 28 days?" -> 12. 12 % 3 = 0
+        if (val === '0') {
+          setDigits(['6', '5', '0', '?']);
+          setStep('puzzle4');
+          setInputValue('');
+          setError(false);
+        } else {
+          setError(true);
+        }
+        break;
+
+      case 'puzzle4':
+        // Observation: 2 cats(8), 1 dog(4), 1 bird(2). Legs=14. Sum digits=5. Minus flying(1)=4
+        if (val === '4') {
+          setDigits(['6', '5', '0', '4']);
+          setStep('masterKey');
+          setInputValue('');
+          setError(false);
+        } else {
+          setError(true);
+        }
+        break;
+
+      case 'masterKey':
+        // Final Birthday Key: 06052004
+        if (val === '06052004') {
+          setIsUnlocked(true);
+          setTimeout(() => {
+            onOpenChange(false);
+            router.push('/interviews');
+          }, 1500);
+        } else {
+          setError(true);
+          setShowMasterHint(true); // Reveal the hint with animation
+        }
+        break;
     }
   };
 
-  const renderCharacter = (char: string, index: number) => {
-    let colorClass = "text-muted-foreground/30";
-    if (index < userInput.length) {
-        colorClass = userInput[index] === char ? "text-foreground font-medium" : "text-destructive bg-destructive/10 rounded-sm";
-    } else if (index === userInput.length) {
-        colorClass = "text-primary animate-pulse border-b-2 border-primary";
+  const renderContent = () => {
+    if (isUnlocked) {
+      return (
+        <div className="flex flex-col items-center justify-center py-12 text-center animate-in fade-in zoom-in duration-500">
+          <div className="h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center mb-6 ring-4 ring-primary/20 animate-pulse">
+            <Unlock className="h-12 w-12 text-primary" />
+          </div>
+          <h3 className="font-headline text-3xl font-black italic tracking-tighter uppercase mb-2">Access Granted</h3>
+          <p className="text-muted-foreground font-mono text-xs uppercase tracking-widest">Master Decryption Successful.</p>
+        </div>
+      );
     }
-    return <span key={index} className={cn("transition-colors duration-200", colorClass)}>{char}</span>;
+
+    switch (step) {
+      case 'intro':
+        return (
+          <div className="space-y-6 py-4 animate-vibrate">
+            <div className="flex items-center gap-3 p-4 rounded-2xl bg-destructive/5 border border-destructive/20">
+              <ShieldAlert className="h-6 w-6 text-destructive shrink-0" />
+              <p className="text-sm font-mono leading-relaxed text-destructive/80">
+                SYSTEM_LOCK_ACTIVE: Unauthorized access detected. You are trapped. Extract the 4-digit code to initialize the Master Key.
+              </p>
+            </div>
+            <Button onClick={handleNext} className="w-full h-14 rounded-2xl font-black italic uppercase group">
+              Begin Extraction
+              <ChevronRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </div>
+        );
+
+      case 'puzzle1':
+        return (
+          <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
+             <div className="space-y-2">
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_01</span>
+                <h3 className="font-headline text-xl font-bold tracking-tight">3, 6, 12, 24, ?</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed italic lora">
+                  "Find the next number. Sum its digits repeatedly until you reach a single digit. Now, multiply that result by 2."
+                </p>
+             </div>
+             <div className="relative">
+                <Input 
+                  value={inputValue}
+                  onChange={(e) => { setInputValue(e.target.value); setError(false); }}
+                  placeholder="Enter single digit..."
+                  className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
+                  autoFocus
+                />
+                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Calculation Error</p>}
+             </div>
+             <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
+          </div>
+        );
+
+      case 'puzzle2':
+        return (
+          <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
+             <div className="space-y-2">
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_02</span>
+                <h3 className="font-headline text-xl font-bold tracking-tight italic lora">"What word becomes shorter when you add two letters to it?"</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed font-mono uppercase tracking-widest pt-2">
+                  "Count the letters of the answer."
+                </p>
+             </div>
+             <div className="relative">
+                <Input 
+                  value={inputValue}
+                  onChange={(e) => { setInputValue(e.target.value); setError(false); }}
+                  placeholder="Enter count..."
+                  className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
+                  autoFocus
+                />
+                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Invalid Answer</p>}
+             </div>
+             <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
+          </div>
+        );
+
+      case 'puzzle3':
+        return (
+          <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
+             <div className="space-y-2">
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_03</span>
+                <h3 className="font-headline text-xl font-bold tracking-tight">"How many months have 28 days?"</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed italic lora">
+                  "Take the remainder when your answer is divided by 3."
+                </p>
+             </div>
+             <div className="relative">
+                <Input 
+                  value={inputValue}
+                  onChange={(e) => { setInputValue(e.target.value); setError(false); }}
+                  placeholder="Enter single digit..."
+                  className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
+                  autoFocus
+                />
+                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Logic Failure</p>}
+             </div>
+             <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
+          </div>
+        );
+
+      case 'puzzle4':
+        return (
+          <div className="space-y-6 py-4 animate-in slide-in-from-right-4 duration-300">
+             <div className="space-y-2">
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary/60 font-mono">Sequence_Extraction_04</span>
+                <div className="bg-black/5 dark:bg-white/5 p-4 rounded-xl border border-border/20 font-mono text-xs">
+                    <p>SYSTEM_SCAN:</p>
+                    <p>• 2 cats</p>
+                    <p>• 1 dog</p>
+                    <p>• 1 bird</p>
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed italic lora pt-2">
+                  "Calculate total legs. Find the sum of digits of that total, then subtract the number of animal types that are able to fly."
+                </p>
+             </div>
+             <div className="relative">
+                <Input 
+                  value={inputValue}
+                  onChange={(e) => { setInputValue(e.target.value); setError(false); }}
+                  placeholder="Enter single digit..."
+                  className={cn("h-12 bg-secondary/50 border-none font-mono text-center text-lg", error && "ring-2 ring-destructive")}
+                  autoFocus
+                />
+                {error && <p className="absolute -bottom-6 left-0 text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Incorrect Count</p>}
+             </div>
+             <Button onClick={handleNext} className="w-full h-12 rounded-xl font-bold">Verify Digit</Button>
+          </div>
+        );
+
+      case 'masterKey':
+        return (
+          <div className="space-y-6 py-4 animate-in zoom-in-95 duration-500">
+             <div className="text-center space-y-2">
+                <KeyRound className="h-10 w-10 text-primary mx-auto mb-2" />
+                <h3 className="font-headline text-2xl font-black italic tracking-tighter uppercase">Initialize Master Key</h3>
+                <p className="text-xs text-muted-foreground font-mono uppercase tracking-[0.2em]">Convert Sequence 6504 to 8-digit Key</p>
+                {showMasterHint && (
+                  <p className="text-[10px] text-destructive/80 font-mono italic animate-in fade-in slide-in-from-top-1 duration-700">
+                    Hint: Something personal in DDMMYYYY format.
+                  </p>
+                )}
+             </div>
+             <div className="relative">
+                <Input 
+                  value={inputValue}
+                  onChange={(e) => { setInputValue(e.target.value); setError(false); }}
+                  placeholder="Enter 8-digit code..."
+                  maxLength={8}
+                  className={cn("h-16 bg-primary/10 border-dashed border-2 border-primary/30 font-mono text-center text-2xl tracking-[0.4em] font-black italic", error && "ring-2 ring-destructive")}
+                  autoFocus
+                />
+                {error && <p className="absolute -bottom-6 left-0 w-full text-center text-[10px] font-bold text-destructive uppercase tracking-widest font-mono">Invalid Master Key</p>}
+             </div>
+             <Button onClick={handleNext} className="w-full h-14 rounded-2xl font-black italic uppercase bg-primary text-primary-foreground hover:scale-[1.02] transition-transform">
+               Unlock Personal Blog
+             </Button>
+          </div>
+        );
+    }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[650px] rounded-[40px] border-border/40 bg-card/95 backdrop-blur-2xl shadow-2xl p-10 overflow-hidden no-cursor">
-        <DialogHeader className="mb-8">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 rounded-3xl bg-primary/10 border border-primary/20">
-               <Keyboard className="h-8 w-8 text-primary" />
+      <DialogContent className="sm:max-w-[450px] rounded-[32px] border-border/40 bg-card/95 backdrop-blur-2xl shadow-2xl p-8 overflow-hidden">
+        <DialogHeader>
+          <div className="flex justify-center mb-4">
+            <div className="p-3 rounded-2xl bg-secondary/50 border border-border/20">
+               <Terminal className="h-6 w-6 text-primary" />
             </div>
           </div>
-          <DialogTitle className="text-center font-headline text-3xl font-black italic tracking-tighter uppercase">Unlock My Personal Blog</DialogTitle>
-          <DialogDescription className="text-center text-sm font-mono uppercase tracking-[0.2em] opacity-60">
-            Min Requirement: {TARGET_WPM} WPM | {TARGET_ACCURACY}% Accuracy
+          <DialogTitle className="text-center font-headline text-2xl font-bold tracking-tight">Mission: Unlock the Vault</DialogTitle>
+          <DialogDescription className="text-center text-xs font-mono uppercase tracking-widest opacity-60">
+            ENCRYPTION_LAYER_04_ACTIVE
           </DialogDescription>
         </DialogHeader>
 
-        <div className="relative space-y-10">
-            {/* Live Stats */}
-            <div className="flex justify-center gap-12">
-                <div className="text-center">
-                    <p className="text-[10px] font-mono font-bold uppercase tracking-widest text-muted-foreground mb-1">Time</p>
-                    <div className="flex items-center gap-2 text-2xl font-black italic font-mono">
-                        <Timer className="h-4 w-4 text-primary" />
-                        {timeLeft}s
-                    </div>
+        {/* Extraction Status Bar */}
+        <div className="grid grid-cols-4 gap-3 my-4">
+            {digits.map((d, i) => (
+                <div 
+                    key={i} 
+                    className={cn(
+                        "h-16 rounded-xl flex items-center justify-center font-mono text-2xl font-black transition-all duration-500",
+                        d === '?' ? "bg-secondary/30 text-muted-foreground/30 border border-dashed border-border" : "bg-primary/10 text-primary border border-primary/20 scale-105 shadow-[0_0_15px_hsl(var(--primary)/0.2)]"
+                    )}
+                >
+                    {d}
                 </div>
-                <div className="text-center">
-                    <p className="text-[10px] font-mono font-bold uppercase tracking-widest text-muted-foreground mb-1">Current Speed</p>
-                    <div className="text-2xl font-black italic font-mono text-primary">
-                        {isActive ? Math.round((userInput.length / 5) / ((TIME_LIMIT - timeLeft) / 60 || 1)) : 0} <span className="text-xs uppercase">WPM</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Passage Display */}
-            <div 
-                className="relative p-8 rounded-[32px] bg-secondary/30 border border-white/5 font-mono text-lg leading-relaxed cursor-text select-none"
-                onClick={() => inputRef.current?.focus()}
-            >
-                <div className="flex flex-wrap gap-x-[0.1em] gap-y-1">
-                    {PASSAGE.split('').map((char, i) => renderCharacter(char, i))}
-                </div>
-                
-                {/* Hidden Input */}
-                <input
-                    ref={inputRef}
-                    type="text"
-                    value={userInput}
-                    onChange={handleInputChange}
-                    className="absolute inset-0 opacity-0 cursor-default"
-                    autoFocus
-                    spellCheck={false}
-                    autoComplete="off"
-                    onPaste={(e) => e.preventDefault()}
-                />
-            </div>
-
-            {/* Results Overlay */}
-            {isFinished && results && (
-                <div className="absolute inset-0 z-20 flex items-center justify-center bg-card/80 backdrop-blur-xl rounded-[32px] animate-in fade-in zoom-in duration-500">
-                    <div className="text-center space-y-6 p-8">
-                        {results.passed ? (
-                            <div className="space-y-4">
-                                <div className="h-20 w-20 rounded-full bg-emerald-500/10 flex items-center justify-center mx-auto ring-4 ring-emerald-500/20">
-                                    <Trophy className="h-10 w-10 text-emerald-500" />
-                                </div>
-                                <h3 className="text-3xl font-black italic tracking-tighter uppercase">Excellence Achieved</h3>
-                                <div className="flex justify-center gap-8 font-mono">
-                                    <div>
-                                        <p className="text-[10px] font-bold uppercase opacity-50">Speed</p>
-                                        <p className="text-2xl font-black text-emerald-500">{results.wpm} WPM</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] font-bold uppercase opacity-50">Accuracy</p>
-                                        <p className="text-2xl font-black text-emerald-500">{results.accuracy}%</p>
-                                    </div>
-                                </div>
-                                <p className="text-sm text-muted-foreground animate-pulse">Initializing direct link...</p>
-                            </div>
-                        ) : (
-                            <div className="space-y-4">
-                                <div className="h-16 w-16 rounded-full bg-destructive/10 flex items-center justify-center mx-auto">
-                                    <AlertTriangle className="h-8 w-8 text-destructive" />
-                                </div>
-                                <h3 className="text-2xl font-black italic tracking-tighter uppercase">Speed Not Met</h3>
-                                <p className="text-sm text-muted-foreground lora italic">You clocked {results.wpm} WPM with {results.accuracy}% accuracy.</p>
-                                <Button onClick={resetGame} className="rounded-full px-8 gap-2">
-                                    <RotateCcw className="h-4 w-4" /> Try Again
-                                </Button>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            )}
+            ))}
         </div>
 
-        <div className="mt-8 pt-6 border-t border-border/10 flex justify-between items-center opacity-40">
+        {renderContent()}
+
+        {/* Technical Footer Decoration */}
+        <div className="mt-4 pt-4 border-t border-border/10 flex justify-between items-center opacity-40">
             <div className="flex gap-1">
                 <div className="h-1 w-4 bg-primary/40 rounded-full" />
                 <div className="h-1 w-2 bg-primary/20 rounded-full" />
             </div>
-            <span className="text-[8px] font-mono uppercase tracking-widest tracking-[0.4em]">Auth_Ready: SRINI_ENGINE_v4</span>
+            <span className="text-[8px] font-mono uppercase tracking-widest">Auth_ID: SRINI_004</span>
         </div>
       </DialogContent>
     </Dialog>
