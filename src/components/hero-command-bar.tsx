@@ -148,13 +148,15 @@ export function HeroCommandBar() {
                             {showLanding && (
                                 <motion.div
                                     initial={{ rotate: 0, opacity: 0, scale: 0.8 }}
-                                    animate={{ rotate: 360, opacity: [0, 1, 1, 0], scale: [0.8, 1.2, 1] }}
+                                    animate={{ rotate: 360, opacity: [0, 1, 1, 0], scale: [0.8, 1.1, 1] }}
                                     exit={{ opacity: 0 }}
-                                    transition={{ duration: 2.5, ease: "circOut" }}
+                                    transition={{ duration: 2.2, ease: "easeInOut" }}
                                     onAnimationComplete={() => setShowLanding(false)}
-                                    className="absolute inset-[-12px] rounded-full blur-[10px] z-0"
+                                    className="absolute inset-[-12px] rounded-full z-0"
                                     style={{
-                                        background: "conic-gradient(from 0deg, transparent, #4285F4, #EA4335, #FBBC05, #34A853, transparent)",
+                                        background: "conic-gradient(from 0deg, transparent, #4285F4 25%, #EA4335 50%, #FBBC05 75%, #34A853 100%)",
+                                        WebkitMaskImage: 'radial-gradient(circle, transparent 62%, black 63%)',
+                                        maskImage: 'radial-gradient(circle, transparent 62%, black 63%)',
                                     }}
                                 />
                             )}
