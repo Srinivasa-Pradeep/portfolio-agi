@@ -16,7 +16,7 @@ const navLinks = [
     { id: 'leetcode', label: 'LeetCode', icon: Code, shortcut: 'L', href: '#leetcode' },
     { id: 'projects', label: 'Projects', icon: Star, shortcut: 'P', href: '#projects' },
     { id: 'contact', label: 'Contact', icon: Send, shortcut: 'C', href: '#contact' },
-    { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'K', href: 'trigger-liz' },
+    { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'Z', href: 'trigger-liz' },
 ];
 
 export function HeroCommandBar() {
@@ -77,7 +77,7 @@ export function HeroCommandBar() {
                 <span className="ml-4 text-muted-foreground/60 font-medium group-hover:text-muted-foreground transition-colors">Search anything...</span>
                 
                 <div className="ml-auto flex items-center gap-1.5 opacity-40 group-hover:opacity-100 transition-opacity">
-                    <kbd className="hidden sm:inline-flex h-6 select-none items-center gap-1 rounded-md border bg-muted px-2 font-mono text-[10px] font-bold">
+                    <kbd className="hidden sm:inline-flex h-6 select-none items-center gap-1 rounded-sm border bg-muted px-2 font-mono text-[10px] font-bold">
                         <span className="text-xs">⌘</span>ENTER
                     </kbd>
                 </div>
@@ -97,7 +97,7 @@ export function HeroCommandBar() {
                                 className="flex-1 bg-transparent border-none outline-none h-10 font-medium text-lg placeholder:text-muted-foreground/40"
                                 autoFocus
                             />
-                            <kbd className="hidden sm:inline-flex h-6 items-center rounded-md border bg-muted px-1.5 font-mono text-[10px] font-bold text-muted-foreground">
+                            <kbd className="hidden sm:inline-flex h-6 items-center rounded-sm border bg-muted px-1.5 font-mono text-[10px] font-bold text-muted-foreground">
                                 ESC
                             </kbd>
                         </div>
@@ -122,7 +122,7 @@ export function HeroCommandBar() {
                                             <p className="font-bold text-foreground/80 group-hover:text-primary transition-colors">{link.label}</p>
                                             <p className="text-xs text-muted-foreground opacity-60">Go to {link.id}</p>
                                         </div>
-                                        <kbd className="h-7 w-7 flex items-center justify-center rounded-md border border-border/40 bg-muted/40 font-mono text-xs font-black shadow-sm transition-all group-hover:border-primary/40 group-hover:text-primary">
+                                        <kbd className="h-7 w-7 flex items-center justify-center rounded-sm border border-border/40 bg-muted/40 font-mono text-xs font-black shadow-sm transition-all group-hover:border-primary/40 group-hover:text-primary">
                                             {link.shortcut}
                                         </kbd>
                                     </button>

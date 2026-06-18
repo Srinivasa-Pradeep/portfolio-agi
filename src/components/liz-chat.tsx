@@ -146,7 +146,7 @@ export function LizChat() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'z') {
         e.preventDefault();
         setIsOpen(prev => !prev);
       }
@@ -192,7 +192,6 @@ export function LizChat() {
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
             style={{
-                // Dual-layer background-clip technique for a perfect curved border path
                 background: `linear-gradient(hsl(var(--background)), hsl(var(--background))) padding-box, 
                              ${isHovering 
                                ? `conic-gradient(from ${triggerAngle}deg, transparent 0deg, #4285F4 15deg, #EA4335 30deg, #FBBC05 45deg, #34A853 60deg, transparent 90deg) border-box` 
@@ -210,10 +209,9 @@ export function LizChat() {
                 <span className="[writing-mode:vertical-lr] text-[8px] font-black uppercase tracking-[0.4em] opacity-60">Talk with Liz</span>
                 <div className="hidden sm:flex mt-4 flex-col items-center gap-1 opacity-0 group-hover/btn:opacity-40 transition-opacity duration-500">
                     <span className="text-[9px] font-bold">⌘</span>
-                    <span className="text-[9px] font-bold">K</span>
+                    <span className="text-[9px] font-bold">Z</span>
                 </div>
             </div>
-            {/* Subtle glow layer behind the border colors */}
             {isHovering && (
               <div 
                 className="absolute inset-0 pointer-events-none opacity-20 blur-md transition-all duration-500"
@@ -335,7 +333,7 @@ export function LizChat() {
                     </div>
                     
                     <div className="mt-3 flex justify-between items-center px-4">
-                        <p className="text-[8px] sm:text-[9px] font-medium text-muted-foreground/20 uppercase tracking-[0.3em]">Driven by Grit & Logic</p>
+                        <p className="text-[8px] sm:text-[9px] font-medium text-muted-foreground/20 uppercase tracking-[0.3em]">Precision & Purpose</p>
                         <div className="hidden sm:flex items-center gap-3 opacity-0 group-focus-within:opacity-20 transition-opacity duration-700">
                              <div className="flex items-center gap-1.5">
                                 <span className="text-[9px] font-black tracking-tighter">ENTER</span>
