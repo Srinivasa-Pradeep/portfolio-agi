@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useRouter } from 'next/navigation';
+import { motion, useSpring, useMotionValue, useTransform } from 'framer-motion';
 
 const navLinks = [
     { id: 'about', label: 'About', icon: User, shortcut: 'A', href: '#about' },
@@ -29,6 +30,14 @@ export function HeroCommandBar() {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const containerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
+
+    // Magnetic Motion Values
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    const springConfig = { damping: 20, stiffness: 150, mass: 0.5 };
+    const springX = useSpring(mouseX, springConfig);
+    const springY = useSpring(mouseY, springConfig);
 
     const filteredLinks = useMemo(() => 
         navLinks.filter(link => 
@@ -55,10 +64,27 @@ export function HeroCommandBar() {
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
-        setMousePos({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-        });
+        
+        // Calculate position relative to container for shine effect
+        const localX = e.clientX - rect.left;
+        const localY = e.clientY - rect.top;
+        setMousePos({ x: localX, y: localY });
+
+        // Calculate magnetic pull from center
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const pullX = (e.clientX - centerX) * 0.15;
+        const pullY = (e.clientY - centerY) * 0.25;
+
+        mouseX.set(pullX);
+        mouseY.set(pullY);
+    };
+
+    const handleMouseLeave = () => {
+        mouseX.set(0);
+        mouseY.set(0);
+        setMousePos({ x: 0, y: 0 });
     };
 
     const handleAction = useCallback((item: typeof navLinks[0]) => {
@@ -112,12 +138,15 @@ export function HeroCommandBar() {
 
     return (
         <>
-            <div 
+            <motion.div 
                 ref={containerRef}
                 onClick={togglePalette}
                 onMouseMove={handleMouseMove}
-                className="group relative p-[1px] rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_40px_rgba(255,255,255,0.04)]"
+                onMouseLeave={handleMouseLeave}
+                style={{ x: springX, y: springY }}
+                className="group relative p-[1px] rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_40px_rgba(255,255,255,0.04)] active:scale-[0.98]"
             >
+                {/* Border Shine Layer */}
                 <div 
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none"
                     style={{
@@ -135,7 +164,7 @@ export function HeroCommandBar() {
                         </kbd>
                     </div>
                 </div>
-            </div>
+            </motion.div>
 
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogContent 
