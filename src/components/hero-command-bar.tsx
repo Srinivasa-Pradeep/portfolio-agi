@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
+import { useTheme } from 'next-themes';
 
 const navLinks = [
     { id: 'about', label: 'About', icon: User, shortcut: 'A', href: '#about' },
@@ -24,6 +25,7 @@ const navLinks = [
 ];
 
 export function HeroCommandBar() {
+    const { theme } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
     const [showLanding, setShowLanding] = useState(true);
     const [search, setSearch] = useState('');
@@ -44,6 +46,11 @@ export function HeroCommandBar() {
             link.label.toLowerCase().includes(search.toLowerCase())
         ), [search]
     );
+
+    // Re-trigger the precise landing ring on theme toggle
+    useEffect(() => {
+        setShowLanding(true);
+    }, [theme]);
 
     useEffect(() => {
         const root = document.documentElement;
@@ -167,6 +174,7 @@ export function HeroCommandBar() {
                         <AnimatePresence>
                             {showLanding && (
                                 <motion.div
+                                    key={`landing-ring-${theme}`}
                                     initial={{ rotate: 0, opacity: 0, scale: 0.8 }}
                                     animate={{ rotate: 360, opacity: [0, 1, 1, 0], scale: [0.8, 1.1, 1] }}
                                     exit={{ opacity: 0 }}
