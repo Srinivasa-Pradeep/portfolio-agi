@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Search, Command, User, NotebookText, Code, Star, Send, CornerDownLeft } from 'lucide-react';
+import { Search, Command, User, NotebookText, Code, Star, Send, CornerDownLeft, Library, Wind } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { useRouter } from 'next/navigation';
 
 const navLinks = [
     { id: 'about', label: 'About', icon: User, shortcut: 'A', href: '#about' },
@@ -16,12 +17,15 @@ const navLinks = [
     { id: 'leetcode', label: 'LeetCode', icon: Code, shortcut: 'L', href: '#leetcode' },
     { id: 'projects', label: 'Projects', icon: Star, shortcut: 'P', href: '#projects' },
     { id: 'contact', label: 'Contact', icon: Send, shortcut: 'C', href: '#contact' },
+    { id: 'books', label: 'Volumes (Library)', icon: Library, shortcut: 'V', href: '/books' },
+    { id: 'zen', label: 'Zen Mode', icon: Wind, shortcut: 'O', href: '/zen' },
     { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'Z', href: 'trigger-liz' },
 ];
 
 export function HeroCommandBar() {
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState('');
+    const router = useRouter();
 
     const togglePalette = useCallback(() => {
         setIsOpen(prev => !prev);
@@ -54,6 +58,8 @@ export function HeroCommandBar() {
         setIsOpen(false);
         if (item.id === 'liz') {
             window.dispatchEvent(new CustomEvent('open-liz'));
+        } else if (item.href.startsWith('/')) {
+            router.push(item.href);
         } else {
             const element = document.getElementById(item.id);
             if (element) {
