@@ -123,7 +123,10 @@ export function HeroCommandBar() {
 
             {/* The Spotlight Modal */}
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                <DialogContent className="sm:max-w-[550px] p-0 gap-0 border-none bg-background/80 backdrop-blur-2xl shadow-2xl overflow-hidden rounded-[32px]">
+                <DialogContent 
+                    data-lenis-prevent 
+                    className="sm:max-w-[550px] p-0 gap-0 border-none bg-background/80 backdrop-blur-2xl shadow-2xl overflow-hidden rounded-[32px]"
+                >
                     <DialogHeader className="p-4 border-b border-border/20">
                         <DialogTitle className="sr-only">Command Palette</DialogTitle>
                         <div className="flex items-center gap-3 px-2 pr-10">
@@ -141,7 +144,7 @@ export function HeroCommandBar() {
                         </div>
                     </DialogHeader>
 
-                    <div className="p-2">
+                    <div className="p-2 max-h-[60vh] overflow-y-auto scrollbar-hide" data-lenis-prevent>
                         <div className="px-3 py-2 text-[10px] font-bold text-muted-foreground/60 uppercase tracking-[0.2em]">
                             Navigation
                         </div>

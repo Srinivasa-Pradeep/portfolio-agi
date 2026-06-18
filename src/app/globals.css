@@ -68,9 +68,8 @@
     --feedback-foreground: 270 90% 25%;
   }
 
-  /* Spring Mode - Sandal & Light Rose Palette */
   .spring {
-    --background: 36 67% 97%; /* Premium Sandalwood / Beige */
+    --background: 36 67% 97%;
     --foreground: 25 30% 20%;
     --card: 36 67% 98%;
     --card-foreground: 25 30% 20%;
@@ -82,7 +81,7 @@
     --input: 36 20% 85%;
     --muted: 36 20% 92%;
     --muted-foreground: 25 15% 45%;
-    --accent: 350 40% 90%; /* Light Rose Pink */
+    --accent: 350 40% 90%;
     --accent-foreground: 350 40% 20%;
     --ring: 25 30% 15%;
     --radius: 0.8rem;
@@ -126,8 +125,9 @@
   .lenis.lenis-scrolling iframe {
     pointer-events: none;
   }
+  /* Force system cursor removal when custom cursor is active */
   .no-cursor, .no-cursor * {
-    cursor: none;
+    cursor: none !important;
   }
 }
 
