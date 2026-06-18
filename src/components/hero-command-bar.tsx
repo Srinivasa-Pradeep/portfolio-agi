@@ -48,6 +48,7 @@ export function HeroCommandBar() {
         const root = document.documentElement;
         if (isOpen) {
             document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = '0px'; // Prevent shift
             root.style.overflow = 'hidden';
             window.dispatchEvent(new CustomEvent('palette-open'));
         } else {
@@ -75,19 +76,9 @@ export function HeroCommandBar() {
         const localX = e.clientX - rect.left;
         const localY = e.clientY - rect.top;
         setMousePos({ x: localX, y: localY });
-
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const pullX = (e.clientX - centerX) * 0.05;
-        const pullY = (e.clientY - centerY) * 0.05;
-
-        mouseX.set(pullX);
-        mouseY.set(pullY);
     };
 
     const handleMouseLeave = () => {
-        mouseX.set(0);
-        mouseY.set(0);
         setMousePos({ x: 0, y: 0 });
     };
 
@@ -147,7 +138,6 @@ export function HeroCommandBar() {
                 onClick={togglePalette}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
-                style={{ x: springX, y: springY }}
                 whileHover={{ scale: 1.02 }}
                 className="group relative p-[1px] rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_40px_rgba(255,255,255,0.04)] active:scale-[0.98]"
             >
@@ -177,7 +167,7 @@ export function HeroCommandBar() {
                 >
                     <DialogHeader className="p-4 border-b border-border/20">
                         <DialogTitle className="sr-only">Command Palette</DialogTitle>
-                        <div className="flex items-center gap-3 px-2 pr-16">
+                        <div className="flex items-center gap-3 px-2 pr-20">
                             <Search className="h-5 w-5 text-muted-foreground" />
                             <input 
                                 value={search}
@@ -186,13 +176,15 @@ export function HeroCommandBar() {
                                 className="flex-1 bg-transparent border-none outline-none h-10 font-medium text-lg placeholder:text-muted-foreground/40"
                                 autoFocus
                             />
-                            <kbd className="hidden sm:inline-flex h-6 items-center rounded-sm border bg-muted px-1.5 font-mono text-[10px] font-bold text-muted-foreground">
-                                ESC
-                            </kbd>
+                            <div className="flex items-center gap-2">
+                                <kbd className="hidden sm:inline-flex h-6 items-center rounded-sm border bg-muted px-1.5 font-mono text-[10px] font-bold text-muted-foreground">
+                                    ESC
+                                </kbd>
+                            </div>
                         </div>
                     </DialogHeader>
 
-                    <div className="p-2 overflow-hidden" data-lenis-prevent>
+                    <div className="p-2 overflow-hidden">
                         <div className="px-3 py-2 text-[10px] font-bold text-muted-foreground/60 uppercase tracking-[0.2em]">
                             Navigation
                         </div>
