@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Search, Command, User, NotebookText, Code, Star, Send, CornerDownLeft, Library, Wind } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -26,6 +26,8 @@ export function HeroCommandBar() {
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const containerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
     const filteredLinks = useMemo(() => 
@@ -34,12 +36,10 @@ export function HeroCommandBar() {
         ), [search]
     );
 
-    // Reset selected index when search changes
     useEffect(() => {
         setSelectedIndex(0);
     }, [search]);
 
-    // Dispatch custom events for Header synchronization
     useEffect(() => {
         if (isOpen) {
             window.dispatchEvent(new CustomEvent('palette-open'));
@@ -51,6 +51,15 @@ export function HeroCommandBar() {
     const togglePalette = useCallback(() => {
         setIsOpen(prev => !prev);
     }, []);
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        setMousePos({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        });
+    };
 
     const handleAction = useCallback((item: typeof navLinks[0]) => {
         setIsOpen(false);
@@ -68,14 +77,12 @@ export function HeroCommandBar() {
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            // Cmd + Enter or Ctrl + Enter to open
             if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
                 e.preventDefault();
                 togglePalette();
                 return;
             }
 
-            // Navigation when palette is open
             if (isOpen) {
                 if (e.key === 'ArrowDown') {
                     e.preventDefault();
@@ -89,7 +96,6 @@ export function HeroCommandBar() {
                         handleAction(filteredLinks[selectedIndex]);
                     }
                 } else {
-                    // Single-key shortcuts (A, B, etc)
                     const key = e.key.toUpperCase();
                     const item = navLinks.find(link => link.shortcut === key);
                     if (item) {
@@ -106,22 +112,31 @@ export function HeroCommandBar() {
 
     return (
         <>
-            {/* The Trigger Bar in Hero - Pill-shaped like Google Search */}
             <div 
+                ref={containerRef}
                 onClick={togglePalette}
-                className="group relative flex items-center w-full bg-secondary/30 backdrop-blur-xl border border-border/40 h-14 rounded-full px-6 cursor-pointer transition-all duration-300 hover:bg-secondary/50 hover:border-primary/20 hover:shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_40px_rgba(255,255,255,0.04)]"
+                onMouseMove={handleMouseMove}
+                className="group relative p-[1px] rounded-full overflow-hidden transition-all duration-500 hover:shadow-[0_0_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_0_40px_rgba(255,255,255,0.04)]"
             >
-                <Search className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                <span className="ml-4 text-muted-foreground/60 font-medium group-hover:text-muted-foreground transition-colors">Search anything...</span>
+                <div 
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0 pointer-events-none"
+                    style={{
+                        background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, hsl(var(--primary) / 0.4), transparent 40%)`
+                    }}
+                />
                 
-                <div className="ml-auto flex items-center gap-1.5 opacity-40 group-hover:opacity-100 transition-opacity">
-                    <kbd className="hidden sm:inline-flex h-6 select-none items-center gap-1 rounded-sm border bg-muted px-2 font-mono text-[10px] font-bold">
-                        <span className="text-xs">⌘</span>ENTER
-                    </kbd>
+                <div className="relative z-10 flex items-center w-full bg-secondary/30 backdrop-blur-xl border border-border/40 h-14 rounded-full px-6 cursor-pointer transition-all duration-300 group-hover:bg-secondary/50 group-hover:border-transparent">
+                    <Search className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <span className="ml-4 text-muted-foreground/60 font-medium group-hover:text-muted-foreground transition-colors">Search anything...</span>
+                    
+                    <div className="ml-auto flex items-center gap-1.5 opacity-40 group-hover:opacity-100 transition-opacity">
+                        <kbd className="hidden sm:inline-flex h-6 select-none items-center gap-1 rounded-sm border bg-muted px-2 font-mono text-[10px] font-bold">
+                            <span className="text-xs">⌘</span>ENTER
+                        </kbd>
+                    </div>
                 </div>
             </div>
 
-            {/* The Spotlight Modal */}
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
                 <DialogContent 
                     data-lenis-prevent 
