@@ -64,7 +64,7 @@ function ShiningLink({ href, children }: { href: string, children: ReactNode }) 
       href={href} 
       className="relative inline-flex items-center font-bold text-primary group"
     >
-      <span className="relative z-10 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#fff,55%,hsl(var(--primary)))] bg-[size:200%_100%] animate-shine decoration-primary/30 underline underline-offset-4 hover:decoration-primary transition-all duration-300 px-1">
+      <span className="relative z-10 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#fff,55%,hsl(var(--primary)))] bg-[size:200%_100%] animate-shine underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all duration-300 px-1">
         {children}
       </span>
     </Link>
@@ -79,20 +79,6 @@ interface ManifestoItem {
 
 const manifestoItems: ManifestoItem[] = [
   {
-    id: "curiosity",
-    question: "What am I endlessly curious about?",
-    answer: "Almost everything. Technology may be my craft, but my curiosity extends far beyond it. I aspire to become a polymath: someone who learns across disciplines and connects ideas that don't seem related at first glance."
-  },
-  {
-    id: "peace",
-    question: "Where do I find peace?",
-    answer: (
-      <>
-        By the sea, surrounded by nature, or simply sitting with my thoughts. There's something about open horizons, quiet moments, and fresh air that brings clarity and reminds me what truly matters. I even built this <ShiningLink href="/zen">Zen Mode</ShiningLink> specifically to capture and share that feeling of stillness.
-      </>
-    )
-  },
-  {
     id: "thinking",
     question: "What shapes the way I think?",
     answer: (
@@ -102,14 +88,28 @@ const manifestoItems: ManifestoItem[] = [
     )
   },
   {
+    id: "motivation",
+    question: "What motivates me every day?",
+    answer: "My father. He started his 20s as a farmer and transitioned into a government role by his 30s, providing everything he could for the betterment of my life. His resilience and quiet grit are the engines behind my own discipline."
+  },
+  {
+    id: "curiosity",
+    question: "What am I endlessly curious about?",
+    answer: "Almost everything. Technology may be my craft, but my curiosity extends far beyond it. I aspire to become a polymath: someone who learns across disciplines and connects ideas that don't seem related at first glance."
+  },
+  {
     id: "optimization",
     question: "What am I currently optimizing?",
     answer: "Myself. Not just as an engineer, but as a thinker, communicator, and teammate. I believe small, intentional improvements are the only things that compound into remarkable results over time."
   },
   {
-    id: "motivation",
-    question: "What motivates me every day?",
-    answer: "My father. He started his 20s as a farmer and transitioned into a government role by his 30s, providing everything he could for the betterment of my life. His resilience and quiet grit are the engines behind my own discipline."
+    id: "peace",
+    question: "Where do I find peace?",
+    answer: (
+      <>
+        By the sea, surrounded by nature, or simply sitting with my thoughts. There's something about open horizons, quiet moments, and fresh air that brings clarity and reminds me what truly matters. I even built this <ShiningLink href="/zen">Zen Mode</ShiningLink> specifically to capture and share that feeling of stillness.
+      </>
+    )
   }
 ];
 
