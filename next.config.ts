@@ -70,6 +70,12 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.penguin.co.in',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.crossword.in',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
