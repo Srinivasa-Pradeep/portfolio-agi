@@ -14,8 +14,10 @@ import { Reorder, useDragControls } from 'framer-motion';
 
 /**
  * @fileOverview The Personal Library - Reorderable architectural rack.
- * Refined interactions: Removed zoom on hover, added 1mm 'trim' inset,
- * and restored the library closing signature.
+ * Refined per user feedback:
+ * - Thick architectural shell (border) restored.
+ * - 1mm internal "Crop" via scale to remove native cover outlines.
+ * - Minimalist signature line at footer.
  */
 
 interface Book {
@@ -248,24 +250,24 @@ function BookCard({ book }: { book: Book }) {
     >
       {/* 3D Book Container */}
       <div className="relative aspect-[2/3] w-full perspective-[1000px]">
-        {/* Book Shell with "Trim" Padding to prevent cover obscuration */}
+        {/* Book Shell - Thick Border Frame */}
         <div className={cn(
-            "relative h-full w-full rounded-[4px] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden",
-            "group-hover:-translate-y-4 group-hover:rotate-y-[-15deg] group-hover:shadow-[20px_40px_60px_rgba(0,0,0,0.3)]",
-            "bg-border/20 dark:bg-white/5 ring-1 ring-border/30 shadow-[0_15px_35px_rgba(0,0,0,0.1)] dark:ring-white/5 dark:shadow-[0_15px_35px_rgba(0,0,0,0.4)]",
-            "p-[1.5px]" // The architectural 1mm trim gap
+            "relative h-full w-full rounded-[6px] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden",
+            "group-hover:-translate-y-4 group-hover:rotate-y-[-12deg] group-hover:shadow-[25px_45px_70px_rgba(0,0,0,0.35)]",
+            "bg-border/30 dark:bg-white/10 ring-[6px] ring-border/20 shadow-[0_15px_35px_rgba(0,0,0,0.1)] dark:ring-white/5 dark:shadow-[0_15px_35px_rgba(0,0,0,0.4)]",
+            "p-[1px]" // Minimal contact gap
         )}>
-            {/* Inner Content Holder */}
+            {/* Inner Content Holder - Acts as the mask for the 1mm trim */}
             <div className="relative h-full w-full overflow-hidden rounded-[3px] bg-muted">
                 {image && (
                     <Image
                         src={image.imageUrl}
                         alt={book.title}
                         fill
-                        className="object-cover transition-transform duration-700" // REMOVED zoom scale on hover
+                        className="object-cover transition-transform duration-700 scale-[1.04]" // 1.04 scale zooms in slightly to "TRIM" the black edges of the source image
                     />
                 )}
-                {/* Minimalist Spine Detail - Positioned inside to maintain clean edges */}
+                {/* Minimalist Spine Detail */}
                 <div className="absolute inset-y-0 left-0 w-[4px] bg-black/10 dark:bg-white/10 z-20 pointer-events-none" />
                 
                 {/* Glossy Overlay */}
@@ -276,7 +278,7 @@ function BookCard({ book }: { book: Book }) {
         {/* Drag Handle */}
         <div 
           onPointerDown={(e) => controls.start(e)}
-          className="absolute -top-3 -right-3 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-30"
+          className="absolute -top-4 -right-4 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all shadow-lg z-30"
         >
           <GripVertical className="h-4 w-4" />
         </div>
@@ -384,13 +386,13 @@ export default function BooksPage() {
             setItems={setGrowthBooks}
           />
 
-          {/* Library Signature Line */}
+          {/* Library Signature Line - Refined and Minimal */}
           <div className="mt-32 mb-20 flex flex-col items-center text-center">
-             <div className="h-px w-24 bg-border/40 mb-12" />
-             <p className="font-headline text-3xl md:text-4xl font-black tracking-tighter text-primary/30 uppercase italic select-none">
+             <div className="h-px w-16 bg-border/40 mb-10" />
+             <p className="font-headline text-xl md:text-2xl font-black tracking-tighter text-primary/20 uppercase italic select-none">
                 And many more pages to be turned.
              </p>
-             <p className="mt-4 text-[10px] font-mono text-muted-foreground uppercase tracking-[0.4em] opacity-40">The library is never finished.</p>
+             <p className="mt-4 text-[9px] font-mono text-muted-foreground uppercase tracking-[0.4em] opacity-30">The library is never finished.</p>
           </div>
         </div>
       </main>
@@ -398,3 +400,4 @@ export default function BooksPage() {
     </div>
   );
 }
+
