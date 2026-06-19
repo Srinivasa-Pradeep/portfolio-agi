@@ -141,8 +141,8 @@
     {
       "id": "book-diary-ceo",
       "description": "The Diary of a CEO by Steven Bartlett",
-      "imageUrl": "https://picsum.photos/seed/book8/400/600",
-      "imageHint": "book cover"
+      "imageUrl": "https://m.media-amazon.com/images/I/61PIpidSThL.jpg",
+      "imageHint": "book cover diary of a ceo"
     },
     {
       "id": "book-sum-afterlives",
