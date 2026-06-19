@@ -224,7 +224,7 @@ const initialBookCollection: Book[] = [
   },
   { 
     id: "growth-14",
-    title: "Mindset: The New Psychology of Success", 
+    title: "Mindset", 
     author: "Dr. Carol S. Dweck", 
     category: "growth", 
     imageId: "book-mindset",
