@@ -222,6 +222,14 @@ const initialBookCollection: Book[] = [
     imageId: "book-blitzscaling",
     amazonLink: "https://www.amazon.com/s?k=Blitzscaling+Reid+Hoffman"
   },
+  { 
+    id: "growth-14",
+    title: "Mindset: The New Psychology of Success", 
+    author: "Dr. Carol S. Dweck", 
+    category: "growth", 
+    imageId: "book-mindset",
+    amazonLink: "https://www.amazon.com/s?k=Mindset+Dr+Carol+Dweck"
+  },
 
   // Imagination
   { 
