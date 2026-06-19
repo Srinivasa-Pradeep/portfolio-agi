@@ -15,7 +15,9 @@ import { Reorder, useDragControls } from 'framer-motion';
 /**
  * @fileOverview The Personal Library - Reorderable architectural rack.
  * Refined per user feedback:
- * - Thick architectural shell (border) restored.
+ * - Removed thick outer borders.
+ * - Implemented a thick, layout-integrated spine (sideline).
+ * - Sideline is visible across all themes and does not overlap cover art.
  * - Selective internal "Crop" via scale for specific volumes with native outlines.
  * - Minimalist signature line at footer.
  */
@@ -253,31 +255,36 @@ function BookCard({ book }: { book: Book }) {
     >
       {/* 3D Book Container */}
       <div className="relative aspect-[2/3] w-full perspective-[1000px]">
-        {/* Book Shell - Thick Border Frame */}
+        {/* Book Body - Clean Frame without thick outer ring */}
         <div className={cn(
-            "relative h-full w-full rounded-[6px] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden",
+            "relative h-full w-full rounded-[4px] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] overflow-hidden",
             "group-hover:-translate-y-4 group-hover:rotate-y-[-12deg] group-hover:shadow-[25px_45px_70px_rgba(0,0,0,0.35)]",
-            "bg-border/30 dark:bg-white/10 ring-[6px] ring-border/20 shadow-[0_15px_35px_rgba(0,0,0,0.1)] dark:ring-white/5 dark:shadow-[0_15px_35px_rgba(0,0,0,0.4)]",
-            "p-[1px]" // Minimal contact gap
+            "bg-card shadow-[0_10px_30px_rgba(0,0,0,0.1)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.5)] border border-border/40",
         )}>
-            {/* Inner Content Holder - Acts as the mask for the 1mm trim */}
-            <div className="relative h-full w-full overflow-hidden rounded-[3px] bg-muted">
-                {image && (
-                    <Image
-                        src={image.imageUrl}
-                        alt={book.title}
-                        fill
-                        className={cn(
-                          "object-cover transition-transform duration-700",
-                          needsCrop ? "scale-[1.04]" : "scale-100"
-                        )}
-                    />
-                )}
-                {/* Minimalist Spine Detail */}
-                <div className="absolute inset-y-0 left-0 w-[4px] bg-black/10 dark:bg-white/10 z-20 pointer-events-none" />
+            <div className="flex h-full w-full overflow-hidden">
+                {/* Thick Spine Sideline - Visible across all themes, integrated into layout so it doesn't cover cover image */}
+                <div className="w-[14px] sm:w-[16px] h-full bg-primary/10 border-r border-primary/5 flex-shrink-0 relative z-20 overflow-hidden">
+                    {/* Spine Depth Accents */}
+                    <div className="absolute inset-y-0 right-0 w-px bg-white/20" />
+                    <div className="absolute inset-y-0 left-0 w-px bg-black/10" />
+                </div>
                 
-                {/* Glossy Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                {/* Cover Image Area */}
+                <div className="relative flex-1 h-full bg-muted overflow-hidden">
+                    {image && (
+                        <Image
+                            src={image.imageUrl}
+                            alt={book.title}
+                            fill
+                            className={cn(
+                              "object-cover transition-transform duration-700",
+                              needsCrop ? "scale-[1.04]" : "scale-100"
+                            )}
+                        />
+                    )}
+                    {/* Glossy Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                </div>
             </div>
         </div>
 
@@ -389,7 +396,7 @@ export default function BooksPage() {
             title="Imagination" 
             icon={Sparkles} 
             items={imaginationBooks}
-            setItems={setGrowthBooks}
+            setItems={setImaginationBooks}
           />
 
           {/* Library Signature Line - Refined and Minimal */}
