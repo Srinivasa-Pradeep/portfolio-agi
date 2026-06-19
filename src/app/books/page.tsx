@@ -76,6 +76,46 @@ const initialBookCollection: Book[] = [
     imageId: "book-pragmatic-programmer",
     amazonLink: "https://www.amazon.com/s?k=The+Pragmatic+Programmer+Andrew+Hunt"
   },
+  { 
+    id: "logic-7",
+    title: "The Joys of Hashing", 
+    author: "Thomas Mailund", 
+    category: "logic", 
+    imageId: "book-joys-hashing",
+    amazonLink: "https://www.amazon.com/s?k=The+Joys+of+Hashing+Thomas+Mailund"
+  },
+  { 
+    id: "logic-8",
+    title: "Hands-On High Performance with Go", 
+    author: "Bob Strecansky", 
+    category: "logic", 
+    imageId: "book-high-perf-go",
+    amazonLink: "https://www.amazon.com/s?k=Hands-On+High+Performance+with+Go+Bob+Strecansky"
+  },
+  { 
+    id: "logic-9",
+    title: "Go Programming Language", 
+    author: "Alan A. A. Donovan", 
+    category: "logic", 
+    imageId: "book-go-lang",
+    amazonLink: "https://www.amazon.com/s?k=Go+Programming+Language+Alan+Donovan"
+  },
+  { 
+    id: "logic-10",
+    title: "Introduction To Information Retrieval", 
+    author: "Christopher Manning", 
+    category: "logic", 
+    imageId: "book-info-retrieval",
+    amazonLink: "https://www.amazon.com/s?k=Introduction+To+Information+Retrieval+Christopher+Manning"
+  },
+  { 
+    id: "logic-11",
+    title: "Mastering Go", 
+    author: "Mihalis Tsoukalos", 
+    category: "logic", 
+    imageId: "book-mastering-go",
+    amazonLink: "https://www.amazon.com/s?k=Mastering+Go+Mihalis+Tsoukalos"
+  },
   
   // Growth (Mindset & Business)
   { 
@@ -117,6 +157,70 @@ const initialBookCollection: Book[] = [
     category: "growth", 
     imageId: "book-manifest",
     amazonLink: "https://www.amazon.com/s?k=Manifest+Roxie+Nafousi"
+  },
+  { 
+    id: "growth-6",
+    title: "Surrounded by Idiots", 
+    author: "Thomas Erikson", 
+    category: "growth", 
+    imageId: "book-surrounded-idiots",
+    amazonLink: "https://www.amazon.com/s?k=Surrounded+by+Idiots+Thomas+Erikson"
+  },
+  { 
+    id: "growth-7",
+    title: "The Diary of a CEO", 
+    author: "Steven Bartlett", 
+    category: "growth", 
+    imageId: "book-diary-ceo",
+    amazonLink: "https://www.amazon.com/s?k=The+Diary+of+a+CEO+Steven+Bartlett"
+  },
+  { 
+    id: "growth-8",
+    title: "The Book of Clarity", 
+    author: "Paras Chopra", 
+    category: "growth", 
+    imageId: "book-clarity-paras",
+    amazonLink: "https://www.amazon.com/s?k=The+Book+of+Clarity+Paras+Chopra"
+  },
+  { 
+    id: "growth-9",
+    title: "Zero to One", 
+    author: "Peter Thiel", 
+    category: "growth", 
+    imageId: "book-zero-to-one",
+    amazonLink: "https://www.amazon.com/s?k=Zero+to+One+Peter+Thiel"
+  },
+  { 
+    id: "growth-10",
+    title: "Unlocking Hypergrowth", 
+    author: "Frank Slootman", 
+    category: "growth", 
+    imageId: "book-unlocking-hypergrowth",
+    amazonLink: "https://www.amazon.com/s?k=Unlocking+Hypergrowth+Frank+Slootman"
+  },
+  { 
+    id: "growth-11",
+    title: "The courage to be disliked", 
+    author: "Ichiro Kishimi", 
+    category: "growth", 
+    imageId: "book-courage-disliked",
+    amazonLink: "https://www.amazon.com/s?k=The+courage+to+be+disliked+Ichiro+Kishimi"
+  },
+  { 
+    id: "growth-12",
+    title: "Pragmatic Thinking and Learning", 
+    author: "Andy Hunt", 
+    category: "growth", 
+    imageId: "book-pragmatic-thinking",
+    amazonLink: "https://www.amazon.com/s?k=Pragmatic+Thinking+and+Learning+Andy+Hunt"
+  },
+  { 
+    id: "growth-13",
+    title: "Blitzscaling", 
+    author: "Reid Hoffman", 
+    category: "growth", 
+    imageId: "book-blitzscaling",
+    amazonLink: "https://www.amazon.com/s?k=Blitzscaling+Reid+Hoffman"
   },
 
   // Imagination
