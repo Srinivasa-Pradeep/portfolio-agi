@@ -16,7 +16,7 @@ import { Reorder, useDragControls } from 'framer-motion';
  * @fileOverview The Personal Library - Reorderable architectural rack.
  * Refined per user feedback:
  * - Thick architectural shell (border) restored.
- * - 1mm internal "Crop" via scale to remove native cover outlines.
+ * - Selective internal "Crop" via scale for specific volumes with native outlines.
  * - Minimalist signature line at footer.
  */
 
@@ -240,6 +240,9 @@ const initialBookCollection: Book[] = [
 function BookCard({ book }: { book: Book }) {
   const image = PlaceHolderImages.find(p => p.id === book.imageId);
   const controls = useDragControls();
+
+  // Selective scale crop for books with problematic native black outlines
+  const needsCrop = book.id === 'growth-1' || book.id === 'growth-10';
   
   return (
     <Reorder.Item
@@ -264,7 +267,10 @@ function BookCard({ book }: { book: Book }) {
                         src={image.imageUrl}
                         alt={book.title}
                         fill
-                        className="object-cover transition-transform duration-700 scale-[1.04]" // 1.04 scale zooms in slightly to "TRIM" the black edges of the source image
+                        className={cn(
+                          "object-cover transition-transform duration-700",
+                          needsCrop ? "scale-[1.04]" : "scale-100"
+                        )}
                     />
                 )}
                 {/* Minimalist Spine Detail */}
@@ -400,4 +406,3 @@ export default function BooksPage() {
     </div>
   );
 }
-
