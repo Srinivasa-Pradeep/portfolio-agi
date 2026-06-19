@@ -64,6 +64,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.oreilly.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.penguin.co.in',
+        port: '',
+        pathname: '/**',
       }
     ],
   },
