@@ -85,36 +85,12 @@ const initialBookCollection: Book[] = [
     amazonLink: "https://www.amazon.com/s?k=The+Joys+of+Hashing+Thomas+Mailund"
   },
   { 
-    id: "logic-8",
-    title: "Hands-On High Performance with Go", 
-    author: "Bob Strecansky", 
-    category: "logic", 
-    imageId: "book-high-perf-go",
-    amazonLink: "https://www.amazon.com/s?k=Hands-On+High+Performance+with+Go+Bob+Strecansky"
-  },
-  { 
-    id: "logic-9",
-    title: "Go Programming Language", 
-    author: "Alan A. A. Donovan", 
-    category: "logic", 
-    imageId: "book-go-lang",
-    amazonLink: "https://www.amazon.com/s?k=Go+Programming+Language+Alan+Donovan"
-  },
-  { 
     id: "logic-10",
     title: "Introduction To Information Retrieval", 
     author: "Christopher Manning", 
     category: "logic", 
     imageId: "book-info-retrieval",
     amazonLink: "https://www.amazon.com/s?k=Introduction+To+Information+Retrieval+Christopher+Manning"
-  },
-  { 
-    id: "logic-11",
-    title: "Mastering Go", 
-    author: "Mihalis Tsoukalos", 
-    category: "logic", 
-    imageId: "book-mastering-go",
-    amazonLink: "https://www.amazon.com/s?k=Mastering+Go+Mihalis+Tsoukalos"
   },
   
   // Growth (Mindset & Business)

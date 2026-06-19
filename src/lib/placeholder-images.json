@@ -205,18 +205,6 @@
       "imageHint": "book cover"
     },
     {
-      "id": "book-high-perf-go",
-      "description": "Hands-On High Performance with Go",
-      "imageUrl": "https://picsum.photos/seed/book19/400/600",
-      "imageHint": "book cover"
-    },
-    {
-      "id": "book-go-lang",
-      "description": "Go Programming Language by Alan A. A. Donovan",
-      "imageUrl": "https://picsum.photos/seed/book20/400/600",
-      "imageHint": "book cover"
-    },
-    {
       "id": "book-ddia",
       "description": "Designing Data-Intensive Applications",
       "imageUrl": "https://dataintensive.net/images/book-cover.png",
@@ -229,39 +217,15 @@
       "imageHint": "book cover deep work"
     },
     {
-      "id": "book-db-systems",
-      "description": "Database Systems by Hector Garcia-Molina",
-      "imageUrl": "https://picsum.photos/seed/book23/400/600",
-      "imageHint": "book cover"
-    },
-    {
       "id": "book-db-internals",
       "description": "Database Internals by Alex Petrov",
       "imageUrl": "https://m.media-amazon.com/images/I/91UYIt74czL._SY522_.jpg",
       "imageHint": "book cover database internals"
     },
     {
-      "id": "book-concurrency-go",
-      "description": "Concurrency in Go by Katherine Cox-Buday",
-      "imageUrl": "https://picsum.photos/seed/book25/400/600",
-      "imageHint": "book cover"
-    },
-    {
       "id": "book-microservices",
       "description": "Building Microservices by Sam Newman",
       "imageUrl": "https://m.media-amazon.com/images/I/81dmHMoJDjL._SY522_.jpg",
-      "imageHint": "book cover"
-    },
-    {
-      "id": "book-blitzscaling",
-      "description": "Blitzscaling by Reid Hoffman",
-      "imageUrl": "https://picsum.photos/seed/book27/400/600",
-      "imageHint": "book cover"
-    },
-    {
-      "id": "book-mastering-go",
-      "description": "Mastering Go by Mihalis Tsoukalos",
-      "imageUrl": "https://picsum.photos/seed/book28/400/600",
       "imageHint": "book cover"
     },
     {
