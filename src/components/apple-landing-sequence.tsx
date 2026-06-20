@@ -4,21 +4,17 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
- * AppleLandingSequence - A cinematic loading state inspired by the iconic Apple "hello" reveal.
- * Uses a handwritten SVG path animation and a deep blur reveal transition.
+ * AppleLandingSequence - A cinematic loading state using a custom handwritten SVG path.
+ * Features a high-fidelity "hello" reveal and a deep blur transition.
  */
 export function AppleLandingSequence() {
   const [isVisible, setIsVisible] = useState(true);
-  const [isAnimating, setIsInAnimating] = useState(false);
 
   useEffect(() => {
-    // Start the animation sequence
-    setIsInAnimating(true);
-    
     // Total duration of the cinematic sequence
     const timer = setTimeout(() => {
       setIsVisible(false);
-    }, 3200);
+    }, 3800);
 
     return () => clearTimeout(timer);
   }, []);
@@ -28,16 +24,15 @@ export function AppleLandingSequence() {
       {isVisible && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, filter: 'blur(40px)', scale: 1.1 }}
-          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          exit={{ opacity: 0, filter: 'blur(60px)', scale: 1.05 }}
+          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black"
         >
-          <div className="relative w-full max-w-[300px] sm:max-w-[400px] aspect-square flex items-center justify-center">
-            {/* The Handwritten "hello" SVG Path */}
+          <div className="relative w-full max-w-[600px] sm:max-w-[800px] px-8 aspect-[1230/414] flex items-center justify-center">
+            {/* Custom Handwritten SVG Path */}
             <svg 
-                viewBox="0 0 450 150" 
+                viewBox="0 0 1230.94 414.57" 
                 className="w-full h-auto fill-none stroke-white"
-                strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             >
@@ -45,15 +40,17 @@ export function AppleLandingSequence() {
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ pathLength: 1, opacity: 1 }}
                 transition={{ 
-                    duration: 2.2, 
+                    duration: 2.8, 
                     ease: [0.45, 0.05, 0.55, 0.95],
-                    delay: 0.2
+                    delay: 0.3
                 }}
-                d="M48.5,108.5c0,0,16.5-70.5,16.5-80.5s-10-8.5-12.5-3.5s-14.5,33.5-14.5,41.5s5,25.5,14,25.5c10.5,0,23.5-22.5,23.5-31.5 s-5.5-15.5-13.5-15.5s-17.5,10.5-17.5,26.5s10.5,26.5,24,26.5s31-25.5,31-38.5c0-10.5-6.5-14.5-10.5-14.5c-7,0-13,6.5-13,18.5 c0,15.5,9.5,28.5,22,28.5c11.5,0,21.5-10,21.5-20.5s-6.5-18.5-13-18.5c-7.5,0-13,7.5-13,18.5c0,16,10,26.5,23,26.5c13,0,26-11,26-25 s-10-23.5-18.5-23.5s-16.5,10.5-16.5,23.5s8.5,25,19,25s21.5-9,21.5-20.5s-5.5-18.5-12.5-18.5s-13,7.5-13,18.5 c0,15.5,9.5,26.5,21.5,26.5s25-13.5,25-27s-10-23.5-19-23.5s-17.5,10.5-17.5,23.5s9,25,20.5,25c12,0,23.5-11.5,23.5-23s-8.5-23.5-18.5-23.5 c-11,0-19.5,10.5-19.5,25s11,25,24.5,25s31.5-16.5,31.5-30.5c0-15.5-14.5-24-24.5-24c-13,0-23,12-23,26s12,26,25.5,26 c13.5,0,26-11.5,26-24.5s-10.5-23.5-19.5-23.5c-11.5,0-20,11.5-20,25.5s11,25,24,25s28.5-13.5,28.5-26.5s-9-23.5-17.5-23.5 s-16.5,9.5-16.5,23.5c0,15.5,10.5,26.5,23,26.5c12,0,22.5-10.5,22.5-22.5s-8.5-22-17-22s-15,8-15,19.5c0,13,8.5,22.5,19.5,22.5 c10.5,0,19.5-8.5,19.5-19s-8.5-19-16.5-19s-14.5,7.5-14.5,17s7.5,17,16.5,17c8.5,0,16.5-7.5,16.5-17.5s-7.5-17.5-16.5-17.5 c-9,0-15.5,7.5-15.5,17.5s7.5,17.5,16.5,17.5c9,0,17.5-8.5,17.5-19s-8-19.5-16.5-19.5s-15,8.5-15,19.5s8,19.5,16.5,19.5"
+                strokeWidth="35"
+                transform="translate(311.08 476.02)"
+                d="M-293.58-104.62S-103.61-205.49-60-366.25c9.13-32.45,9-58.31,0-74-10.72-18.82-49.69-33.21-75.55,31.94-27.82,70.11-52.22,377.24-44.11,322.48s34-176.24,99.89-183.19c37.66-4,49.55,23.58,52.83,47.92a117.06,117.06,0,0,1-3,45.32c-7.17,27.28-20.47,97.67,33.51,96.86,66.93-1,131.91-53.89,159.55-84.49,31.1-36.17,31.1-70.64,19.27-90.25-16.74-29.92-69.47-33-92.79,16.73C62.78-179.86,98.7-93.8,159-81.63S302.7-99.55,393.3-269.92c29.86-58.16,52.85-114.71,46.14-150.08-7.44-39.21-59.74-54.5-92.87-8.7-47,65-61.78,266.62-34.74,308.53S416.62-58,481.52-130.31s133.2-188.56,146.54-256.23c14-71.15-56.94-94.64-88.4-47.32C500.53-375,467.58-229.49,503.3-127a73.73,73.73,0,0,0,23.43,33.67c25.49,20.23,55.1,16,77.46,6.32a111.25,111.25,0,0,0,30.44-19.87c37.73-34.23,29-36.71,64.58-127.53C724-284.3,785-298.63,821-259.13a71,71,0,0,1,13.69,22.56c17.68,46,6.81,80-6.81,107.89-12,24.62-34.56,42.72-61.45,47.91-23.06,4.45-48.37-.35-66.48-24.27a78.88,78.88,0,0,1-12.66-25.8c-14.75-51,4.14-88.76,11-101.41,6.18-11.39,37.26-69.61,103.42-42.24,55.71,23.05,100.66-23.31,100.66-23.31"
               />
             </svg>
 
-            {/* Subtle glow beneath the text */}
+            {/* Subtle atmospheric glow */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 0.4, 0] }}
@@ -62,13 +59,13 @@ export function AppleLandingSequence() {
             />
           </div>
 
-          {/* Progress Indication */}
-          <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-48 overflow-hidden h-px bg-white/10">
+          {/* Precision Progress Line */}
+          <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-48 overflow-hidden h-px bg-white/10">
             <motion.div
               initial={{ x: '-100%' }}
               animate={{ x: '100%' }}
-              transition={{ duration: 2.8, ease: "easeInOut" }}
-              className="h-full w-full bg-white/40"
+              transition={{ duration: 3.2, ease: "easeInOut" }}
+              className="h-full w-full bg-white/30 shadow-[0_0_8px_white]"
             />
           </div>
         </motion.div>
