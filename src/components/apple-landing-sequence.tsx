@@ -27,8 +27,8 @@ export function AppleLandingSequence() {
       {isVisible && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, filter: 'blur(60px)', scale: 1.05 }}
-          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+          exit={{ opacity: 0, filter: 'blur(80px)', scale: 1.1 }}
+          transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black"
         >
           <div className="relative w-full max-w-[600px] sm:max-w-[800px] px-8 aspect-[1230/414] flex items-center justify-center">
