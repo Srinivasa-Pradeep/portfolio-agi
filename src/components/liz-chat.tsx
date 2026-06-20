@@ -215,117 +215,135 @@ export function LizChat() {
 
       <div 
         className={cn(
-            "fixed inset-0 z-[200] flex items-start justify-center pt-[8vh] sm:pt-[12vh] px-4 sm:px-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
+            "fixed inset-0 z-[200] flex items-center justify-center px-4 sm:px-6 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
             isOpen ? "pointer-events-auto bg-black/40 backdrop-blur-md opacity-100" : "pointer-events-none bg-transparent opacity-0"
         )}
         onClick={(e) => { if(e.target === e.currentTarget) setIsOpen(false); }}
       >
         <div className={cn(
-            "w-full max-w-2xl bg-white/10 dark:bg-black/20 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] transition-all duration-500 transform-gpu overflow-hidden rounded-[32px] sm:rounded-[40px]",
+            "w-full max-w-2xl bg-white/40 dark:bg-black/40 backdrop-blur-3xl border border-white/20 dark:border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] transition-all duration-700 transform-gpu overflow-hidden rounded-[40px] relative",
             isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95"
         )}>
-            <div className="p-4 sm:p-6 flex items-center justify-between border-b border-white/5 bg-white/5">
-                <div className="flex items-center gap-3 sm:gap-4">
-                    <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl sm:rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
-                        <Command className="h-4 w-4 sm:h-5 sm:w-5 text-primary/70" />
-                    </div>
-                    <div>
-                        <h2 className="text-base sm:text-lg font-bold tracking-tight">Talk with Liz</h2>
-                        <p className="text-[9px] sm:text-[10px] font-medium text-muted-foreground uppercase tracking-widest opacity-60">Personal Assistant</p>
-                    </div>
-                </div>
-                <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={() => setIsOpen(false)}
-                    className="rounded-full hover:bg-white/10 h-8 w-8 sm:h-10 sm:w-10 transition-colors"
-                >
-                    <X className="h-4 w-4 sm:h-5 sm:w-5 opacity-40 hover:opacity-100" />
-                </Button>
+            {/* Interior Atmospheric Smudges */}
+            <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                {/* Light Mode: Black Smudge */}
+                <div className="absolute -top-[10%] -left-[10%] w-[45%] h-[45%] bg-black/10 rounded-full blur-[100px] dark:opacity-0" />
+                <div className="absolute -bottom-[10%] -right-[10%] w-[45%] h-[45%] bg-black/5 rounded-full blur-[100px] dark:opacity-0" />
+                
+                {/* Dark Mode: Silver Smudge */}
+                <div className="absolute top-[15%] right-[5%] w-[55%] h-[55%] bg-zinc-400/10 rounded-full blur-[120px] opacity-0 dark:opacity-100" />
+                <div className="absolute bottom-[5%] left-[5%] w-[35%] h-[35%] bg-white/5 rounded-full blur-[80px] opacity-0 dark:opacity-100" />
             </div>
 
-            <ScrollArea className="h-[400px] sm:h-[480px] px-4 sm:px-6" data-lenis-prevent>
-                <div className="py-6 sm:py-8 space-y-8 sm:space-y-10">
-                    {messages.map((msg, i) => (
-                        <div 
-                            key={i} 
-                            className={cn(
-                                "flex flex-col gap-2 group animate-in fade-in slide-in-from-bottom-2 duration-500",
-                                msg.role === 'user' ? "items-end" : "items-start"
-                            )}
-                        >
-                            <div className={cn(
-                                "px-4 sm:px-6 py-3 sm:py-4 rounded-[22px] sm:rounded-[26px] text-sm leading-relaxed max-w-[92%] sm:max-w-[88%] shadow-sm border border-white/5 transition-all",
-                                msg.role === 'user' 
-                                    ? "bg-primary text-primary-foreground font-medium rounded-tr-none" 
-                                    : "bg-white/5 backdrop-blur-xl rounded-tl-none lora italic text-foreground/90 font-medium pr-6 sm:pr-7" 
-                            )}>
-                                <FormatMessage content={msg.content} />
-                            </div>
-                            <span className="text-[8px] font-bold uppercase tracking-widest opacity-20 px-3 group-hover:opacity-50 transition-opacity">
-                                {msg.role === 'user' ? 'Sent' : 'Liz'}
-                            </span>
+            <div className="relative z-10">
+                <div className="p-6 flex items-center justify-between border-b border-white/10 bg-white/5">
+                    <div className="flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10 shadow-inner">
+                            <Command className="h-5 w-5 text-primary/70" />
                         </div>
-                    ))}
-                    {isLoading && (
-                        <div className="flex items-center gap-3 px-3 text-primary/40">
-                            <Sparkles className="h-3 w-3 animate-pulse" />
-                            <span className="text-[10px] uppercase tracking-widest font-medium tracking-[0.2em]">Thinking...</span>
+                        <div>
+                            <h2 className="text-lg font-bold tracking-tight text-foreground">Talk with Liz</h2>
+                            <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-[0.3em]">Acoustic_Awareness_v2.1</p>
                         </div>
-                    )}
-                    <div ref={scrollRef} />
-                </div>
-            </ScrollArea>
-
-            <div className="p-4 sm:p-6 bg-transparent border-t border-white/5">
-                <div className="relative">
-                    <div className="flex items-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-2 sm:px-4 shadow-inner">
-                        <Button 
-                            variant="ghost" 
-                            size="icon"
-                            onClick={toggleRecording}
-                            className={cn(
-                                "h-10 w-10 rounded-full transition-all shrink-0",
-                                isRecording 
-                                  ? "bg-primary text-primary-foreground" 
-                                  : "text-muted-foreground/40 hover:text-primary"
-                            )}
-                        >
-                            {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-                        </Button>
-
-                        <input 
-                            ref={inputRef}
-                            value={inputValue}
-                            onChange={(e) => setInputValue(e.target.value)}
-                            onKeyDown={(e) => { 
-                              if(e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault();
-                                handleSendMessage(inputValue);
-                              }
-                            }}
-                            placeholder={isRecording ? "Listening..." : "Ask Liz anything..."}
-                            className="flex-1 bg-transparent border-none outline-none text-sm sm:text-base px-2 sm:px-4 h-12 sm:h-14 font-medium placeholder:text-muted-foreground/30 text-foreground"
-                        />
-
-                        <Button 
-                            size="icon" 
-                            variant="ghost"
-                            onClick={() => handleSendMessage(inputValue)}
-                            disabled={!inputValue.trim() || isLoading}
-                            className={cn(
-                                "h-10 w-10 rounded-full transition-all shrink-0 ml-1",
-                                inputValue.trim() ? "text-primary opacity-100 scale-100" : "text-muted-foreground/10 opacity-0 scale-75 pointer-events-none"
-                            )}
-                        >
-                            <Send className="h-4 w-4" />
-                        </Button>
                     </div>
-                    
-                    <div className="mt-3 flex justify-between items-center px-4">
-                        <p className="text-[8px] sm:text-[9px] font-medium text-muted-foreground/20 uppercase tracking-[0.3em]">Precision & Purpose</p>
-                        <div className="hidden sm:flex items-center gap-1.5 opacity-0 group-focus-within:opacity-20 transition-opacity duration-700">
-                             <CornerDownLeft className="h-3 w-3" />
+                    <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        onClick={() => setIsOpen(false)}
+                        className="rounded-full hover:bg-white/10 h-10 w-10 transition-colors"
+                    >
+                        <X className="h-5 w-5 opacity-40 hover:opacity-100" />
+                    </Button>
+                </div>
+
+                <ScrollArea className="h-[450px] sm:h-[520px] px-6 sm:px-8" data-lenis-prevent>
+                    <div className="py-8 space-y-10">
+                        {messages.map((msg, i) => (
+                            <div 
+                                key={i} 
+                                className={cn(
+                                    "flex flex-col gap-2 group animate-in fade-in slide-in-from-bottom-3 duration-700",
+                                    msg.role === 'user' ? "items-end" : "items-start"
+                                )}
+                            >
+                                <div className={cn(
+                                    "px-6 py-4 transition-all duration-500",
+                                    msg.role === 'user' 
+                                        ? "bg-primary text-primary-foreground font-bold rounded-[24px] rounded-tr-none shadow-xl text-sm" 
+                                        : "bg-transparent lora italic text-foreground/90 font-medium text-lg leading-relaxed max-w-[90%] sm:max-w-[85%]" 
+                                )}>
+                                    <FormatMessage content={msg.content} />
+                                </div>
+                                <span className="text-[8px] font-black uppercase tracking-[0.4em] opacity-20 px-3 group-hover:opacity-40 transition-opacity">
+                                    {msg.role === 'user' ? 'sent' : 'liz'}
+                                </span>
+                            </div>
+                        ))}
+                        {isLoading && (
+                            <div className="flex items-center gap-4 px-3">
+                                <div className="flex gap-1">
+                                    <div className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce" />
+                                    <div className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:0.2s]" />
+                                    <div className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:0.4s]" />
+                                </div>
+                                <span className="text-[9px] uppercase tracking-[0.4em] font-black text-primary/30">Thinking</span>
+                            </div>
+                        )}
+                        <div ref={scrollRef} />
+                    </div>
+                </ScrollArea>
+
+                <div className="p-6 sm:p-8 bg-white/5 border-t border-white/10">
+                    <div className="relative">
+                        <div className="flex items-center bg-white/5 backdrop-blur-2xl border border-white/10 rounded-full px-2 sm:px-4 shadow-2xl">
+                            <Button 
+                                variant="ghost" 
+                                size="icon"
+                                onClick={toggleRecording}
+                                className={cn(
+                                    "h-12 w-12 rounded-full transition-all shrink-0",
+                                    isRecording 
+                                      ? "bg-primary text-primary-foreground scale-110 shadow-[0_0_20px_hsl(var(--primary)/0.4)]" 
+                                      : "text-muted-foreground/40 hover:text-primary"
+                                )}
+                            >
+                                {isRecording ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+                            </Button>
+
+                            <input 
+                                ref={inputRef}
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                onKeyDown={(e) => { 
+                                  if(e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault();
+                                    handleSendMessage(inputValue);
+                                  }
+                                }}
+                                placeholder={isRecording ? "Listening..." : "Ask Liz anything..."}
+                                className="flex-1 bg-transparent border-none outline-none text-sm sm:text-base px-4 h-14 sm:h-16 font-medium placeholder:text-muted-foreground/30 text-foreground"
+                            />
+
+                            <Button 
+                                size="icon" 
+                                variant="ghost"
+                                onClick={() => handleSendMessage(inputValue)}
+                                disabled={!inputValue.trim() || isLoading}
+                                className={cn(
+                                    "h-12 w-12 rounded-full transition-all shrink-0 ml-1",
+                                    inputValue.trim() ? "text-primary opacity-100 scale-100" : "text-muted-foreground/10 opacity-0 scale-75 pointer-events-none"
+                                )}
+                            >
+                                <Send className="h-5 w-5" />
+                            </Button>
+                        </div>
+                        
+                        <div className="mt-4 flex justify-between items-center px-5">
+                            <p className="text-[8px] font-black text-muted-foreground/20 uppercase tracking-[0.4em]">Precision & Purpose</p>
+                            <div className="flex items-center gap-2 opacity-10">
+                                 <CornerDownLeft className="h-3 w-3" />
+                                 <span className="text-[8px] font-bold uppercase tracking-widest">Enter</span>
+                            </div>
                         </div>
                     </div>
                 </div>
