@@ -162,7 +162,7 @@ export function LizChat() {
       const result = await talkToLiz(content, messages);
       setMessages(prev => [...prev, { role: 'model', content: result.response }]);
     } catch (err: any) {
-      setMessages(prev => [...prev, { role: 'model', content: `**SYSTEM ERROR**: ${err.message}` }]);
+      setMessages(prev => [...prev, { role: 'model', content: `**SYSTEM_ERROR**: ${err.message}` }]);
     } finally {
       setIsLoading(false);
     }
