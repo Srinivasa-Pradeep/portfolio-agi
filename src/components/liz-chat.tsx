@@ -243,7 +243,7 @@ export function LizChat() {
                         </div>
                         <div>
                             <h2 className="text-lg font-bold tracking-tight text-foreground">Talk with Liz</h2>
-                            <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-[0.3em]">Acoustic_Awareness_v2.1</p>
+                            <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-[0.3em]">Ready_To_Assist_You</p>
                         </div>
                     </div>
                     <Button 
