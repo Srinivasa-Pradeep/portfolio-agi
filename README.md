@@ -44,4 +44,4 @@ An architecturally refined digital sanctuary and professional showcase built wit
     ```
 
 ---
-“It is better to live your own destiny imperfectly then to live an imitation of somebody else's life with perfection.”
+*“It is better to live your own destiny imperfectly then to live an imitation of somebody else's life with perfection.”*
