@@ -162,7 +162,7 @@ export function LizChat() {
       const result = await talkToLiz(content, messages);
       setMessages(prev => [...prev, { role: 'model', content: result.response }]);
     } catch (err: any) {
-      setMessages(prev => [...prev, { role: 'model', content: `**SYSTEM_ERROR**: ${err.message}` }]);
+      setMessages(prev => [...prev, { role: 'model', content: `**SYSTEM ERROR**: ${err.message}` }]);
     } finally {
       setIsLoading(false);
     }
@@ -243,7 +243,7 @@ export function LizChat() {
                         </div>
                         <div>
                             <h2 className="text-lg font-bold tracking-tight text-foreground">Talk with Liz</h2>
-                            <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-[0.3em]">Ready_To_Assist_You</p>
+                            <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-[0.3em]">Ready to assist you</p>
                         </div>
                     </div>
                     <Button 
