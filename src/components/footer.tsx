@@ -10,7 +10,8 @@ import Link from 'next/link';
 const quotes = [
   "\"Man is made by his belief. As he believes, so he is.\"",
   "\"You make your own luck if you stay at it long enough.\"",
-  "\"Dreams won't work until you work\""
+  "\"Dreams won't work until you work\"",
+  "\"It is better to live your own destiny imperfectly then to live an imitation of somebody else's life with perfection.\""
 ];
 
 export function Footer() {
@@ -53,4 +54,3 @@ export function Footer() {
     </footer>
   );
 }
-
