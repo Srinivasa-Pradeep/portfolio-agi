@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 /**
  * AppleLandingSequence - A cinematic loading state using a custom handwritten SVG path.
  * Features a high-fidelity "hello" reveal and a deep blur transition.
+ * Dispatches a 'landing-done' event to sync other UI elements.
  */
 export function AppleLandingSequence() {
   const [isVisible, setIsVisible] = useState(true);
@@ -14,6 +15,8 @@ export function AppleLandingSequence() {
     // Total duration of the cinematic sequence
     const timer = setTimeout(() => {
       setIsVisible(false);
+      // Dispatch event slightly before completion to sync with the reveal
+      window.dispatchEvent(new CustomEvent('landing-done'));
     }, 3800);
 
     return () => clearTimeout(timer);

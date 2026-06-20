@@ -27,7 +27,7 @@ const navLinks = [
 export function HeroCommandBar() {
     const { theme } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
-    const [showLanding, setShowLanding] = useState(true);
+    const [showLanding, setShowLanding] = useState(false); // Default to false, wait for event
     const [search, setSearch] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -46,6 +46,15 @@ export function HeroCommandBar() {
             link.label.toLowerCase().includes(search.toLowerCase())
         ), [search]
     );
+
+    // Sync with global Apple Landing Sequence
+    useEffect(() => {
+        const handleLandingDone = () => {
+            setShowLanding(true);
+        };
+        window.addEventListener('landing-done', handleLandingDone);
+        return () => window.removeEventListener('landing-done', handleLandingDone);
+    }, []);
 
     // Re-trigger the precise landing ring on theme toggle
     useEffect(() => {
