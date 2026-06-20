@@ -2,7 +2,7 @@
 
 An architecturally refined digital sanctuary and professional showcase built with **Next.js 15**, **Firebase**, and **Genkit AI**. This project serves as a high-performance, immersive guide to my journey as a Software Engineer, Technical Writer, and aspiring Polymath.
 
-## 🚀 Architectural Highlights
+##  Architectural Highlights
 
 - **Liz (Digital Concierge)**: A voice-aware, sophisticated AI assistant powered by **Gemini 3.1 Flash-Lite**. Liz represents my journey with architectural precision, answering inquiries about my research (MedQuery AI), education, and core philosophies.
 - **Zen Mode**: A focus-engineered productivity environment featuring a "Luminance Controller" (morphing celestial slider) and a digital ecosystem that grows as you maintain deep focus.
@@ -31,7 +31,7 @@ An architecturally refined digital sanctuary and professional showcase built wit
 │   └── lib/           # Static data (Interviews, Milestones) and utilities
 ```
 
-## 🚥 Getting Started
+##  Getting Started
 
 1.  **Configure Environment**: Populate `.env` with your `GEMINI_API_KEY` and Firebase project credentials.
 2.  **Initialize Engine**:
