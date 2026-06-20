@@ -27,7 +27,7 @@ function FormatMessage({ content }: { content: string }) {
           const isDouble = part.startsWith('**');
           const text = isDouble ? part.slice(2, -2) : part.slice(1, -1);
           return (
-            <strong key={i} className="font-black text-foreground brightness-125 dark:brightness-150 drop-shadow-sm px-0.5">
+            <strong key={i} className="font-black text-foreground brightness-125 dark:brightness-150 px-0.5">
               {text}
             </strong>
           );
@@ -221,65 +221,75 @@ export function LizChat() {
         onClick={(e) => { if(e.target === e.currentTarget) setIsOpen(false); }}
       >
         <div className={cn(
-            "w-full max-w-2xl bg-white/10 dark:bg-black/20 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] transition-all duration-500 transform-gpu overflow-hidden rounded-[32px] sm:rounded-[40px]",
+            "w-full max-w-2xl bg-white/5 dark:bg-black/40 backdrop-blur-3xl border border-white/10 shadow-[0_80px_160px_-40px_rgba(0,0,0,0.6)] transition-all duration-500 transform-gpu overflow-hidden rounded-[40px]",
             isOpen ? "translate-y-0 scale-100" : "translate-y-12 scale-95"
         )}>
-            <div className="p-4 sm:p-6 flex items-center justify-between border-b border-white/5 bg-white/5">
-                <div className="flex items-center gap-3 sm:gap-4">
-                    <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl sm:rounded-2xl bg-primary/5 flex items-center justify-center border border-primary/10">
-                        <Command className="h-4 w-4 sm:h-5 sm:w-5 text-primary/70" />
+            <div className="p-6 sm:p-8 flex items-center justify-between border-b border-white/5">
+                <div className="flex items-center gap-4">
+                    <div className="relative">
+                        <div className="h-10 w-10 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/10">
+                            <Command className="h-5 w-5 text-primary/70" />
+                        </div>
+                        <div className="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-emerald-500 border-2 border-background animate-pulse" />
                     </div>
                     <div>
-                        <h2 className="text-base sm:text-lg font-bold tracking-tight">Talk with Liz</h2>
-                        <p className="text-[9px] sm:text-[10px] font-medium text-muted-foreground uppercase tracking-widest opacity-60">Personal Assistant</p>
+                        <h2 className="text-lg font-black tracking-tighter uppercase italic">Liz.</h2>
+                        <p className="text-[9px] font-mono font-bold text-muted-foreground uppercase tracking-[0.3em] opacity-40">Neural_Assistant_v3.1</p>
                     </div>
                 </div>
                 <Button 
                     variant="ghost" 
                     size="icon" 
                     onClick={() => setIsOpen(false)}
-                    className="rounded-full hover:bg-white/10 h-8 w-8 sm:h-10 sm:w-10 transition-colors"
+                    className="rounded-full hover:bg-white/10 h-10 w-10 transition-colors"
                 >
-                    <X className="h-4 w-4 sm:h-5 sm:w-5 opacity-40 hover:opacity-100" />
+                    <X className="h-5 w-5 opacity-40 hover:opacity-100" />
                 </Button>
             </div>
 
-            <ScrollArea className="h-[400px] sm:h-[480px] px-4 sm:px-6" data-lenis-prevent>
-                <div className="py-6 sm:py-8 space-y-8 sm:space-y-10">
+            <ScrollArea className="h-[450px] sm:h-[520px] px-6 sm:px-10" data-lenis-prevent>
+                <div className="py-10 space-y-12">
                     {messages.map((msg, i) => (
                         <div 
                             key={i} 
                             className={cn(
-                                "flex flex-col gap-2 group animate-in fade-in slide-in-from-bottom-2 duration-500",
+                                "flex flex-col gap-3 group animate-in fade-in slide-in-from-bottom-2 duration-700",
                                 msg.role === 'user' ? "items-end" : "items-start"
                             )}
                         >
                             <div className={cn(
-                                "px-4 sm:px-6 py-3 sm:py-4 rounded-[22px] sm:rounded-[26px] text-sm leading-relaxed max-w-[92%] sm:max-w-[88%] shadow-sm border border-white/5 transition-all",
+                                "max-w-[90%] sm:max-w-[85%] transition-all",
                                 msg.role === 'user' 
-                                    ? "bg-primary text-primary-foreground font-medium rounded-tr-none" 
-                                    : "bg-white/5 backdrop-blur-xl rounded-tl-none lora italic text-foreground/90 font-medium pr-6 sm:pr-7" 
+                                    ? "bg-primary text-primary-foreground font-bold px-5 py-2.5 rounded-full text-sm shadow-xl" 
+                                    : "text-lg sm:text-xl lora italic text-foreground/90 font-medium leading-relaxed" 
                             )}>
                                 <FormatMessage content={msg.content} />
                             </div>
-                            <span className="text-[8px] font-bold uppercase tracking-widest opacity-20 px-3 group-hover:opacity-50 transition-opacity">
-                                {msg.role === 'user' ? 'Sent' : 'Liz'}
+                            <span className={cn(
+                                "text-[8px] font-mono font-bold uppercase tracking-[0.4em] opacity-20 transition-opacity",
+                                msg.role === 'user' ? "pr-2" : "pl-1"
+                            )}>
+                                {msg.role === 'user' ? 'sent' : ''}
                             </span>
                         </div>
                     ))}
                     {isLoading && (
-                        <div className="flex items-center gap-3 px-3 text-primary/40">
-                            <Sparkles className="h-3 w-3 animate-pulse" />
-                            <span className="text-[10px] uppercase tracking-widest font-medium tracking-[0.2em]">Thinking...</span>
+                        <div className="flex items-center gap-4 px-1 text-primary/40">
+                            <div className="flex gap-1">
+                                <div className="h-1 w-1 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]" />
+                                <div className="h-1 w-1 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]" />
+                                <div className="h-1 w-1 bg-primary rounded-full animate-bounce" />
+                            </div>
+                            <span className="text-[9px] font-mono font-bold uppercase tracking-[0.5em] opacity-60">Liz_Thinking</span>
                         </div>
                     )}
                     <div ref={scrollRef} />
                 </div>
             </ScrollArea>
 
-            <div className="p-4 sm:p-6 bg-transparent border-t border-white/5">
+            <div className="p-6 sm:p-10 bg-transparent">
                 <div className="relative">
-                    <div className="flex items-center bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-2 sm:px-4 shadow-inner">
+                    <div className="flex items-center bg-black/5 dark:bg-white/5 border border-white/10 rounded-[28px] px-3 sm:px-5 shadow-inner group/input focus-within:border-primary/30 transition-all">
                         <Button 
                             variant="ghost" 
                             size="icon"
@@ -287,7 +297,7 @@ export function LizChat() {
                             className={cn(
                                 "h-10 w-10 rounded-full transition-all shrink-0",
                                 isRecording 
-                                  ? "bg-primary text-primary-foreground" 
+                                  ? "bg-primary text-primary-foreground shadow-[0_0_15px_hsl(var(--primary)/0.5)]" 
                                   : "text-muted-foreground/40 hover:text-primary"
                             )}
                         >
@@ -304,8 +314,8 @@ export function LizChat() {
                                 handleSendMessage(inputValue);
                               }
                             }}
-                            placeholder={isRecording ? "Listening..." : "Ask Liz anything..."}
-                            className="flex-1 bg-transparent border-none outline-none text-sm sm:text-base px-2 sm:px-4 h-12 sm:h-14 font-medium placeholder:text-muted-foreground/30 text-foreground"
+                            placeholder={isRecording ? "Listening..." : "Type your message..."}
+                            className="flex-1 bg-transparent border-none outline-none text-sm sm:text-base px-3 sm:px-5 h-14 sm:h-16 font-medium placeholder:text-muted-foreground/20 text-foreground"
                         />
 
                         <Button 
@@ -322,9 +332,10 @@ export function LizChat() {
                         </Button>
                     </div>
                     
-                    <div className="mt-3 flex justify-between items-center px-4">
-                        <p className="text-[8px] sm:text-[9px] font-medium text-muted-foreground/20 uppercase tracking-[0.3em]">Precision & Purpose</p>
-                        <div className="hidden sm:flex items-center gap-1.5 opacity-0 group-focus-within:opacity-20 transition-opacity duration-700">
+                    <div className="mt-4 flex justify-between items-center px-6">
+                        <p className="text-[8px] font-mono font-bold text-muted-foreground/10 uppercase tracking-[0.4em]">Architectural Precision</p>
+                        <div className="flex items-center gap-2 opacity-0 group-focus-within/input:opacity-10 transition-opacity duration-1000">
+                             <span className="text-[9px] font-mono font-bold">ENTER TO SEND</span>
                              <CornerDownLeft className="h-3 w-3" />
                         </div>
                     </div>
