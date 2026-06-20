@@ -1,17 +1,16 @@
-# Srinivasa Pradeep - Portfolio Odyssey
+# Odyssey
 
 An architecturally refined digital sanctuary and professional showcase built with **Next.js 15**, **Firebase**, and **Genkit AI**. This project serves as a high-performance, immersive guide to my journey as a Software Engineer, Technical Writer, and aspiring Polymath.
 
 ## 🚀 Architectural Highlights
 
 - **Liz (Digital Concierge)**: A voice-aware, sophisticated AI assistant powered by **Gemini 3.1 Flash-Lite**. Liz represents my journey with architectural precision, answering inquiries about my research (MedQuery AI), education, and core philosophies.
-- **The Horizontal Odyssey**: A cinematic, F1-inspired timeline of career milestones. Features "Liquid Glass" telemetry terminals, real-time physics-based movement, and an atmospheric star-field engine.
 - **Zen Mode**: A focus-engineered productivity environment featuring a "Luminance Controller" (morphing celestial slider) and a digital ecosystem that grows as you maintain deep focus.
 - **Personal Library**: A reorderable, 3D rack of the volumes that shaped my thinking, categorized by **Logic**, **Growth**, and **Imagination**.
 - **Real-time Technical HUD**: Live synchronization with **LeetCode** and **GitHub** APIs, showcasing competitive programming performance (Top 2%) and contribution velocity.
 - **Atmospheric Environments**: A triple-mode theme engine (**Light**, **Dark**, and **Spring**) featuring haptic feedback, counter-rotating celestial toggles, and CSS View Transitions.
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 - **Core**: Next.js 15 (App Router, Server Actions)
 - **AI Infrastructure**: Google Genkit with Gemini 3.1 Flash-Lite
@@ -20,7 +19,7 @@ An architecturally refined digital sanctuary and professional showcase built wit
 - **Visual Effects**: Three.js (Background Particles), SVG-based procedural generation
 - **Type Safety**: TypeScript with strict mode enabled
 
-## 📂 System Architecture
+##  System Architecture
 
 ```bash
 ├── src/
@@ -45,5 +44,4 @@ An architecturally refined digital sanctuary and professional showcase built wit
     ```
 
 ---
-*"I write to understand and build to become."*  
-**Built with precision and purpose by Srinivasa Pradeep.**
+“It is better to live your own destiny imperfectly then to live an imitation of somebody else's life with perfection.”
