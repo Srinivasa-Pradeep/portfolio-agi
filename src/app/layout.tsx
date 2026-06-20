@@ -10,6 +10,7 @@ import { SpringOverlay } from '@/components/spring-overlay';
 import { ConditionalParticles } from '@/components/conditional-particles';
 import { SmoothScroll } from '@/components/smooth-scroll';
 import { LizChat } from '@/components/liz-chat';
+import { AppleLandingSequence } from '@/components/apple-landing-sequence';
 
 export const metadata: Metadata = {
   title: 'Srini Portfolio',
@@ -41,6 +42,7 @@ export default function RootLayout({
         >
           <MusicProvider>
             <SmoothScroll>
+              <AppleLandingSequence />
               <SpringOverlay />
               <ConditionalParticles />
               <CustomCursor />
