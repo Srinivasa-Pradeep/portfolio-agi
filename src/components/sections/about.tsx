@@ -384,11 +384,10 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
             <button 
                 onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
                 className={cn(
-                  "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-500 group/btn",
-                  !isExpanded && "opacity-0 group-hover:opacity-100"
+                  "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-500 opacity-0 group-hover:opacity-100 group/btn"
                 )}
             >
-                {isExpanded ? "Hide Achievements" : "View Notable Achievements"}
+                View Notable Achievements
                 <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-500", isExpanded && "rotate-180")} />
             </button>
 
@@ -503,7 +502,7 @@ export function About() {
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
                                 { text: 'ശ്രീനിവാസ പ്രതീപ്', className: 'font-malayalam text-xs text-foreground/90' },
                                 { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'font-tiro-kannada text-xs text-foreground/90' },
-                                { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
+                                { text: 'శ్రీనివాస ప్రదీಪ್', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
                           />
                       </div>
