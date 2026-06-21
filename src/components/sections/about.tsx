@@ -383,9 +383,12 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
           <div className="mt-6 flex flex-col items-center sm:items-start">
             <button 
                 onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
-                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-300 group/btn"
+                className={cn(
+                  "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-500 group/btn",
+                  !isExpanded && "opacity-0 group-hover:opacity-100"
+                )}
             >
-                View Notable Achievements 
+                {isExpanded ? "Hide Achievements" : "View Notable Achievements"}
                 <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-500", isExpanded && "rotate-180")} />
             </button>
 
