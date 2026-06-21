@@ -1,3 +1,4 @@
+
 'use client';
 
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
@@ -394,8 +395,8 @@ export function About() {
             <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
               About Me
             </h2>
-            <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-            A Computer Science graduate and adaptable software engineer with a problem-solving mindset and strong analytical thinking. I actively contribute to projects, collaborate effectively in cross-functional teams and stay committed to continuous learning and growth.
+            <p className="mt-4 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+            Software Engineer at <strong className="text-foreground">Mercedes-Benz (MBRDI)</strong> and former SDE Intern at <strong className="text-foreground">Amazon</strong>, focused on optimizing high-performance distributed systems. Lead researcher of <strong className="text-foreground">MedQuery AI</strong>, a published Natural Language to SQL framework (PeerJ CS) designed for clinical data reliability. I bridge the gap between complex backend architectures and intuitive human interfaces.
             </p>
 
             <div className="mt-12">
