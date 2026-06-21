@@ -364,8 +364,8 @@ export function About() {
   const [amazonLogoId, setAmazonLogoId] = useState('amazon-logo-light');
   const psgLogo = PlaceHolderImages.find((p) => p.id === 'psg-itech-logo');
   
-  // Default to Mercedes-Benz (last company) as the symbolic current point
-  const [selectedExpId, setSelectedExpId] = useState<string | null>('mercedes');
+  // Decoupled logic: mercedes pulses initially, but no content is shown until selection
+  const [selectedExpId, setSelectedExpId] = useState<string | null>(null);
 
   useEffect(() => {
     const lightAvatar = PlaceHolderImages.find(
@@ -564,7 +564,7 @@ export function About() {
                     {companies.map((company) => {
                         const logoId = company.id === 'amazon' ? amazonLogoId : company.imageId;
                         const logoImage = PlaceHolderImages.find(p => p.id === logoId);
-                        const isActive = selectedExpId === company.id;
+                        const isExpanded = selectedExpId === company.id;
 
                         return (
                             <button
@@ -572,7 +572,7 @@ export function About() {
                                 onClick={() => toggleExp(company.id)}
                                 className={cn(
                                     "relative flex items-center justify-center transition-all duration-500 transform-gpu outline-none h-14 w-28 md:w-36 shrink-0",
-                                    isActive ? "scale-110 opacity-100" : "grayscale opacity-50 hover:grayscale-0 hover:opacity-80"
+                                    isExpanded ? "scale-110 opacity-100" : "grayscale opacity-50 hover:grayscale-0 hover:opacity-80"
                                 )}
                             >
                                 {logoImage ? (
@@ -598,10 +598,13 @@ export function About() {
 
                    <div className="absolute inset-0 flex items-center justify-between w-full">
                       {companies.map((company) => {
-                          const isActive = selectedExpId === company.id;
+                          const isExpanded = selectedExpId === company.id;
+                          // If nothing is expanded, Mercedes (last one) pulses symbolically
+                          const isPulsing = isExpanded || (selectedExpId === null && company.id === 'mercedes');
+                          
                           return (
                               <div key={`dot-${company.id}`} className="relative flex justify-center items-center w-28 md:w-36 shrink-0">
-                                  {isActive ? (
+                                  {isPulsing ? (
                                       <motion.div 
                                           layoutId="active-dot"
                                           className="relative h-2.5 w-2.5 rounded-full bg-[#00FF00] z-20 shadow-[0_0_15px_#00FF00] shrink-0"
@@ -617,7 +620,7 @@ export function About() {
                    </div>
                 </div>
 
-                {/* The Details Panel - Unfolding Expansion (Flow-Based) */}
+                {/* The Details Panel - Flow-based borderless unfolding */}
                 <div className="relative w-full flex justify-center overflow-visible">
                     <AnimatePresence mode="wait">
                         {selectedExp && (
@@ -634,7 +637,7 @@ export function About() {
                                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-10 mb-10">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-3 mb-2">
-                                                <h4 className="font-headline text-3xl font-black italic tracking-tighter text-foreground uppercase">
+                                                <h4 className="font-headline text-3xl font-semibold tracking-tighter text-foreground uppercase italic">
                                                   {selectedExp.name}
                                                 </h4>
                                             </div>
