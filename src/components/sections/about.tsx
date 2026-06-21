@@ -416,7 +416,7 @@ export function About() {
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
-                                { text: 'ശ്രീനിവാസ പ്രദീപ്', className: 'font-chilanka text-xs text-foreground/90' },
+                                { text: 'ശ്രീനിവാസ பிரதீப்', className: 'font-chilanka text-xs text-foreground/90' },
                                 { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
@@ -625,16 +625,15 @@ export function About() {
                                 animate={{ opacity: 1, filter: 'blur(0px)', y: 0, scale: 1 }}
                                 exit={{ opacity: 0, filter: 'blur(12px)', y: -20, scale: 0.97 }}
                                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                                className="w-full max-w-[850px] overflow-hidden bg-transparent relative"
+                                className="w-full max-w-[800px] overflow-hidden bg-transparent relative"
                             >
                                 <div className="p-8 md:p-10">
                                     {/* Header & Metrics Section */}
                                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-10 mb-10">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-3 mb-2">
-                                                <h4 className="text-4xl font-black tracking-tighter text-foreground italic uppercase">
+                                                <h4 className="text-4xl font-black tracking-tighter text-foreground uppercase">
                                                   {selectedExp.name}
-                                                  <span className="text-primary ml-1">.</span>
                                                 </h4>
                                             </div>
                                             <p className="text-xl font-medium text-foreground/80 tracking-tight">{selectedExp.designation}</p>
