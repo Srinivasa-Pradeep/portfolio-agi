@@ -124,11 +124,11 @@ const companies = [
     designation: 'Project Intern (Remote)',
     timeline: 'April 2023 - May 2023',
     metrics: [
-      { label: 'Latency', value: 'Optimized', icon: Zap },
-      { label: 'Coverage', value: 'Full Stack', icon: Target },
+      { label: 'Integrations', value: 'RESTful', icon: Zap },
+      { label: 'Architecture', value: 'Microservices', icon: Target },
     ],
     impact: [
-      "Engineered a production-grade expense processing suite using React.js and Spring Boot.",
+      "Engineered a production-ready expense processing suite utilizing React.js and Spring Boot.",
       "Architected reliable REST APIs under direct SAP mentorship, following enterprise standards.",
       "Delivered a verified end-to-end application meeting 100% of partnership technical requirements."
     ],
@@ -146,13 +146,13 @@ const companies = [
     designation: 'Software Development Engineer Intern',
     timeline: 'Jan 2025 - Jun 2025',
     metrics: [
-      { label: 'Performance', value: '+35%', icon: Zap },
-      { label: 'Code Coverage', value: '92%', icon: Target },
+      { label: 'Efficiency', value: '+35%', icon: Zap },
+      { label: 'Test Coverage', value: '92%', icon: Target },
     ],
     impact: [
       "Boosted system efficiency by 35% through high-performance Java to C++ migration.",
-      "Engineered comprehensive test frameworks in Python, elevating coverage from 60% to 92%.",
-      "Resolved mission-critical reliability issues by modernizing legacy microservice architectures."
+      "Elevated Python test suite coverage from 60% to 92% through comprehensive automation.",
+      "Enhanced microservice reliability by resolving critical legacy architecture bottlenecks."
     ],
     techStack: [
       { name: 'Java', Icon: FaJava, color: '#007396' },
@@ -169,12 +169,12 @@ const companies = [
     designation: 'Graduate Apprentice Trainee - SWE',
     timeline: 'Nov 2025 - Present',
     metrics: [
-      { label: 'Time Saved', value: '15h/wk', icon: Zap },
-      { label: 'Accuracy', value: 'Predictive', icon: Target },
+      { label: 'Automation', value: '15h/wk', icon: Zap },
+      { label: 'Analysis', value: 'Predictive', icon: Target },
     ],
     impact: [
-      "Automating complex manufacturing analytics via Python, targeting 15+ hours weekly in manual reduction.",
-      "Implementing real-time ML production monitoring for predictive maintenance and zero-downtime goals.",
+      "Automating manufacturing analytics via Python, targeting 15+ hours weekly manual reduction.",
+      "Implementing real-time production monitoring for predictive maintenance and zero-downtime.",
       "Optimizing assembly line efficiency through cross-functional manufacturing data synthesis."
     ],
     techStack: [
@@ -555,7 +555,6 @@ export function About() {
                 Experience
               </h3>
               
-              {/* The Timeline Row - Architectural Layout */}
               <div className="relative flex flex-col items-center">
                 {/* 1. Logos Row */}
                 <div className="flex items-center justify-center gap-12 md:gap-24 mb-6">
@@ -569,7 +568,7 @@ export function About() {
                                 key={company.id}
                                 onClick={() => toggleExp(company.id)}
                                 className={cn(
-                                    "relative flex items-center justify-center transition-all duration-500 transform-gpu outline-none h-14 w-28 md:w-36",
+                                    "relative flex items-center justify-center transition-all duration-500 transform-gpu outline-none h-14 w-28 md:w-36 shrink-0",
                                     isActive ? "scale-110 opacity-100" : "grayscale opacity-50 hover:grayscale-0 hover:opacity-80"
                                 )}
                             >
@@ -587,25 +586,25 @@ export function About() {
                     })}
                 </div>
 
-                {/* 2. The Horizontal Track Line - Featuring a sweeping shining effect */}
+                {/* 2. The Horizontal Track Line - Hero baseline */}
                 <div className="relative w-full max-w-2xl h-[1px] bg-border/20 mb-12 overflow-hidden">
-                   {/* Shining Layer */}
+                   {/* Shining Layer - Left to Right motion */}
                    <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,45%,hsl(var(--primary)/0.2),55%,transparent)] bg-[size:200%_100%] animate-shine" />
                    
                    <div className="absolute inset-0 flex items-center justify-between w-full">
                       {companies.map((company) => {
                           const isActive = selectedExpId === company.id;
                           return (
-                              <div key={`dot-${company.id}`} className="relative flex justify-center items-center w-28 md:w-36">
+                              <div key={`dot-${company.id}`} className="relative flex justify-center items-center w-28 md:w-36 shrink-0">
                                   {isActive ? (
                                       <motion.div 
                                           layoutId="active-dot"
-                                          className="relative h-2 w-2 rounded-full bg-[#00FF00] z-20 shadow-[0_0_10px_#00FF00]"
+                                          className="relative h-2.5 w-2.5 rounded-full bg-[#00FF00] z-20 shadow-[0_0_15px_#00FF00] shrink-0"
                                       >
                                           <div className="absolute inset-0 h-full w-full rounded-full bg-[#00FF00] animate-ping opacity-40" />
                                       </motion.div>
                                   ) : (
-                                      <div className="h-1.5 w-1.5 rounded-full bg-border/40 z-10" />
+                                      <div className="h-1.5 w-1.5 rounded-full bg-border/40 z-10 shrink-0" />
                                   )}
                                   
                                   {/* Connector Line - Emerges from active node */}
@@ -626,7 +625,7 @@ export function About() {
                    </div>
                 </div>
 
-                {/* 3. The Details Panel - Unfolding Logic */}
+                {/* 3. The Details Panel - Centered Unfolding Content */}
                 <div className="relative w-full flex justify-center">
                     <AnimatePresence mode="wait">
                         {selectedExp && (
