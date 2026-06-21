@@ -363,7 +363,9 @@ export function About() {
   );
   const [amazonLogoId, setAmazonLogoId] = useState('amazon-logo-light');
   const psgLogo = PlaceHolderImages.find((p) => p.id === 'psg-itech-logo');
-  const [selectedExpId, setSelectedExpId] = useState<string | null>(null);
+  
+  // Default to Mercedes-Benz (last company) as the symbolic current point
+  const [selectedExpId, setSelectedExpId] = useState<string | null>('mercedes');
 
   useEffect(() => {
     const lightAvatar = PlaceHolderImages.find(
@@ -416,7 +418,7 @@ export function About() {
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
-                                { text: 'ശ്രീനിവാസ பிரതീപ്', className: 'font-chilanka text-xs text-foreground/90' },
+                                { text: 'ശ്രീനിവാസ പ്രതീപ്', className: 'font-malayalam text-xs text-foreground/90' },
                                 { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
@@ -632,7 +634,7 @@ export function About() {
                                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-10 mb-10">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-3 mb-2">
-                                                <h4 className="text-3xl font-black tracking-tighter text-foreground uppercase italic">
+                                                <h4 className="font-headline text-3xl font-black italic tracking-tighter text-foreground uppercase">
                                                   {selectedExp.name}
                                                 </h4>
                                             </div>
