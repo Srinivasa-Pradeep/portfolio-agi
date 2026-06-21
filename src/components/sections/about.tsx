@@ -316,7 +316,7 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
     <div 
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl max-w-2xl"
+      className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl max-w-4xl"
       style={mounted ? {
         background: resolvedTheme === 'dark' 
           ? `linear-gradient(to bottom, hsl(var(--border) / 0.5), hsl(var(--border)))`
