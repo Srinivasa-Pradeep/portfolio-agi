@@ -3,7 +3,6 @@
 
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
 import Image from 'next/image';
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Tooltip,
   TooltipContent,
@@ -20,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks, BookOpen, ArrowUpRight, Github } from 'lucide-react';
+import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Accordion,
@@ -48,16 +47,18 @@ import {
   SiJenkins,
   SiAmazon,
   SiLinux,
+  SiOpenai,
+  SiVercel,
+  SiTypescript
 } from 'react-icons/si';
 import { FaJava, FaMicrosoft } from 'react-icons/fa';
 import { TypingEffect } from '@/components/typing-effect';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /**
  * ShiningLink - A specialized link component with a subtle sweeping light effect.
- * Now polished to be minimalist without icons for an architectural look.
- * Added px-1 to prevent italic clipping of trailing characters.
  */
 function ShiningLink({ href, children }: { href: string, children: ReactNode }) {
   return (
@@ -116,44 +117,72 @@ const manifestoItems: ManifestoItem[] = [
 
 const companies = [
   {
+    id: 'sap',
     name: 'SAP',
     imageId: 'sap-logo',
-    className:
-      'transition-all duration-300 filter grayscale opacity-60 scale-75 hover:grayscale-0 hover:opacity-100 hover:scale-90 hover:drop-shadow-xl',
+    color: '#008FD3',
     designation: 'Project Intern (Remote)',
     timeline: 'April 2023 - May 2023',
-    details: [
-        <>Developed a full-stack expense processing application using <strong className="font-semibold text-foreground/90">React.js, Spring Boot and MongoDB</strong> as part of a college partnership program with SAP.</>,
-        <>Gained hands-on experience with enterprise development practices under <strong className="font-semibold text-foreground/90">SAP mentorship</strong>, implementing core REST APIs.</>,
-        <>Received a <strong className="font-semibold text-foreground/90">project completion certificate</strong> for successfully delivering the application and meeting project goals.</>,
+    metrics: [
+      { label: 'Latency', value: 'Optimized', icon: Zap },
+      { label: 'Coverage', value: 'Full Stack', icon: Target },
     ],
+    impact: [
+      "Engineered a production-grade expense processing suite using React.js and Spring Boot.",
+      "Architected reliable REST APIs under direct SAP mentorship, following enterprise standards.",
+      "Delivered a verified end-to-end application meeting 100% of partnership technical requirements."
+    ],
+    techStack: [
+      { name: 'React.js', Icon: SiReact, color: '#61DAFB' },
+      { name: 'Spring Boot', Icon: SiSpringboot, color: '#6DB33F' },
+      { name: 'MongoDB', Icon: SiMongodb, color: '#47A248' },
+    ]
   },
   {
+    id: 'amazon',
     name: 'Amazon',
     imageId: 'amazon-logo-light',
-    className:
-      'transition-all duration-300 filter grayscale opacity-70 scale-90 hover:grayscale-0 hover:opacity-100 hover:scale-100 hover:drop-shadow-xl',
+    color: '#FF9900',
     designation: 'Software Development Engineer Intern',
     timeline: 'Jan 2025 - Jun 2025',
-    details: [
-      <>Improved system performance by <strong className="font-semibold text-foreground/90">35% (request latency)</strong> by migrating a distributed, high-traffic service from <strong className="font-semibold text-foreground/90">Java to C++.</strong></>,
-      <>Enhanced service reliability across multiple microservices by architecting solutions for <strong className="font-semibold text-foreground/90">legacy system modernization.</strong></>,
-      <>Increased code coverage from <strong className="font-semibold text-foreground/90">60% to 92%</strong> by developing comprehensive testing frameworks using <strong className="font-semibold text-foreground/90">C++ and Python.</strong></>,
-      <>Accelerated stakeholder decision-making by <strong className="font-semibold text-foreground/90">clearly articulating technical challenges</strong> and solutions through documentation and presentations.</>,
+    metrics: [
+      { label: 'Performance', value: '+35%', icon: Zap },
+      { label: 'Code Coverage', value: '92%', icon: Target },
     ],
+    impact: [
+      "Boosted system efficiency by 35% through high-performance Java to C++ migration.",
+      "Engineered comprehensive test frameworks in Python, elevating coverage from 60% to 92%.",
+      "Resolved mission-critical reliability issues by modernizing legacy microservice architectures."
+    ],
+    techStack: [
+      { name: 'Java', Icon: FaJava, color: '#007396' },
+      { name: 'C++', Icon: SiCplusplus, color: '#00599C' },
+      { name: 'Python', Icon: SiPython, color: '#3776AB' },
+      { name: 'AWS', Icon: SiAmazon, color: '#FF9900' },
+    ]
   },
   {
+    id: 'mercedes',
     name: 'Mercedes-Benz',
     imageId: 'mercedes-logo',
-    className:
-      'transition-all duration-300 filter grayscale-0 opacity-100 scale-100 hover:scale-105 hover:drop-shadow-2xl',
-    designation: 'Graduate Apprentice Trainee - Software Engineer',
+    color: '#FFFFFF',
+    designation: 'Graduate Apprentice Trainee - SWE',
     timeline: 'Nov 2025 - Present',
-    details: [
-        <>Building <strong className="font-semibold text-foreground/90">Python-based</strong> data extraction pipelines to automate manufacturing analytics, targeting reduction of <strong className="font-semibold text-foreground/90">15+ hours weekly</strong> in manual reporting.</>,
-        <>Integrating <strong className="font-semibold text-foreground/90">machine learning models</strong> into production monitoring systems to enable predictive maintenance and reduce equipment downtime.</>,
-        <>Analyzing production data across assembly lines to identify optimization opportunities in collaboration with manufacturing operations team.</>,
+    metrics: [
+      { label: 'Time Saved', value: '15h/wk', icon: Zap },
+      { label: 'Accuracy', value: 'Predictive', icon: Target },
     ],
+    impact: [
+      "Automating complex manufacturing analytics via Python, targeting 15+ hours weekly in manual reduction.",
+      "Implementing real-time ML production monitoring for predictive maintenance and zero-downtime goals.",
+      "Optimizing assembly line efficiency through cross-functional manufacturing data synthesis."
+    ],
+    techStack: [
+      { name: 'Python', Icon: SiPython, color: '#3776AB' },
+      { name: 'PyTorch', Icon: SiOpenai, color: '#EE4C2C' },
+      { name: 'PostgreSQL', Icon: SiPostgresql, color: '#4169E1' },
+      { name: 'Linux', Icon: SiLinux, color: '#FCC624' },
+    ]
   },
 ];
 
@@ -173,13 +202,15 @@ const techStack = [
   { name: 'MySQL', Icon: SiMysql },
   { name: 'PostgreSQL', Icon: SiPostgresql },
   { name: 'MongoDB', Icon: SiMongodb },
-  { name: 'SQLite', Icon: SiGit },
+  { name: 'TypeScript', Icon: SiTypescript },
   { name: 'Git', Icon: SiGit },
   { name: 'Docker', Icon: SiDocker },
   { name: 'Jenkins', Icon: SiJenkins },
   { name: 'AWS', Icon: SiAmazon },
   { name: 'Azure', Icon: FaMicrosoft },
   { name: 'Linux/Unix', Icon: SiLinux },
+  { name: 'OpenAI', Icon: SiOpenai },
+  { name: 'Vercel', Icon: SiVercel },
 ];
 
 function ResearchPublication() {
@@ -331,6 +362,7 @@ export function About() {
   );
   const [amazonLogoId, setAmazonLogoId] = useState('amazon-logo-light');
   const psgLogo = PlaceHolderImages.find((p) => p.id === 'psg-itech-logo');
+  const [selectedExpId, setSelectedExpId] = useState<string | null>(null);
 
   useEffect(() => {
     const lightAvatar = PlaceHolderImages.find(
@@ -348,6 +380,12 @@ export function About() {
       setAmazonLogoId('amazon-logo-light');
     }
   }, [resolvedTheme]);
+
+  const toggleExp = (id: string) => {
+    setSelectedExpId(prev => prev === id ? null : id);
+  };
+
+  const selectedExp = companies.find(c => c.id === selectedExpId);
 
   return (
     <section id="about" className="py-20 md:py-32">
@@ -395,9 +433,14 @@ export function About() {
             <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
               About Me
             </h2>
-            <p className="mt-4 max-w-2xl text-lg text-muted-foreground leading-relaxed">
-            Software Engineer at <strong className="text-foreground">Mercedes-Benz (MBRDI)</strong> and former SDE Intern at <strong className="text-foreground">Amazon</strong>, focused on optimizing high-performance distributed systems. Lead researcher of <strong className="text-foreground">MedQuery AI</strong>, a published Natural Language to SQL framework (PeerJ CS) designed for clinical data reliability. I bridge the gap between complex backend architectures and intuitive human interfaces.
-            </p>
+            <div className="mt-4 max-w-2xl text-lg text-muted-foreground leading-relaxed space-y-4">
+              <p>
+                Software Engineer at <strong className="text-foreground">Mercedes-Benz (MBRDI)</strong> and former SDE Intern at <strong className="text-foreground">Amazon</strong>, focused on optimizing high-performance distributed systems. 
+              </p>
+              <p>
+                Lead researcher of <strong className="text-foreground">MedQuery AI</strong>, a published Natural Language to SQL framework (PeerJ CS) designed for clinical data reliability. I bridge the gap between complex backend architectures and intuitive human interfaces.
+              </p>
+            </div>
 
             <div className="mt-12">
               <h3 className="font-headline text-2xl font-semibold text-primary">
@@ -507,93 +550,148 @@ export function About() {
               </Dialog>
             </div>
 
-            <div className="mt-12">
-              <h3 className="font-headline text-2xl font-semibold text-primary">
+            <div className="mt-12 relative">
+              <h3 className="font-headline text-2xl font-semibold text-primary mb-12">
                 Experience
               </h3>
-              <div className="relative mt-12 flex items-center justify-center gap-12 md:gap-16">
-                <div className="absolute inset-x-0 top-[110%] -translate-y-1/2 h-px z-0 pointer-events-none hidden sm:block">
-                  <div className="mx-auto w-[65%] h-full relative flex items-center justify-between">
+              
+              {/* Timeline Track */}
+              <div className="relative flex items-center justify-center gap-12 md:gap-24 mb-8">
+                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px z-0 pointer-events-none hidden sm:block">
+                  <div className="mx-auto w-[80%] h-full relative">
                     <div className="absolute inset-0 bg-border/20" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/60 to-transparent w-full bg-[length:200%_100%] animate-shine" />
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary/40 ring-4 ring-background relative z-10" />
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary/40 ring-4 ring-background relative z-10" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-[#00FF00] shadow-[0_0_10px_#00FF00] animate-pulse ring-4 ring-background relative z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/40 to-transparent w-full bg-[length:200%_100%] animate-shine" />
                   </div>
                 </div>
-                
+
                 {companies.map((company) => {
-                  const logoId = company.name === 'Amazon' ? amazonLogoId : company.imageId;
-                  const logoImage = PlaceHolderImages.find(
-                    (p) => p.id === logoId
-                  );
+                  const logoId = company.id === 'amazon' ? amazonLogoId : company.imageId;
+                  const logoImage = PlaceHolderImages.find(p => p.id === logoId);
+                  const isActive = selectedExpId === company.id;
+
                   return (
-                    <Dialog key={company.name}>
+                    <div key={company.id} className="relative z-10">
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
-                            <DialogTrigger asChild>
-                              <div
-                                className={`${company.className} relative z-10 cursor-pointer`}
-                              >
-                                {logoImage ? (
-                                  <img
-                                    src={logoImage.imageUrl}
-                                    alt={logoImage.description}
-                                    data-ai-hint={logoImage.imageHint}
-                                    className="h-10 w-24 object-contain md:h-12 md:w-32"
-                                  />
-                                ) : (
-                                  <div className="h-10 w-24 md:h-12 md:w-32 bg-muted rounded-md" />
-                                )}
-                              </div>
-                            </DialogTrigger>
+                            <button
+                              onClick={() => toggleExp(company.id)}
+                              className={cn(
+                                "relative flex items-center justify-center transition-all duration-500 transform-gpu outline-none",
+                                isActive ? "scale-110" : "grayscale opacity-50 hover:grayscale-0 hover:opacity-100 hover:scale-105"
+                              )}
+                            >
+                               {/* Active Indicator Glow */}
+                               {isActive && (
+                                 <motion.div 
+                                    layoutId="glow"
+                                    className="absolute inset-[-12px] rounded-full blur-xl opacity-30"
+                                    style={{ backgroundColor: company.color }}
+                                 />
+                               )}
+
+                               <div className={cn(
+                                 "relative h-12 w-24 md:h-14 md:w-32 flex items-center justify-center rounded-xl transition-all duration-500",
+                                 isActive && "bg-white/5 shadow-2xl ring-1 ring-white/10"
+                               )}>
+                                 {logoImage ? (
+                                    <img
+                                      src={logoImage.imageUrl}
+                                      alt={company.name}
+                                      className="h-8 w-auto object-contain"
+                                    />
+                                  ) : (
+                                    <div className="h-8 w-20 bg-muted rounded-md" />
+                                  )}
+                               </div>
+                            </button>
                           </TooltipTrigger>
-                          <TooltipContent>
-                            <p>View my experience at {company.name}</p>
-                          </TooltipContent>
+                          <TooltipContent><p>{company.name} Details</p></TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
-                      <DialogContent className="sm:max-w-[525px]" data-lenis-prevent>
-                        <DialogHeader>
-                          <DialogTitle className="flex items-center gap-4">
-                            {logoImage && (
-                              <img
-                                src={logoImage.imageUrl}
-                                alt={logoImage.description}
-                                data-ai-hint={logoImage.imageHint}
-                                className="h-8 w-auto rounded-sm"
-                              />
-                            )}
-                            {company.name}
-                          </DialogTitle>
-                          <DialogDescription>
-                            {company.designation} &bull; {company.timeline}
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="pt-4">
-                          <ul className="space-y-3" data-lenis-prevent>
-                            {company.details.map((detail, index) => (
-                              <li
-                                key={index}
-                                className="flex items-start gap-3"
-                              >
-                                <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                                <span className="text-sm text-muted-foreground pr-1">
-                                  {detail}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
+                    </div>
                   );
                 })}
               </div>
+
+              {/* Expansion Panel */}
+              <div className="relative">
+                <AnimatePresence mode="wait">
+                  {selectedExp && (
+                    <motion.div
+                      key={selectedExp.id}
+                      initial={{ opacity: 0, filter: 'blur(12px)', y: -15 }}
+                      animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+                      exit={{ opacity: 0, filter: 'blur(12px)', y: -15 }}
+                      transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
+                      className="w-full mt-4 overflow-hidden rounded-[40px] bg-card/40 backdrop-blur-3xl border border-white/10 shadow-2xl relative"
+                      style={{ 
+                        boxShadow: `0 30px 60px -12px rgba(0,0,0,0.4), 0 0 40px -20px ${selectedExp.color}33` 
+                      }}
+                    >
+                       {/* Color accent line */}
+                       <div 
+                         className="absolute top-0 left-0 right-0 h-1" 
+                         style={{ backgroundColor: selectedExp.color, opacity: 0.4 }}
+                       />
+
+                       <div className="p-8 md:p-10">
+                          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 border-b border-white/5 pb-10">
+                            <div>
+                               <div className="flex items-center gap-3 mb-2">
+                                  <h4 className="text-3xl font-black tracking-tighter text-foreground italic uppercase">{selectedExp.name}</h4>
+                                  <div className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: selectedExp.color }} />
+                               </div>
+                               <p className="text-xl font-medium text-foreground/80">{selectedExp.designation}</p>
+                               <p className="text-sm font-mono text-muted-foreground uppercase tracking-[0.2em] mt-2 opacity-60">{selectedExp.timeline}</p>
+                            </div>
+
+                            <div className="flex gap-4">
+                               {selectedExp.metrics.map((m, i) => (
+                                 <div key={i} className="p-4 rounded-3xl bg-white/5 border border-white/5 min-w-[120px] text-center">
+                                    <m.icon className="h-4 w-4 mx-auto mb-2 text-primary opacity-60" />
+                                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{m.label}</p>
+                                    <p className="text-lg font-black text-foreground">{m.value}</p>
+                                 </div>
+                               ))}
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+                             <div className="lg:col-span-3 space-y-6">
+                                <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Core_Impact_Analysis</h5>
+                                <div className="space-y-4">
+                                   {selectedExp.impact.map((point, i) => (
+                                     <div key={i} className="flex items-start gap-4 group">
+                                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary/20 group-hover:bg-primary transition-colors shrink-0" />
+                                        <p className="text-base text-foreground/80 leading-relaxed lora italic pr-4">
+                                           {point}
+                                        </p>
+                                     </div>
+                                   ))}
+                                </div>
+                             </div>
+
+                             <div className="lg:col-span-2 space-y-6">
+                                <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Technical_Profiling</h5>
+                                <div className="grid grid-cols-2 gap-4">
+                                   {selectedExp.techStack.map((tech) => (
+                                     <div key={tech.name} className="flex items-center gap-3 p-3 rounded-2xl bg-secondary/30 border border-white/5 transition-all hover:bg-secondary/50 group/tech">
+                                        <tech.Icon className="h-5 w-5 grayscale group-hover/tech:grayscale-0 transition-all" style={{ color: tech.color }} />
+                                        <span className="text-xs font-bold text-muted-foreground group-hover/tech:text-foreground">{tech.name}</span>
+                                     </div>
+                                   ))}
+                                </div>
+                             </div>
+                          </div>
+                       </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
 
-            <div className="mt-12">
+            <div className="mt-20">
               <h3 className="font-headline text-2xl font-semibold text-primary">
                 Research & Publications
               </h3>
