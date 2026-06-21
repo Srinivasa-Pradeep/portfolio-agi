@@ -11,8 +11,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useTheme } from 'next-themes';
 import { useEffect, useState, useRef, ReactNode } from 'react';
-import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap, Layout } from 'lucide-react';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -317,14 +316,14 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
     <div 
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl"
+      className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl max-w-2xl"
       style={mounted ? {
         background: resolvedTheme === 'dark' 
           ? `linear-gradient(to bottom, hsl(var(--border) / 0.5), hsl(var(--border)))`
           : `linear-gradient(to bottom, hsl(var(--border) / 0.8), hsl(var(--border)))`
       } : {}}
     >
-      <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-6 backdrop-blur-sm transition-all duration-500 group-hover:bg-white dark:group-hover:bg-secondary/50">
+      <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-5 backdrop-blur-sm transition-all duration-500 group-hover:bg-white dark:group-hover:bg-secondary/50">
         <div 
           className={cn(
             "absolute inset-0 z-0 transition-opacity duration-500",
@@ -350,7 +349,7 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
 
         <div className="relative z-20">
           <div className="flex flex-col sm:flex-row items-center gap-6">
-            <div className="relative h-20 w-20 flex-shrink-0">
+            <div className="relative h-16 w-16 flex-shrink-0">
               {psgLogo && (
                 <img
                   src={psgLogo.imageUrl}
@@ -379,8 +378,7 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
             </div>
           </div>
 
-          {/* Self-Revealing Achievements Section */}
-          <div className="mt-6 flex flex-col items-center sm:items-start">
+          <div className="mt-4 flex flex-col items-center sm:items-start">
             <button 
                 onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
                 className={cn(
@@ -395,7 +393,7 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
                 {isExpanded && (
                     <motion.div
                         initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                        animate={{ height: 'auto', opacity: 1, marginTop: 24 }}
+                        animate={{ height: 'auto', opacity: 1, marginTop: 20 }}
                         exit={{ height: 0, opacity: 0, marginTop: 0 }}
                         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                         className="overflow-hidden w-full"
@@ -446,7 +444,6 @@ export function About() {
   const [amazonLogoId, setAmazonLogoId] = useState('amazon-logo-light');
   const psgLogo = PlaceHolderImages.find((p) => p.id === 'psg-itech-logo');
   
-  // Decoupled logic: mercedes pulses initially, but no content is shown until selection
   const [selectedExpId, setSelectedExpId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -502,7 +499,7 @@ export function About() {
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
                                 { text: 'ശ്രീനിവാസ പ്രതീപ്', className: 'font-malayalam text-xs text-foreground/90' },
                                 { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'font-tiro-kannada text-xs text-foreground/90' },
-                                { text: 'శ్రీనివాస ప్రదీಪ್', className: 'font-tiro-telugu text-xs text-foreground/90' }
+                                { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
                           />
                       </div>
@@ -540,7 +537,6 @@ export function About() {
               </h3>
               
               <div className="relative flex flex-col items-center overflow-visible">
-                {/* Logos Row */}
                 <div className="flex items-center justify-center gap-12 md:gap-24 mb-6">
                     {companies.map((company) => {
                         const logoId = company.id === 'amazon' ? amazonLogoId : company.imageId;
@@ -570,9 +566,7 @@ export function About() {
                     })}
                 </div>
 
-                {/* The Shining Horizontal Track Line */}
                 <div className="relative w-full max-w-2xl h-[1px] bg-border/20 mb-12 overflow-visible">
-                   {/* Shine Animation Overlay */}
                    <div className="absolute inset-0 overflow-hidden rounded-full pointer-events-none">
                       <div className="absolute top-0 bottom-0 left-[-20%] w-[40%] bg-gradient-to-r from-transparent via-primary/30 to-transparent animate-flow-line" />
                    </div>
@@ -580,7 +574,6 @@ export function About() {
                    <div className="absolute inset-0 flex items-center justify-between w-full">
                       {companies.map((company) => {
                           const isExpanded = selectedExpId === company.id;
-                          // If nothing is expanded, Mercedes (last one) pulses symbolically
                           const isPulsing = isExpanded || (selectedExpId === null && company.id === 'mercedes');
                           
                           return (
@@ -601,7 +594,6 @@ export function About() {
                    </div>
                 </div>
 
-                {/* The Details Panel - Flow-based borderless unfolding */}
                 <div className="relative w-full flex justify-center overflow-visible">
                     <AnimatePresence mode="wait">
                         {selectedExp && (
@@ -614,11 +606,10 @@ export function About() {
                                 className="w-full max-w-[800px] overflow-hidden bg-transparent relative"
                             >
                                 <div className="p-8 md:p-10">
-                                    {/* Header & Metrics Section */}
                                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-10 mb-10">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-3 mb-2">
-                                                <h4 className="font-headline text-2xl font-semibold tracking-tighter text-foreground uppercase">
+                                                <h4 className="font-headline text-3xl font-semibold tracking-tighter text-foreground uppercase italic">
                                                   {selectedExp.name}
                                                 </h4>
                                             </div>
@@ -637,10 +628,8 @@ export function About() {
                                         </div>
                                     </div>
 
-                                    {/* Content Separator */}
                                     <div className="h-px w-full bg-border/10 mb-12" />
 
-                                    {/* Two-Column Impact & Stack */}
                                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
                                         <div className="lg:col-span-7 space-y-8">
                                             <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/30">Impact Analysis</h5>
