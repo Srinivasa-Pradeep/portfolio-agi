@@ -11,14 +11,6 @@ import {
 } from '@/components/ui/tooltip';
 import { useTheme } from 'next-themes';
 import { useEffect, useState, useRef, ReactNode } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap, Layout } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
@@ -214,6 +206,49 @@ const techStack = [
   { name: 'Vercel', Icon: SiVercel },
 ];
 
+const educationAchievements = [
+  { 
+    icon: BookOpen, 
+    text: "Published a research paper titled \"MedQuery AI\" in the prestigious PeerJ Computer Science journal." 
+  },
+  { 
+    icon: ListChecks, 
+    text: "Secured 1st Prize in a competitive code debugging contest hosted by IIT Palakkad." 
+  },
+  { 
+    icon: ListChecks, 
+    text: "Showcased progressive leadership within the National Service Scheme (NSS), advancing from Volunteer to Executive Member and ultimately Team Lead." 
+  },
+  { 
+    icon: BookOpen, 
+    text: "Served as Joint Secretary for the college's Photography Club." 
+  },
+  { 
+    icon: ListChecks, 
+    text: "Successfully organized a major photography event, drawing 54 participants from various colleges." 
+  },
+  { 
+    icon: ListChecks, 
+    text: "Participated twice in the PSG iTech × SAP Hackfest, earning opportunities to work on real-world SAP projects." 
+  },
+  { 
+    icon: Rocket, 
+    text: "Was selected for the prestigious Amazon ML Summer School 2024 program." 
+  },
+  { 
+    icon: Target, 
+    text: "Successfully converted the summer school experience into a Software Development Engineer internship at Amazon." 
+  },
+  { 
+    icon: ListChecks, 
+    text: "Maintained a strong CGPA of 8.28 while actively managing a diverse range of extracurricular activities, projects, and open-source contributions." 
+  },
+  { 
+    icon: Zap, 
+    text: "Honored with the “Overall Excellence” Award by the Department of Computer Science and Engineering for outstanding all-around achievement." 
+  },
+];
+
 function ResearchPublication() {
   return (
     <div className="group relative mt-6 pl-10 py-6 transition-all duration-500">
@@ -258,6 +293,7 @@ function ResearchPublication() {
 function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
+  const [isExpanded, setIsExpanded] = useState(false);
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -312,33 +348,77 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
           }}
         />
 
-        <div className="relative z-20 flex flex-col sm:flex-row items-center gap-6">
-          <div className="relative h-20 w-20 flex-shrink-0">
-            {psgLogo && (
-              <img
-                src={psgLogo.imageUrl}
-                alt={psgLogo.description}
-                data-ai-hint={psgLogo.imageHint}
-                className="h-full w-full object-contain filter grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110"
-              />
-            )}
+        <div className="relative z-20">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <div className="relative h-20 w-20 flex-shrink-0">
+              {psgLogo && (
+                <img
+                  src={psgLogo.imageUrl}
+                  alt={psgLogo.description}
+                  data-ai-hint={psgLogo.imageHint}
+                  className="h-full w-full object-contain filter grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110"
+                />
+              )}
+            </div>
+
+            <div className="flex-grow text-center sm:text-left transition-all duration-300 group-hover:translate-x-2">
+              <h4 
+                className="text-lg font-bold text-foreground/90 transition-all duration-300 group-hover:text-primary"
+                style={mounted ? {
+                  maskImage: `linear-gradient(-75deg, rgba(255,255,255,1) calc(${mousePos.x}% + 20%), rgba(255,255,255,0.4) calc(${mousePos.x}% + 30%), rgba(255,255,255,1) calc(${mousePos.x}% + 100%))`
+                } : {}}
+              >
+                PSG Institute of Technology and Applied Research
+              </h4>
+              <p className="text-muted-foreground transition-all duration-300">
+                B.E. Computer Science and Engineering
+              </p>
+              <p className="text-sm font-medium text-muted-foreground transition-all duration-300">
+                2021 - 2025 | CGPA: 8.28
+              </p>
+            </div>
           </div>
 
-          <div className="flex-grow text-center sm:text-left transition-all duration-300 group-hover:translate-x-2">
-            <h4 
-              className="text-lg font-bold text-foreground/90 transition-all duration-300 group-hover:text-primary"
-              style={mounted ? {
-                maskImage: `linear-gradient(-75deg, rgba(255,255,255,1) calc(${mousePos.x}% + 20%), rgba(255,255,255,0.4) calc(${mousePos.x}% + 30%), rgba(255,255,255,1) calc(${mousePos.x}% + 100%))`
-              } : {}}
+          {/* Self-Revealing Achievements Section */}
+          <div className="mt-6 flex flex-col items-center sm:items-start">
+            <button 
+                onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-300 group/btn"
             >
-              PSG Institute of Technology and Applied Research
-            </h4>
-            <p className="text-muted-foreground transition-all duration-300">
-              B.E. Computer Science and Engineering
-            </p>
-            <p className="text-sm font-medium text-muted-foreground transition-all duration-300">
-              2021 - 2025 | CGPA: 8.28
-            </p>
+                View Notable Achievements 
+                <ChevronDown className={cn("h-3.5 w-3.5 transition-transform duration-500", isExpanded && "rotate-180")} />
+            </button>
+
+            <AnimatePresence initial={false}>
+                {isExpanded && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                        animate={{ height: 'auto', opacity: 1, marginTop: 24 }}
+                        exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden w-full"
+                    >
+                        <div className="space-y-4 pt-4 border-t border-border/10">
+                            {educationAchievements.map((item, i) => (
+                                <motion.div 
+                                    key={i}
+                                    initial={{ x: -10, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: i * 0.05 + 0.1, duration: 0.5 }}
+                                    className="flex items-start gap-4 group/item"
+                                >
+                                    <div className="mt-1 flex-shrink-0 p-1.5 rounded-lg bg-primary/5 border border-primary/10 transition-colors group-hover/item:bg-primary/10">
+                                        <item.icon className="h-3.5 w-3.5 text-primary/70" />
+                                    </div>
+                                    <p className="text-sm text-muted-foreground/80 leading-relaxed lora italic font-medium group-hover/item:text-foreground/90 transition-colors">
+                                        {item.text}
+                                    </p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
           </div>
         </div>
 
@@ -449,108 +529,7 @@ export function About() {
               <h3 className="font-headline text-2xl font-semibold text-primary">
                 Education
               </h3>
-              <Dialog>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <DialogTrigger asChild>
-                        <div className="group cursor-pointer outline-none">
-                          <PremiumEducationCard psgLogo={psgLogo} />
-                        </div>
-                      </DialogTrigger>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>View Notable Achievements</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-
-                <DialogContent className="sm:max-w-[525px]" data-lenis-prevent>
-                  <DialogHeader>
-                    <DialogTitle className="flex items-center gap-4">
-                      {psgLogo && (
-                        <img
-                          src={psgLogo.imageUrl}
-                          alt={psgLogo.description}
-                          data-ai-hint={psgLogo.imageHint}
-                          className="h-8 w-auto rounded-sm"
-                        />
-                      )}
-                      PSG Institute of Technology and Applied Research
-                    </DialogTitle>
-                    <DialogDescription>
-                      B.E. Computer Science and Engineering | 2021 - 2025 | CGPA: 8.28
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="pt-4">
-                    <h4 className="font-semibold text-foreground mb-3">Notable Achievements</h4>
-                    <ScrollArea className="h-72 pr-4" data-lenis-prevent>
-                      <ul className="space-y-3">
-                          <li className="flex items-start gap-3">
-                              <BookOpen className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                              <span className="text-sm text-muted-foreground">
-                              Published a research paper titled <strong className="font-semibold text-foreground/90">"MedQuery AI"</strong> in the prestigious <strong className="font-semibold text-foreground/90">PeerJ Computer Science</strong> journal.
-                              </span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                              <span className="text-sm text-muted-foreground">
-                              Secured <strong className="font-semibold text-foreground/90">1st Prize</strong> in a competitive code debugging contest hosted by IIT Palakkad.
-                              </span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                              <span className="text-sm text-muted-foreground">
-                              Showcased progressive leadership within the National Service Scheme (NSS), advancing from <strong className="font-semibold text-foreground/90">Volunteer</strong> to <strong className="font-semibold text-foreground/90">Executive Member</strong> and ultimately <strong className="font-semibold text-foreground/90">Team Lead</strong>.
-                              </span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                              <BookOpen className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                              <span className="text-sm text-muted-foreground">
-                               Served as <strong className="font-semibold text-foreground/90">Joint Secretary</strong> for the college's Photography Club.
-                              </span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                              <span className="text-sm text-muted-foreground">
-                              Successfully <strong className="font-semibold text-foreground/90">organized a major photography event</strong>, drawing 54 participants from various colleges.
-                              </span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                              <span className="text-sm text-muted-foreground">
-                              Participated twice in the <strong className="font-semibold text-foreground/90">PSG iTech × SAP Hackfest</strong>, earning opportunities to work on real-world SAP projects.
-                              </span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                              <Rocket className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                              <span className="text-sm text-muted-foreground">
-                              Was selected for the prestigious <strong className="font-semibold text-foreground/90">Amazon ML Summer School 2024</strong> program.
-                              </span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                              <Target className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                              <span className="text-sm text-muted-foreground">
-                              Successfully converted the summer school experience into a <strong className="font-semibold text-foreground/90">Software Development Engineer internship at Amazon</strong>.
-                              </span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                              <span className="text-sm text-muted-foreground">
-                              Maintained a strong <strong className="font-semibold text-foreground/90">CGPA of 8.28</strong> while actively managing a diverse range of extracurricular activities, projects, and open-source contributions.
-                              </span>
-                          </li>
-                          <li className="flex items-start gap-3">
-                              <Zap className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
-                              <span className="text-sm text-muted-foreground">
-                              Honored with the <strong className="font-semibold text-foreground/90">“Overall Excellence” </strong> Award by the Department of Computer Science and Engineering for outstanding all-around achievement.
-                              </span>
-                          </li>
-                      </ul>
-                    </ScrollArea>
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <PremiumEducationCard psgLogo={psgLogo} />
             </div>
 
             <div className="mt-24 relative overflow-visible">
