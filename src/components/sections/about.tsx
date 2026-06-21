@@ -587,8 +587,11 @@ export function About() {
                     })}
                 </div>
 
-                {/* 2. The Horizontal Track Line */}
-                <div className="relative w-full max-w-2xl h-[1px] bg-border/20 mb-12">
+                {/* 2. The Horizontal Track Line - Featuring a sweeping shining effect */}
+                <div className="relative w-full max-w-2xl h-[1px] bg-border/20 mb-12 overflow-hidden">
+                   {/* Shining Layer */}
+                   <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,45%,hsl(var(--primary)/0.2),55%,transparent)] bg-[size:200%_100%] animate-shine" />
+                   
                    <div className="absolute inset-0 flex items-center justify-between w-full">
                       {companies.map((company) => {
                           const isActive = selectedExpId === company.id;
