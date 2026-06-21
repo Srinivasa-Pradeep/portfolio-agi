@@ -557,7 +557,7 @@ export function About() {
               </h3>
               
               <div className="relative flex flex-col items-center">
-                {/* 1. Logos Row */}
+                {/* Logos Row */}
                 <div className="flex items-center justify-center gap-12 md:gap-24 mb-6">
                     {companies.map((company) => {
                         const logoId = company.id === 'amazon' ? amazonLogoId : company.imageId;
@@ -587,11 +587,8 @@ export function About() {
                     })}
                 </div>
 
-                {/* 2. The Horizontal Track Line - Hero baseline */}
-                <div className="relative w-full max-w-2xl h-[1px] bg-border/20 mb-12 overflow-hidden">
-                   {/* Shining Layer - Left to Right motion */}
-                   <div className="absolute inset-0 bg-[linear-gradient(110deg,transparent,45%,hsl(var(--primary)/0.2),55%,transparent)] bg-[size:200%_100%] animate-shine" />
-                   
+                {/* The Horizontal Track Line */}
+                <div className="relative w-full max-w-2xl h-[1px] bg-border/20 mb-12">
                    <div className="absolute inset-0 flex items-center justify-between w-full">
                       {companies.map((company) => {
                           const isActive = selectedExpId === company.id;
@@ -607,26 +604,13 @@ export function About() {
                                   ) : (
                                       <div className="h-1.5 w-1.5 rounded-full bg-border/40 z-10 shrink-0" />
                                   )}
-                                  
-                                  {/* Connector Line - Emerges from active node */}
-                                  <AnimatePresence>
-                                      {isActive && (
-                                          <motion.div
-                                              initial={{ height: 0, opacity: 0 }}
-                                              animate={{ height: 48, opacity: 1 }}
-                                              exit={{ height: 0, opacity: 0 }}
-                                              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                                              className="absolute top-full w-[1px] bg-border/40 z-0 origin-top"
-                                          />
-                                      )}
-                                  </AnimatePresence>
                               </div>
                           );
                       })}
                    </div>
                 </div>
 
-                {/* 3. The Details Panel - Centered Unfolding Content */}
+                {/* The Details Panel - Unfolding Expansion */}
                 <div className="relative w-full flex justify-center">
                     <AnimatePresence mode="wait">
                         {selectedExp && (
@@ -641,12 +625,6 @@ export function About() {
                                     boxShadow: `0 30px 60px -12px rgba(0,0,0,0.4), 0 0 40px -20px ${selectedExp.color}33` 
                                 }}
                             >
-                                {/* Color accent top bar */}
-                                <div 
-                                    className="absolute top-0 left-0 right-0 h-1 opacity-40" 
-                                    style={{ backgroundColor: selectedExp.color }}
-                                />
-
                                 <div className="p-8 md:p-10">
                                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-b border-white/5 pb-8">
                                         <div>
@@ -671,7 +649,7 @@ export function About() {
 
                                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
                                         <div className="lg:col-span-3 space-y-6">
-                                            <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Impact_Analysis</h5>
+                                            <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Impact Analysis</h5>
                                             <div className="space-y-4">
                                                 {selectedExp.impact.map((point, i) => (
                                                     <div key={i} className="flex items-start gap-4 group">
@@ -685,7 +663,7 @@ export function About() {
                                         </div>
 
                                         <div className="lg:col-span-2 space-y-6">
-                                            <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Stack_Profiling</h5>
+                                            <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Stack Profiling</h5>
                                             <div className="grid grid-cols-2 gap-3">
                                                 {selectedExp.techStack.map((tech) => (
                                                     <div key={tech.name} className="flex items-center gap-3 p-3 rounded-2xl bg-secondary/30 border border-white/5 transition-all hover:bg-secondary/50 group/tech">
