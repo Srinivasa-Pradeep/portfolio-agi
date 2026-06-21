@@ -382,7 +382,8 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
             <button 
                 onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
                 className={cn(
-                  "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-500 opacity-0 group-hover:opacity-100 group/btn"
+                  "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-500 group/btn",
+                  isExpanded ? "opacity-100" : "opacity-0 group-hover:opacity-100"
                 )}
             >
                 View Notable Achievements
