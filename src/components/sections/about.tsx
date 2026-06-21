@@ -19,7 +19,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap } from 'lucide-react';
+import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap, Layout } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Accordion,
@@ -415,7 +415,7 @@ export function About() {
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
-                                { text: 'ശ്രീനിവാസ ಪ್ರದೀಪ್', className: 'font-chilanka text-xs text-foreground/90' },
+                                { text: 'ശ്രീനിവാസ പ്രദീപ്', className: 'font-chilanka text-xs text-foreground/90' },
                                 { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
@@ -550,155 +550,154 @@ export function About() {
               </Dialog>
             </div>
 
-            <div className="mt-20 relative">
+            <div className="mt-24 relative">
               <h3 className="font-headline text-2xl font-semibold text-primary mb-16">
                 Experience
               </h3>
               
-              {/* Timeline Track - Hero Design */}
-              <div className="relative flex items-center justify-center gap-12 md:gap-24 mb-4">
-                {/* Horizontal Baseline - Positioned to the bottom to avoid crossing logos */}
-                <div className="absolute left-0 right-0 bottom-[-16px] h-px bg-border/20 hidden sm:block">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent w-full bg-[length:200%_100%] animate-shine" />
-                </div>
+              {/* The Timeline Row - Architectural Layout */}
+              <div className="relative flex flex-col items-center">
+                {/* 1. Logos Row */}
+                <div className="flex items-center justify-center gap-12 md:gap-24 mb-6">
+                    {companies.map((company) => {
+                        const logoId = company.id === 'amazon' ? amazonLogoId : company.imageId;
+                        const logoImage = PlaceHolderImages.find(p => p.id === logoId);
+                        const isActive = selectedExpId === company.id;
 
-                {companies.map((company) => {
-                  const logoId = company.id === 'amazon' ? amazonLogoId : company.imageId;
-                  const logoImage = PlaceHolderImages.find(p => p.id === logoId);
-                  const isActive = selectedExpId === company.id;
-
-                  return (
-                    <div key={company.id} className="relative flex flex-col items-center">
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
+                        return (
                             <button
-                              onClick={() => toggleExp(company.id)}
-                              className={cn(
-                                "relative z-10 flex items-center justify-center transition-all duration-500 transform-gpu outline-none h-14 w-28 md:w-36",
-                                isActive ? "scale-110 opacity-100" : "grayscale opacity-50 hover:grayscale-0 hover:opacity-100 hover:scale-105"
-                              )}
+                                key={company.id}
+                                onClick={() => toggleExp(company.id)}
+                                className={cn(
+                                    "relative flex items-center justify-center transition-all duration-500 transform-gpu outline-none h-14 w-28 md:w-36",
+                                    isActive ? "scale-110 opacity-100" : "grayscale opacity-50 hover:grayscale-0 hover:opacity-80"
+                                )}
                             >
-                               {logoImage ? (
-                                  <img
-                                    src={logoImage.imageUrl}
-                                    alt={company.name}
-                                    className="h-8 md:h-10 w-auto object-contain"
-                                  />
+                                {logoImage ? (
+                                    <img
+                                        src={logoImage.imageUrl}
+                                        alt={company.name}
+                                        className="h-8 md:h-10 w-auto object-contain"
+                                    />
                                 ) : (
-                                  <div className="h-8 w-20 bg-muted rounded-md" />
+                                    <div className="h-8 w-20 bg-muted rounded-md" />
                                 )}
                             </button>
-                          </TooltipTrigger>
-                          <TooltipContent><p>{company.name} Details</p></TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                        );
+                    })}
+                </div>
 
-                      {/* Green Active Node Indicator */}
-                      <div className="absolute bottom-[-20px] flex justify-center items-center">
-                         {isActive ? (
-                            <motion.div 
-                              layoutId="active-node"
-                              className="relative h-2 w-2 rounded-full bg-[#00FF00] z-20 shadow-[0_0_10px_#00FF00]"
+                {/* 2. The Horizontal Track Line */}
+                <div className="relative w-full max-w-2xl h-[1px] bg-border/20 mb-12">
+                   <div className="absolute inset-0 flex items-center justify-between w-full">
+                      {companies.map((company) => {
+                          const isActive = selectedExpId === company.id;
+                          return (
+                              <div key={`dot-${company.id}`} className="relative flex justify-center items-center w-28 md:w-36">
+                                  {isActive ? (
+                                      <motion.div 
+                                          layoutId="active-dot"
+                                          className="relative h-2 w-2 rounded-full bg-[#00FF00] z-20 shadow-[0_0_10px_#00FF00]"
+                                      >
+                                          <div className="absolute inset-0 h-full w-full rounded-full bg-[#00FF00] animate-ping opacity-40" />
+                                      </motion.div>
+                                  ) : (
+                                      <div className="h-1.5 w-1.5 rounded-full bg-border/40 z-10" />
+                                  )}
+                                  
+                                  {/* Connector Line - Emerges from active node */}
+                                  <AnimatePresence>
+                                      {isActive && (
+                                          <motion.div
+                                              initial={{ height: 0, opacity: 0 }}
+                                              animate={{ height: 48, opacity: 1 }}
+                                              exit={{ height: 0, opacity: 0 }}
+                                              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                                              className="absolute top-full w-[1px] bg-border/40 z-0 origin-top"
+                                          />
+                                      )}
+                                  </AnimatePresence>
+                              </div>
+                          );
+                      })}
+                   </div>
+                </div>
+
+                {/* 3. The Details Panel - Unfolding Logic */}
+                <div className="relative w-full flex justify-center">
+                    <AnimatePresence mode="wait">
+                        {selectedExp && (
+                            <motion.div
+                                key={selectedExp.id}
+                                initial={{ opacity: 0, filter: 'blur(12px)', y: -20, scale: 0.97 }}
+                                animate={{ opacity: 1, filter: 'blur(0px)', y: 0, scale: 1 }}
+                                exit={{ opacity: 0, filter: 'blur(12px)', y: -20, scale: 0.97 }}
+                                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                                className="w-full max-w-[800px] overflow-hidden rounded-[40px] bg-card/40 backdrop-blur-3xl border border-white/10 shadow-2xl relative"
+                                style={{ 
+                                    boxShadow: `0 30px 60px -12px rgba(0,0,0,0.4), 0 0 40px -20px ${selectedExp.color}33` 
+                                }}
                             >
-                               <div className="absolute inset-0 h-full w-full rounded-full bg-[#00FF00] animate-ping opacity-40" />
+                                {/* Color accent top bar */}
+                                <div 
+                                    className="absolute top-0 left-0 right-0 h-1 opacity-40" 
+                                    style={{ backgroundColor: selectedExp.color }}
+                                />
+
+                                <div className="p-8 md:p-10">
+                                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-b border-white/5 pb-8">
+                                        <div>
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <h4 className="text-3xl font-black tracking-tighter text-foreground italic uppercase">{selectedExp.name}</h4>
+                                                <div className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: selectedExp.color }} />
+                                            </div>
+                                            <p className="text-xl font-medium text-foreground/80">{selectedExp.designation}</p>
+                                            <p className="text-sm font-mono text-muted-foreground uppercase tracking-[0.2em] mt-2 opacity-60">{selectedExp.timeline}</p>
+                                        </div>
+
+                                        <div className="flex gap-4">
+                                            {selectedExp.metrics.map((m, i) => (
+                                                <div key={i} className="p-4 rounded-3xl bg-white/5 border border-white/5 min-w-[120px] text-center">
+                                                    <m.icon className="h-4 w-4 mx-auto mb-2 text-primary opacity-60" />
+                                                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{m.label}</p>
+                                                    <p className="text-lg font-black text-foreground">{m.value}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+                                        <div className="lg:col-span-3 space-y-6">
+                                            <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Impact_Analysis</h5>
+                                            <div className="space-y-4">
+                                                {selectedExp.impact.map((point, i) => (
+                                                    <div key={i} className="flex items-start gap-4 group">
+                                                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary/20 group-hover:bg-primary transition-colors shrink-0" />
+                                                        <p className="text-base text-foreground/80 leading-relaxed lora italic pr-4">
+                                                            {point}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        <div className="lg:col-span-2 space-y-6">
+                                            <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Stack_Profiling</h5>
+                                            <div className="grid grid-cols-2 gap-3">
+                                                {selectedExp.techStack.map((tech) => (
+                                                    <div key={tech.name} className="flex items-center gap-3 p-3 rounded-2xl bg-secondary/30 border border-white/5 transition-all hover:bg-secondary/50 group/tech">
+                                                        <tech.Icon className="h-5 w-5 grayscale group-hover/tech:grayscale-0 transition-all" style={{ color: tech.color }} />
+                                                        <span className="text-xs font-bold text-muted-foreground group-hover/tech:text-foreground">{tech.name}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </motion.div>
-                         ) : (
-                            <div className="h-2 w-2 rounded-full bg-border/40 z-10" />
-                         )}
-                      </div>
-                      
-                      {/* Connector Line - Emerges from the green node */}
-                      <AnimatePresence>
-                        {isActive && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 32, opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                            className="absolute top-full mt-[20px] w-px bg-border/30 z-0 origin-top"
-                          />
                         )}
-                      </AnimatePresence>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Expansion Panel - Temporary extension of the selected node */}
-              <div className="relative flex justify-center">
-                <AnimatePresence mode="wait">
-                  {selectedExp && (
-                    <motion.div
-                      key={selectedExp.id}
-                      initial={{ opacity: 0, filter: 'blur(12px)', y: -20, scale: 0.97 }}
-                      animate={{ opacity: 1, filter: 'blur(0px)', y: 0, scale: 1 }}
-                      exit={{ opacity: 0, filter: 'blur(12px)', y: -20, scale: 0.97 }}
-                      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                      className="w-full max-w-[800px] mt-12 overflow-hidden rounded-[40px] bg-card/40 backdrop-blur-3xl border border-white/10 shadow-2xl relative"
-                      style={{ 
-                        boxShadow: `0 30px 60px -12px rgba(0,0,0,0.4), 0 0 40px -20px ${selectedExp.color}33` 
-                      }}
-                    >
-                       {/* Subtle color accent top bar */}
-                       <div 
-                         className="absolute top-0 left-0 right-0 h-1 opacity-40" 
-                         style={{ backgroundColor: selectedExp.color }}
-                       />
-
-                       <div className="p-8 md:p-10">
-                          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-b border-white/5 pb-8">
-                            <div>
-                               <div className="flex items-center gap-3 mb-2">
-                                  <h4 className="text-3xl font-black tracking-tighter text-foreground italic uppercase">{selectedExp.name}</h4>
-                                  <div className="h-2 w-2 rounded-full animate-pulse" style={{ backgroundColor: selectedExp.color }} />
-                               </div>
-                               <p className="text-xl font-medium text-foreground/80">{selectedExp.designation}</p>
-                               <p className="text-sm font-mono text-muted-foreground uppercase tracking-[0.2em] mt-2 opacity-60">{selectedExp.timeline}</p>
-                            </div>
-
-                            <div className="flex gap-4">
-                               {selectedExp.metrics.map((m, i) => (
-                                 <div key={i} className="p-4 rounded-3xl bg-white/5 border border-white/5 min-w-[120px] text-center">
-                                    <m.icon className="h-4 w-4 mx-auto mb-2 text-primary opacity-60" />
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{m.label}</p>
-                                    <p className="text-lg font-black text-foreground">{m.value}</p>
-                                 </div>
-                               ))}
-                            </div>
-                          </div>
-
-                          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
-                             <div className="lg:col-span-3 space-y-6">
-                                <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Impact_Analysis</h5>
-                                <div className="space-y-4">
-                                   {selectedExp.impact.map((point, i) => (
-                                     <div key={i} className="flex items-start gap-4 group">
-                                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary/20 group-hover:bg-primary transition-colors shrink-0" />
-                                        <p className="text-base text-foreground/80 leading-relaxed lora italic pr-4">
-                                           {point}
-                                        </p>
-                                     </div>
-                                   ))}
-                                </div>
-                             </div>
-
-                             <div className="lg:col-span-2 space-y-6">
-                                <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Stack_Profiling</h5>
-                                <div className="grid grid-cols-2 gap-3">
-                                   {selectedExp.techStack.map((tech) => (
-                                     <div key={tech.name} className="flex items-center gap-3 p-3 rounded-2xl bg-secondary/30 border border-white/5 transition-all hover:bg-secondary/50 group/tech">
-                                        <tech.Icon className="h-5 w-5 grayscale group-hover/tech:grayscale-0 transition-all" style={{ color: tech.color }} />
-                                        <span className="text-xs font-bold text-muted-foreground group-hover/tech:text-foreground">{tech.name}</span>
-                                     </div>
-                                   ))}
-                                </div>
-                             </div>
-                          </div>
-                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                    </AnimatePresence>
+                </div>
               </div>
             </div>
 
