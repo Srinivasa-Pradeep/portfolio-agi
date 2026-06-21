@@ -415,7 +415,7 @@ export function About() {
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
-                                { text: 'ശ്രീനിവാസ പ്രദീപ്', className: 'font-chilanka text-xs text-foreground/90' },
+                                { text: 'ശ്രീനിവാസ ಪ್ರದೀಪ್', className: 'font-chilanka text-xs text-foreground/90' },
                                 { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ప్రదీప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
@@ -502,9 +502,9 @@ export function About() {
                               </span>
                           </li>
                           <li className="flex items-start gap-3">
-                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <BookOpen className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                               <span className="text-sm text-muted-foreground">
-                              Served as <strong className="font-semibold text-foreground/90">Joint Secretary</strong> for the college's Photography Club.
+                               Served as <strong className="font-semibold text-foreground/90">Joint Secretary</strong> for the college's Photography Club.
                               </span>
                           </li>
                           <li className="flex items-start gap-3">
@@ -520,13 +520,13 @@ export function About() {
                               </span>
                           </li>
                           <li className="flex items-start gap-3">
-                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <Rocket className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                               <span className="text-sm text-muted-foreground">
                               Was selected for the prestigious <strong className="font-semibold text-foreground/90">Amazon ML Summer School 2024</strong> program.
                               </span>
                           </li>
                           <li className="flex items-start gap-3">
-                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <Target className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                               <span className="text-sm text-muted-foreground">
                               Successfully converted the summer school experience into a <strong className="font-semibold text-foreground/90">Software Development Engineer internship at Amazon</strong>.
                               </span>
@@ -538,7 +538,7 @@ export function About() {
                               </span>
                           </li>
                           <li className="flex items-start gap-3">
-                              <ListChecks className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
+                              <Zap className="mt-1 h-4 w-4 flex-shrink-0 text-primary" />
                               <span className="text-sm text-muted-foreground">
                               Honored with the <strong className="font-semibold text-foreground/90">“Overall Excellence” </strong> Award by the Department of Computer Science and Engineering for outstanding all-around achievement.
                               </span>
@@ -550,18 +550,16 @@ export function About() {
               </Dialog>
             </div>
 
-            <div className="mt-12 relative">
-              <h3 className="font-headline text-2xl font-semibold text-primary mb-12">
+            <div className="mt-20 relative">
+              <h3 className="font-headline text-2xl font-semibold text-primary mb-16">
                 Experience
               </h3>
               
-              {/* Timeline Track */}
-              <div className="relative flex items-center justify-center gap-12 md:gap-24 mb-8">
-                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px z-0 pointer-events-none hidden sm:block">
-                  <div className="mx-auto w-[80%] h-full relative">
-                    <div className="absolute inset-0 bg-border/20" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/40 to-transparent w-full bg-[length:200%_100%] animate-shine" />
-                  </div>
+              {/* Timeline Track - Hero Design */}
+              <div className="relative flex items-center justify-center gap-12 md:gap-24 mb-4">
+                {/* Horizontal Baseline - Positioned to the bottom to avoid crossing logos */}
+                <div className="absolute left-0 right-0 bottom-[-16px] h-px bg-border/20 hidden sm:block">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent w-full bg-[length:200%_100%] animate-shine" />
                 </div>
 
                 {companies.map((company) => {
@@ -570,73 +568,86 @@ export function About() {
                   const isActive = selectedExpId === company.id;
 
                   return (
-                    <div key={company.id} className="relative z-10">
+                    <div key={company.id} className="relative flex flex-col items-center">
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <button
                               onClick={() => toggleExp(company.id)}
                               className={cn(
-                                "relative flex items-center justify-center transition-all duration-500 transform-gpu outline-none",
-                                isActive ? "scale-110" : "grayscale opacity-50 hover:grayscale-0 hover:opacity-100 hover:scale-105"
+                                "relative z-10 flex items-center justify-center transition-all duration-500 transform-gpu outline-none h-14 w-28 md:w-36",
+                                isActive ? "scale-110 opacity-100" : "grayscale opacity-50 hover:grayscale-0 hover:opacity-100 hover:scale-105"
                               )}
                             >
-                               {/* Active Indicator Glow */}
-                               {isActive && (
-                                 <motion.div 
-                                    layoutId="glow"
-                                    className="absolute inset-[-12px] rounded-full blur-xl opacity-30"
-                                    style={{ backgroundColor: company.color }}
-                                 />
-                               )}
-
-                               <div className={cn(
-                                 "relative h-12 w-24 md:h-14 md:w-32 flex items-center justify-center rounded-xl transition-all duration-500",
-                                 isActive && "bg-white/5 shadow-2xl ring-1 ring-white/10"
-                               )}>
-                                 {logoImage ? (
-                                    <img
-                                      src={logoImage.imageUrl}
-                                      alt={company.name}
-                                      className="h-8 w-auto object-contain"
-                                    />
-                                  ) : (
-                                    <div className="h-8 w-20 bg-muted rounded-md" />
-                                  )}
-                               </div>
+                               {logoImage ? (
+                                  <img
+                                    src={logoImage.imageUrl}
+                                    alt={company.name}
+                                    className="h-8 md:h-10 w-auto object-contain"
+                                  />
+                                ) : (
+                                  <div className="h-8 w-20 bg-muted rounded-md" />
+                                )}
                             </button>
                           </TooltipTrigger>
                           <TooltipContent><p>{company.name} Details</p></TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
+
+                      {/* Green Active Node Indicator */}
+                      <div className="absolute bottom-[-20px] flex justify-center items-center">
+                         {isActive ? (
+                            <motion.div 
+                              layoutId="active-node"
+                              className="relative h-2 w-2 rounded-full bg-[#00FF00] z-20 shadow-[0_0_10px_#00FF00]"
+                            >
+                               <div className="absolute inset-0 h-full w-full rounded-full bg-[#00FF00] animate-ping opacity-40" />
+                            </motion.div>
+                         ) : (
+                            <div className="h-2 w-2 rounded-full bg-border/40 z-10" />
+                         )}
+                      </div>
+                      
+                      {/* Connector Line - Emerges from the green node */}
+                      <AnimatePresence>
+                        {isActive && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 32, opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                            className="absolute top-full mt-[20px] w-px bg-border/30 z-0 origin-top"
+                          />
+                        )}
+                      </AnimatePresence>
                     </div>
                   );
                 })}
               </div>
 
-              {/* Expansion Panel */}
-              <div className="relative">
+              {/* Expansion Panel - Temporary extension of the selected node */}
+              <div className="relative flex justify-center">
                 <AnimatePresence mode="wait">
                   {selectedExp && (
                     <motion.div
                       key={selectedExp.id}
-                      initial={{ opacity: 0, filter: 'blur(12px)', y: -15 }}
-                      animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-                      exit={{ opacity: 0, filter: 'blur(12px)', y: -15 }}
-                      transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
-                      className="w-full mt-4 overflow-hidden rounded-[40px] bg-card/40 backdrop-blur-3xl border border-white/10 shadow-2xl relative"
+                      initial={{ opacity: 0, filter: 'blur(12px)', y: -20, scale: 0.97 }}
+                      animate={{ opacity: 1, filter: 'blur(0px)', y: 0, scale: 1 }}
+                      exit={{ opacity: 0, filter: 'blur(12px)', y: -20, scale: 0.97 }}
+                      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                      className="w-full max-w-[800px] mt-12 overflow-hidden rounded-[40px] bg-card/40 backdrop-blur-3xl border border-white/10 shadow-2xl relative"
                       style={{ 
                         boxShadow: `0 30px 60px -12px rgba(0,0,0,0.4), 0 0 40px -20px ${selectedExp.color}33` 
                       }}
                     >
-                       {/* Color accent line */}
+                       {/* Subtle color accent top bar */}
                        <div 
-                         className="absolute top-0 left-0 right-0 h-1" 
-                         style={{ backgroundColor: selectedExp.color, opacity: 0.4 }}
+                         className="absolute top-0 left-0 right-0 h-1 opacity-40" 
+                         style={{ backgroundColor: selectedExp.color }}
                        />
 
                        <div className="p-8 md:p-10">
-                          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 border-b border-white/5 pb-10">
+                          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-b border-white/5 pb-8">
                             <div>
                                <div className="flex items-center gap-3 mb-2">
                                   <h4 className="text-3xl font-black tracking-tighter text-foreground italic uppercase">{selectedExp.name}</h4>
@@ -657,9 +668,9 @@ export function About() {
                             </div>
                           </div>
 
-                          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+                          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
                              <div className="lg:col-span-3 space-y-6">
-                                <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Core_Impact_Analysis</h5>
+                                <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Impact_Analysis</h5>
                                 <div className="space-y-4">
                                    {selectedExp.impact.map((point, i) => (
                                      <div key={i} className="flex items-start gap-4 group">
@@ -673,8 +684,8 @@ export function About() {
                              </div>
 
                              <div className="lg:col-span-2 space-y-6">
-                                <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Technical_Profiling</h5>
-                                <div className="grid grid-cols-2 gap-4">
+                                <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/40">Stack_Profiling</h5>
+                                <div className="grid grid-cols-2 gap-3">
                                    {selectedExp.techStack.map((tech) => (
                                      <div key={tech.name} className="flex items-center gap-3 p-3 rounded-2xl bg-secondary/30 border border-white/5 transition-all hover:bg-secondary/50 group/tech">
                                         <tech.Icon className="h-5 w-5 grayscale group-hover/tech:grayscale-0 transition-all" style={{ color: tech.color }} />
