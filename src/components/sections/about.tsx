@@ -637,7 +637,7 @@ export function About() {
                                     <div className="flex flex-col md:flex-row md:items-start justify-between gap-10 mb-10">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-3 mb-2">
-                                                <h4 className="font-headline text-3xl font-semibold tracking-tighter text-foreground uppercase italic">
+                                                <h4 className="font-headline text-2xl font-semibold tracking-tighter text-foreground uppercase">
                                                   {selectedExp.name}
                                                 </h4>
                                             </div>
