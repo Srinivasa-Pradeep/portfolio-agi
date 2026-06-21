@@ -316,7 +316,7 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
     <div 
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl max-w-4xl"
+      className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl max-w-3xl"
       style={mounted ? {
         background: resolvedTheme === 'dark' 
           ? `linear-gradient(to bottom, hsl(var(--border) / 0.5), hsl(var(--border)))`
@@ -566,6 +566,7 @@ export function About() {
                     })}
                 </div>
 
+                {/* Shining Hero Timeline Baseline */}
                 <div className="relative w-full max-w-2xl h-[1px] bg-border/20 mb-12 overflow-visible">
                    <div className="absolute inset-0 overflow-hidden rounded-full pointer-events-none">
                       <div className="absolute top-0 bottom-0 left-[-20%] w-[40%] bg-gradient-to-r from-transparent via-primary/30 to-transparent animate-flow-line" />
@@ -574,6 +575,7 @@ export function About() {
                    <div className="absolute inset-0 flex items-center justify-between w-full">
                       {companies.map((company) => {
                           const isExpanded = selectedExpId === company.id;
+                          // Symbolic logic: pulse Mercedes initially, or shift to selection
                           const isPulsing = isExpanded || (selectedExpId === null && company.id === 'mercedes');
                           
                           return (
