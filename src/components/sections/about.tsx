@@ -49,7 +49,8 @@ import {
   SiLinux,
   SiOpenai,
   SiVercel,
-  SiTypescript
+  SiTypescript,
+  SiPytorch
 } from 'react-icons/si';
 import { FaJava, FaMicrosoft } from 'react-icons/fa';
 import { TypingEffect } from '@/components/typing-effect';
@@ -179,7 +180,7 @@ const companies = [
     ],
     techStack: [
       { name: 'Python', Icon: SiPython, color: '#3776AB' },
-      { name: 'PyTorch', Icon: SiOpenai, color: '#EE4C2C' },
+      { name: 'PyTorch', Icon: SiPytorch, color: '#EE4C2C' },
       { name: 'PostgreSQL', Icon: SiPostgresql, color: '#4169E1' },
       { name: 'Linux', Icon: SiLinux, color: '#FCC624' },
     ]
