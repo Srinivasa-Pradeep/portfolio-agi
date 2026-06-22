@@ -116,8 +116,8 @@ const companies = [
     designation: 'Project Intern (Remote)',
     timeline: 'April 2023 - May 2023',
     metrics: [
-      { label: 'INTEGRATIONS', value: 'RESTful', icon: Zap },
-      { label: 'ARCHITECTURE', value: 'Microservices', icon: Target },
+      { label: 'INTEGRATIONS', value: 'RESTful' },
+      { label: 'ARCHITECTURE', value: 'Microservices' },
     ],
     impact: [
       "Engineered a production-ready expense processing suite utilizing React.js and Spring Boot.",
@@ -138,8 +138,8 @@ const companies = [
     designation: 'Software Development Engineer Intern',
     timeline: 'Jan 2025 - Jun 2025',
     metrics: [
-      { label: 'EFFICIENCY', value: '+35%', icon: Zap },
-      { label: 'COVERAGE', value: '92%', icon: Target },
+      { label: 'EFFICIENCY', value: '+35%' },
+      { label: 'COVERAGE', value: '92%' },
     ],
     impact: [
       "Boosted system efficiency by 35% through high-performance Java to C++ migration.",
@@ -161,8 +161,8 @@ const companies = [
     designation: 'Graduate Apprentice Trainee - SWE',
     timeline: 'Nov 2025 - Present',
     metrics: [
-      { label: 'AUTOMATION', value: '15h/wk', icon: Zap },
-      { label: 'ANALYSIS', value: 'Predictive', icon: Target },
+      { label: 'AUTOMATION', value: '15h/wk' },
+      { label: 'ANALYSIS', value: 'Predictive' },
     ],
     impact: [
       "Automating manufacturing analytics via Python, targeting 15+ hours weekly manual reduction.",
@@ -532,10 +532,10 @@ export function About() {
             </h2>
             <div className="mt-4 max-w-2xl text-lg text-muted-foreground leading-relaxed space-y-4">
               <p>
-                I am a software engineer driven by the purpose of building systems that serve people at a global scale. My journey began with a childhood love for <strong className="text-foreground">mathematics</strong>—a discipline that taught me the art of breaking the complex into the simple truths.
+                I’m someone who enjoys building software that scales and creates real impact for users.
               </p>
               <p>
-                I am a deep, <strong className="text-foreground">reflective thinker</strong> who believes that the most powerful solutions aren't just high-performance; they are human-centric. Whether architecting distributed systems or researching AI reliability, I build to simplify, scale, and solve.
+                Ever since I was a child, I’ve been drawn to math—not just for answers, but for the way it teaches you to break down complex problems into simple, elegant ideas. That curiosity stayed with me. Today, I approach engineering the same way: <strong className="text-foreground">thinking deeply</strong>, <strong className="text-foreground">simplifying complexity</strong>, and building systems that are both scalable and meaningful.
               </p>
             </div>
 
