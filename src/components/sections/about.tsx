@@ -116,8 +116,8 @@ const companies = [
     designation: 'Project Intern (Remote)',
     timeline: 'April 2023 - May 2023',
     metrics: [
-      { label: 'Integrations', value: 'RESTful', icon: Zap },
-      { label: 'Architecture', value: 'Microservices', icon: Target },
+      { label: 'INTEGRATIONS', value: 'RESTful', icon: Zap },
+      { label: 'ARCHITECTURE', value: 'Microservices', icon: Target },
     ],
     impact: [
       "Engineered a production-ready expense processing suite utilizing React.js and Spring Boot.",
@@ -138,8 +138,8 @@ const companies = [
     designation: 'Software Development Engineer Intern',
     timeline: 'Jan 2025 - Jun 2025',
     metrics: [
-      { label: 'Efficiency', value: '+35%', icon: Zap },
-      { label: 'Test Coverage', value: '92%', icon: Target },
+      { label: 'EFFICIENCY', value: '+35%', icon: Zap },
+      { label: 'COVERAGE', value: '92%', icon: Target },
     ],
     impact: [
       "Boosted system efficiency by 35% through high-performance Java to C++ migration.",
@@ -161,8 +161,8 @@ const companies = [
     designation: 'Graduate Apprentice Trainee - SWE',
     timeline: 'Nov 2025 - Present',
     metrics: [
-      { label: 'Automation', value: '15h/wk', icon: Zap },
-      { label: 'Analysis', value: 'Predictive', icon: Target },
+      { label: 'AUTOMATION', value: '15h/wk', icon: Zap },
+      { label: 'ANALYSIS', value: 'Predictive', icon: Target },
     ],
     impact: [
       "Automating manufacturing analytics via Python, targeting 15+ hours weekly manual reduction.",
@@ -383,7 +383,7 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
                 onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
                 className={cn(
                   "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-500 group/btn",
-                  isExpanded ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                  (isExpanded || true) ? "opacity-100" : "opacity-0 group-hover:opacity-100" // Hover discovered
                 )}
             >
                 View Notable Achievements
@@ -542,7 +542,9 @@ export function About() {
                     {companies.map((company) => {
                         const logoId = company.id === 'amazon' ? amazonLogoId : company.imageId;
                         const logoImage = PlaceHolderImages.find(p => p.id === logoId);
-                        const isExpanded = selectedExpId === company.id;
+                        const isSelected = selectedExpId === company.id;
+                        // Symbolic pulse logic: Default to Mercedes, otherwise follow selection
+                        const shouldPulse = isSelected || (selectedExpId === null && company.id === 'mercedes');
 
                         return (
                             <button
@@ -550,7 +552,7 @@ export function About() {
                                 onClick={() => toggleExp(company.id)}
                                 className={cn(
                                     "relative flex items-center justify-center transition-all duration-500 transform-gpu outline-none h-14 w-28 md:w-36 shrink-0",
-                                    isExpanded ? "scale-110 opacity-100" : "grayscale opacity-50 hover:grayscale-0 hover:opacity-80"
+                                    isSelected ? "scale-110 opacity-100" : "grayscale opacity-50 hover:grayscale-0 hover:opacity-80"
                                 )}
                             >
                                 {logoImage ? (
@@ -575,13 +577,12 @@ export function About() {
 
                    <div className="absolute inset-0 flex items-center justify-between w-full">
                       {companies.map((company) => {
-                          const isExpanded = selectedExpId === company.id;
-                          // Symbolic logic: pulse Mercedes initially, or shift to selection
-                          const isPulsing = isExpanded || (selectedExpId === null && company.id === 'mercedes');
+                          const isSelected = selectedExpId === company.id;
+                          const shouldPulse = isSelected || (selectedExpId === null && company.id === 'mercedes');
                           
                           return (
                               <div key={`dot-${company.id}`} className="relative flex justify-center items-center w-28 md:w-36 shrink-0">
-                                  {isPulsing ? (
+                                  {shouldPulse ? (
                                       <motion.div 
                                           layoutId="active-dot"
                                           className="relative h-2.5 w-2.5 rounded-full bg-[#00FF00] z-20 shadow-[0_0_15px_#00FF00] shrink-0"
@@ -606,41 +607,42 @@ export function About() {
                                 animate={{ opacity: 1, filter: 'blur(0px)', y: 0, scale: 1 }}
                                 exit={{ opacity: 0, filter: 'blur(12px)', y: -20, scale: 0.97 }}
                                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                                className="w-full max-w-[800px] overflow-hidden bg-transparent relative"
+                                className="w-full max-w-[800px] bg-transparent relative"
                             >
                                 <div className="p-8 md:p-10">
-                                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-10 mb-10">
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-3 mb-2">
-                                                <h4 className="font-headline text-3xl font-semibold tracking-tighter text-foreground uppercase italic">
-                                                  {selectedExp.name}
-                                                </h4>
-                                            </div>
-                                            <p className="text-xl font-medium text-foreground/80 tracking-tight">{selectedExp.designation}</p>
-                                            <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.4em] mt-3 opacity-40">{selectedExp.timeline}</p>
+                                    {/* Header Telemetry */}
+                                    <div className="flex flex-col gap-6 mb-12">
+                                        <div>
+                                            <h4 className="font-headline text-3xl font-semibold tracking-tighter text-foreground uppercase italic mb-1">
+                                              {selectedExp.name}
+                                            </h4>
+                                            <p className="text-xl font-bold text-foreground/90 tracking-tight">{selectedExp.designation}</p>
+                                            <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-[0.4em] mt-3 opacity-40">{selectedExp.timeline}</p>
                                         </div>
 
-                                        <div className="flex gap-4">
+                                        {/* Minimalist Metrics HUD */}
+                                        <div className="flex flex-wrap gap-8 py-6 border-y border-border/5">
                                             {selectedExp.metrics.map((m, i) => (
-                                                <div key={i} className="p-6 rounded-[24px] bg-secondary/30 border border-white/5 min-w-[150px] text-center shadow-lg backdrop-blur-sm transition-all hover:bg-secondary/40">
-                                                    <m.icon className="h-4 w-4 mx-auto mb-3 text-primary opacity-40" />
-                                                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/60 mb-1">{m.label}</p>
-                                                    <p className="text-lg font-black text-foreground">{m.value}</p>
+                                                <div key={i} className="flex items-center gap-4 group/metric">
+                                                    <div className="h-px w-6 bg-primary/20 group-hover/metric:bg-primary/60 transition-colors" />
+                                                    <div className="flex flex-col">
+                                                        <span className="text-[8px] font-black text-muted-foreground/60 tracking-[0.3em]">{m.label}</span>
+                                                        <span className="text-sm font-black text-primary/80 uppercase italic">{m.value}</span>
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
 
-                                    <div className="h-px w-full bg-border/10 mb-12" />
-
-                                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-                                        <div className="lg:col-span-7 space-y-8">
-                                            <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/30">Impact Analysis</h5>
+                                    {/* Architectural Impact Feed */}
+                                    <div className="space-y-12">
+                                        <div className="space-y-8">
                                             <div className="space-y-6">
                                                 {selectedExp.impact.map((point, i) => (
-                                                    <div key={i} className="flex items-start gap-4 group">
-                                                        <div className="mt-2.5 h-1.5 w-1.5 rounded-full bg-primary/20 group-hover:bg-primary transition-colors shrink-0" />
-                                                        <p className="text-lg text-foreground/80 leading-relaxed lora italic font-medium pr-4">
+                                                    <div key={i} className="relative pl-8 group">
+                                                        {/* Vertical Data line anchor */}
+                                                        <div className="absolute left-0 top-3 h-1.5 w-1.5 rounded-full bg-primary/10 border border-primary/20 group-hover:bg-primary group-hover:shadow-[0_0_10px_hsl(var(--primary))] transition-all duration-500" />
+                                                        <p className="text-lg text-foreground/80 leading-relaxed lora italic font-medium">
                                                             {point}
                                                         </p>
                                                     </div>
@@ -648,13 +650,16 @@ export function About() {
                                             </div>
                                         </div>
 
-                                        <div className="lg:col-span-5 space-y-8">
-                                            <h5 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary/30">Stack Profiling</h5>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        {/* Stack Tooling - Translucent Rail */}
+                                        <div className="pt-10 border-t border-border/5">
+                                            <span className="text-[8px] font-black text-muted-foreground/40 tracking-[0.4em] uppercase block mb-6">Engineered With</span>
+                                            <div className="flex flex-wrap gap-6 items-center">
                                                 {selectedExp.techStack.map((tech) => (
-                                                    <div key={tech.name} className="flex items-center gap-4 p-4 rounded-2xl bg-secondary/30 border border-white/5 transition-all hover:bg-secondary/50 group/tech">
-                                                        <tech.Icon className="h-5 w-5 grayscale group-hover/tech:grayscale-0 transition-all duration-500" style={{ color: tech.color }} />
-                                                        <span className="text-xs font-bold text-muted-foreground group-hover/tech:text-foreground">{tech.name}</span>
+                                                    <div key={tech.name} className="group/tech relative">
+                                                        <div className="p-3 rounded-xl bg-secondary/20 border border-white/5 backdrop-blur-sm transition-all duration-500 group-hover/tech:bg-secondary/40 group-hover/tech:-translate-y-1">
+                                                            <tech.Icon className="h-5 w-5 grayscale opacity-60 group-hover/tech:grayscale-0 group-hover/tech:opacity-100 transition-all duration-500" style={{ color: tech.color }} />
+                                                        </div>
+                                                        <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[7px] font-black text-primary opacity-0 group-hover/tech:opacity-40 transition-opacity uppercase tracking-widest whitespace-nowrap">{tech.name}</span>
                                                     </div>
                                                 ))}
                                             </div>
