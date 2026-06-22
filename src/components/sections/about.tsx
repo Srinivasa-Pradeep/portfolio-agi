@@ -383,7 +383,7 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
                 onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
                 className={cn(
                   "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-500 group/btn",
-                  (isExpanded || true) ? "opacity-100" : "opacity-0 group-hover:opacity-100" // Hover discovered
+                  isExpanded ? "opacity-100" : "opacity-0 group-hover:opacity-100"
                 )}
             >
                 View Notable Achievements
@@ -438,15 +438,15 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
 }
 
 const staggeredVariants = {
-  hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
+  hidden: { opacity: 0, y: 15, filter: 'blur(12px)' },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
     filter: 'blur(0px)',
     transition: {
-      delay: i * 0.1,
-      duration: 0.8,
-      ease: [0.215, 0.61, 0.355, 1.0],
+      delay: i * 0.08,
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1],
     },
   }),
 };
@@ -532,10 +532,10 @@ export function About() {
             </h2>
             <div className="mt-4 max-w-2xl text-lg text-muted-foreground leading-relaxed space-y-4">
               <p>
-                Software Engineer at <strong className="text-foreground">Mercedes-Benz (MBRDI)</strong> and former SDE Intern at <strong className="text-foreground">Amazon</strong>, focused on optimizing high-performance distributed systems. 
+                I am a software engineer driven by the purpose of building systems that serve people at a global scale. My journey began with a childhood love for <strong className="text-foreground">mathematics</strong>—a discipline that taught me the art of breaking the complex into the simple truths.
               </p>
               <p>
-                Lead researcher of <strong className="text-foreground">MedQuery AI</strong>, a published Natural Language to SQL framework (PeerJ CS) designed for clinical data reliability. I bridge the gap between complex backend architectures and intuitive human interfaces.
+                I am a deep, <strong className="text-foreground">reflective thinker</strong> who believes that the most powerful solutions aren't just high-performance; they are human-centric. Whether architecting distributed systems or researching AI reliability, I build to simplify, scale, and solve.
               </p>
             </div>
 
@@ -557,7 +557,6 @@ export function About() {
                         const logoId = company.id === 'amazon' ? amazonLogoId : company.imageId;
                         const logoImage = PlaceHolderImages.find(p => p.id === logoId);
                         const isSelected = selectedExpId === company.id;
-                        // Symbolic pulse logic: Default to Mercedes, otherwise follow selection
                         const shouldPulse = isSelected || (selectedExpId === null && company.id === 'mercedes');
 
                         return (
@@ -616,7 +615,7 @@ export function About() {
                     <AnimatePresence mode="wait">
                         {selectedExp && (
                             <>
-                                {/* Architectural Link - Connects the timeline node to the dossier */}
+                                {/* Architectural Link */}
                                 <motion.div 
                                     initial={{ height: 0, opacity: 0 }}
                                     animate={{ height: 40, opacity: 1 }}
@@ -669,7 +668,6 @@ export function About() {
                                                     animate="visible"
                                                     className="relative pl-10 group"
                                                 >
-                                                    {/* Blueprint Horizontal Anchor */}
                                                     <div className="absolute left-0 top-3.5 w-6 h-[1px] bg-primary/10 group-hover:bg-primary/40 transition-colors duration-500" />
                                                     <p className="text-lg text-foreground/80 leading-relaxed lora italic font-medium group-hover:text-foreground transition-colors duration-500">
                                                         {point}
