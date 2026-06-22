@@ -437,6 +437,20 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
   );
 }
 
+const staggeredVariants = {
+  hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      delay: i * 0.1,
+      duration: 0.8,
+      ease: [0.215, 0.61, 0.355, 1.0],
+    },
+  }),
+};
+
 export function About() {
   const { resolvedTheme } = useTheme();
   const [avatar, setAvatar] = useState<ImagePlaceholder | undefined>(
@@ -598,75 +612,94 @@ export function About() {
                    </div>
                 </div>
 
-                <div className="relative w-full flex justify-center overflow-visible">
+                <div className="relative w-full flex flex-col items-center overflow-visible">
                     <AnimatePresence mode="wait">
                         {selectedExp && (
-                            <motion.div
-                                key={selectedExp.id}
-                                initial={{ opacity: 0, filter: 'blur(12px)', y: -20, scale: 0.97 }}
-                                animate={{ opacity: 1, filter: 'blur(0px)', y: 0, scale: 1 }}
-                                exit={{ opacity: 0, filter: 'blur(12px)', y: -20, scale: 0.97 }}
-                                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                                className="w-full max-w-[800px] bg-transparent relative"
-                            >
-                                <div className="p-8 md:p-10">
-                                    {/* Header Telemetry */}
-                                    <div className="flex flex-col gap-6 mb-12">
-                                        <div>
-                                            <h4 className="font-headline text-3xl font-semibold tracking-tighter text-foreground uppercase italic mb-1">
+                            <>
+                                {/* Architectural Link - Connects the timeline node to the dossier */}
+                                <motion.div 
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: 40, opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    className="w-px bg-gradient-to-b from-primary/30 to-transparent"
+                                />
+
+                                <motion.div
+                                    key={selectedExp.id}
+                                    initial={{ opacity: 0, filter: 'blur(20px)', y: -10, scale: 0.98 }}
+                                    animate={{ opacity: 1, filter: 'blur(0px)', y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, filter: 'blur(20px)', y: -10, scale: 0.98 }}
+                                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                                    className="w-full max-w-[800px] relative px-4"
+                                >
+                                    <div className="flex flex-col gap-10">
+                                        {/* Header Stagger */}
+                                        <motion.div custom={0} variants={staggeredVariants} initial="hidden" animate="visible">
+                                            <h4 className="font-headline text-3xl font-black tracking-tighter text-foreground italic">
                                               {selectedExp.name}
                                             </h4>
-                                            <p className="text-xl font-bold text-foreground/90 tracking-tight">{selectedExp.designation}</p>
-                                            <p className="text-[9px] font-mono text-muted-foreground uppercase tracking-[0.4em] mt-3 opacity-40">{selectedExp.timeline}</p>
-                                        </div>
+                                            <div className="mt-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                                                <p className="text-xl font-bold text-foreground/90 tracking-tight">{selectedExp.designation}</p>
+                                                <div className="hidden sm:block h-1 w-1 rounded-full bg-border" />
+                                                <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em] opacity-50">{selectedExp.timeline}</p>
+                                            </div>
+                                        </motion.div>
 
-                                        {/* Minimalist Metrics HUD */}
-                                        <div className="flex flex-wrap gap-8 py-6 border-y border-border/5">
+                                        {/* Telemetry HUD Stagger */}
+                                        <motion.div custom={1} variants={staggeredVariants} initial="hidden" animate="visible" className="flex flex-wrap gap-x-12 gap-y-6">
                                             {selectedExp.metrics.map((m, i) => (
-                                                <div key={i} className="flex items-center gap-4 group/metric">
-                                                    <div className="h-px w-6 bg-primary/20 group-hover/metric:bg-primary/60 transition-colors" />
-                                                    <div className="flex flex-col">
-                                                        <span className="text-[8px] font-black text-muted-foreground/60 tracking-[0.3em]">{m.label}</span>
-                                                        <span className="text-sm font-black text-primary/80 uppercase italic">{m.value}</span>
+                                                <div key={i} className="flex flex-col gap-1 group/metric relative">
+                                                    <span className="text-[9px] font-black text-muted-foreground/40 tracking-[0.4em] uppercase">{m.label}</span>
+                                                    <div className="flex items-center gap-3">
+                                                        <span className="text-base font-black text-primary italic">{m.value}</span>
+                                                        <div className="h-px w-8 bg-primary/10 group-hover/metric:bg-primary/40 transition-colors" />
                                                     </div>
                                                 </div>
                                             ))}
-                                        </div>
-                                    </div>
+                                        </motion.div>
 
-                                    {/* Architectural Impact Feed */}
-                                    <div className="space-y-12">
-                                        <div className="space-y-8">
-                                            <div className="space-y-6">
-                                                {selectedExp.impact.map((point, i) => (
-                                                    <div key={i} className="relative pl-8 group">
-                                                        {/* Vertical Data line anchor */}
-                                                        <div className="absolute left-0 top-3 h-1.5 w-1.5 rounded-full bg-primary/10 border border-primary/20 group-hover:bg-primary group-hover:shadow-[0_0_10px_hsl(var(--primary))] transition-all duration-500" />
-                                                        <p className="text-lg text-foreground/80 leading-relaxed lora italic font-medium">
-                                                            {point}
-                                                        </p>
-                                                    </div>
-                                                ))}
-                                            </div>
+                                        {/* Narrative Impact Stagger */}
+                                        <div className="space-y-6">
+                                            {selectedExp.impact.map((point, i) => (
+                                                <motion.div 
+                                                    key={i} 
+                                                    custom={i + 2} 
+                                                    variants={staggeredVariants} 
+                                                    initial="hidden" 
+                                                    animate="visible"
+                                                    className="relative pl-10 group"
+                                                >
+                                                    {/* Blueprint Horizontal Anchor */}
+                                                    <div className="absolute left-0 top-3.5 w-6 h-[1px] bg-primary/10 group-hover:bg-primary/40 transition-colors duration-500" />
+                                                    <p className="text-lg text-foreground/80 leading-relaxed lora italic font-medium group-hover:text-foreground transition-colors duration-500">
+                                                        {point}
+                                                    </p>
+                                                </motion.div>
+                                            ))}
                                         </div>
 
-                                        {/* Stack Tooling - Translucent Rail */}
-                                        <div className="pt-10 border-t border-border/5">
-                                            <span className="text-[8px] font-black text-muted-foreground/40 tracking-[0.4em] uppercase block mb-6">Engineered With</span>
-                                            <div className="flex flex-wrap gap-6 items-center">
+                                        {/* Glass Tool Rail Stagger */}
+                                        <motion.div custom={selectedExp.impact.length + 2} variants={staggeredVariants} initial="hidden" animate="visible" className="pt-8 border-t border-border/5">
+                                            <div className="flex items-center gap-8 px-2 py-4 rounded-full bg-secondary/10 backdrop-blur-3xl border border-white/5 w-fit">
                                                 {selectedExp.techStack.map((tech) => (
-                                                    <div key={tech.name} className="group/tech relative">
-                                                        <div className="p-3 rounded-xl bg-secondary/20 border border-white/5 backdrop-blur-sm transition-all duration-500 group-hover/tech:bg-secondary/40 group-hover/tech:-translate-y-1">
-                                                            <tech.Icon className="h-5 w-5 grayscale opacity-60 group-hover/tech:grayscale-0 group-hover/tech:opacity-100 transition-all duration-500" style={{ color: tech.color }} />
-                                                        </div>
-                                                        <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[7px] font-black text-primary opacity-0 group-hover/tech:opacity-40 transition-opacity uppercase tracking-widest whitespace-nowrap">{tech.name}</span>
-                                                    </div>
+                                                    <TooltipProvider key={tech.name}>
+                                                        <Tooltip delayDuration={0}>
+                                                            <TooltipTrigger asChild>
+                                                                <div className="group/tech transition-transform duration-500 hover:-translate-y-1">
+                                                                    <tech.Icon className="h-5 w-5 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500" style={{ color: tech.color }} />
+                                                                </div>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent className="bg-black/90 backdrop-blur-xl border-white/10">
+                                                                <p className="text-[10px] font-black uppercase tracking-widest text-white">{tech.name}</p>
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </TooltipProvider>
                                                 ))}
                                             </div>
-                                        </div>
+                                        </motion.div>
                                     </div>
-                                </div>
-                            </motion.div>
+                                </motion.div>
+                            </>
                         )}
                     </AnimatePresence>
                 </div>
