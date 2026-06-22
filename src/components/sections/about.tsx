@@ -510,11 +510,11 @@ export function About() {
                           <TypingEffect
                             sequences={[
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
-                                { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
+                                { text: 'ஸ்ரீனிவாச பிரതീப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
                                 { text: 'ശ്രീനിവാസ പ്രതീപ്', className: 'font-malayalam text-xs text-foreground/90' },
                                 { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'font-tiro-kannada text-xs text-foreground/90' },
-                                { text: 'శ్రీనివాస ప్రದೀప్', className: 'font-tiro-telugu text-xs text-foreground/90' }
+                                { text: 'శ్రీనివాస ప్రದೀಪ್', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
                           />
                       </div>
@@ -530,12 +530,9 @@ export function About() {
             <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">
               About Me
             </h2>
-            <div className="mt-4 max-w-2xl text-lg text-muted-foreground leading-relaxed space-y-4">
+            <div className="mt-4 max-w-2xl text-lg text-muted-foreground leading-relaxed">
               <p>
-                I’m someone who enjoys building software that scales and creates real impact for users.
-              </p>
-              <p>
-                Ever since I was a child,I’ve been drawn to math not just for answers, but for the way it teaches you to break down complex problems into simple, elegant ideas. That curiosity stayed with me. Today, I approach engineering the same way: thinking deeply, simplifying complexity, and building systems that are both scalable and meaningful.
+                I’m someone who enjoys building software that scales and creates real impact for users. Ever since I was a child,I’ve been drawn to math not just for answers, but for the way it teaches you to break down complex problems into simple, elegant ideas. That curiosity stayed with me. Today, I approach engineering the same way: thinking deeply, simplifying complexity, and building systems that are both scalable and meaningful.
               </p>
             </div>
 
