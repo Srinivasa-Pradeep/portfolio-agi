@@ -126,17 +126,17 @@ const testimonials = [
   {
     name: "Kamal Chander",
     role: "SDE Aspirant",
-    text: "Srini's ability to dismantle complex problems and rebuild them into clear, logical steps is what sets him apart. His mock sessions are more than just practice - they are masterclasses in structured thinking."
+    text: "Srini's ability to dismantle complex problems and rebuild them into clear, logical steps is what sets him apart. His mock sessions are masterclasses in structured thinking."
   },
   {
     name: "Sridhar R",
     role: "Software Engineer",
-    text: "The way he simplifies complex graph problems is remarkable. Taking mocks with him was the turning point in my technical preparation. He has a gift for making the abstract feel intuitive."
+    text: "The way he simplifies complex graph problems is remarkable. Taking mocks with him was the turning point in my preparation. He has a gift for making the abstract feel intuitive."
   },
   {
     name: "Ram Kumar",
     role: "Tech Enthusiast",
-    text: "Structured, calm, and insightful. Srini has a way of making high-pressure scenarios feel like collaborative problem-solving sessions. I walked away from our mock session with absolute clarity."
+    text: "Structured, calm, and insightful. Srini has a way of making high-pressure scenarios feel like collaborative problem-solving sessions. Walked away with absolute clarity."
   }
 ];
 
@@ -698,7 +698,7 @@ export function LeetCode() {
                 Exclusive Reward
               </h3>
               <a 
-                href="https://www.linkedin.com/posts/srinivasa-pradeep_2025-stretched-me-beyond-my-comfort-resilience-ugcPost-7430266244668301312-LC0q/?utm_source=share&utm_medium=member_desktop&rcm=ACoAADxcm0IBWIb9Uc5VqPNdQkgTB7oN8bj3H0g"
+                href="https://www.linkedin.com/posts/srinivasa-pradeep-s_2025-stretched-me-beyond-my-comfort-resilience-ugcPost-7430266244668301312-LC0q/?utm_source=share&utm_medium=member_desktop&rcm=ACoAADxcm0IBWIb9Uc5VqPNdQkgTB7oN8bj3H0g"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block outline-none"
@@ -778,27 +778,28 @@ export function LeetCode() {
               {[...testimonials, ...testimonials].map((t, i) => (
                 <div 
                   key={i} 
-                  className="w-[350px] aspect-[1.6/1] mx-6 shrink-0 flex flex-col justify-between p-7 rounded-[28px] bg-secondary/20 border border-border/10 backdrop-blur-md relative group/card transition-all duration-700 hover:bg-secondary/30 hover:border-primary/20 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(233,165,63,0.1)]"
+                  className="w-[420px] aspect-[1.8/1] mx-6 shrink-0 flex flex-col justify-between p-8 rounded-2xl bg-secondary/20 border border-border/10 backdrop-blur-md relative group/card transition-all duration-700 hover:bg-secondary/30 hover:border-primary/20 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(233,165,63,0.1)]"
                 >
                   {/* LinkedIn Premium Discovery Icon */}
-                  <div className="absolute top-7 right-7 transition-all duration-500">
+                  <div className="absolute top-8 right-8 transition-all duration-500">
                     <SiLinkedin className="h-5 w-5 text-muted-foreground/40 group-hover/card:text-[#e9a53f] transition-all duration-500" />
                   </div>
                   
-                  {/* Testimonial Canvas */}
-                  <div className="flex-1 pr-6 pt-2">
+                  {/* Testimonial Canvas - Soulful Serif Narrative */}
+                  <div className="flex-1 pr-6">
                     <p className="text-sm md:text-[15px] text-foreground/80 leading-relaxed lora italic font-medium">
                       "{t.text}"
                     </p>
                   </div>
                   
-                  {/* Classy Footer Metadata */}
-                  <div className="mt-4 pt-4 border-t border-primary/5 flex items-center justify-between">
+                  {/* Classy Footer Signature Layout */}
+                  <div className="mt-6 pt-6 border-t border-primary/5 flex items-center justify-between">
                     <div className="space-y-0.5">
                       <p className="font-black text-foreground text-[10px] tracking-tight uppercase">{t.name}</p>
                       <p className="text-[8px] font-mono text-muted-foreground uppercase tracking-[0.2em] opacity-60">{t.role}</p>
                     </div>
-                    <div className="h-[1px] w-6 bg-primary/10 group-hover/card:w-10 transition-all duration-700 bg-gradient-to-r from-primary/10 to-[#e9a53f]" />
+                    {/* Architectural Growth Line */}
+                    <div className="h-[1px] w-6 bg-primary/10 group-hover/card:w-12 transition-all duration-700 bg-gradient-to-r from-primary/10 to-[#e9a53f]" />
                   </div>
                 </div>
               ))}
