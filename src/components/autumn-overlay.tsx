@@ -4,9 +4,10 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 
 /**
- * AutumnOverlay - A cinematic layer of falling leaves.
- * Active only in 'autumn' mode. Features procedural drift and organic rotation.
- * Enhanced for a "Full" immersive experience.
+ * AutumnOverlay - A high-fidelity cinematic layer of falling leaves.
+ * Active only in 'autumn' mode. 
+ * Features anatomically detailed sharp leaves with internal vein structures.
+ * Calibrated for a "Full" immersive density and organic drift physics.
  */
 export function AutumnOverlay() {
   const { theme } = useTheme();
@@ -17,20 +18,20 @@ export function AutumnOverlay() {
   }, []);
 
   const leaves = useMemo(() => {
-    // Increased leaf count for a fuller experience
-    return Array.from({ length: 45 }).map((_, i) => ({
+    // Increased leaf count to 60 for a "Full" immersive experience
+    return Array.from({ length: 60 }).map((_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
-      duration: `${Math.random() * 15 + 10}s`,
+      duration: `${Math.random() * 10 + 12}s`, // Slightly slower for deeper parallax
       delay: `${Math.random() * 20}s`,
-      size: Math.random() * 22 + 14,
-      opacity: Math.random() * 0.4 + 0.15,
+      size: Math.random() * 24 + 16,
+      opacity: Math.random() * 0.35 + 0.15,
       color: [
-        'text-orange-500/30',
-        'text-amber-600/30',
-        'text-red-700/30',
-        'text-yellow-600/30',
-        'text-orange-700/20'
+        'text-orange-600/40',
+        'text-amber-700/40',
+        'text-red-800/35',
+        'text-yellow-700/35',
+        'text-orange-900/25'
       ][Math.floor(Math.random() * 5)],
       rotation: Math.random() * 360,
     }));
@@ -57,14 +58,21 @@ export function AutumnOverlay() {
             height={leaf.size}
             viewBox="0 0 24 24"
             fill="none"
-            stroke="currentColor"
-            strokeWidth="0.3"
+            xmlns="http://www.w3.org/2000/svg"
             className={leaf.color}
           >
-            {/* Detailed Organic Leaf Path */}
+            {/* Anatomically Detailed Sharp Leaf Silhouette */}
             <path
-              d="M12 21c-1.5-1.5-4-3-4-6.5 0-3 2.5-6 4-11.5 1.5 5.5 4 8.5 4 11.5 0 3.5-2.5 5-4 6.5zM12 21v-3.5 M8 12.5c1.5 0 2.5 1 4 1s2.5-1 4-1"
+              d="M12 2C12 2 11.5 5.5 9 7C6 8.5 3 8 2 11C4 12 6 12.5 7 14C6 16 5 19 7 21C9 20 11 18.5 12 17C13 18.5 15 20 17 21C19 19 18 16 17 14C18 12.5 20 12 22 11C21 8 18 8.5 15 7C12.5 5.5 12 2 12 2Z"
               fill="currentColor"
+            />
+            {/* Fine Internal Vein Structure for Sharp Detail */}
+            <path
+              d="M12 5V17 M12 8L9 10 M12 11L15 13 M12 14L10 16"
+              stroke="currentColor"
+              strokeWidth="0.4"
+              strokeOpacity="0.3"
+              strokeLinecap="round"
             />
           </svg>
         </div>
