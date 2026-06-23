@@ -4,9 +4,9 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 
 /**
- * AutumnOverlay - High-fidelity, actual autumn leaf feel.
- * Uses complex paths to mimic dried, curled leaves with stems and veins.
- * Calibrated for a sophisticated, drifting cinematic experience.
+ * AutumnOverlay - High-fidelity, actual maple leaf architecture.
+ * Redesigned using multi-lobed sharp paths based on the user-provided reference.
+ * Features jagged edges, anatomical veins, and variegated seasonal tones.
  */
 export function AutumnOverlay() {
   const { theme } = useTheme();
@@ -23,16 +23,16 @@ export function AutumnOverlay() {
       left: `${Math.random() * 100}%`,
       duration: `${Math.random() * 12 + 15}s`, 
       delay: `${Math.random() * 25}s`,
-      size: Math.random() * 28 + 22,
-      opacity: Math.random() * 0.35 + 0.1,
-      // Variant 0: Maple-ish, Variant 1: Oak-ish, Variant 2: Generic dried
+      size: Math.random() * 32 + 28, // Slightly larger for detail visibility
+      opacity: Math.random() * 0.4 + 0.15,
+      // Variant 0: Sharp 5-lobed Maple, Variant 1: Broad 7-lobed Maple, Variant 2: Curled Maple
       variant: Math.floor(Math.random() * 3),
       color: [
-        'text-orange-600/35',
-        'text-amber-700/35',
-        'text-red-800/30',
-        'text-yellow-700/30',
-        'text-orange-900/20'
+        'text-orange-600/40',
+        'text-red-700/35',
+        'text-amber-600/40',
+        'text-red-900/30',
+        'text-yellow-700/35'
       ][Math.floor(Math.random() * 5)],
       rotation: Math.random() * 360,
     }));
@@ -63,24 +63,25 @@ export function AutumnOverlay() {
             className={leaf.color}
           >
             {leaf.variant === 0 && (
-              // Realistic Maple-style Path (Jagged and Lobed)
-              <path d="M12 21.5c0-1.5.5-3.5-1-4.5-2-1-4.5 1.5-6-1-1-2 1-4.5 3-5.5 1-1 0-.5 1.5-1.5.5-1.5-1-4 0-6 1.5 2 1 4.5 1.5 6 1.5 1 1.5 0 2.5 1 2 1 4 3.5 3 5.5-1.5 2.5-4 0-6 1-.5 1-1.5 5-1.5 5z" />
+              // Realistic Sharp 5-lobed Maple Leaf Path
+              <path d="M12 22s.3-2.5-.2-4.5c-1.5-.5-3.5 1-5-1-.5-2 1.5-3 3-4-.5-1.5-3-1.5-4-3-1-1.5 1.5-2.5 3-2.5-.5-2-2-4 .5-6 1 1.5 1 3.5 1.5 5.5 1-1.5 1-3.5 2-5 1.5-1 3 1.5 2.5 3.5 2-.5 4 .5 4 2.5-1 1.5-3.5 1.5-4 3 1.5 1 3.5 2 3 4-1.5 2-3.5.5-5 1-.5 2-.2 4.5-.2 4.5z" />
             )}
             {leaf.variant === 1 && (
-              // Realistic Oak-style Path (Irregular rounded lobes)
-              <path d="M12 22s.5-4-.5-5.5c-1-1.5-4 .5-5-1s1-4 3-5c1-1 0-1 1.5-2.5 1-1.5-.5-5 1-6 1.5 1 0 4.5 1 6 1.5 1.5.5.5 1.5 2.5s4 3.5 3 5-4-.5-5 1c-1 1.5-.5 5.5-.5 5.5z" />
+              // Realistic Broader 7-lobed Maple Leaf Path
+              <path d="M12 21.5c0-2 .5-4 0-5.5-1.5.5-3 2-4.5.5-1.5-1.5.5-3 2-4-1.5-.5-3.5-.5-4.5-2-1-1.5 1-3 2.5-3.5-1-1.5-1.5-3.5 1-5 1 1 1.5 3 2 4.5 1.5-2 2-4.5 3.5-4.5 1 1 1 3.5 1.5 5 1.5-1 4-1 5 1 .5 1.5-2 2-3.5 2.5 1.5 1.5 4 2.5 3 4.5-.5 1.5-2.5.5-4 0-.5 1.5 1 3.5-1 5-1 1.5-1.5-.5-1.5-2z" />
             )}
             {leaf.variant === 2 && (
-              // Realistic Dried/Withered Leaf (Asymmetrical curl)
-              <path d="M12 21.5c0-2-1-3-2-5-2-1-4 1-5.5-1s.5-5 3-6c1.5-1 1 0 2-2 .5-2-1-5 1.5-6.5 2 2 1 5 1.5 6.5 1 2 1 1 2.5 2 2.5 1 4 4 3 6-1 2-3.5 0-5.5 1-1 2-.5 5-.5 5z" />
+              // Realistic Curled/Asymmetrical Maple Leaf Path
+              <path d="M12 22s.5-3-.5-5c-1.5-.2-3.5 1.5-5-.5-1-2 1.5-3.5 3-4.5-1-2-4-2-4.5-4-1-2 2-3 4-3-.5-2-1.5-4.5 1-6 1 1.5 1 4 1.5 6 1.5-2 2-4.5 3.5-4 1.5 1 1 4 1.5 5.5 1.5-.5 4.5 0 4.5 2.5-1 2-4 2-4.5 4 2 1 4.5 2.5 3.5 4.5-1.5 2-4 0-6 1-.5 2-.5 5-.5 5z" />
             )}
-            {/* Anatomical Central Vein */}
+            {/* Anatomical Central Vein and Branches */}
             <path
-              d="M12 21v-12"
+              d="M12 21v-12M12 14l-4-3M12 14l4-3M12 11l-3-4M12 11l3-4"
               stroke="currentColor"
-              strokeWidth="0.4"
-              strokeOpacity="0.2"
+              strokeWidth="0.3"
+              strokeOpacity="0.25"
               strokeLinecap="round"
+              fill="none"
             />
           </svg>
         </div>
