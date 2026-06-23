@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useTheme } from 'next-themes';
 import { useEffect, useState, useRef } from 'react';
-import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap } from 'lucide-react';
+import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap, Plus, Minus } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -323,7 +323,7 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
                 onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
                 className={cn(
                   "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-500 group/btn",
-                  isExpanded ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                  isExpanded ? "opacity-100" : "opacity-40 group-hover:opacity-100"
                 )}
             >
                 View Notable Achievements
@@ -400,6 +400,7 @@ export function About() {
   const psgLogo = PlaceHolderImages.find((p) => p.id === 'psg-itech-logo');
   
   const [selectedExpId, setSelectedExpId] = useState<string | null>(null);
+  const [isBioExpanded, setIsBioExpanded] = useState(false);
 
   useEffect(() => {
     const lightAvatar = PlaceHolderImages.find(
@@ -474,6 +475,38 @@ export function About() {
               <p>
                 I’m someone who enjoys building software that scales and creates real impact for users. Ever since I was a child, I’ve been drawn to math not just for answers, but for the way it teaches you to break down complex problems into simple, elegant ideas. That curiosity stayed with me. Today, I approach engineering the same way: thinking deeply, simplifying complexity, and building systems that are both scalable and meaningful.
               </p>
+              
+              {/* RESTORED MORE INFO: Bio Expansion */}
+              <div className="mt-6">
+                <button 
+                  onClick={() => setIsBioExpanded(!isBioExpanded)}
+                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:scale-105 transition-transform duration-300"
+                >
+                  {isBioExpanded ? <Minus className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
+                  {isBioExpanded ? 'Show Less' : 'More Information'}
+                </button>
+
+                <AnimatePresence>
+                  {isBioExpanded && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pt-6 space-y-4 text-base lora italic border-t border-primary/5 mt-4">
+                        <p>
+                          My engineering philosophy is rooted in architectural discipline and human-centric design. I believe that code is a bridge between abstract logic and tangible impact. 
+                        </p>
+                        <p>
+                          Whether I'm migrating high-performance Java systems to C++ at Amazon or automating manufacturing analytics at Mercedes-Benz, the goal is always the same: precision, reliability, and soul.
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
 
             <div className="mt-12">
