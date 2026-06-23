@@ -21,8 +21,8 @@ export function BlurRevealText({ words, className, interval = 3500 }: BlurReveal
   }, [words.length, interval]);
 
   return (
-    <div className={cn("inline-grid font-medium align-baseline", className)}>
-      {/* Invisible placeholders to reserve maximum width and prevent layout shift */}
+    <div className={cn("inline-grid items-center justify-items-center", className)}>
+      {/* Invisible placeholders to reserve maximum width/height and prevent layout shift */}
       {words.map((word, wordIdx) => (
         <span
           key={`placeholder-${wordIdx}`}
@@ -47,7 +47,7 @@ export function BlurRevealText({ words, className, interval = 3500 }: BlurReveal
           <span
             key={`animated-${wordIdx}`}
             className={cn(
-              "col-start-1 row-start-1 block whitespace-pre-wrap",
+              "col-start-1 row-start-1 block whitespace-pre-wrap text-center",
               !isActive && "pointer-events-none"
             )}
             aria-hidden={!isActive}
@@ -64,7 +64,7 @@ export function BlurRevealText({ words, className, interval = 3500 }: BlurReveal
                       : "opacity-0 blur-md translate-y-1"
                   )}
                   style={{
-                    transitionDelay: isActive ? `${charIdx * 35}ms` : '0ms',
+                    transitionDelay: isActive ? `${charIdx * 25}ms` : '0ms',
                   }}
                 >
                   {char}
