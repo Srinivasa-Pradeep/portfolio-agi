@@ -7,6 +7,7 @@ import { CustomCursor } from '@/components/custom-cursor';
 import { LiveClock } from '@/components/live-clock';
 import { MusicProvider } from '@/context/music-context';
 import { SpringOverlay } from '@/components/spring-overlay';
+import { AutumnOverlay } from '@/components/autumn-overlay';
 import { ConditionalParticles } from '@/components/conditional-particles';
 import { SmoothScroll } from '@/components/smooth-scroll';
 import { LizChat } from '@/components/liz-chat';
@@ -44,6 +45,7 @@ export default function RootLayout({
             <SmoothScroll>
               <AppleLandingSequence />
               <SpringOverlay />
+              <AutumnOverlay />
               <ConditionalParticles />
               <CustomCursor />
               <LiveClock />

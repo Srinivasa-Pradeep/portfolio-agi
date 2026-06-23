@@ -93,6 +93,30 @@
     --feedback: 270 90% 65%;
     --feedback-foreground: 270 90% 25%;
   }
+
+  .autumn {
+    --background: 32 35% 96%;
+    --foreground: 20 40% 12%;
+    --card: 32 35% 97%;
+    --card-foreground: 20 40% 12%;
+    --primary: 18 70% 38%;
+    --primary-foreground: 32 35% 96%;
+    --secondary: 35 30% 88%;
+    --secondary-foreground: 20 40% 12%;
+    --border: 32 20% 84%;
+    --input: 32 20% 84%;
+    --muted: 32 20% 90%;
+    --muted-foreground: 20 15% 45%;
+    --accent: 42 55% 82%;
+    --accent-foreground: 42 60% 20%;
+    --ring: 18 70% 38%;
+    --radius: 0.8rem;
+    --destructive: 12 75% 40%;
+    --destructive-foreground: 0 0% 98%;
+    --easy: 140 45% 30%;
+    --info: 210 55% 45%;
+    --feedback: 38 65% 48%;
+  }
 }
 
 @layer base {
@@ -146,6 +170,20 @@
 
 .animate-flower-shower {
   animation: flower-shower linear infinite;
+}
+
+@keyframes leaf-fall {
+  0% { transform: translateY(-10vh) rotate(0deg) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  25% { transform: translateY(25vh) rotate(90deg) translateX(-20px); }
+  50% { transform: translateY(50vh) rotate(180deg) translateX(20px); }
+  75% { transform: translateY(75vh) rotate(270deg) translateX(-20px); }
+  90% { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg) translateX(0); opacity: 0; }
+}
+
+.animate-leaf-fall {
+  animation: leaf-fall linear infinite;
 }
 
 @keyframes vibrate-alert {
@@ -220,4 +258,13 @@
 
 .animate-count-bounce {
   animation: count-bounce 0.8s ease-out infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
 }

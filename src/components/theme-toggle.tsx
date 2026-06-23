@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Moon, Sun, Flower } from 'lucide-react';
+import { Moon, Sun, Flower, Leaf } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { flushSync } from 'react-dom';
 
@@ -17,7 +17,7 @@ import {
  * ThemeToggle - A high-fidelity "Celestial Controller".
  * Features automatic synchronization with keyboard shortcuts and a 
  * counter-rotation system to keep icons upright during transitions.
- * Uses flushSync for reliable View Transition capture in React.
+ * Supports 4 modes: Light, Dark, Spring, and Autumn.
  */
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -33,15 +33,15 @@ export function ThemeToggle() {
   // Synchronize rotation with theme changes (handles shortcuts & mouse clicks)
   React.useEffect(() => {
     if (theme && theme !== lastTheme.current) {
-        const themes = ['light', 'dark', 'spring'];
+        const themes = ['light', 'dark', 'spring', 'autumn'];
         const oldIndex = themes.indexOf(lastTheme.current || 'light');
         const newIndex = themes.indexOf(theme);
         
-        // Calculate rotation diff to always spin forward
+        // Calculate rotation diff to always spin forward in the 4-state cycle
         let diff = newIndex - oldIndex;
-        if (diff < 0) diff += 3;
+        if (diff < 0) diff += 4;
         
-        setRotation(r => r + (diff * 120));
+        setRotation(r => r + (diff * 90));
         lastTheme.current = theme;
     }
   }, [theme]);
@@ -58,13 +58,11 @@ export function ThemeToggle() {
       audioRef.current.play().catch(() => {});
     }
 
-    // 3. Cycle logic: light -> dark -> spring
-    const themes = ['light', 'dark', 'spring'];
+    // 3. Cycle logic: light -> dark -> spring -> autumn
+    const themes = ['light', 'dark', 'spring', 'autumn'];
     const nextTheme = themes[(themes.indexOf(theme || 'light') + 1) % themes.length];
 
     // 4. View Transition API with flushSync
-    // Using flushSync ensures React updates the DOM immediately so the 
-    // browser can capture the "after" snapshot for the transition.
     if (!(document as any).startViewTransition) {
       setTheme(nextTheme);
       return;
@@ -97,7 +95,8 @@ export function ThemeToggle() {
     switch (theme) {
         case 'light': return 'Switch to Dark Mode';
         case 'dark': return 'Switch to Spring Mode';
-        case 'spring': return 'Switch to Light Mode';
+        case 'spring': return 'Switch to Autumn Mode';
+        case 'autumn': return 'Switch to Light Mode';
         default: return 'Cycle Atmosphere';
     }
   };
@@ -125,6 +124,7 @@ export function ThemeToggle() {
                 <Sun className={`h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'light' ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
                 <Moon className={`absolute h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'dark' ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
                 <Flower className={`absolute h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'spring' ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
+                <Leaf className={`absolute h-[1.2rem] w-[1.2rem] transition-all duration-500 ${theme === 'autumn' ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`} />
               </div>
             </div>
             <span className="sr-only">Toggle theme</span>
