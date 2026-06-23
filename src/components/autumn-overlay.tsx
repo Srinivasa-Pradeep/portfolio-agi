@@ -4,9 +4,9 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 
 /**
- * AutumnOverlay - High-fidelity, actual maple leaf architecture.
+ * AutumnOverlay - Hyper-realistic maple leaf architecture.
  * Redesigned using multi-lobed sharp paths based on the user-provided reference.
- * Features jagged edges, anatomical veins, and variegated seasonal tones.
+ * Features jagged, serrated edges, anatomical veins, and variegated seasonal tones.
  */
 export function AutumnOverlay() {
   const { theme } = useTheme();
