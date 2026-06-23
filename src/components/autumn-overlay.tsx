@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes';
 /**
  * AutumnOverlay - Hyper-realistic maple leaf architecture.
  * Redesigned using multi-lobed sharp paths for a high-fidelity "leaf leaf" feel.
- * Features jagged, serrated edges, anatomical veins, and variegated seasonal tones.
+ * Features jagged, serrated edges, anatomical veins, and the "leaf stick" (petiole).
  */
 export function AutumnOverlay() {
   const { theme } = useTheme();
@@ -17,15 +17,13 @@ export function AutumnOverlay() {
   }, []);
 
   const leaves = useMemo(() => {
-    // 35 units for a balanced, premium cinematic atmosphere
     return Array.from({ length: 35 }).map((_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
       duration: `${Math.random() * 12 + 15}s`, 
       delay: `${Math.random() * 25}s`,
-      size: Math.random() * 32 + 28, // Detail visibility
+      size: Math.random() * 32 + 28,
       opacity: Math.random() * 0.4 + 0.15,
-      // Variants with hyper-precise jagged outer structures
       variant: Math.floor(Math.random() * 3),
       color: [
         'text-orange-600/40',
@@ -63,15 +61,15 @@ export function AutumnOverlay() {
             className={leaf.color}
           >
             {leaf.variant === 0 && (
-              // Hyper-precise Sharp 5-lobed Maple Path
+              // Hyper-precise Sharp 5-lobed Maple Path with Stem (Stick)
               <path d="M12 21.5c.3-2 .8-3.5 0-5.5-1.5.5-3.5 1.5-4.5 0-1-1.5 1.5-2.5 3-3.5-1-1.5-3.5-1-4.5-2.5-1-1.5 1.5-2.5 3-2.5-.5-2-2.5-3.5 0-5.5.8 1.5.8 3.5 1.5 5.5 1-1.5 1-3.5 2.5-5 1.5-1 2.5 1 2 3 1.5-.5 3.5.5 4 2.5-1 1.5-2.5 1.5-3.5 2.5 1.5 1 3 2 2.5 4-1.5 1.5-3 1-4.5 1.5-.5 2-.5 5-.5 5z" />
             )}
             {leaf.variant === 1 && (
-              // Hyper-precise Serrated 7-lobed Path
+              // Hyper-precise Serrated 7-lobed Path with Stem
               <path d="M12 21.5s.5-3-.2-5c-1.5 0-3 1.5-4.5 0-1.5-1.5 1-3 2.5-4-1.5-.5-3.5-1-4.5-2.5-1-1.5 1.5-2.5 3-3-.5-1.5-1.5-3 1-4.5 1 1 1 3 1.5 4.5 1.5-2 2-4 3.5-4 1.5 1.5 1 3.5 1.5 5 1.5-1 4-1.5 5 1 1 1.5-1.5 2.5-3.5 3 1.5 1.5 3.5 2.5 2.5 4.5-1 1.5-3 .5-4.5 1-.5 1.5 0 4-.2 5z" />
             )}
             {leaf.variant === 2 && (
-              // Hyper-precise Asymmetrical Sharp Maple variant
+              // Hyper-precise Asymmetrical Sharp Maple variant with Stem
               <path d="M11.5 22s.8-3-.5-5c-1.8.2-3.8 1.8-4.8-.2-.8-1.8 1.5-3.5 3-4.5-1.5-2-4.5-2-5-4-1-2 2-3 4-3-.5-2-1.5-4.5 1-6 1 1.5 1 4 1.5 6 2-2 2.5-4.5 4-4 1.5 1 1 4 1.5 5.5 2-.5 4.5 0 4.5 2.5-1 2-4 2-4.5 4 2.5 1 4.5 2.5 3.5 4.5-1.5 2.5-4.5.5-6.5 1.5-.2 2.5-.2 5.2-.2 5.2z" />
             )}
             {/* Anatomical Central Vein and Branches */}
