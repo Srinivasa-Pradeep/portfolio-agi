@@ -768,28 +768,32 @@ export function LeetCode() {
 
         {/* Peer Feedback Section - High-Fidelity LinkedIn Marquee */}
         <div className="mt-32 w-full overflow-hidden">
-          <h3 className="font-headline text-2xl font-semibold text-primary mb-12 text-center">Peer Feedback</h3>
+          <div className="text-center mb-12">
+            <h3 className="font-headline text-2xl font-bold text-primary tracking-tight">The Mentorship Circuit</h3>
+            <p className="mt-2 text-muted-foreground lora italic">Conducting mocks and receiving these beautiful testimonials.</p>
+          </div>
+          
           <div className="relative flex overflow-hidden py-10 group/marquee">
             <div className="flex w-max animate-marquee pause-on-hover">
               {[...testimonials, ...testimonials].map((t, i) => (
                 <div 
                   key={i} 
-                  className="w-[450px] mx-6 shrink-0 flex flex-col justify-between p-10 rounded-[40px] bg-secondary/20 border border-border/10 backdrop-blur-md relative group/card transition-all duration-500 hover:bg-secondary/30 hover:border-primary/20 hover:-translate-y-1"
+                  className="w-[350px] aspect-[1.6/1] mx-6 shrink-0 flex flex-col justify-between p-6 rounded-[30px] bg-secondary/20 border border-border/10 backdrop-blur-md relative group/card transition-all duration-700 hover:bg-secondary/30 hover:border-primary/20 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(212,175,55,0.08)]"
                 >
-                  <div className="absolute top-8 right-8 opacity-20 group-hover/card:opacity-100 transition-opacity duration-500">
-                    <SiLinkedin className="h-6 w-6 text-[#0077B5]" />
+                  <div className="absolute top-6 right-6 opacity-40 group-hover/card:opacity-100 transition-all duration-500">
+                    <SiLinkedin className="h-6 w-6 text-[#D4AF37] drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
                   </div>
                   
-                  <p className="text-xl text-foreground/80 leading-relaxed lora italic font-medium pr-12">
+                  <p className="text-sm md:text-base text-foreground/80 leading-relaxed lora italic font-medium pr-8 line-clamp-4">
                     "{t.text}"
                   </p>
                   
-                  <div className="mt-10 pt-8 border-t border-primary/10 flex items-center justify-between">
+                  <div className="mt-6 pt-4 border-t border-primary/10 flex items-center justify-between">
                     <div>
-                      <p className="font-black text-foreground text-sm tracking-tight uppercase">{t.name}</p>
-                      <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em] mt-1">{t.role}</p>
+                      <p className="font-black text-foreground text-[10px] tracking-tight uppercase">{t.name}</p>
+                      <p className="text-[8px] font-mono text-muted-foreground uppercase tracking-[0.2em] mt-0.5">{t.role}</p>
                     </div>
-                    <div className="h-px w-12 bg-primary/10 group-hover/card:w-20 transition-all duration-700" />
+                    <div className="h-[1px] w-8 bg-primary/10 group-hover/card:w-12 transition-all duration-700 bg-gradient-to-r from-primary/10 to-[#D4AF37]" />
                   </div>
                 </div>
               ))}
