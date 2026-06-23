@@ -170,8 +170,8 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  // Adaptive nav: Hides the main dock in Light, Spring, or when the Command Palette is open
-  if (theme === 'light' || theme === 'spring' || isPaletteOpen) {
+  // Adaptive nav: Hides the main dock in Light, Spring, Autumn or when the Command Palette is open
+  if (theme === 'light' || theme === 'spring' || theme === 'autumn' || isPaletteOpen) {
     return (
       <div 
         className={cn(
