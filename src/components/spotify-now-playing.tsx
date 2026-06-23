@@ -7,9 +7,9 @@ import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
- * SpotifyNowPlaying - A high-fidelity "Spotify Card" interface.
- * Features a floating architectural design, live visualizer, and Spotify Green branding.
- * Positioned in the bottom-left to feel like a premium mobile-style widget.
+ * SpotifyNowPlaying - A high-fidelity "Spotify Pill" interface.
+ * Features a spinning artwork disk, live visualizer, and premium Spotify Green branding.
+ * Designed to feel like a high-end mobile "Mini Player".
  */
 
 function Visualizer() {
@@ -49,40 +49,48 @@ export function SpotifyNowPlaying() {
       <AnimatePresence mode="wait">
         {isPlaying && (
           <motion.div
-            initial={{ x: -20, opacity: 0, filter: 'blur(10px)' }}
+            initial={{ x: -40, opacity: 0, filter: 'blur(20px)' }}
             animate={{ x: 0, opacity: 1, filter: 'blur(0px)' }}
-            exit={{ x: -20, opacity: 0, filter: 'blur(10px)' }}
-            transition={{ type: 'spring', damping: 20, stiffness: 100 }}
+            exit={{ x: -40, opacity: 0, filter: 'blur(20px)' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 120 }}
             className="pointer-events-auto"
           >
-            <div className="group relative flex items-center gap-4 bg-black/80 backdrop-blur-2xl border border-white/10 p-3 pl-4 pr-6 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 hover:border-[#1DB954]/30">
-              {/* Background Glow */}
-              <div className="absolute inset-0 bg-[#1DB954]/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="group relative flex items-center gap-4 bg-black/60 backdrop-blur-3xl border border-white/10 p-2 pr-6 rounded-[24px] shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)] transition-all duration-700 hover:bg-black/80 hover:scale-[1.02]">
+              {/* Internal Branding Glow */}
+              <div className="absolute inset-0 bg-[#1DB954]/5 rounded-[24px] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
               
-              {/* Spotify Icon Unit */}
-              <div className="relative shrink-0">
-                <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#1DB954] to-[#1ed760] flex items-center justify-center shadow-lg transform-gpu transition-transform duration-500 group-hover:scale-110 group-hover:rotate-[10deg]">
-                  <SiSpotify className="h-6 w-6 text-black" />
+              {/* Spinning Disc / Artwork Unit */}
+              <div className="relative shrink-0 p-1">
+                <div className={cn(
+                    "h-12 w-12 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center overflow-hidden shadow-xl transform-gpu transition-all duration-1000",
+                    isPlaying ? "animate-slow-rotate" : ""
+                )}>
+                    {/* Simulated Vinyl/Disk look */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent" />
+                    <SiSpotify className="h-6 w-6 text-[#1DB954] drop-shadow-[0_0_8px_rgba(29,185,84,0.6)]" />
                 </div>
-                <div className="absolute -bottom-1 -right-1">
+                {/* Visualizer Overlay */}
+                <div className="absolute -bottom-0.5 -right-0.5 bg-black/80 backdrop-blur-md rounded-full p-1 border border-white/10">
                    <Visualizer />
                 </div>
               </div>
 
               {/* Meta Telemetry */}
-              <div className="flex flex-col min-w-[120px] max-w-[200px]">
-                <div className="flex items-center gap-2">
-                   <span className="text-[10px] font-black text-[#1DB954] uppercase tracking-[0.2em] opacity-80">Listening Now</span>
+              <div className="flex flex-col min-w-[140px] max-w-[220px]">
+                <div className="flex items-center gap-2 mb-0.5">
+                   <span className="text-[8px] font-black text-[#1DB954] uppercase tracking-[0.3em] opacity-80">Now Streaming</span>
                    <div className="h-1 w-1 rounded-full bg-[#1DB954] animate-pulse" />
                 </div>
                 <h4 className="text-sm font-bold text-white truncate tracking-tight">{song.title}</h4>
-                <p className="text-[11px] text-zinc-400 font-medium truncate uppercase tracking-wide">{song.artist}</p>
+                <p className="text-[10px] text-zinc-400 font-medium truncate uppercase tracking-widest">{song.artist}</p>
               </div>
 
-              {/* Classy External Link Hint */}
-              <div className="ml-2 h-8 w-px bg-white/10" />
-              <div className="pl-2 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-x-[-10px] group-hover:translate-x-0">
-                 <SiSpotify className="h-4 w-4 text-[#1DB954]" />
+              {/* Sophisticated Interaction Prompt */}
+              <div className="ml-2 h-10 w-px bg-white/5" />
+              <div className="pl-2 flex items-center justify-center">
+                 <div className="h-8 w-8 rounded-full border border-white/10 flex items-center justify-center transition-all duration-500 group-hover:border-[#1DB954]/40 group-hover:bg-[#1DB954]/10">
+                    <SiSpotify className="h-3.5 w-3.5 text-[#1DB954] transition-transform duration-500 group-hover:scale-110" />
+                 </div>
               </div>
             </div>
           </motion.div>

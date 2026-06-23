@@ -1,4 +1,3 @@
-
 'use client';
 
 import { PlaceHolderImages, type ImagePlaceholder } from '@/lib/placeholder-images';
