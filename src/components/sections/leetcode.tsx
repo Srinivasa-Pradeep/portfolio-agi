@@ -126,7 +126,7 @@ const testimonials = [
   {
     name: "Kamal Chander",
     role: "SDE Aspirant",
-    text: "Srini's ability to dismantle complex problems and rebuild them into clear, logical steps is what sets him apart. His mock sessions are more than just practice—they are masterclasses in thinking."
+    text: "Srini's ability to dismantle complex problems and rebuild them into clear, logical steps is what sets him apart. His mock sessions are more than just practice - they are masterclasses in structured thinking."
   },
   {
     name: "Sridhar R",
@@ -778,22 +778,27 @@ export function LeetCode() {
               {[...testimonials, ...testimonials].map((t, i) => (
                 <div 
                   key={i} 
-                  className="w-[350px] aspect-[1.6/1] mx-6 shrink-0 flex flex-col justify-between p-6 rounded-[30px] bg-secondary/20 border border-border/10 backdrop-blur-md relative group/card transition-all duration-700 hover:bg-secondary/30 hover:border-primary/20 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(233,165,63,0.1)]"
+                  className="w-[350px] aspect-[1.6/1] mx-6 shrink-0 flex flex-col justify-between p-7 rounded-[28px] bg-secondary/20 border border-border/10 backdrop-blur-md relative group/card transition-all duration-700 hover:bg-secondary/30 hover:border-primary/20 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(233,165,63,0.1)]"
                 >
-                  <div className="absolute top-6 right-6 transition-all duration-500">
-                    <SiLinkedin className="h-6 w-6 text-muted-foreground/40 group-hover/card:text-[#e9a53f] transition-all duration-500" />
+                  {/* LinkedIn Premium Discovery Icon */}
+                  <div className="absolute top-7 right-7 transition-all duration-500">
+                    <SiLinkedin className="h-5 w-5 text-muted-foreground/40 group-hover/card:text-[#e9a53f] transition-all duration-500" />
                   </div>
                   
-                  <p className="text-sm md:text-base text-foreground/80 leading-relaxed lora italic font-medium pr-8 line-clamp-4">
-                    "{t.text}"
-                  </p>
+                  {/* Testimonial Canvas */}
+                  <div className="flex-1 pr-6 pt-2">
+                    <p className="text-sm md:text-[15px] text-foreground/80 leading-relaxed lora italic font-medium">
+                      "{t.text}"
+                    </p>
+                  </div>
                   
-                  <div className="mt-6 pt-4 border-t border-primary/10 flex items-center justify-between">
-                    <div>
+                  {/* Classy Footer Metadata */}
+                  <div className="mt-4 pt-4 border-t border-primary/5 flex items-center justify-between">
+                    <div className="space-y-0.5">
                       <p className="font-black text-foreground text-[10px] tracking-tight uppercase">{t.name}</p>
-                      <p className="text-[8px] font-mono text-muted-foreground uppercase tracking-[0.2em] mt-0.5">{t.role}</p>
+                      <p className="text-[8px] font-mono text-muted-foreground uppercase tracking-[0.2em] opacity-60">{t.role}</p>
                     </div>
-                    <div className="h-[1px] w-8 bg-primary/10 group-hover/card:w-12 transition-all duration-700 bg-gradient-to-r from-primary/10 to-[#e9a53f]" />
+                    <div className="h-[1px] w-6 bg-primary/10 group-hover/card:w-10 transition-all duration-700 bg-gradient-to-r from-primary/10 to-[#e9a53f]" />
                   </div>
                 </div>
               ))}
