@@ -454,7 +454,7 @@ export function About() {
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
                                 { text: 'ശ്രീനിവാസ പ്രതീപ്', className: 'font-malayalam text-xs text-foreground/90' },
                                 { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'font-tiro-kannada text-xs text-foreground/90' },
-                                { text: 'శ్రీనివాస ప్రದೀಪ್', className: 'font-tiro-telugu text-xs text-foreground/90' }
+                                { text: 'శ్రీనివాస ಪ್ರದೀಪ್', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
                           />
                       </div>
