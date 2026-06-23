@@ -1,9 +1,10 @@
+
 'use client';
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Shuffle, Trophy, TrendingUp, Code, Github, Star, Check } from "lucide-react";
+import { Shuffle, Trophy, TrendingUp, Code, Github, Star, Check, Quote } from "lucide-react";
 import { 
   Area,
   AreaChart,
@@ -120,6 +121,24 @@ const FALLBACK_PROGRESS = {
   hard: { solved: 171, total: 938 },
   acceptanceRate: "68.03%",
 };
+
+const testimonials = [
+  {
+    name: "Kamal Chander",
+    role: "SDE Aspirant",
+    text: "Srini's ability to dismantle complex problems and rebuild them into clear, logical steps is what sets him apart. His mock sessions are more than just practice—they are masterclasses in thinking."
+  },
+  {
+    name: "Sridhar R",
+    role: "Software Engineer",
+    text: "The way he simplifies complex graph problems is remarkable. Taking mocks with him was the turning point in my technical preparation. He has a gift for making the abstract feel intuitive."
+  },
+  {
+    name: "Ram Kumar",
+    role: "Tech Enthusiast",
+    text: "Structured, calm, and insightful. Srini has a way of making high-pressure scenarios feel like collaborative problem-solving sessions. I walked away from our mock session with absolute clarity."
+  }
+];
 
 const CustomTooltip = ({ active, payload, progress, mounted, resolvedTheme }: any) => {
   if (active && payload && payload.length) {
@@ -743,6 +762,27 @@ export function LeetCode() {
                   </div>
                 </div>
               </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Peer Feedback Section */}
+        <div className="mt-32">
+          <h3 className="font-headline text-2xl font-semibold text-primary mb-12 text-center">Peer Feedback</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {testimonials.map((t, i) => (
+              <div key={i} className="flex flex-col gap-4 p-8 rounded-[40px] bg-secondary/20 border border-border/10 backdrop-blur-sm relative group overflow-hidden transition-all duration-500 hover:bg-secondary/30">
+                 <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                    <Quote className="h-12 w-12 text-primary" />
+                 </div>
+                 <p className="text-lg text-foreground/80 leading-relaxed lora italic font-medium relative z-10 pr-4">
+                   "{t.text}"
+                 </p>
+                 <div className="mt-4 pt-4 border-t border-primary/10">
+                    <p className="font-bold text-foreground">{t.name}</p>
+                    <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{t.role}</p>
+                 </div>
+              </div>
             ))}
           </div>
         </div>
