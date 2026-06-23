@@ -124,7 +124,6 @@ function SocialIconWithPreview({
 }) {
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const previewImage = PlaceHolderImages.find(p => p.id === imageId);
-    const isLinkedIn = href.includes('linkedin.com');
 
     const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
         const rect = e.currentTarget.getBoundingClientRect();
@@ -145,9 +144,7 @@ function SocialIconWithPreview({
                 >
                     <div className={cn(
                         "bg-secondary/50 backdrop-blur-sm p-4 rounded-full transition-all duration-500 hover:scale-110 shadow-lg ring-1 ring-border/20 h-14 w-14 flex items-center justify-center",
-                        isLinkedIn 
-                          ? "hover:bg-[#e9a53f] hover:text-white" 
-                          : "hover:bg-primary hover:text-primary-foreground"
+                        "hover:bg-primary hover:text-primary-foreground"
                     )}>
                         <Icon className="h-6 w-6"/>
                     </div>
