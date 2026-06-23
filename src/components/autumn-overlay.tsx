@@ -18,14 +18,14 @@ export function AutumnOverlay() {
   }, []);
 
   const leaves = useMemo(() => {
-    // 60 units for a full immersive atmosphere
-    return Array.from({ length: 60 }).map((_, i) => ({
+    // 35 units for a balanced, premium cinematic atmosphere
+    return Array.from({ length: 35 }).map((_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
-      duration: `${Math.random() * 10 + 12}s`, 
-      delay: `${Math.random() * 20}s`,
-      size: Math.random() * 24 + 18,
-      opacity: Math.random() * 0.35 + 0.15,
+      duration: `${Math.random() * 12 + 15}s`, 
+      delay: `${Math.random() * 25}s`,
+      size: Math.random() * 28 + 20,
+      opacity: Math.random() * 0.3 + 0.1,
       color: [
         'text-orange-600/40',
         'text-amber-700/40',
@@ -61,17 +61,17 @@ export function AutumnOverlay() {
             xmlns="http://www.w3.org/2000/svg"
             className={leaf.color}
           >
-            {/* High-Fidelity Sharp Jagged Leaf Silhouette */}
+            {/* High-Fidelity Asymmetrical Lobed Leaf Path */}
             <path
-              d="M12 2C12 2 11.5 5 9 6.5C6 8 3 7.5 2 10.5C4 11.5 6 12 7 13.5C6 15.5 5 18.5 7 20.5C9 19.5 11 17 12 15.5C13 17 15 19.5 17 20.5C19 18.5 18 15.5 17 13.5C18 12 20 11.5 22 10.5C21 7.5 18 8 15 6.5C12.5 5 12 2 12 2Z"
+              d="M12 22v-3m0 0c-1.5-1-4-2.5-5.5-1.5s-2 2-4 1.5 0-3 1.5-4.5-1.5-3-1-5 3-1.5 4.5-.5 1-3.5 3-4 3 2 4.5 4 1.5 3 1.5 3s0-1 1.5-3 1.5-2 4.5-4 2 .5 3 4 3-1.5 4.5.5-1.5 3-1 5 3.5 1 1.5 4.5 0 2-4 1.5-4 .5-5.5 1.5z"
               fill="currentColor"
             />
-            {/* Fine Internal Vein Structure for Elite Detail */}
+            {/* Fine Internal Vein Structure */}
             <path
-              d="M12 4.5V14.5 M12 7L9 9 M12 10L15 12 M12 13L10 15"
+              d="M12 5v12 M9 8l3 2 M15 8l-3 2 M8 12l4 1 M16 12l-4 1"
               stroke="currentColor"
-              strokeWidth="0.5"
-              strokeOpacity="0.4"
+              strokeWidth="0.3"
+              strokeOpacity="0.3"
               strokeLinecap="round"
             />
           </svg>
