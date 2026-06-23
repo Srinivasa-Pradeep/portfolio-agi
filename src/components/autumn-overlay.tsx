@@ -61,9 +61,9 @@ export function AutumnOverlay() {
             xmlns="http://www.w3.org/2000/svg"
             className={leaf.color}
           >
-            {/* High-Fidelity Asymmetrical Lobed Leaf Path */}
+            {/* High-Fidelity Asymmetrical Lobed Leaf Path - Elongated and Pointed */}
             <path
-              d="M12 22v-3m0 0c-1.5-1-4-2.5-5.5-1.5s-2 2-4 1.5 0-3 1.5-4.5-1.5-3-1-5 3-1.5 4.5-.5 1-3.5 3-4 3 2 4.5 4 1.5 3 1.5 3s0-1 1.5-3 1.5-2 4.5-4 2 .5 3 4 3-1.5 4.5.5-1.5 3-1 5 3.5 1 1.5 4.5 0 2-4 1.5-4 .5-5.5 1.5z"
+              d="M12 22l-.5-3c-1.5-.5-4 1-5.5-.5-1.5-1.5-1-4 0-5 1-1 2.5-.5 4 .5.5-.5 0-3 1-4.5 1-1.5 3-1.5 3-1.5s2 0 3 1.5c1 1.5.5 4 1 4.5 1.5-1 3-1.5 4-.5 1 1 1.5 3.5 0 5-1.5 1.5-4 0-5.5.5l-.5 3z"
               fill="currentColor"
             />
             {/* Fine Internal Vein Structure */}
