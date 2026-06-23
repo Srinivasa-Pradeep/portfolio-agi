@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes';
 
 /**
  * AutumnOverlay - Hyper-realistic maple leaf architecture.
- * Redesigned using multi-lobed sharp paths based on the user-provided reference.
+ * Redesigned using multi-lobed sharp paths for a high-fidelity "leaf leaf" feel.
  * Features jagged, serrated edges, anatomical veins, and variegated seasonal tones.
  */
 export function AutumnOverlay() {
@@ -23,9 +23,9 @@ export function AutumnOverlay() {
       left: `${Math.random() * 100}%`,
       duration: `${Math.random() * 12 + 15}s`, 
       delay: `${Math.random() * 25}s`,
-      size: Math.random() * 32 + 28, // Slightly larger for detail visibility
+      size: Math.random() * 32 + 28, // Detail visibility
       opacity: Math.random() * 0.4 + 0.15,
-      // Variant 0: Sharp 5-lobed Maple, Variant 1: Broad 7-lobed Maple, Variant 2: Curled Maple
+      // Variants with hyper-precise jagged outer structures
       variant: Math.floor(Math.random() * 3),
       color: [
         'text-orange-600/40',
@@ -63,16 +63,16 @@ export function AutumnOverlay() {
             className={leaf.color}
           >
             {leaf.variant === 0 && (
-              // Realistic Sharp 5-lobed Maple Leaf Path
-              <path d="M12 22s.3-2.5-.2-4.5c-1.5-.5-3.5 1-5-1-.5-2 1.5-3 3-4-.5-1.5-3-1.5-4-3-1-1.5 1.5-2.5 3-2.5-.5-2-2-4 .5-6 1 1.5 1 3.5 1.5 5.5 1-1.5 1-3.5 2-5 1.5-1 3 1.5 2.5 3.5 2-.5 4 .5 4 2.5-1 1.5-3.5 1.5-4 3 1.5 1 3.5 2 3 4-1.5 2-3.5.5-5 1-.5 2-.2 4.5-.2 4.5z" />
+              // Hyper-precise Sharp 5-lobed Maple Path
+              <path d="M12 21.5c.3-2 .8-3.5 0-5.5-1.5.5-3.5 1.5-4.5 0-1-1.5 1.5-2.5 3-3.5-1-1.5-3.5-1-4.5-2.5-1-1.5 1.5-2.5 3-2.5-.5-2-2.5-3.5 0-5.5.8 1.5.8 3.5 1.5 5.5 1-1.5 1-3.5 2.5-5 1.5-1 2.5 1 2 3 1.5-.5 3.5.5 4 2.5-1 1.5-2.5 1.5-3.5 2.5 1.5 1 3 2 2.5 4-1.5 1.5-3 1-4.5 1.5-.5 2-.5 5-.5 5z" />
             )}
             {leaf.variant === 1 && (
-              // Realistic Broader 7-lobed Maple Leaf Path
-              <path d="M12 21.5c0-2 .5-4 0-5.5-1.5.5-3 2-4.5.5-1.5-1.5.5-3 2-4-1.5-.5-3.5-.5-4.5-2-1-1.5 1-3 2.5-3.5-1-1.5-1.5-3.5 1-5 1 1 1.5 3 2 4.5 1.5-2 2-4.5 3.5-4.5 1 1 1 3.5 1.5 5 1.5-1 4-1 5 1 .5 1.5-2 2-3.5 2.5 1.5 1.5 4 2.5 3 4.5-.5 1.5-2.5.5-4 0-.5 1.5 1 3.5-1 5-1 1.5-1.5-.5-1.5-2z" />
+              // Hyper-precise Serrated 7-lobed Path
+              <path d="M12 21.5s.5-3-.2-5c-1.5 0-3 1.5-4.5 0-1.5-1.5 1-3 2.5-4-1.5-.5-3.5-1-4.5-2.5-1-1.5 1.5-2.5 3-3-.5-1.5-1.5-3 1-4.5 1 1 1 3 1.5 4.5 1.5-2 2-4 3.5-4 1.5 1.5 1 3.5 1.5 5 1.5-1 4-1.5 5 1 1 1.5-1.5 2.5-3.5 3 1.5 1.5 3.5 2.5 2.5 4.5-1 1.5-3 .5-4.5 1-.5 1.5 0 4-.2 5z" />
             )}
             {leaf.variant === 2 && (
-              // Realistic Curled/Asymmetrical Maple Leaf Path
-              <path d="M12 22s.5-3-.5-5c-1.5-.2-3.5 1.5-5-.5-1-2 1.5-3.5 3-4.5-1-2-4-2-4.5-4-1-2 2-3 4-3-.5-2-1.5-4.5 1-6 1 1.5 1 4 1.5 6 1.5-2 2-4.5 3.5-4 1.5 1 1 4 1.5 5.5 1.5-.5 4.5 0 4.5 2.5-1 2-4 2-4.5 4 2 1 4.5 2.5 3.5 4.5-1.5 2-4 0-6 1-.5 2-.5 5-.5 5z" />
+              // Hyper-precise Asymmetrical Sharp Maple variant
+              <path d="M11.5 22s.8-3-.5-5c-1.8.2-3.8 1.8-4.8-.2-.8-1.8 1.5-3.5 3-4.5-1.5-2-4.5-2-5-4-1-2 2-3 4-3-.5-2-1.5-4.5 1-6 1 1.5 1 4 1.5 6 2-2 2.5-4.5 4-4 1.5 1 1 4 1.5 5.5 2-.5 4.5 0 4.5 2.5-1 2-4 2-4.5 4 2.5 1 4.5 2.5 3.5 4.5-1.5 2.5-4.5.5-6.5 1.5-.2 2.5-.2 5.2-.2 5.2z" />
             )}
             {/* Anatomical Central Vein and Branches */}
             <path
