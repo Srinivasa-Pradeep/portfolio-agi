@@ -732,7 +732,7 @@ export function About() {
               </div>
             </div>
 
-            {/* Restored "More Info" Manifesto Section - Positioned as requested after Skills */}
+            {/* Manifesto Section - Positioned as the soulful conclusion after Skills */}
             <div className="mt-20">
               <h3 className="font-headline text-2xl font-semibold text-primary mb-6">
                 More Info
