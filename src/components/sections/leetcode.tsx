@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useState, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { SiLeetcode } from 'react-icons/si';
+import { SiLeetcode, SiLinkedin } from 'react-icons/si';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import { useTheme } from "next-themes";
@@ -766,24 +766,38 @@ export function LeetCode() {
           </div>
         </div>
 
-        {/* Peer Feedback Section */}
-        <div className="mt-32">
+        {/* Peer Feedback Section - High-Fidelity LinkedIn Marquee */}
+        <div className="mt-32 w-full overflow-hidden">
           <h3 className="font-headline text-2xl font-semibold text-primary mb-12 text-center">Peer Feedback</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {testimonials.map((t, i) => (
-              <div key={i} className="flex flex-col gap-4 p-8 rounded-[40px] bg-secondary/20 border border-border/10 backdrop-blur-sm relative group overflow-hidden transition-all duration-500 hover:bg-secondary/30">
-                 <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <Quote className="h-12 w-12 text-primary" />
-                 </div>
-                 <p className="text-lg text-foreground/80 leading-relaxed lora italic font-medium relative z-10 pr-4">
-                   "{t.text}"
-                 </p>
-                 <div className="mt-4 pt-4 border-t border-primary/10">
-                    <p className="font-bold text-foreground">{t.name}</p>
-                    <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">{t.role}</p>
-                 </div>
-              </div>
-            ))}
+          <div className="relative flex overflow-hidden py-10 group/marquee">
+            <div className="flex w-max animate-marquee pause-on-hover">
+              {[...testimonials, ...testimonials].map((t, i) => (
+                <div 
+                  key={i} 
+                  className="w-[450px] mx-6 shrink-0 flex flex-col justify-between p-10 rounded-[40px] bg-secondary/20 border border-border/10 backdrop-blur-md relative group/card transition-all duration-500 hover:bg-secondary/30 hover:border-primary/20 hover:-translate-y-1"
+                >
+                  <div className="absolute top-8 right-8 opacity-20 group-hover/card:opacity-100 transition-opacity duration-500">
+                    <SiLinkedin className="h-6 w-6 text-[#0077B5]" />
+                  </div>
+                  
+                  <p className="text-xl text-foreground/80 leading-relaxed lora italic font-medium pr-12">
+                    "{t.text}"
+                  </p>
+                  
+                  <div className="mt-10 pt-8 border-t border-primary/10 flex items-center justify-between">
+                    <div>
+                      <p className="font-black text-foreground text-sm tracking-tight uppercase">{t.name}</p>
+                      <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em] mt-1">{t.role}</p>
+                    </div>
+                    <div className="h-px w-12 bg-primary/10 group-hover/card:w-20 transition-all duration-700" />
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Visual Fades for Marquee */}
+            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
           </div>
         </div>
         
