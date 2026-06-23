@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useTheme } from 'next-themes';
-import { useEffect, useState, useRef, ReactNode } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap } from 'lucide-react';
 import {
   Accordion,
@@ -46,66 +46,7 @@ import {
 import { FaJava, FaMicrosoft } from 'react-icons/fa';
 import { TypingEffect } from '@/components/typing-effect';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-
-/**
- * ShiningLink - A specialized link component with a subtle sweeping light effect.
- */
-function ShiningLink({ href, children }: { href: string, children: ReactNode }) {
-  return (
-    <Link 
-      href={href} 
-      className="relative inline-flex items-center font-bold text-primary group"
-    >
-      <span className="relative z-10 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#fff,55%,hsl(var(--primary)))] bg-[size:200%_100%] animate-shine underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all duration-300 px-1">
-        {children}
-      </span>
-    </Link>
-  );
-}
-
-interface ManifestoItem {
-  id: string;
-  question: string;
-  answer: ReactNode;
-}
-
-const manifestoItems: ManifestoItem[] = [
-  {
-    id: "thinking",
-    question: "What shapes the way I think?",
-    answer: (
-      <>
-        It's a mix of books, late-night conversations, and reflection. I'm fascinated by ideas that challenge assumptions and change the way we see the world. You can see some of the volumes that changed me in my <ShiningLink href="/books">personal library</ShiningLink>.
-      </>
-    )
-  },
-  {
-    id: "motivation",
-    question: "What motivates me every day?",
-    answer: "My father. He started his 20s as a farmer and transitioned into a government role by his 30s, providing everything he could for the betterment of my life. His resilience and quiet grit are the engines behind my own discipline."
-  },
-  {
-    id: "curiosity",
-    question: "What am I endlessly curious about?",
-    answer: "Almost everything. Technology may be my craft, but my curiosity extends far beyond it. I aspire to become a polymath: someone who learns across disciplines and connects ideas that don't seem related at first glance."
-  },
-  {
-    id: "optimization",
-    question: "What am I currently optimizing?",
-    answer: "Myself. Not just as an engineer, but as a thinker, communicator, and teammate. I believe small, intentional improvements are the only things that compound into remarkable results over time."
-  },
-  {
-    id: "peace",
-    question: "Where do I find peace?",
-    answer: (
-      <>
-        By the sea, surrounded by nature, or simply sitting with my thoughts. There's something about open horizons, quiet moments, and fresh air that brings clarity and reminds me what truly matters. I even built this <ShiningLink href="/zen">Zen Mode</ShiningLink> specifically to capture and share that feeling of stillness.
-      </>
-    )
-  }
-];
 
 const companies = [
   {
@@ -734,38 +675,6 @@ export function About() {
                     </div>
                   ))}
                 </div>
-              </div>
-            </div>
-
-            <div className="mt-20">
-              <h3 className="font-headline text-2xl font-semibold text-primary mb-6">
-                More Info
-              </h3>
-              <div className="space-y-0">
-                {manifestoItems.map((item, index) => (
-                  <div key={item.id} className="relative">
-                    {index !== 0 && (
-                      <div className="relative h-px w-full overflow-hidden bg-border/5 mb-0.5">
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent w-full bg-[length:200%_100%] animate-shine" />
-                      </div>
-                    )}
-                    
-                    <Accordion type="single" collapsible className="w-full">
-                      <AccordionItem value={item.id} className="border-none">
-                        <AccordionTrigger className="hover:no-underline py-4 group">
-                          <span className="text-lg font-headline font-medium tracking-tight text-foreground/80 group-data-[state=open]:text-primary transition-colors duration-300 text-left">
-                            {item.question}
-                          </span>
-                        </AccordionTrigger>
-                        <AccordionContent className="pb-6 pt-0">
-                          <div className="max-w-3xl border-l border-primary/10 pl-5 py-2 leading-relaxed text-foreground/80 lora italic pr-2 px-1">
-                            {item.answer}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  </div>
-                ))}
               </div>
             </div>
           </div>

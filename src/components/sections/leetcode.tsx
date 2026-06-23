@@ -4,7 +4,7 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Shuffle, Trophy, TrendingUp, Code, Github, Star, Check, Quote } from "lucide-react";
+import { Shuffle, Trophy, TrendingUp, Code, Github, Star, Check } from "lucide-react";
 import { 
   Area,
   AreaChart,
@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useState, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { SiLeetcode, SiLinkedin } from 'react-icons/si';
+import { SiLeetcode } from 'react-icons/si';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import { useTheme } from "next-themes";
@@ -62,7 +62,6 @@ function FlipNumber({ value, className }: { value: string | number; className?: 
   );
 }
 
-// FALLBACK DATA: Updated to reflect the user's current 1314 milestone and latest total counts
 const FALLBACK_STATS = {
   rating: 2041,
   globalRanking: 17076,
@@ -121,24 +120,6 @@ const FALLBACK_PROGRESS = {
   hard: { solved: 171, total: 938 },
   acceptanceRate: "68.03%",
 };
-
-const testimonials = [
-  {
-    name: "Kamal Chander",
-    role: "SDE Aspirant",
-    text: "Srini's ability to dismantle complex problems and rebuild them into clear, logical steps is what sets him apart. His mock sessions are masterclasses in structured thinking."
-  },
-  {
-    name: "Sridhar R",
-    role: "Software Engineer",
-    text: "The way he simplifies complex graph problems is remarkable. Taking mocks with him was the turning point in my preparation. He has a gift for making the abstract feel intuitive."
-  },
-  {
-    name: "Ram Kumar",
-    role: "Tech Enthusiast",
-    text: "Structured, calm, and insightful. Srini has a way of making high-pressure scenarios feel like collaborative problem-solving sessions. Walked away with absolute clarity."
-  }
-];
 
 const CustomTooltip = ({ active, payload, progress, mounted, resolvedTheme }: any) => {
   if (active && payload && payload.length) {
@@ -763,51 +744,6 @@ export function LeetCode() {
                 </div>
               </Card>
             ))}
-          </div>
-        </div>
-
-        {/* Peer Feedback Section - High-Fidelity LinkedIn Marquee */}
-        <div className="mt-32 w-full overflow-hidden">
-          <div className="text-center mb-12">
-            <h3 className="font-headline text-2xl font-bold text-primary tracking-tight">The Mentorship Circuit</h3>
-            <p className="mt-2 text-muted-foreground lora italic">Conducting mocks and receiving these beautiful testimonials.</p>
-          </div>
-          
-          <div className="relative flex overflow-hidden py-10 group/marquee">
-            <div className="flex w-max animate-marquee pause-on-hover">
-              {[...testimonials, ...testimonials].map((t, i) => (
-                <div 
-                  key={i} 
-                  className="w-[420px] aspect-[1.8/1] mx-6 shrink-0 flex flex-col justify-between p-8 rounded-2xl bg-secondary/20 border border-border/10 backdrop-blur-md relative group/card transition-all duration-700 hover:bg-secondary/30 hover:border-primary/20 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(233,165,63,0.1)]"
-                >
-                  {/* LinkedIn Premium Discovery Icon */}
-                  <div className="absolute top-8 right-8 transition-all duration-500">
-                    <SiLinkedin className="h-5 w-5 text-muted-foreground/40 group-hover/card:text-[#e9a53f] transition-all duration-500" />
-                  </div>
-                  
-                  {/* Testimonial Canvas - Soulful Serif Narrative */}
-                  <div className="flex-1 pr-6">
-                    <p className="text-sm md:text-[15px] text-foreground/80 leading-relaxed lora italic font-medium">
-                      "{t.text}"
-                    </p>
-                  </div>
-                  
-                  {/* Classy Footer Signature Layout */}
-                  <div className="mt-6 pt-6 border-t border-primary/5 flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <p className="font-black text-foreground text-[10px] tracking-tight uppercase">{t.name}</p>
-                      <p className="text-[8px] font-mono text-muted-foreground uppercase tracking-[0.2em] opacity-60">{t.role}</p>
-                    </div>
-                    {/* Architectural Growth Line */}
-                    <div className="h-[1px] w-6 bg-primary/10 group-hover/card:w-12 transition-all duration-700 bg-gradient-to-r from-primary/10 to-[#e9a53f]" />
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            {/* Visual Fades for Marquee */}
-            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
           </div>
         </div>
         
