@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useTheme } from 'next-themes';
 import { useEffect, useState, useRef, type ReactNode } from 'react';
-import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap, Plus, Minus } from 'lucide-react';
+import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -696,39 +696,6 @@ export function About() {
               </div>
             </div>
 
-            {/* Restored "More Info" Manifesto Section */}
-            <div className="mt-20">
-              <h3 className="font-headline text-2xl font-semibold text-primary mb-6">
-                More Info
-              </h3>
-              <div className="space-y-0">
-                {manifestoItems.map((item, index) => (
-                  <div key={item.id} className="relative">
-                    {index !== 0 && (
-                      <div className="relative h-px w-full overflow-hidden bg-border/5 mb-0.5">
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent w-full bg-[length:200%_100%] animate-shine" />
-                      </div>
-                    )}
-                    
-                    <Accordion type="single" collapsible className="w-full">
-                      <AccordionItem value={item.id} className="border-none">
-                        <AccordionTrigger className="hover:no-underline py-4 group">
-                          <span className="text-lg font-headline font-medium tracking-tight text-foreground/80 group-data-[state=open]:text-primary transition-colors duration-300 text-left">
-                            {item.question}
-                          </span>
-                        </AccordionTrigger>
-                        <AccordionContent className="pb-6 pt-0">
-                          <div className="max-w-3xl border-l border-primary/10 pl-5 py-2 leading-relaxed text-foreground/80 lora italic pr-2 px-1">
-                            {item.answer}
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             <div className="mt-20">
               <h3 className="font-headline text-2xl font-semibold text-primary">
                 Research & Publications
@@ -762,6 +729,39 @@ export function About() {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+
+            {/* Restored "More Info" Manifesto Section - Now after Skills */}
+            <div className="mt-20">
+              <h3 className="font-headline text-2xl font-semibold text-primary mb-6">
+                More Info
+              </h3>
+              <div className="space-y-0">
+                {manifestoItems.map((item, index) => (
+                  <div key={item.id} className="relative">
+                    {index !== 0 && (
+                      <div className="relative h-px w-full overflow-hidden bg-border/5 mb-0.5">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent w-full bg-[length:200%_100%] animate-shine" />
+                      </div>
+                    )}
+                    
+                    <Accordion type="single" collapsible className="w-full">
+                      <AccordionItem value={item.id} className="border-none">
+                        <AccordionTrigger className="hover:no-underline py-4 group">
+                          <span className="text-lg font-headline font-medium tracking-tight text-foreground/80 group-data-[state=open]:text-primary transition-colors duration-300 text-left">
+                            {item.question}
+                          </span>
+                        </AccordionTrigger>
+                        <AccordionContent className="pb-6 pt-0">
+                          <div className="max-w-3xl border-l border-primary/10 pl-5 py-2 leading-relaxed text-foreground/80 lora italic pr-2 px-1">
+                            {item.answer}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
