@@ -26,14 +26,17 @@ export function BlurRevealText({ words, className, interval = 3500 }: BlurReveal
       {words.map((word, wordIdx) => (
         <span
           key={`placeholder-${wordIdx}`}
-          className="invisible col-start-1 row-start-1 block whitespace-nowrap"
+          className="invisible col-start-1 row-start-1 block whitespace-pre-wrap"
           aria-hidden="true"
         >
-          {word.split('').map((char, charIdx) => (
-            <span key={charIdx} className="inline-block whitespace-pre">
-              {char}
-            </span>
-          ))}
+          {word.split('').map((char, charIdx) => {
+            if (char === '\n') return <br key={`br-${charIdx}`} />;
+            return (
+              <span key={charIdx} className="inline-block whitespace-pre">
+                {char}
+              </span>
+            );
+          })}
         </span>
       ))}
 
@@ -44,27 +47,30 @@ export function BlurRevealText({ words, className, interval = 3500 }: BlurReveal
           <span
             key={`animated-${wordIdx}`}
             className={cn(
-              "col-start-1 row-start-1 block whitespace-nowrap",
+              "col-start-1 row-start-1 block whitespace-pre-wrap",
               !isActive && "pointer-events-none"
             )}
             aria-hidden={!isActive}
           >
-            {word.split('').map((char, charIdx) => (
-              <span
-                key={charIdx}
-                className={cn(
-                  "inline-block whitespace-pre transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]",
-                  isActive 
-                    ? "opacity-100 blur-none translate-y-0" 
-                    : "opacity-0 blur-md translate-y-1"
-                )}
-                style={{
-                  transitionDelay: isActive ? `${charIdx * 35}ms` : '0ms',
-                }}
-              >
-                {char}
-              </span>
-            ))}
+            {word.split('').map((char, charIdx) => {
+              if (char === '\n') return <br key={`br-anim-${charIdx}`} />;
+              return (
+                <span
+                  key={charIdx}
+                  className={cn(
+                    "inline-block whitespace-pre transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]",
+                    isActive 
+                      ? "opacity-100 blur-none translate-y-0" 
+                      : "opacity-0 blur-md translate-y-1"
+                  )}
+                  style={{
+                    transitionDelay: isActive ? `${charIdx * 35}ms` : '0ms',
+                  }}
+                >
+                  {char}
+                </span>
+              );
+            })}
           </span>
         );
       })}

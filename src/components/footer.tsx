@@ -12,7 +12,7 @@ const quotes = [
   "\"Man is made by his belief. As he believes, so he is.\"",
   "\"You make your own luck if you stay at it long enough.\"",
   "\"Dreams won't work until you work\"",
-  "\"It is better to live your own destiny imperfectly then to live an imitation of somebody else's life with perfection.\""
+  "\"It is better to live your own destiny imperfectly \n then to live an imitation of somebody else's life with perfection.\""
 ];
 
 function SpotifyIndicator() {
@@ -58,26 +58,28 @@ function SpotifyIndicator() {
 
 export function Footer() {
   return (
-    <footer className="border-t h-24 relative overflow-hidden bg-background/50 backdrop-blur-sm">
-      <div className="container relative h-full flex items-center justify-between">
+    <footer className="border-t h-28 sm:h-24 relative overflow-hidden bg-background/50 backdrop-blur-sm">
+      <div className="container relative h-full flex items-center justify-between gap-4">
         {/* Left: Spotify Now Playing */}
-        <div className="w-1/3 flex justify-start">
+        <div className="w-1/4 hidden sm:flex justify-start">
           <AnimatePresence mode="wait">
             <SpotifyIndicator />
           </AnimatePresence>
         </div>
 
         {/* Center: Premium Quotes */}
-        <div className="flex items-center justify-center w-1/3">
-          <BlurRevealText 
-            words={quotes}
-            interval={6000}
-            className="text-xs sm:text-sm text-muted-foreground italic font-lora text-center tracking-wide"
-          />
+        <div className="flex-1 flex items-center justify-center px-4 overflow-hidden">
+          <div className="max-w-[280px] sm:max-w-md">
+            <BlurRevealText 
+              words={quotes}
+              interval={6000}
+              className="text-[10px] sm:text-xs md:text-sm text-muted-foreground italic font-lora text-center tracking-wide leading-relaxed"
+            />
+          </div>
         </div>
 
         {/* Right: Subtle Branding */}
-        <div className="w-1/3 flex justify-end">
+        <div className="w-1/4 flex justify-end">
            <Link 
             href="/journey" 
             className="text-xs font-signature text-primary/40 transition-all duration-500 hover:text-primary hover:scale-110 !cursor-none select-none"
