@@ -11,6 +11,7 @@ import { ConditionalParticles } from '@/components/conditional-particles';
 import { SmoothScroll } from '@/components/smooth-scroll';
 import { LizChat } from '@/components/liz-chat';
 import { AppleLandingSequence } from '@/components/apple-landing-sequence';
+import { SpotifyNowPlaying } from '@/components/spotify-now-playing';
 
 export const metadata: Metadata = {
   title: 'Srini Portfolio',
@@ -52,6 +53,7 @@ export default function RootLayout({
               </div>
               <Toaster />
               <LizChat />
+              <SpotifyNowPlaying />
             </SmoothScroll>
           </MusicProvider>
         </ThemeProvider>
