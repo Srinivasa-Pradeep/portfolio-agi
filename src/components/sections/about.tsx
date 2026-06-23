@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useTheme } from 'next-themes';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, type ReactNode } from 'react';
 import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap, Plus, Minus } from 'lucide-react';
 import {
   Accordion,
@@ -46,6 +46,65 @@ import { FaJava, FaMicrosoft } from 'react-icons/fa';
 import { TypingEffect } from '@/components/typing-effect';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+
+/**
+ * ShiningLink - A specialized link component with a subtle sweeping light effect.
+ */
+function ShiningLink({ href, children }: { href: string, children: ReactNode }) {
+  return (
+    <Link 
+      href={href} 
+      className="relative inline-flex items-center font-bold text-primary group"
+    >
+      <span className="relative z-10 bg-clip-text text-transparent bg-[linear-gradient(110deg,hsl(var(--primary)),45%,#fff,55%,hsl(var(--primary)))] bg-[size:200%_100%] animate-shine underline underline-offset-4 decoration-primary/30 hover:decoration-primary transition-all duration-300 px-1">
+        {children}
+      </span>
+    </Link>
+  );
+}
+
+interface ManifestoItem {
+  id: string;
+  question: string;
+  answer: ReactNode;
+}
+
+const manifestoItems: ManifestoItem[] = [
+  {
+    id: "thinking",
+    question: "What shapes the way I think?",
+    answer: (
+      <>
+        It's a mix of books, late-night conversations, and reflection. I'm fascinated by ideas that challenge assumptions and change the way we see the world. You can see some of the volumes that changed me in my <ShiningLink href="/books">personal library</ShiningLink>.
+      </>
+    )
+  },
+  {
+    id: "motivation",
+    question: "What motivates me every day?",
+    answer: "My father. He started his 20s as a farmer and transitioned into a government role by his 30s, providing everything he could for the betterment of my life. His resilience and quiet grit are the engines behind my own discipline."
+  },
+  {
+    id: "curiosity",
+    question: "What am I endlessly curious about?",
+    answer: "Almost everything. Technology may be my craft, but my curiosity extends far beyond it. I aspire to become a polymath: someone who learns across disciplines and connects ideas that don't seem related at first glance."
+  },
+  {
+    id: "optimization",
+    question: "What am I currently optimizing?",
+    answer: "Myself. Not just as an engineer, but as a thinker, communicator, and teammate. I believe small, intentional improvements are the only things that compound into remarkable results over time."
+  },
+  {
+    id: "peace",
+    question: "Where do I find peace?",
+    answer: (
+      <>
+        By the sea, surrounded by nature, or simply sitting with my thoughts. There's something about open horizons, quiet moments, and fresh air that brings clarity and reminds me what truly matters. I even built this <ShiningLink href="/zen">Zen Mode</ShiningLink> specifically to capture and share that feeling of stillness.
+      </>
+    )
+  }
+];
 
 const companies = [
   {
@@ -322,8 +381,8 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
             <button 
                 onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
                 className={cn(
-                  "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-all duration-500 group/btn",
-                  isExpanded ? "opacity-100" : "opacity-40 group-hover:opacity-100"
+                  "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-primary hover:text-primary transition-all duration-500 group/btn",
+                  isExpanded ? "opacity-100" : "opacity-40"
                 )}
             >
                 View Notable Achievements
@@ -400,7 +459,6 @@ export function About() {
   const psgLogo = PlaceHolderImages.find((p) => p.id === 'psg-itech-logo');
   
   const [selectedExpId, setSelectedExpId] = useState<string | null>(null);
-  const [isBioExpanded, setIsBioExpanded] = useState(false);
 
   useEffect(() => {
     const lightAvatar = PlaceHolderImages.find(
@@ -439,11 +497,11 @@ export function About() {
                               <Image
                                   src={avatar.imageUrl}
                                   alt={avatar.description}
-                                  data-ai-hint={avatar.imageHint}
                                   fill
                                   className="object-cover transition-all duration-300 group-hover:scale-105"
                                   style={{ objectPosition: 'center 40%' }}
                                   key={avatar.id}
+                                  priority
                               />
                           )}
                       </div>
@@ -475,38 +533,6 @@ export function About() {
               <p>
                 I’m someone who enjoys building software that scales and creates real impact for users. Ever since I was a child, I’ve been drawn to math not just for answers, but for the way it teaches you to break down complex problems into simple, elegant ideas. That curiosity stayed with me. Today, I approach engineering the same way: thinking deeply, simplifying complexity, and building systems that are both scalable and meaningful.
               </p>
-              
-              {/* RESTORED MORE INFO: Bio Expansion */}
-              <div className="mt-6">
-                <button 
-                  onClick={() => setIsBioExpanded(!isBioExpanded)}
-                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:scale-105 transition-transform duration-300"
-                >
-                  {isBioExpanded ? <Minus className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
-                  {isBioExpanded ? 'Show Less' : 'More Information'}
-                </button>
-
-                <AnimatePresence>
-                  {isBioExpanded && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <div className="pt-6 space-y-4 text-base lora italic border-t border-primary/5 mt-4">
-                        <p>
-                          My engineering philosophy is rooted in architectural discipline and human-centric design. I believe that code is a bridge between abstract logic and tangible impact. 
-                        </p>
-                        <p>
-                          Whether I'm migrating high-performance Java systems to C++ at Amazon or automating manufacturing analytics at Mercedes-Benz, the goal is always the same: precision, reliability, and soul.
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
             </div>
 
             <div className="mt-12">
@@ -602,7 +628,6 @@ export function About() {
                                     className="w-full max-w-[800px] relative px-4"
                                 >
                                     <div className="flex flex-col gap-10">
-                                        {/* Header Stagger */}
                                         <motion.div custom={0} variants={staggeredVariants} initial="hidden" animate="visible">
                                             <h4 className="font-headline text-3xl font-black tracking-tighter text-foreground italic">
                                               {selectedExp.name}
@@ -614,7 +639,6 @@ export function About() {
                                             </div>
                                         </motion.div>
 
-                                        {/* Telemetry HUD Stagger */}
                                         <motion.div custom={1} variants={staggeredVariants} initial="hidden" animate="visible" className="flex flex-wrap gap-x-12 gap-y-6">
                                             {selectedExp.metrics.map((m, i) => (
                                                 <div key={i} className="flex flex-col gap-1 group/metric relative">
@@ -627,7 +651,6 @@ export function About() {
                                             ))}
                                         </motion.div>
 
-                                        {/* Narrative Impact Stagger */}
                                         <div className="space-y-6">
                                             {selectedExp.impact.map((point, i) => (
                                                 <motion.div 
@@ -646,7 +669,6 @@ export function About() {
                                             ))}
                                         </div>
 
-                                        {/* Glass Tool Rail Stagger */}
                                         <motion.div custom={selectedExp.impact.length + 2} variants={staggeredVariants} initial="hidden" animate="visible" className="pt-8 border-t border-border/5">
                                             <div className="flex items-center gap-8 px-2 py-4 rounded-full bg-secondary/10 backdrop-blur-3xl border border-white/5 w-fit">
                                                 {selectedExp.techStack.map((tech) => (
@@ -671,6 +693,39 @@ export function About() {
                         )}
                     </AnimatePresence>
                 </div>
+              </div>
+            </div>
+
+            {/* Restored "More Info" Manifesto Section */}
+            <div className="mt-20">
+              <h3 className="font-headline text-2xl font-semibold text-primary mb-6">
+                More Info
+              </h3>
+              <div className="space-y-0">
+                {manifestoItems.map((item, index) => (
+                  <div key={item.id} className="relative">
+                    {index !== 0 && (
+                      <div className="relative h-px w-full overflow-hidden bg-border/5 mb-0.5">
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/20 to-transparent w-full bg-[length:200%_100%] animate-shine" />
+                      </div>
+                    )}
+                    
+                    <Accordion type="single" collapsible className="w-full">
+                      <AccordionItem value={item.id} className="border-none">
+                        <AccordionTrigger className="hover:no-underline py-4 group">
+                          <span className="text-lg font-headline font-medium tracking-tight text-foreground/80 group-data-[state=open]:text-primary transition-colors duration-300 text-left">
+                            {item.question}
+                          </span>
+                        </AccordionTrigger>
+                        <AccordionContent className="pb-6 pt-0">
+                          <div className="max-w-3xl border-l border-primary/10 pl-5 py-2 leading-relaxed text-foreground/80 lora italic pr-2 px-1">
+                            {item.answer}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  </div>
+                ))}
               </div>
             </div>
 

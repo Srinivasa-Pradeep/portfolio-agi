@@ -18,13 +18,13 @@ export function AutumnOverlay() {
   }, []);
 
   const leaves = useMemo(() => {
-    // Increased leaf count to 60 for a "Full" immersive experience
+    // 60 units for a full immersive atmosphere
     return Array.from({ length: 60 }).map((_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
-      duration: `${Math.random() * 10 + 12}s`, // Slightly slower for deeper parallax
+      duration: `${Math.random() * 10 + 12}s`, 
       delay: `${Math.random() * 20}s`,
-      size: Math.random() * 24 + 16,
+      size: Math.random() * 24 + 18,
       opacity: Math.random() * 0.35 + 0.15,
       color: [
         'text-orange-600/40',
@@ -61,17 +61,17 @@ export function AutumnOverlay() {
             xmlns="http://www.w3.org/2000/svg"
             className={leaf.color}
           >
-            {/* Anatomically Detailed Sharp Leaf Silhouette */}
+            {/* High-Fidelity Sharp Jagged Leaf Silhouette */}
             <path
-              d="M12 2C12 2 11.5 5.5 9 7C6 8.5 3 8 2 11C4 12 6 12.5 7 14C6 16 5 19 7 21C9 20 11 18.5 12 17C13 18.5 15 20 17 21C19 19 18 16 17 14C18 12.5 20 12 22 11C21 8 18 8.5 15 7C12.5 5.5 12 2 12 2Z"
+              d="M12 2C12 2 11.5 5 9 6.5C6 8 3 7.5 2 10.5C4 11.5 6 12 7 13.5C6 15.5 5 18.5 7 20.5C9 19.5 11 17 12 15.5C13 17 15 19.5 17 20.5C19 18.5 18 15.5 17 13.5C18 12 20 11.5 22 10.5C21 7.5 18 8 15 6.5C12.5 5 12 2 12 2Z"
               fill="currentColor"
             />
-            {/* Fine Internal Vein Structure for Sharp Detail */}
+            {/* Fine Internal Vein Structure for Elite Detail */}
             <path
-              d="M12 5V17 M12 8L9 10 M12 11L15 13 M12 14L10 16"
+              d="M12 4.5V14.5 M12 7L9 9 M12 10L15 12 M12 13L10 15"
               stroke="currentColor"
-              strokeWidth="0.4"
-              strokeOpacity="0.3"
+              strokeWidth="0.5"
+              strokeOpacity="0.4"
               strokeLinecap="round"
             />
           </svg>
