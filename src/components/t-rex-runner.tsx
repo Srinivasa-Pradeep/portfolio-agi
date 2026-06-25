@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { Gamepad2, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 /**
  * TRexRunner - A high-fidelity, React-engineered runner game.
