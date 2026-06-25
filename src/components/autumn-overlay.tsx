@@ -4,9 +4,8 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 
 /**
- * AutumnOverlay - Hyper-Realistic Maple Foliage.
- * Features anatomically precise 5-lobed maple leaves with petioles (sticks)
- * and internal vein structures.
+ * AutumnOverlay - Hyper-Realistic Maple Architecture.
+ * Features an anatomically precise 7-lobed maple leaf with a distinct petiole (stick).
  */
 export function AutumnOverlay() {
   const { theme } = useTheme();
@@ -22,7 +21,7 @@ export function AutumnOverlay() {
       left: `${Math.random() * 100}%`,
       duration: `${Math.random() * 10 + 12}s`,
       delay: `${Math.random() * 20}s`,
-      size: Math.random() * 30 + 20,
+      size: Math.random() * 40 + 30,
       opacity: Math.random() * 0.4 + 0.2,
       color: [
         'text-orange-600/40',
@@ -59,34 +58,28 @@ export function AutumnOverlay() {
             xmlns="http://www.w3.org/2000/svg"
             className={leaf.color}
           >
-            {/* Hyper-Realistic 5-Lobed Maple Leaf Path */}
+            {/* Anatomically Precise 7-Lobed Maple Path with Stick */}
             <path
-              d="M50 95 L50 80 
-                 C50 80, 45 75, 40 78 
-                 C35 81, 20 85, 15 70 
-                 C10 55, 5 50, 10 45 
-                 C15 40, 25 35, 30 40 
-                 C30 30, 25 15, 35 10 
-                 C45 5, 50 0, 55 10 
-                 C60 15, 65 30, 65 40 
-                 C70 35, 80 40, 85 45 
-                 C90 50, 95 55, 80 70 
-                 C75 85, 60 81, 55 78 
-                 C50 75, 50 80, 50 95Z"
+              d="M50 95 L50 82 
+                 M50 82 L45 80 C40 82, 35 85, 30 80 C25 75, 10 70, 15 55 C18 45, 5 45, 8 35 C10 25, 20 20, 30 30 C30 20, 25 5, 40 8 C45 10, 50 0, 55 8 C70 5, 65 20, 65 30 C75 20, 85 25, 87 35 C90 45, 77 45, 80 55 C85 70, 70 75, 65 80 C60 85, 55 82, 50 82Z"
               fill="currentColor"
               stroke="currentColor"
               strokeWidth="0.5"
             />
-            {/* Internal Vein Architecture */}
+            {/* The "Stick" (Petiole) Axis */}
             <path
-              d="M50 80 L50 20
-                 M50 65 L25 45
-                 M50 65 L75 45
-                 M50 45 L35 25
-                 M50 45 L65 25"
+              d="M50 95 L50 30"
               stroke="currentColor"
               strokeWidth="1.2"
               strokeOpacity="0.4"
+              strokeLinecap="round"
+            />
+            {/* Internal Vein Ribs */}
+            <path
+              d="M50 75 L30 60 M50 75 L70 60 M50 55 L25 40 M50 55 L75 40 M50 35 L40 25 M50 35 L60 25"
+              stroke="currentColor"
+              strokeWidth="0.8"
+              strokeOpacity="0.3"
               strokeLinecap="round"
             />
           </svg>

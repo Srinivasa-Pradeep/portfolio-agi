@@ -6,33 +6,69 @@ import { Gamepad2, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 /**
- * TRexRunner - A high-fidelity, React-engineered runner game.
- * Optimized for performance using requestAnimationFrame and a gravity-locked physics system.
+ * TRexRunner - Full-Width Immersive Edition.
+ * Features custom asset support for Dragon (Player) and Plant (Obstacle).
+ * Spans the entire bottom architectural space.
  */
 export function TRexRunner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [gameState, setGameState] = useState<'idle' | 'playing' | 'gameOver'>('idle');
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   
-  // Game Refs for high-speed logic without re-renders
+  // Custom Asset Refs
+  const dragonImg = useRef<HTMLImageElement | null>(null);
+  const plantImg = useRef<HTMLImageElement | null>(null);
+
   const state = useRef({
-    dino: { y: 150, vy: 0, width: 44, height: 47, isJumping: false },
+    dino: { y: 150, vy: 0, width: 80, height: 80, isJumping: false },
     obstacles: [] as { x: number, width: number, height: number }[],
-    gameSpeed: 6,
+    gameSpeed: 8,
     score: 0,
     frameCount: 0,
+    canvasWidth: 0,
+    canvasHeight: 250,
   });
 
   const GRAVITY = 0.6;
-  const JUMP_FORCE = -12;
-  const GROUND_Y = 150;
+  const JUMP_FORCE = -14;
+  const GROUND_Y = 160;
+
+  useEffect(() => {
+    // Load custom assets
+    const d = new Image();
+    d.src = '/images/dragon.png'; // User can replace this in public/images/
+    d.onerror = () => { dragonImg.current = null; };
+    d.onload = () => { dragonImg.current = d; };
+
+    const p = new Image();
+    p.src = '/images/plant.png'; // User can replace this in public/images/
+    p.onerror = () => { plantImg.current = null; };
+    p.onload = () => { plantImg.current = p; };
+  }, []);
+
+  const handleResize = useCallback(() => {
+    if (containerRef.current && canvasRef.current) {
+      const width = containerRef.current.offsetWidth;
+      state.current.canvasWidth = width;
+      canvasRef.current.width = width;
+      canvasRef.current.height = state.current.canvasHeight;
+    }
+  }, []);
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [handleResize]);
 
   const resetGame = useCallback(() => {
     state.current = {
-      dino: { y: GROUND_Y, vy: 0, width: 44, height: 47, isJumping: false },
+      ...state.current,
+      dino: { y: GROUND_Y, vy: 0, width: 80, height: 80, isJumping: false },
       obstacles: [],
-      gameSpeed: 6,
+      gameSpeed: 8,
       score: 0,
       frameCount: 0,
     };
@@ -41,11 +77,7 @@ export function TRexRunner() {
   }, []);
 
   const jump = useCallback(() => {
-    if (gameState === 'idle') {
-      resetGame();
-      return;
-    }
-    if (gameState === 'gameOver') {
+    if (gameState === 'idle' || gameState === 'gameOver') {
       resetGame();
       return;
     }
@@ -89,12 +121,12 @@ export function TRexRunner() {
         s.dino.isJumping = false;
       }
 
-      // 2. Spawn Obstacles
-      if (s.frameCount % Math.floor(100 / (s.gameSpeed / 6)) === 0) {
-        if (Math.random() > 0.5) {
-            const width = 20 + Math.random() * 30;
-            const height = 30 + Math.random() * 40;
-            s.obstacles.push({ x: canvas.width, width, height });
+      // 2. Spawn Obstacles (Plants)
+      if (s.frameCount % Math.floor(90 / (s.gameSpeed / 8)) === 0) {
+        if (Math.random() > 0.4) {
+            const width = 40 + Math.random() * 40;
+            const height = 50 + Math.random() * 60;
+            s.obstacles.push({ x: s.canvasWidth, width, height });
         }
       }
 
@@ -102,18 +134,17 @@ export function TRexRunner() {
       s.obstacles = s.obstacles.filter(obs => {
         obs.x -= s.gameSpeed;
 
-        // Collision Check
         const dinoRect = { 
-            left: 20, 
-            right: 20 + s.dino.width - 10, 
-            top: s.dino.y, 
-            bottom: s.dino.y + s.dino.height 
+            left: 100, 
+            right: 100 + s.dino.width - 20, 
+            top: s.dino.y + 10, 
+            bottom: s.dino.y + s.dino.height - 10
         };
         const obsRect = { 
-            left: obs.x + 5, 
-            right: obs.x + obs.width - 5, 
-            top: canvas.height - obs.height, 
-            bottom: canvas.height 
+            left: obs.x + 10, 
+            right: obs.x + obs.width - 10, 
+            top: s.canvasHeight - obs.height, 
+            bottom: s.canvasHeight 
         };
 
         if (
@@ -128,37 +159,47 @@ export function TRexRunner() {
         return obs.x + obs.width > 0;
       });
 
-      // 4. Update Score & Difficulty
-      s.score += 0.1;
+      // 4. Update Score
+      s.score += 0.15;
       setScore(Math.floor(s.score));
-      if (s.gameSpeed < 15) s.gameSpeed += 0.001;
+      if (s.gameSpeed < 18) s.gameSpeed += 0.002;
 
       // 5. Draw
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, s.canvasWidth, s.canvasHeight);
 
-      // Draw Ground
-      ctx.strokeStyle = 'hsl(var(--border))';
-      ctx.beginPath();
-      ctx.moveTo(0, GROUND_Y + 47);
-      ctx.lineTo(canvas.width, GROUND_Y + 47);
-      ctx.stroke();
-
-      // Draw Dino (Simple Geometry for high-end feel)
-      ctx.fillStyle = 'hsl(var(--primary))';
-      ctx.beginPath();
-      ctx.roundRect(20, s.dino.y, s.dino.width, s.dino.height, 8);
-      ctx.fill();
-      
-      // Eye
-      ctx.fillStyle = 'hsl(var(--background))';
-      ctx.fillRect(50, s.dino.y + 10, 4, 4);
-
-      // Draw Obstacles
-      ctx.fillStyle = 'hsl(var(--destructive))';
-      s.obstacles.forEach(obs => {
+      // Grid Background (Reference Match)
+      ctx.strokeStyle = 'rgba(0,0,0,0.05)';
+      if (document.documentElement.classList.contains('dark')) ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < s.canvasWidth; i += 40) {
         ctx.beginPath();
-        ctx.roundRect(obs.x, canvas.height - obs.height, obs.width, obs.height, 4);
+        ctx.moveTo(i, 0);
+        ctx.lineTo(i, s.canvasHeight);
+        ctx.stroke();
+      }
+
+      // Draw Player (Dragon)
+      if (dragonImg.current) {
+        ctx.drawImage(dragonImg.current, 100, s.dino.y, s.dino.width, s.dino.height);
+      } else {
+        // Fallback geometric shape
+        ctx.fillStyle = 'hsl(var(--primary))';
+        ctx.beginPath();
+        ctx.roundRect(100, s.dino.y, s.dino.width, s.dino.height, 12);
         ctx.fill();
+      }
+      
+      // Draw Obstacles (Plants)
+      s.obstacles.forEach(obs => {
+        if (plantImg.current) {
+          ctx.drawImage(plantImg.current, obs.x, s.canvasHeight - obs.height, obs.width, obs.height);
+        } else {
+          // Fallback geometric shape
+          ctx.fillStyle = 'hsl(var(--destructive))';
+          ctx.beginPath();
+          ctx.roundRect(obs.x, s.canvasHeight - obs.height, obs.width, obs.height, 6);
+          ctx.fill();
+        }
       });
 
       rafId = requestAnimationFrame(update);
@@ -169,48 +210,50 @@ export function TRexRunner() {
   }, [gameState]);
 
   return (
-    <div className="relative group w-full max-w-md bg-secondary/10 backdrop-blur-xl border border-border/40 rounded-[32px] p-6 overflow-hidden transition-all hover:border-primary/20">
-      <div className="flex items-center justify-between mb-4 px-2">
+    <div ref={containerRef} className="w-full relative group bg-secondary/5 border-t border-border/40 overflow-hidden transition-all h-[350px]">
+      <div className="absolute top-8 left-12 z-20 flex items-center gap-6">
         <div className="flex items-center gap-2">
-          <Gamepad2 className="h-4 w-4 text-primary" />
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">ODYSSEY_RUNNER_v1.0</span>
+          <Gamepad2 className="h-5 w-5 text-primary animate-pulse" />
+          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">Odyssey_Engine_Active</span>
         </div>
-        <div className="flex items-center gap-4 font-mono text-[10px] font-bold">
-          <p className="text-muted-foreground uppercase tracking-widest">HI <span className="text-primary">{highScore.toString().padStart(5, '0')}</span></p>
-          <p className="text-primary uppercase tracking-widest">{score.toString().padStart(5, '0')}</p>
+        <div className="flex items-center gap-6 font-mono text-xs font-bold">
+          <p className="text-muted-foreground uppercase tracking-widest">HI_SCORE <span className="text-primary">{highScore.toString().padStart(5, '0')}</span></p>
+          <p className="text-primary uppercase tracking-widest">LIVE_SCORE <span className="text-primary">{score.toString().padStart(5, '0')}</span></p>
         </div>
       </div>
 
-      <div className="relative aspect-[2/1] w-full bg-black/5 rounded-2xl border border-border/20 overflow-hidden cursor-pointer" onClick={jump}>
-        <canvas 
-          ref={canvasRef} 
-          width={400} 
-          height={200} 
-          className="w-full h-full"
-        />
+      <div className="absolute inset-0 cursor-pointer" onClick={jump}>
+        <canvas ref={canvasRef} className="w-full h-full" />
 
         {gameState === 'idle' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/40 backdrop-blur-sm animate-in fade-in duration-500">
-             <p className="text-xs font-black uppercase tracking-[0.4em] mb-4">Press Space to Start</p>
-             <div className="h-10 w-24 rounded-full border border-primary/20 flex items-center justify-center bg-primary/5">
-                <span className="text-[10px] font-bold">JUMP: SPACE</span>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/20 backdrop-blur-[2px] animate-in fade-in duration-700">
+             <div className="p-8 rounded-[40px] bg-card/40 border border-white/10 shadow-2xl text-center">
+                <h3 className="text-2xl font-black italic tracking-tighter uppercase mb-2">Initialize Odyssey</h3>
+                <p className="text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground mb-6">Press Space to Start Exploration</p>
+                <div className="h-12 w-32 mx-auto rounded-full border border-primary/20 flex items-center justify-center bg-primary/5">
+                   <span className="text-[10px] font-black">DRAGON_MODE</span>
+                </div>
              </div>
           </div>
         )}
 
         {gameState === 'gameOver' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 backdrop-blur-md animate-in zoom-in-95 duration-300">
-             <h3 className="text-xl font-black italic tracking-tighter uppercase mb-1">Crash Detected</h3>
-             <p className="text-[10px] text-muted-foreground font-mono mb-6 uppercase tracking-widest">System Reboot Required</p>
-             <Button onClick={resetGame} size="sm" className="rounded-full px-6 gap-2">
-                <RefreshCw className="h-3.5 w-3.5" />
-                Retry
-             </Button>
+             <div className="text-center">
+                <h3 className="text-4xl font-black italic tracking-tighter uppercase mb-1 text-destructive">Collision Detected</h3>
+                <p className="text-sm text-muted-foreground font-mono mb-8 uppercase tracking-widest">Atmospheric Re-entry Required</p>
+                <Button onClick={(e) => { e.stopPropagation(); resetGame(); }} size="lg" className="rounded-full px-10 h-16 text-lg font-bold gap-3">
+                   <RefreshCw className="h-5 w-5" />
+                   Restart Engine
+                </Button>
+             </div>
           </div>
         )}
       </div>
 
-      <p className="mt-4 text-center text-[8px] font-mono text-muted-foreground/40 uppercase tracking-[0.5em]">Optimized_For_Keyboard_Input</p>
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 pointer-events-none opacity-20">
+         <p className="text-[9px] font-mono font-bold uppercase tracking-[0.6em]">Precision_Motion_Control_System</p>
+      </div>
     </div>
   );
 }

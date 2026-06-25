@@ -3,13 +3,13 @@
 import { useFormStatus } from 'react-dom';
 import { submitContactForm } from '@/app/actions';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useEffect, useRef, useActionState, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { Github, Linkedin, Mail, Send, Briefcase, Star, HelpCircle, MailQuestion, PartyPopper, RefreshCw, Plus } from 'lucide-react';
+import { Github, Linkedin, Send, Briefcase, Star, HelpCircle, MailQuestion, PartyPopper, RefreshCw, Plus } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -65,7 +65,7 @@ function PremiumScheduleMeetButton() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onMouseMove={handleMouseMove}
-                        className="group relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-secondary/50 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:w-36 shadow-lg ring-1 ring-border/20 no-cursor"
+                        className="group relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-secondary/50 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:w-36 shadow-lg ring-1 ring-border/20"
                     >
                         <div 
                             className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity duration-500 z-0"
@@ -181,38 +181,6 @@ function SocialIconWithPreview({
     );
 }
 
-function DragonSanctuary() {
-    return (
-        <div className="w-full mt-24 relative overflow-hidden">
-            {/* The Precision Grid Background - Matching the reference image */}
-            <div className="absolute inset-0 z-0 opacity-[0.03] dark:opacity-[0.05]" 
-                 style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '24px 24px' }} 
-            />
-            
-            <div className="container relative z-10 h-64 flex items-center justify-between pointer-events-none">
-                {/* Left Side: Plant Visual Placeholder */}
-                <div className="relative w-48 h-48 opacity-20 dark:opacity-40 animate-in fade-in slide-in-from-left-8 duration-1000">
-                    {/* REPLACE SRC WITH YOUR PLANT PNG */}
-                    <div className="w-full h-full border-2 border-dashed border-primary/20 rounded-3xl flex items-center justify-center bg-primary/5">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-primary/40">Plant_PNG_Here</span>
-                    </div>
-                </div>
-
-                {/* Right Side: Dragon Visual Placeholder */}
-                <div className="relative w-64 h-64 opacity-20 dark:opacity-40 animate-in fade-in slide-in-from-right-8 duration-1000 delay-300">
-                    {/* REPLACE SRC WITH YOUR DRAGON PNG */}
-                    <div className="w-full h-full border-2 border-dashed border-primary/20 rounded-full flex items-center justify-center bg-primary/5">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-primary/40">Dragon_PNG_Here</span>
-                    </div>
-                </div>
-            </div>
-
-            {/* Subtle Gradient Shadow matching the reference image's top component shadow */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent shadow-[0_-15px_30px_rgba(0,0,0,0.05)]" />
-        </div>
-    );
-}
-
 export function Contact() {
   const initialState = { message: null, errors: {}, success: false, category: null };
   const [state, formAction] = useActionState(submitContactForm, initialState);
@@ -240,8 +208,8 @@ export function Contact() {
   }
 
   return (
-    <section id="contact" className="pt-20 md:pt-32 pb-0">
-      <div className="container">
+    <section id="contact" className="pt-20 md:pt-32 pb-0 flex flex-col min-h-screen">
+      <div className="container flex-grow mb-12">
         <div className="text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tight text-primary md:text-4xl">Get In Touch</h2>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
@@ -275,11 +243,6 @@ export function Contact() {
                         </div>
                     </div>
                 </TooltipProvider>
-             </div>
-
-             {/* T-Rex Odyssey - High-Performance Interactive Layer */}
-             <div className="hidden lg:block animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500">
-                <TRexRunner />
              </div>
           </div>
 
@@ -327,8 +290,8 @@ export function Contact() {
         </div>
       </div>
 
-      {/* Dragon's Sanctuary - The Bottom Visual Space with Grid & PNG Placeholders */}
-      <DragonSanctuary />
+      {/* T-Rex Odyssey - Full-Width Immersive Layer */}
+      <TRexRunner />
     </section>
   );
 }
