@@ -9,11 +9,11 @@ import { Button } from '@/components/ui/button';
  * TRexRunner - High-Fidelity Odyssey Edition.
  * Features:
  * - High-DPI Scaling: Uses devicePixelRatio for absolute sharpness (fixes blurring).
- * - Dynamic Speed: Starts slow and accelerates as score increases.
+ * - Bezier Acceleration: Smooth, non-linear speed increase that tapers as it hits peak velocity.
  * - Accurate Alignment: Dragon and obstacles sit perfectly on the road.
  * - Audio Layer: Integrated jump, crash, and milestone sound logic.
  * - Cluster Spawning: Supports 1, 2, or 3 plants together.
- * - Refined UI: Game Over state positioned in clear space above road.
+ * - Elevated UI: Game Over state positioned in clear space above road.
  */
 export function TRexRunner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -33,7 +33,7 @@ export function TRexRunner() {
   const state = useRef({
     dino: { y: 0, vy: 0, width: 44, height: 47, isJumping: false },
     obstacles: [] as { x: number, width: number, height: number }[],
-    gameSpeed: 5, 
+    gameSpeed: 6, 
     score: 0,
     frameCount: 0,
     canvasWidth: 0,
@@ -87,7 +87,7 @@ export function TRexRunner() {
       canvasRef.current.style.width = width + 'px';
       canvasRef.current.style.height = height + 'px';
 
-      // Set actual buffer size (High DPI)
+      // Set actual buffer size (High DPI Scaling for Clarity)
       canvasRef.current.width = width * dpr;
       canvasRef.current.height = height * dpr;
 
@@ -108,7 +108,7 @@ export function TRexRunner() {
     s.dino.vy = 0;
     s.dino.isJumping = false;
     s.obstacles = [];
-    s.gameSpeed = 5;
+    s.gameSpeed = 6; // Initial starting pace
     s.score = 0;
     s.frameCount = 0;
     s.lastMilestone = 0;
@@ -166,8 +166,8 @@ export function TRexRunner() {
         s.dino.isJumping = false;
       }
 
-      // 2. Cluster Spawning
-      const spawnInterval = Math.max(40, Math.floor(65 / (s.gameSpeed / 5)));
+      // 2. Obstacle Spawning
+      const spawnInterval = Math.max(50, Math.floor(80 / (s.gameSpeed / 6)));
       if (s.frameCount % spawnInterval === 0 && Math.random() > 0.4) {
           const clusterSize = Math.floor(Math.random() * 3) + 1;
           for (let i = 0; i < clusterSize; i++) {
@@ -221,7 +221,7 @@ export function TRexRunner() {
         return obs.x + obs.width > 0;
       });
 
-      // 4. Score & Acceleration
+      // 4. Score & Smooth Acceleration
       s.score += 0.15;
       const currentScoreInt = Math.floor(s.score);
       setScore(currentScoreInt);
@@ -233,8 +233,12 @@ export function TRexRunner() {
           }
       }
 
-      if (s.gameSpeed < 22) {
-          s.gameSpeed += 0.0015;
+      // Smooth Acceleration (Tapers off as it hits MAX_SPEED)
+      const MAX_SPEED = 20;
+      const BASE_ACCEL = 0.0008; 
+      const speedFactor = 1 - (s.gameSpeed / MAX_SPEED);
+      if (s.gameSpeed < MAX_SPEED) {
+          s.gameSpeed += BASE_ACCEL * speedFactor;
       }
 
       // 5. Render
