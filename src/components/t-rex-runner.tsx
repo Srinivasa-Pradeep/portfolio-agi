@@ -6,12 +6,13 @@ import { RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 /**
- * TRexRunner - Chrome-Style Odyssey Edition.
+ * TRexRunner - High-Fidelity Odyssey Edition.
  * Features:
+ * - High-DPI Scaling: Uses devicePixelRatio for absolute sharpness (fixes blurring).
  * - Dynamic Speed: Starts slow and accelerates as score increases.
+ * - Accurate Alignment: Dragon and obstacles sit perfectly on the road.
  * - Audio Layer: Integrated jump, crash, and milestone sound logic.
  * - Cluster Spawning: Supports 1, 2, or 3 plants together.
- * - Aspect Ratio Preservation: Custom PNGs scale naturally.
  */
 export function TRexRunner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -29,19 +30,19 @@ export function TRexRunner() {
   const pointSound = useRef<HTMLAudioElement | null>(null);
 
   const state = useRef({
-    dino: { y: 130, vy: 0, width: 44, height: 47, isJumping: false },
+    dino: { y: 0, vy: 0, width: 44, height: 47, isJumping: false },
     obstacles: [] as { x: number, width: number, height: number }[],
-    gameSpeed: 6, // Reduced initial speed for gradual start
+    gameSpeed: 5, 
     score: 0,
     frameCount: 0,
     canvasWidth: 0,
     canvasHeight: 180,
     lastMilestone: 0,
+    groundY: 0,
   });
 
   const GRAVITY = 0.6;
   const JUMP_FORCE = -11;
-  const GROUND_Y = 130;
 
   useEffect(() => {
     const stored = localStorage.getItem('odyssey-high-score');
@@ -54,6 +55,10 @@ export function TRexRunner() {
         dragonImg.current = d; 
         const ratio = d.naturalWidth / d.naturalHeight;
         state.current.dino.width = 47 * ratio;
+        // Recalculate ground position based on loaded height
+        const s = state.current;
+        s.groundY = s.canvasHeight - 10 - s.dino.height;
+        if (gameState === 'idle') s.dino.y = s.groundY;
     };
 
     const p = new Image();
@@ -62,18 +67,32 @@ export function TRexRunner() {
         plantImg.current = p; 
     };
 
-    // Audio Initialization
-    jumpSound.current = new Audio('/music/jump.wav');
-    dieSound.current = new Audio('/music/die.wav');
-    pointSound.current = new Audio('/music/point.wav');
+    // Audio Initialization (Paths provided for your internal addition)
+    jumpSound.current = new Audio('/music/jump.mp3');
+    dieSound.current = new Audio('/music/die.mp3');
+    pointSound.current = new Audio('/music/point.mp3');
   }, []);
 
   const handleResize = useCallback(() => {
     if (containerRef.current && canvasRef.current) {
+      const dpr = window.devicePixelRatio || 1;
       const width = containerRef.current.offsetWidth;
+      const height = 180;
+      
       state.current.canvasWidth = width;
-      canvasRef.current.width = width;
-      canvasRef.current.height = state.current.canvasHeight;
+      state.current.canvasHeight = height;
+      state.current.groundY = height - 10 - state.current.dino.height;
+
+      // Set display size
+      canvasRef.current.style.width = width + 'px';
+      canvasRef.current.style.height = height + 'px';
+
+      // Set actual buffer size (High DPI)
+      canvasRef.current.width = width * dpr;
+      canvasRef.current.height = height * dpr;
+
+      const ctx = canvasRef.current.getContext('2d');
+      if (ctx) ctx.scale(dpr, dpr);
     }
   }, []);
 
@@ -84,15 +103,16 @@ export function TRexRunner() {
   }, [handleResize]);
 
   const resetGame = useCallback(() => {
-    state.current = {
-      ...state.current,
-      dino: { ...state.current.dino, y: GROUND_Y, vy: 0, isJumping: false },
-      obstacles: [],
-      gameSpeed: 6,
-      score: 0,
-      frameCount: 0,
-      lastMilestone: 0,
-    };
+    const s = state.current;
+    s.dino.y = s.groundY;
+    s.dino.vy = 0;
+    s.dino.isJumping = false;
+    s.obstacles = [];
+    s.gameSpeed = 5;
+    s.score = 0;
+    s.frameCount = 0;
+    s.lastMilestone = 0;
+    
     setScore(0);
     setGameState('playing');
   }, []);
@@ -140,14 +160,14 @@ export function TRexRunner() {
       s.dino.vy += GRAVITY;
       s.dino.y += s.dino.vy;
 
-      if (s.dino.y >= GROUND_Y) {
-        s.dino.y = GROUND_Y;
+      if (s.dino.y >= s.groundY) {
+        s.dino.y = s.groundY;
         s.dino.vy = 0;
         s.dino.isJumping = false;
       }
 
-      // 2. Cluster Spawning Logic
-      const spawnInterval = Math.max(40, Math.floor(60 / (s.gameSpeed / 6)));
+      // 2. Cluster Spawning
+      const spawnInterval = Math.max(40, Math.floor(65 / (s.gameSpeed / 5)));
       if (s.frameCount % spawnInterval === 0 && Math.random() > 0.4) {
           const clusterSize = Math.floor(Math.random() * 3) + 1;
           for (let i = 0; i < clusterSize; i++) {
@@ -158,22 +178,22 @@ export function TRexRunner() {
                   width = height * ratio;
               }
               s.obstacles.push({ 
-                  x: s.canvasWidth + (i * width * 0.8), 
+                  x: s.canvasWidth + (i * width * 1.1), 
                   width, 
                   height 
               });
           }
       }
 
-      // 3. Move & Check Collisions
+      // 3. Move & Collision
       s.obstacles = s.obstacles.filter(obs => {
         obs.x -= s.gameSpeed;
 
         const dinoRect = { 
-            left: 50 + 5, 
-            right: 50 + s.dino.width - 5, 
-            top: s.dino.y + 5, 
-            bottom: s.dino.y + s.dino.height - 5
+            left: 50 + 8, 
+            right: 50 + s.dino.width - 8, 
+            top: s.dino.y + 8, 
+            bottom: s.dino.y + s.dino.height - 2 // Strict bottom to sit on ground
         };
         const obsRect = { 
             left: obs.x + 4, 
@@ -201,12 +221,11 @@ export function TRexRunner() {
         return obs.x + obs.width > 0;
       });
 
-      // 4. Update Score & Dynamic Speed
+      // 4. Score & Acceleration
       s.score += 0.15;
       const currentScoreInt = Math.floor(s.score);
       setScore(currentScoreInt);
 
-      // Milestone Sound (every 100 points)
       if (currentScoreInt > 0 && currentScoreInt % 100 === 0 && currentScoreInt !== s.lastMilestone) {
           s.lastMilestone = currentScoreInt;
           if (pointSound.current) {
@@ -214,18 +233,17 @@ export function TRexRunner() {
           }
       }
 
-      // Gradual acceleration
-      if (s.gameSpeed < 25) {
-          s.gameSpeed += 0.002;
+      if (s.gameSpeed < 22) {
+          s.gameSpeed += 0.0015;
       }
 
-      // 5. Draw
+      // 5. Render
       ctx.clearRect(0, 0, s.canvasWidth, s.canvasHeight);
 
       const isDark = document.documentElement.classList.contains('dark');
       const primaryColor = isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)';
 
-      // Draw Ground
+      // Road
       ctx.strokeStyle = primaryColor;
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -233,7 +251,7 @@ export function TRexRunner() {
       ctx.lineTo(s.canvasWidth, s.canvasHeight - 10);
       ctx.stroke();
 
-      // Draw Dragon
+      // Dragon
       if (dragonImg.current) {
         ctx.drawImage(dragonImg.current, 50, s.dino.y, s.dino.width, s.dino.height);
       } else {
@@ -241,7 +259,7 @@ export function TRexRunner() {
         ctx.fillRect(50, s.dino.y, s.dino.width, s.dino.height);
       }
       
-      // Draw Plants
+      // Obstacles
       s.obstacles.forEach(obs => {
         if (plantImg.current) {
           ctx.drawImage(plantImg.current, obs.x, s.canvasHeight - obs.height - 10, obs.width, obs.height);
@@ -259,26 +277,26 @@ export function TRexRunner() {
   }, [gameState]);
 
   return (
-    <div ref={containerRef} className="w-full relative group bg-secondary/5 border-t border-border/40 overflow-hidden transition-all h-[250px] select-none">
-      {/* High Score HUD */}
-      <div className="absolute top-6 right-12 z-20 flex items-center gap-6 font-mono text-sm font-bold opacity-60">
-        <p className="tracking-widest text-foreground">HI {highScore.toString().padStart(5, '0')}</p>
-        <p className="tracking-widest text-foreground">{score.toString().padStart(5, '0')}</p>
+    <div ref={containerRef} className="w-full relative group bg-transparent overflow-hidden h-[250px] select-none">
+      {/* HUD Telemetry */}
+      <div className="absolute top-6 right-12 z-20 flex items-center gap-6 font-mono text-sm font-bold opacity-40">
+        <p className="tracking-widest">HI {highScore.toString().padStart(5, '0')}</p>
+        <p className="tracking-widest">{score.toString().padStart(5, '0')}</p>
       </div>
 
       <div className="absolute inset-0 cursor-pointer" onClick={jump}>
-        <canvas ref={canvasRef} className="w-full h-full" />
+        <canvas ref={canvasRef} className="w-full h-full block" />
 
         {gameState === 'idle' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center animate-in fade-in duration-700">
-             <div className="text-center font-mono opacity-60">
+             <div className="text-center font-mono opacity-40">
                 <p className="text-xs font-bold uppercase tracking-[0.4em]">Press Space to Start</p>
              </div>
           </div>
         )}
 
         {gameState === 'gameOver' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/20 backdrop-blur-[1px] animate-in zoom-in-95 duration-300">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/10 backdrop-blur-[1px] animate-in zoom-in-95 duration-300">
              <div className="text-center">
                 <h3 className="text-2xl font-mono font-bold tracking-[0.5em] uppercase mb-8 opacity-70">G A M E  O V E R</h3>
                 <Button 

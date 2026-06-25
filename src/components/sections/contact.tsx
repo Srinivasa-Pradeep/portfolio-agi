@@ -290,7 +290,7 @@ export function Contact() {
         </div>
       </div>
 
-      {/* T-Rex Odyssey - Full-Width Immersive Layer */}
+      {/* T-Rex Odyssey - Seamless Integration */}
       <TRexRunner />
     </section>
   );
