@@ -2,13 +2,16 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
-import { Gamepad2, RefreshCw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 /**
- * TRexRunner - Full-Width Immersive Edition.
- * Features custom asset support for Dragon (Player) and Plant (Obstacle).
- * Spans the entire bottom architectural space.
+ * TRexRunner - Chrome-Style Odyssey Edition.
+ * Features:
+ * - Full-width architectural integration.
+ * - Pixel-perfect monochrome aesthetic.
+ * - Persistent High Score engine.
+ * - Logic for custom Dragon/Plant PNGs.
  */
 export function TRexRunner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -22,29 +25,31 @@ export function TRexRunner() {
   const plantImg = useRef<HTMLImageElement | null>(null);
 
   const state = useRef({
-    dino: { y: 150, vy: 0, width: 80, height: 80, isJumping: false },
+    dino: { y: 150, vy: 0, width: 44, height: 47, isJumping: false },
     obstacles: [] as { x: number, width: number, height: number }[],
-    gameSpeed: 8,
+    gameSpeed: 10,
     score: 0,
     frameCount: 0,
     canvasWidth: 0,
-    canvasHeight: 250,
+    canvasHeight: 180,
   });
 
   const GRAVITY = 0.6;
-  const JUMP_FORCE = -14;
-  const GROUND_Y = 160;
+  const JUMP_FORCE = -12;
+  const GROUND_Y = 130;
 
   useEffect(() => {
+    // Load high score from local storage
+    const stored = localStorage.getItem('odyssey-high-score');
+    if (stored) setHighScore(parseInt(stored, 10));
+
     // Load custom assets
     const d = new Image();
-    d.src = '/images/dragon.png'; // User can replace this in public/images/
-    d.onerror = () => { dragonImg.current = null; };
+    d.src = '/images/dragon.png';
     d.onload = () => { dragonImg.current = d; };
 
     const p = new Image();
-    p.src = '/images/plant.png'; // User can replace this in public/images/
-    p.onerror = () => { plantImg.current = null; };
+    p.src = '/images/plant.png';
     p.onload = () => { plantImg.current = p; };
   }, []);
 
@@ -66,9 +71,9 @@ export function TRexRunner() {
   const resetGame = useCallback(() => {
     state.current = {
       ...state.current,
-      dino: { y: GROUND_Y, vy: 0, width: 80, height: 80, isJumping: false },
+      dino: { y: GROUND_Y, vy: 0, width: 44, height: 47, isJumping: false },
       obstacles: [],
-      gameSpeed: 8,
+      gameSpeed: 10,
       score: 0,
       frameCount: 0,
     };
@@ -122,10 +127,10 @@ export function TRexRunner() {
       }
 
       // 2. Spawn Obstacles (Plants)
-      if (s.frameCount % Math.floor(90 / (s.gameSpeed / 8)) === 0) {
+      if (s.frameCount % Math.floor(70 / (s.gameSpeed / 10)) === 0) {
         if (Math.random() > 0.4) {
-            const width = 40 + Math.random() * 40;
-            const height = 50 + Math.random() * 60;
+            const height = 30 + Math.random() * 40;
+            const width = 20 + Math.random() * 20;
             s.obstacles.push({ x: s.canvasWidth, width, height });
         }
       }
@@ -135,16 +140,16 @@ export function TRexRunner() {
         obs.x -= s.gameSpeed;
 
         const dinoRect = { 
-            left: 100, 
-            right: 100 + s.dino.width - 20, 
-            top: s.dino.y + 10, 
-            bottom: s.dino.y + s.dino.height - 10
+            left: 50, 
+            right: 50 + s.dino.width - 10, 
+            top: s.dino.y + 5, 
+            bottom: s.dino.y + s.dino.height - 5
         };
         const obsRect = { 
-            left: obs.x + 10, 
-            right: obs.x + obs.width - 10, 
-            top: s.canvasHeight - obs.height, 
-            bottom: s.canvasHeight 
+            left: obs.x + 5, 
+            right: obs.x + obs.width - 5, 
+            top: s.canvasHeight - obs.height - 10, 
+            bottom: s.canvasHeight - 10 
         };
 
         if (
@@ -153,7 +158,11 @@ export function TRexRunner() {
             dinoRect.bottom > obsRect.top
         ) {
             setGameState('gameOver');
-            setHighScore(prev => Math.max(prev, Math.floor(s.score)));
+            setHighScore(prev => {
+                const newHigh = Math.max(prev, Math.floor(s.score));
+                localStorage.setItem('odyssey-high-score', newHigh.toString());
+                return newHigh;
+            });
         }
 
         return obs.x + obs.width > 0;
@@ -162,43 +171,37 @@ export function TRexRunner() {
       // 4. Update Score
       s.score += 0.15;
       setScore(Math.floor(s.score));
-      if (s.gameSpeed < 18) s.gameSpeed += 0.002;
+      if (s.gameSpeed < 20) s.gameSpeed += 0.001;
 
       // 5. Draw
       ctx.clearRect(0, 0, s.canvasWidth, s.canvasHeight);
 
-      // Grid Background (Reference Match)
-      ctx.strokeStyle = 'rgba(0,0,0,0.05)';
-      if (document.documentElement.classList.contains('dark')) ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      const isDark = document.documentElement.classList.contains('dark');
+      const primaryColor = isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)';
+
+      // Ground Line
+      ctx.strokeStyle = primaryColor;
       ctx.lineWidth = 1;
-      for (let i = 0; i < s.canvasWidth; i += 40) {
-        ctx.beginPath();
-        ctx.moveTo(i, 0);
-        ctx.lineTo(i, s.canvasHeight);
-        ctx.stroke();
-      }
+      ctx.beginPath();
+      ctx.moveTo(0, s.canvasHeight - 10);
+      ctx.lineTo(s.canvasWidth, s.canvasHeight - 10);
+      ctx.stroke();
 
       // Draw Player (Dragon)
       if (dragonImg.current) {
-        ctx.drawImage(dragonImg.current, 100, s.dino.y, s.dino.width, s.dino.height);
+        ctx.drawImage(dragonImg.current, 50, s.dino.y, s.dino.width, s.dino.height);
       } else {
-        // Fallback geometric shape
-        ctx.fillStyle = 'hsl(var(--primary))';
-        ctx.beginPath();
-        ctx.roundRect(100, s.dino.y, s.dino.width, s.dino.height, 12);
-        ctx.fill();
+        ctx.fillStyle = primaryColor;
+        ctx.fillRect(50, s.dino.y, s.dino.width, s.dino.height);
       }
       
       // Draw Obstacles (Plants)
       s.obstacles.forEach(obs => {
         if (plantImg.current) {
-          ctx.drawImage(plantImg.current, obs.x, s.canvasHeight - obs.height, obs.width, obs.height);
+          ctx.drawImage(plantImg.current, obs.x, s.canvasHeight - obs.height - 10, obs.width, obs.height);
         } else {
-          // Fallback geometric shape
-          ctx.fillStyle = 'hsl(var(--destructive))';
-          ctx.beginPath();
-          ctx.roundRect(obs.x, s.canvasHeight - obs.height, obs.width, obs.height, 6);
-          ctx.fill();
+          ctx.fillStyle = primaryColor;
+          ctx.fillRect(obs.x, s.canvasHeight - obs.height - 10, obs.width, obs.height);
         }
       });
 
@@ -210,49 +213,43 @@ export function TRexRunner() {
   }, [gameState]);
 
   return (
-    <div ref={containerRef} className="w-full relative group bg-secondary/5 border-t border-border/40 overflow-hidden transition-all h-[350px]">
-      <div className="absolute top-8 left-12 z-20 flex items-center gap-6">
-        <div className="flex items-center gap-2">
-          <Gamepad2 className="h-5 w-5 text-primary animate-pulse" />
-          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground">Odyssey_Engine_Active</span>
-        </div>
-        <div className="flex items-center gap-6 font-mono text-xs font-bold">
-          <p className="text-muted-foreground uppercase tracking-widest">HI_SCORE <span className="text-primary">{highScore.toString().padStart(5, '0')}</span></p>
-          <p className="text-primary uppercase tracking-widest">LIVE_SCORE <span className="text-primary">{score.toString().padStart(5, '0')}</span></p>
-        </div>
+    <div ref={containerRef} className="w-full relative group bg-secondary/5 border-t border-border/40 overflow-hidden transition-all h-[250px]">
+      {/* Chrome Style HUD */}
+      <div className="absolute top-6 right-12 z-20 flex items-center gap-6 font-mono text-sm font-bold opacity-60">
+        <p className="tracking-widest">HI {highScore.toString().padStart(5, '0')}</p>
+        <p className="tracking-widest">{score.toString().padStart(5, '0')}</p>
       </div>
 
       <div className="absolute inset-0 cursor-pointer" onClick={jump}>
         <canvas ref={canvasRef} className="w-full h-full" />
 
         {gameState === 'idle' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/20 backdrop-blur-[2px] animate-in fade-in duration-700">
-             <div className="p-8 rounded-[40px] bg-card/40 border border-white/10 shadow-2xl text-center">
-                <h3 className="text-2xl font-black italic tracking-tighter uppercase mb-2">Initialize Odyssey</h3>
-                <p className="text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground mb-6">Press Space to Start Exploration</p>
-                <div className="h-12 w-32 mx-auto rounded-full border border-primary/20 flex items-center justify-center bg-primary/5">
-                   <span className="text-[10px] font-black">DRAGON_MODE</span>
-                </div>
+          <div className="absolute inset-0 flex flex-col items-center justify-center animate-in fade-in duration-700">
+             <div className="text-center font-mono opacity-60">
+                <p className="text-xs font-bold uppercase tracking-[0.4em]">Press Space to Start</p>
              </div>
           </div>
         )}
 
         {gameState === 'gameOver' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 backdrop-blur-md animate-in zoom-in-95 duration-300">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/20 backdrop-blur-[1px] animate-in zoom-in-95 duration-300">
              <div className="text-center">
-                <h3 className="text-4xl font-black italic tracking-tighter uppercase mb-1 text-destructive">Collision Detected</h3>
-                <p className="text-sm text-muted-foreground font-mono mb-8 uppercase tracking-widest">Atmospheric Re-entry Required</p>
-                <Button onClick={(e) => { e.stopPropagation(); resetGame(); }} size="lg" className="rounded-full px-10 h-16 text-lg font-bold gap-3">
-                   <RefreshCw className="h-5 w-5" />
-                   Restart Engine
+                <h3 className="text-2xl font-mono font-bold tracking-[0.5em] uppercase mb-8 opacity-70">G A M E  O V E R</h3>
+                <Button 
+                  onClick={(e) => { e.stopPropagation(); resetGame(); }} 
+                  variant="ghost"
+                  size="icon" 
+                  className="rounded-full h-12 w-12 hover:bg-primary/5 transition-all"
+                >
+                   <RefreshCw className="h-6 w-6 opacity-60" />
                 </Button>
              </div>
           </div>
         )}
       </div>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 pointer-events-none opacity-20">
-         <p className="text-[9px] font-mono font-bold uppercase tracking-[0.6em]">Precision_Motion_Control_System</p>
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none opacity-10">
+         <p className="text-[8px] font-mono font-bold uppercase tracking-[0.6em]">Odyssey_High_Performance_Engine</p>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { useTheme } from 'next-themes';
 /**
  * AutumnOverlay - Hyper-Realistic Maple Architecture.
  * Features an anatomically precise 7-lobed maple leaf with a distinct petiole (stick).
+ * Optimized SVG path for high-fidelity "leaf leaf" feel.
  */
 export function AutumnOverlay() {
   const { theme } = useTheme();
