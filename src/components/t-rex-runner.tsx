@@ -8,9 +8,10 @@ import { Button } from '@/components/ui/button';
 /**
  * TRexRunner - Chrome-Style Odyssey Edition.
  * Features:
+ * - Dynamic Speed: Starts slow and accelerates as score increases.
+ * - Audio Layer: Integrated jump, crash, and milestone sound logic.
  * - Cluster Spawning: Supports 1, 2, or 3 plants together.
  * - Aspect Ratio Preservation: Custom PNGs scale naturally.
- * - Minimal HUD: High score tracking without branding clutter.
  */
 export function TRexRunner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -22,24 +23,31 @@ export function TRexRunner() {
   const dragonImg = useRef<HTMLImageElement | null>(null);
   const plantImg = useRef<HTMLImageElement | null>(null);
 
+  // Audio Refs
+  const jumpSound = useRef<HTMLAudioElement | null>(null);
+  const dieSound = useRef<HTMLAudioElement | null>(null);
+  const pointSound = useRef<HTMLAudioElement | null>(null);
+
   const state = useRef({
-    dino: { y: 150, vy: 0, width: 44, height: 47, isJumping: false },
+    dino: { y: 130, vy: 0, width: 44, height: 47, isJumping: false },
     obstacles: [] as { x: number, width: number, height: number }[],
-    gameSpeed: 10,
+    gameSpeed: 6, // Reduced initial speed for gradual start
     score: 0,
     frameCount: 0,
     canvasWidth: 0,
     canvasHeight: 180,
+    lastMilestone: 0,
   });
 
   const GRAVITY = 0.6;
-  const JUMP_FORCE = -12;
+  const JUMP_FORCE = -11;
   const GROUND_Y = 130;
 
   useEffect(() => {
     const stored = localStorage.getItem('odyssey-high-score');
     if (stored) setHighScore(parseInt(stored, 10));
 
+    // Asset Loading
     const d = new Image();
     d.src = '/images/dragon.png';
     d.onload = () => { 
@@ -53,6 +61,11 @@ export function TRexRunner() {
     p.onload = () => { 
         plantImg.current = p; 
     };
+
+    // Audio Initialization
+    jumpSound.current = new Audio('/sounds/jump.mp3');
+    dieSound.current = new Audio('/sounds/die.mp3');
+    pointSound.current = new Audio('/sounds/point.mp3');
   }, []);
 
   const handleResize = useCallback(() => {
@@ -75,9 +88,10 @@ export function TRexRunner() {
       ...state.current,
       dino: { ...state.current.dino, y: GROUND_Y, vy: 0, isJumping: false },
       obstacles: [],
-      gameSpeed: 10,
+      gameSpeed: 6,
       score: 0,
       frameCount: 0,
+      lastMilestone: 0,
     };
     setScore(0);
     setGameState('playing');
@@ -91,6 +105,10 @@ export function TRexRunner() {
     if (!state.current.dino.isJumping) {
       state.current.dino.vy = JUMP_FORCE;
       state.current.dino.isJumping = true;
+      if (jumpSound.current) {
+          jumpSound.current.currentTime = 0;
+          jumpSound.current.play().catch(() => {});
+      }
     }
   }, [gameState, resetGame]);
 
@@ -129,18 +147,16 @@ export function TRexRunner() {
       }
 
       // 2. Cluster Spawning Logic
-      const spawnInterval = Math.max(50, Math.floor(70 / (s.gameSpeed / 10)));
+      const spawnInterval = Math.max(40, Math.floor(60 / (s.gameSpeed / 6)));
       if (s.frameCount % spawnInterval === 0 && Math.random() > 0.4) {
-          // Spawn a cluster of 1-3 plants
           const clusterSize = Math.floor(Math.random() * 3) + 1;
           for (let i = 0; i < clusterSize; i++) {
-              const height = 30 + Math.random() * 15; // Consistent cluster height
+              const height = 30 + Math.random() * 15;
               let width = 20;
               if (plantImg.current) {
                   const ratio = plantImg.current.naturalWidth / plantImg.current.naturalHeight;
                   width = height * ratio;
               }
-              // Space them out slightly within the cluster
               s.obstacles.push({ 
                   x: s.canvasWidth + (i * width * 0.8), 
                   width, 
@@ -172,6 +188,9 @@ export function TRexRunner() {
             dinoRect.bottom > obsRect.top
         ) {
             setGameState('gameOver');
+            if (dieSound.current) {
+                dieSound.current.play().catch(() => {});
+            }
             setHighScore(prev => {
                 const newHigh = Math.max(prev, Math.floor(s.score));
                 localStorage.setItem('odyssey-high-score', newHigh.toString());
@@ -182,10 +201,23 @@ export function TRexRunner() {
         return obs.x + obs.width > 0;
       });
 
-      // 4. Update Score
+      // 4. Update Score & Dynamic Speed
       s.score += 0.15;
-      setScore(Math.floor(s.score));
-      if (s.gameSpeed < 25) s.gameSpeed += 0.0015;
+      const currentScoreInt = Math.floor(s.score);
+      setScore(currentScoreInt);
+
+      // Milestone Sound (every 100 points)
+      if (currentScoreInt > 0 && currentScoreInt % 100 === 0 && currentScoreInt !== s.lastMilestone) {
+          s.lastMilestone = currentScoreInt;
+          if (pointSound.current) {
+              pointSound.current.play().catch(() => {});
+          }
+      }
+
+      // Gradual acceleration
+      if (s.gameSpeed < 25) {
+          s.gameSpeed += 0.002;
+      }
 
       // 5. Draw
       ctx.clearRect(0, 0, s.canvasWidth, s.canvasHeight);
@@ -193,6 +225,7 @@ export function TRexRunner() {
       const isDark = document.documentElement.classList.contains('dark');
       const primaryColor = isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)';
 
+      // Draw Ground
       ctx.strokeStyle = primaryColor;
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -200,6 +233,7 @@ export function TRexRunner() {
       ctx.lineTo(s.canvasWidth, s.canvasHeight - 10);
       ctx.stroke();
 
+      // Draw Dragon
       if (dragonImg.current) {
         ctx.drawImage(dragonImg.current, 50, s.dino.y, s.dino.width, s.dino.height);
       } else {
@@ -207,6 +241,7 @@ export function TRexRunner() {
         ctx.fillRect(50, s.dino.y, s.dino.width, s.dino.height);
       }
       
+      // Draw Plants
       s.obstacles.forEach(obs => {
         if (plantImg.current) {
           ctx.drawImage(plantImg.current, obs.x, s.canvasHeight - obs.height - 10, obs.width, obs.height);
@@ -225,9 +260,10 @@ export function TRexRunner() {
 
   return (
     <div ref={containerRef} className="w-full relative group bg-secondary/5 border-t border-border/40 overflow-hidden transition-all h-[250px] select-none">
+      {/* High Score HUD */}
       <div className="absolute top-6 right-12 z-20 flex items-center gap-6 font-mono text-sm font-bold opacity-60">
-        <p className="tracking-widest">HI {highScore.toString().padStart(5, '0')}</p>
-        <p className="tracking-widest">{score.toString().padStart(5, '0')}</p>
+        <p className="tracking-widest text-foreground">HI {highScore.toString().padStart(5, '0')}</p>
+        <p className="tracking-widest text-foreground">{score.toString().padStart(5, '0')}</p>
       </div>
 
       <div className="absolute inset-0 cursor-pointer" onClick={jump}>
