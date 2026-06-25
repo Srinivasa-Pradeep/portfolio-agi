@@ -15,6 +15,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
+import { TRexRunner } from '@/components/t-rex-runner';
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -217,31 +218,39 @@ export function Contact() {
         </div>
 
         <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-3">
-          <div className="lg:col-span-1 space-y-6">
-             <h3 className="font-headline text-2xl font-semibold text-primary">Contact Info</h3>
-             <p className="text-muted-foreground">You can also reach me directly through these channels.</p>
-              <TooltipProvider delayDuration={0}>
-                  <div className="flex flex-col gap-6 pt-2">
-                      <div className="flex gap-4">
-                        <PremiumScheduleMeetButton />
+          <div className="lg:col-span-1 flex flex-col gap-12">
+             <div className="space-y-6">
+                <h3 className="font-headline text-2xl font-semibold text-primary">Contact Info</h3>
+                <p className="text-muted-foreground">You can also reach me directly through these channels.</p>
+                <TooltipProvider delayDuration={0}>
+                    <div className="flex flex-col gap-6 pt-2">
+                        <div className="flex gap-4">
+                            <PremiumScheduleMeetButton />
 
-                        <SocialIconWithPreview 
-                          href="https://www.linkedin.com/in/srinivasa-pradeep-s/"
-                          icon={Linkedin}
-                          imageId="linkedin-preview"
-                          side="top"
-                        />
+                            <SocialIconWithPreview 
+                            href="https://www.linkedin.com/in/srinivasa-pradeep-s/"
+                            icon={Linkedin}
+                            imageId="linkedin-preview"
+                            side="top"
+                            />
 
-                        <SocialIconWithPreview 
-                          href="https://github.com/srinivasa-pradeep"
-                          icon={Github}
-                          imageId="github-preview"
-                          side="bottom"
-                        />
-                      </div>
-                  </div>
-              </TooltipProvider>
+                            <SocialIconWithPreview 
+                            href="https://github.com/srinivasa-pradeep"
+                            icon={Github}
+                            imageId="github-preview"
+                            side="bottom"
+                            />
+                        </div>
+                    </div>
+                </TooltipProvider>
+             </div>
+
+             {/* T-Rex Odyssey - Added in the space after contact info */}
+             <div className="hidden lg:block animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500">
+                <TRexRunner />
+             </div>
           </div>
+
           <div className="lg:col-span-2 space-y-8">
             <Card className="overflow-hidden bg-card/50 backdrop-blur-lg border-border/20 shadow-xl">
               <CardHeader>

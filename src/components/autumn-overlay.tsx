@@ -4,10 +4,9 @@ import React, { useMemo, useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 
 /**
- * AutumnOverlay - A high-fidelity cinematic layer of falling leaves.
- * Active only in 'autumn' mode. 
- * Features anatomically detailed sharp leaves with internal vein structures.
- * Calibrated for a "Full" immersive density and organic drift physics.
+ * AutumnOverlay - Hyper-Realistic Maple Foliage.
+ * Features anatomically precise 5-lobed maple leaves with petioles (sticks)
+ * and internal vein structures.
  */
 export function AutumnOverlay() {
   const { theme } = useTheme();
@@ -18,14 +17,13 @@ export function AutumnOverlay() {
   }, []);
 
   const leaves = useMemo(() => {
-    // Increased leaf count to 60 for a "Full" immersive experience
-    return Array.from({ length: 50 }).map((_, i) => ({
+    return Array.from({ length: 35 }).map((_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
-      duration: `${Math.random() * 10 + 12}s`, // Slightly slower for deeper parallax
+      duration: `${Math.random() * 10 + 12}s`,
       delay: `${Math.random() * 20}s`,
-      size: Math.random() * 24 + 16,
-      opacity: Math.random() * 0.35 + 0.15,
+      size: Math.random() * 30 + 20,
+      opacity: Math.random() * 0.4 + 0.2,
       color: [
         'text-orange-600/40',
         'text-amber-700/40',
@@ -56,22 +54,39 @@ export function AutumnOverlay() {
           <svg
             width={leaf.size}
             height={leaf.size}
-            viewBox="0 0 24 24"
+            viewBox="0 0 100 100"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             className={leaf.color}
           >
-            {/* Anatomically Detailed Sharp Leaf Silhouette */}
+            {/* Hyper-Realistic 5-Lobed Maple Leaf Path */}
             <path
-              d="M12 2C12 2 11.5 5.5 9 7C6 8.5 3 8 2 11C4 12 6 12.5 7 14C6 16 5 19 7 21C9 20 11 18.5 12 17C13 18.5 15 20 17 21C19 19 18 16 17 14C18 12.5 20 12 22 11C21 8 18 8.5 15 7C12.5 5.5 12 2 12 2Z"
+              d="M50 95 L50 80 
+                 C50 80, 45 75, 40 78 
+                 C35 81, 20 85, 15 70 
+                 C10 55, 5 50, 10 45 
+                 C15 40, 25 35, 30 40 
+                 C30 30, 25 15, 35 10 
+                 C45 5, 50 0, 55 10 
+                 C60 15, 65 30, 65 40 
+                 C70 35, 80 40, 85 45 
+                 C90 50, 95 55, 80 70 
+                 C75 85, 60 81, 55 78 
+                 C50 75, 50 80, 50 95Z"
               fill="currentColor"
-            />
-            {/* Fine Internal Vein Structure for Sharp Detail */}
-            <path
-              d="M12 5V17 M12 8L9 10 M12 11L15 13 M12 14L10 16"
               stroke="currentColor"
-              strokeWidth="0.4"
-              strokeOpacity="0.3"
+              strokeWidth="0.5"
+            />
+            {/* Internal Vein Architecture */}
+            <path
+              d="M50 80 L50 20
+                 M50 65 L25 45
+                 M50 65 L75 45
+                 M50 45 L35 25
+                 M50 45 L65 25"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              strokeOpacity="0.4"
               strokeLinecap="round"
             />
           </svg>
