@@ -68,9 +68,9 @@ export function TRexRunner() {
     };
 
     // Audio Initialization
-    jumpSound.current = new Audio('/music/jump.mp3');
-    dieSound.current = new Audio('/music/die.mp3');
-    pointSound.current = new Audio('/music/point.mp3');
+    jumpSound.current = new Audio('/music/jump.wav');
+    dieSound.current = new Audio('/music/die.wav');
+    pointSound.current = new Audio('/music/point.wav');
   }, []);
 
   const handleResize = useCallback(() => {
