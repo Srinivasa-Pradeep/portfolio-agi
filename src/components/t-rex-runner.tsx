@@ -7,7 +7,10 @@ import { Button } from '@/components/ui/button';
 
 /**
  * TRexRunner - Chrome-Style Odyssey Edition.
- * Fixed: Aspect ratio preservation for custom PNGs and removed engine footer.
+ * Features:
+ * - Cluster Spawning: Supports 1, 2, or 3 plants together.
+ * - Aspect Ratio Preservation: Custom PNGs scale naturally.
+ * - Minimal HUD: High score tracking without branding clutter.
  */
 export function TRexRunner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -16,7 +19,6 @@ export function TRexRunner() {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
   
-  // Custom Asset Refs
   const dragonImg = useRef<HTMLImageElement | null>(null);
   const plantImg = useRef<HTMLImageElement | null>(null);
 
@@ -35,16 +37,13 @@ export function TRexRunner() {
   const GROUND_Y = 130;
 
   useEffect(() => {
-    // Load high score from local storage
     const stored = localStorage.getItem('odyssey-high-score');
     if (stored) setHighScore(parseInt(stored, 10));
 
-    // Load custom assets
     const d = new Image();
     d.src = '/images/dragon.png';
     d.onload = () => { 
         dragonImg.current = d; 
-        // Maintain aspect ratio based on a 47px height
         const ratio = d.naturalWidth / d.naturalHeight;
         state.current.dino.width = 47 * ratio;
     };
@@ -129,18 +128,25 @@ export function TRexRunner() {
         s.dino.isJumping = false;
       }
 
-      // 2. Spawn Obstacles (Plants)
-      if (s.frameCount % Math.floor(70 / (s.gameSpeed / 10)) === 0) {
-        if (Math.random() > 0.4) {
-            const height = 30 + Math.random() * 40;
-            // Maintain aspect ratio if plant image is loaded
-            let width = 20 + Math.random() * 20;
-            if (plantImg.current) {
-                const ratio = plantImg.current.naturalWidth / plantImg.current.naturalHeight;
-                width = height * ratio;
-            }
-            s.obstacles.push({ x: s.canvasWidth, width, height });
-        }
+      // 2. Cluster Spawning Logic
+      const spawnInterval = Math.max(50, Math.floor(70 / (s.gameSpeed / 10)));
+      if (s.frameCount % spawnInterval === 0 && Math.random() > 0.4) {
+          // Spawn a cluster of 1-3 plants
+          const clusterSize = Math.floor(Math.random() * 3) + 1;
+          for (let i = 0; i < clusterSize; i++) {
+              const height = 30 + Math.random() * 15; // Consistent cluster height
+              let width = 20;
+              if (plantImg.current) {
+                  const ratio = plantImg.current.naturalWidth / plantImg.current.naturalHeight;
+                  width = height * ratio;
+              }
+              // Space them out slightly within the cluster
+              s.obstacles.push({ 
+                  x: s.canvasWidth + (i * width * 0.8), 
+                  width, 
+                  height 
+              });
+          }
       }
 
       // 3. Move & Check Collisions
@@ -148,14 +154,14 @@ export function TRexRunner() {
         obs.x -= s.gameSpeed;
 
         const dinoRect = { 
-            left: 50, 
-            right: 50 + s.dino.width - 5, // Tighter collision box
+            left: 50 + 5, 
+            right: 50 + s.dino.width - 5, 
             top: s.dino.y + 5, 
             bottom: s.dino.y + s.dino.height - 5
         };
         const obsRect = { 
-            left: obs.x + 5, 
-            right: obs.x + obs.width - 5, 
+            left: obs.x + 4, 
+            right: obs.x + obs.width - 4, 
             top: s.canvasHeight - obs.height - 10, 
             bottom: s.canvasHeight - 10 
         };
@@ -179,7 +185,7 @@ export function TRexRunner() {
       // 4. Update Score
       s.score += 0.15;
       setScore(Math.floor(s.score));
-      if (s.gameSpeed < 20) s.gameSpeed += 0.001;
+      if (s.gameSpeed < 25) s.gameSpeed += 0.0015;
 
       // 5. Draw
       ctx.clearRect(0, 0, s.canvasWidth, s.canvasHeight);
@@ -187,7 +193,6 @@ export function TRexRunner() {
       const isDark = document.documentElement.classList.contains('dark');
       const primaryColor = isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)';
 
-      // Ground Line
       ctx.strokeStyle = primaryColor;
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -195,7 +200,6 @@ export function TRexRunner() {
       ctx.lineTo(s.canvasWidth, s.canvasHeight - 10);
       ctx.stroke();
 
-      // Draw Player (Dragon)
       if (dragonImg.current) {
         ctx.drawImage(dragonImg.current, 50, s.dino.y, s.dino.width, s.dino.height);
       } else {
@@ -203,7 +207,6 @@ export function TRexRunner() {
         ctx.fillRect(50, s.dino.y, s.dino.width, s.dino.height);
       }
       
-      // Draw Obstacles (Plants)
       s.obstacles.forEach(obs => {
         if (plantImg.current) {
           ctx.drawImage(plantImg.current, obs.x, s.canvasHeight - obs.height - 10, obs.width, obs.height);
@@ -221,8 +224,7 @@ export function TRexRunner() {
   }, [gameState]);
 
   return (
-    <div ref={containerRef} className="w-full relative group bg-secondary/5 border-t border-border/40 overflow-hidden transition-all h-[250px]">
-      {/* Chrome Style HUD */}
+    <div ref={containerRef} className="w-full relative group bg-secondary/5 border-t border-border/40 overflow-hidden transition-all h-[250px] select-none">
       <div className="absolute top-6 right-12 z-20 flex items-center gap-6 font-mono text-sm font-bold opacity-60">
         <p className="tracking-widest">HI {highScore.toString().padStart(5, '0')}</p>
         <p className="tracking-widest">{score.toString().padStart(5, '0')}</p>
