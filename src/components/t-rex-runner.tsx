@@ -7,11 +7,7 @@ import { Button } from '@/components/ui/button';
 
 /**
  * TRexRunner - Chrome-Style Odyssey Edition.
- * Features:
- * - Full-width architectural integration.
- * - Pixel-perfect monochrome aesthetic.
- * - Persistent High Score engine.
- * - Logic for custom Dragon/Plant PNGs.
+ * Fixed: Aspect ratio preservation for custom PNGs and removed engine footer.
  */
 export function TRexRunner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -46,11 +42,18 @@ export function TRexRunner() {
     // Load custom assets
     const d = new Image();
     d.src = '/images/dragon.png';
-    d.onload = () => { dragonImg.current = d; };
+    d.onload = () => { 
+        dragonImg.current = d; 
+        // Maintain aspect ratio based on a 47px height
+        const ratio = d.naturalWidth / d.naturalHeight;
+        state.current.dino.width = 47 * ratio;
+    };
 
     const p = new Image();
     p.src = '/images/plant.png';
-    p.onload = () => { plantImg.current = p; };
+    p.onload = () => { 
+        plantImg.current = p; 
+    };
   }, []);
 
   const handleResize = useCallback(() => {
@@ -71,7 +74,7 @@ export function TRexRunner() {
   const resetGame = useCallback(() => {
     state.current = {
       ...state.current,
-      dino: { y: GROUND_Y, vy: 0, width: 44, height: 47, isJumping: false },
+      dino: { ...state.current.dino, y: GROUND_Y, vy: 0, isJumping: false },
       obstacles: [],
       gameSpeed: 10,
       score: 0,
@@ -130,7 +133,12 @@ export function TRexRunner() {
       if (s.frameCount % Math.floor(70 / (s.gameSpeed / 10)) === 0) {
         if (Math.random() > 0.4) {
             const height = 30 + Math.random() * 40;
-            const width = 20 + Math.random() * 20;
+            // Maintain aspect ratio if plant image is loaded
+            let width = 20 + Math.random() * 20;
+            if (plantImg.current) {
+                const ratio = plantImg.current.naturalWidth / plantImg.current.naturalHeight;
+                width = height * ratio;
+            }
             s.obstacles.push({ x: s.canvasWidth, width, height });
         }
       }
@@ -141,7 +149,7 @@ export function TRexRunner() {
 
         const dinoRect = { 
             left: 50, 
-            right: 50 + s.dino.width - 10, 
+            right: 50 + s.dino.width - 5, // Tighter collision box
             top: s.dino.y + 5, 
             bottom: s.dino.y + s.dino.height - 5
         };
@@ -246,10 +254,6 @@ export function TRexRunner() {
              </div>
           </div>
         )}
-      </div>
-
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 pointer-events-none opacity-10">
-         <p className="text-[8px] font-mono font-bold uppercase tracking-[0.6em]">Odyssey_High_Performance_Engine</p>
       </div>
     </div>
   );
