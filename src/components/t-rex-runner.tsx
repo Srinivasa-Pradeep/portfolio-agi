@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
  * - Accurate Alignment: Dragon and obstacles sit perfectly on the road.
  * - Audio Layer: Integrated jump, crash, and milestone sound logic.
  * - Cluster Spawning: Supports 1, 2, or 3 plants together.
+ * - Refined UI: Game Over state positioned in clear space above road.
  */
 export function TRexRunner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -55,7 +56,6 @@ export function TRexRunner() {
         dragonImg.current = d; 
         const ratio = d.naturalWidth / d.naturalHeight;
         state.current.dino.width = 47 * ratio;
-        // Recalculate ground position based on loaded height
         const s = state.current;
         s.groundY = s.canvasHeight - 10 - s.dino.height;
         if (gameState === 'idle') s.dino.y = s.groundY;
@@ -67,7 +67,7 @@ export function TRexRunner() {
         plantImg.current = p; 
     };
 
-    // Audio Initialization (Paths provided for your internal addition)
+    // Audio Initialization
     jumpSound.current = new Audio('/music/jump.mp3');
     dieSound.current = new Audio('/music/die.mp3');
     pointSound.current = new Audio('/music/point.mp3');
@@ -193,7 +193,7 @@ export function TRexRunner() {
             left: 50 + 8, 
             right: 50 + s.dino.width - 8, 
             top: s.dino.y + 8, 
-            bottom: s.dino.y + s.dino.height - 2 // Strict bottom to sit on ground
+            bottom: s.dino.y + s.dino.height - 2 
         };
         const obsRect = { 
             left: obs.x + 4, 
@@ -297,7 +297,7 @@ export function TRexRunner() {
 
         {gameState === 'gameOver' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/10 backdrop-blur-[1px] animate-in zoom-in-95 duration-300">
-             <div className="text-center">
+             <div className="text-center -translate-y-12">
                 <h3 className="text-2xl font-mono font-bold tracking-[0.5em] uppercase mb-8 opacity-70">G A M E  O V E R</h3>
                 <Button 
                   onClick={(e) => { e.stopPropagation(); resetGame(); }} 
