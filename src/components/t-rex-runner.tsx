@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 /**
  * TRexRunner - Authentic Chromium Dino Game wrapper.
@@ -11,6 +12,7 @@ export function TRexRunner() {
   const containerRef = useRef<HTMLDivElement>(null);
   const runnerRef = useRef<any>(null);
   const [isActivated, setIsActivated] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -69,7 +71,7 @@ export function TRexRunner() {
   }, []);
 
   return (
-    <div className="w-full select-none offline flex justify-center items-center pt-8 pb-0 bg-transparent min-h-[140px]">
+    <div className="w-full select-none offline flex justify-center items-center pt-2 pb-0 bg-transparent min-h-[140px]">
       <style dangerouslySetInnerHTML={{ __html: `
         /* Offline Dino Game Core Styles */
         .offline #dino-game-container {
@@ -146,7 +148,7 @@ export function TRexRunner() {
       <div className="flex flex-col items-center w-full">
         <div id="dino-game-container" ref={containerRef} />
         <div className={`dino-instructions ${isActivated ? 'hidden' : ''}`}>
-          Press Space / Tap Screen to Play
+          {isMobile ? 'Tap Screen to Play' : 'Press Space to Play'}
         </div>
       </div>
     </div>
