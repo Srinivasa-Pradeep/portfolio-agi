@@ -8,13 +8,11 @@ import { Button } from '@/components/ui/button';
 /**
  * TRexRunner - High-Fidelity Odyssey Edition.
  * Features:
- * - High-DPI Scaling: Uses devicePixelRatio for absolute sharpness (fixes blurring).
- * - Bezier Acceleration: Smooth, non-linear speed increase that tapers as it hits peak velocity.
+ * - High-DPI Scaling: Uses devicePixelRatio for absolute sharpness.
+ * - Bezier Acceleration: Smooth, non-linear speed increase.
  * - Accurate Alignment: Dragon and obstacles sit perfectly on the bottom road.
  * - Audio Layer: Integrated jump, crash, and milestone sound logic.
- * - Cluster Spawning: Supports 1, 2, or 3 plants together.
- * - Elevated UI: Game Over state positioned in clear space above road.
- * - Continuous Flow: Road now aligns perfectly with the footer boundary.
+ * - Road Integration: The road line is positioned to act as the site's footer line.
  */
 export function TRexRunner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -58,7 +56,7 @@ export function TRexRunner() {
         const ratio = d.naturalWidth / d.naturalHeight;
         state.current.dino.width = 47 * ratio;
         const s = state.current;
-        // Sit exactly on the bottom road line
+        // Sit exactly on the absolute bottom line
         s.groundY = s.canvasHeight - 1 - s.dino.height;
         if (gameState === 'idle') s.dino.y = s.groundY;
     };
@@ -79,7 +77,7 @@ export function TRexRunner() {
     if (containerRef.current && canvasRef.current) {
       const dpr = window.devicePixelRatio || 1;
       const width = containerRef.current.offsetWidth;
-      const height = 180;
+      const height = 180; // Compact height to bring road lower
       
       state.current.canvasWidth = width;
       state.current.canvasHeight = height;
@@ -249,7 +247,7 @@ export function TRexRunner() {
       const isDark = document.documentElement.classList.contains('dark');
       const primaryColor = isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)';
 
-      // Road (Now integrated as the Footer Line)
+      // Road (Integrated as the absolute Footer Line)
       ctx.strokeStyle = primaryColor;
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -283,9 +281,9 @@ export function TRexRunner() {
   }, [gameState]);
 
   return (
-    <div ref={containerRef} className="w-full relative group bg-transparent overflow-hidden h-[250px] select-none">
+    <div ref={containerRef} className="w-full relative group bg-transparent overflow-hidden h-[180px] select-none">
       {/* HUD Telemetry */}
-      <div className="absolute top-6 right-12 z-20 flex items-center gap-6 font-mono text-sm font-bold opacity-40">
+      <div className="absolute top-4 right-12 z-20 flex items-center gap-6 font-mono text-sm font-bold opacity-40">
         <p className="tracking-widest">HI {highScore.toString().padStart(5, '0')}</p>
         <p className="tracking-widest">{score.toString().padStart(5, '0')}</p>
       </div>
@@ -303,15 +301,15 @@ export function TRexRunner() {
 
         {gameState === 'gameOver' && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/10 backdrop-blur-[1px] animate-in zoom-in-95 duration-300">
-             <div className="text-center -translate-y-12">
-                <h3 className="text-2xl font-mono font-bold tracking-[0.5em] uppercase mb-8 opacity-70">G A M E  O V E R</h3>
+             <div className="text-center -translate-y-8">
+                <h3 className="text-2xl font-mono font-bold tracking-[0.5em] uppercase mb-6 opacity-70">G A M E  O V E R</h3>
                 <Button 
                   onClick={(e) => { e.stopPropagation(); resetGame(); }} 
                   variant="ghost"
                   size="icon" 
-                  className="rounded-full h-12 w-12 hover:bg-primary/5 transition-all"
+                  className="rounded-full h-10 w-10 hover:bg-primary/5 transition-all"
                 >
-                   <RefreshCw className="h-6 w-6 opacity-60" />
+                   <RefreshCw className="h-5 w-5 opacity-60" />
                 </Button>
              </div>
           </div>
