@@ -10,10 +10,11 @@ import { Button } from '@/components/ui/button';
  * Features:
  * - High-DPI Scaling: Uses devicePixelRatio for absolute sharpness (fixes blurring).
  * - Bezier Acceleration: Smooth, non-linear speed increase that tapers as it hits peak velocity.
- * - Accurate Alignment: Dragon and obstacles sit perfectly on the road.
+ * - Accurate Alignment: Dragon and obstacles sit perfectly on the bottom road.
  * - Audio Layer: Integrated jump, crash, and milestone sound logic.
  * - Cluster Spawning: Supports 1, 2, or 3 plants together.
  * - Elevated UI: Game Over state positioned in clear space above road.
+ * - Continuous Flow: Road now aligns perfectly with the footer boundary.
  */
 export function TRexRunner() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -57,7 +58,8 @@ export function TRexRunner() {
         const ratio = d.naturalWidth / d.naturalHeight;
         state.current.dino.width = 47 * ratio;
         const s = state.current;
-        s.groundY = s.canvasHeight - 10 - s.dino.height;
+        // Sit exactly on the bottom road line
+        s.groundY = s.canvasHeight - 1 - s.dino.height;
         if (gameState === 'idle') s.dino.y = s.groundY;
     };
 
@@ -81,7 +83,7 @@ export function TRexRunner() {
       
       state.current.canvasWidth = width;
       state.current.canvasHeight = height;
-      state.current.groundY = height - 10 - state.current.dino.height;
+      state.current.groundY = height - 1 - state.current.dino.height;
 
       // Set display size
       canvasRef.current.style.width = width + 'px';
@@ -108,7 +110,7 @@ export function TRexRunner() {
     s.dino.vy = 0;
     s.dino.isJumping = false;
     s.obstacles = [];
-    s.gameSpeed = 6; // Initial starting pace
+    s.gameSpeed = 6; 
     s.score = 0;
     s.frameCount = 0;
     s.lastMilestone = 0;
@@ -144,101 +146,101 @@ export function TRexRunner() {
   }, [jump]);
 
   useEffect(() => {
-    if (gameState !== 'playing') return;
-
     let rafId: number;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const update = () => {
+    const render = () => {
       const s = state.current;
-      s.frameCount++;
+      
+      if (gameState === 'playing') {
+        s.frameCount++;
 
-      // 1. Update Physics
-      s.dino.vy += GRAVITY;
-      s.dino.y += s.dino.vy;
+        // 1. Update Physics
+        s.dino.vy += GRAVITY;
+        s.dino.y += s.dino.vy;
 
-      if (s.dino.y >= s.groundY) {
-        s.dino.y = s.groundY;
-        s.dino.vy = 0;
-        s.dino.isJumping = false;
-      }
-
-      // 2. Obstacle Spawning
-      const spawnInterval = Math.max(50, Math.floor(80 / (s.gameSpeed / 6)));
-      if (s.frameCount % spawnInterval === 0 && Math.random() > 0.4) {
-          const clusterSize = Math.floor(Math.random() * 3) + 1;
-          for (let i = 0; i < clusterSize; i++) {
-              const height = 30 + Math.random() * 15;
-              let width = 20;
-              if (plantImg.current) {
-                  const ratio = plantImg.current.naturalWidth / plantImg.current.naturalHeight;
-                  width = height * ratio;
-              }
-              s.obstacles.push({ 
-                  x: s.canvasWidth + (i * width * 1.1), 
-                  width, 
-                  height 
-              });
-          }
-      }
-
-      // 3. Move & Collision
-      s.obstacles = s.obstacles.filter(obs => {
-        obs.x -= s.gameSpeed;
-
-        const dinoRect = { 
-            left: 50 + 8, 
-            right: 50 + s.dino.width - 8, 
-            top: s.dino.y + 8, 
-            bottom: s.dino.y + s.dino.height - 2 
-        };
-        const obsRect = { 
-            left: obs.x + 4, 
-            right: obs.x + obs.width - 4, 
-            top: s.canvasHeight - obs.height - 10, 
-            bottom: s.canvasHeight - 10 
-        };
-
-        if (
-            dinoRect.right > obsRect.left &&
-            dinoRect.left < obsRect.right &&
-            dinoRect.bottom > obsRect.top
-        ) {
-            setGameState('gameOver');
-            if (dieSound.current) {
-                dieSound.current.play().catch(() => {});
-            }
-            setHighScore(prev => {
-                const newHigh = Math.max(prev, Math.floor(s.score));
-                localStorage.setItem('odyssey-high-score', newHigh.toString());
-                return newHigh;
-            });
+        if (s.dino.y >= s.groundY) {
+          s.dino.y = s.groundY;
+          s.dino.vy = 0;
+          s.dino.isJumping = false;
         }
 
-        return obs.x + obs.width > 0;
-      });
+        // 2. Obstacle Spawning
+        const spawnInterval = Math.max(50, Math.floor(80 / (s.gameSpeed / 6)));
+        if (s.frameCount % spawnInterval === 0 && Math.random() > 0.4) {
+            const clusterSize = Math.floor(Math.random() * 3) + 1;
+            for (let i = 0; i < clusterSize; i++) {
+                const height = 30 + Math.random() * 15;
+                let width = 20;
+                if (plantImg.current) {
+                    const ratio = plantImg.current.naturalWidth / plantImg.current.naturalHeight;
+                    width = height * ratio;
+                }
+                s.obstacles.push({ 
+                    x: s.canvasWidth + (i * width * 1.1), 
+                    width, 
+                    height 
+                });
+            }
+        }
 
-      // 4. Score & Smooth Acceleration
-      s.score += 0.15;
-      const currentScoreInt = Math.floor(s.score);
-      setScore(currentScoreInt);
+        // 3. Move & Collision
+        s.obstacles = s.obstacles.filter(obs => {
+          obs.x -= s.gameSpeed;
 
-      if (currentScoreInt > 0 && currentScoreInt % 100 === 0 && currentScoreInt !== s.lastMilestone) {
-          s.lastMilestone = currentScoreInt;
-          if (pointSound.current) {
-              pointSound.current.play().catch(() => {});
+          const dinoRect = { 
+              left: 50 + 8, 
+              right: 50 + s.dino.width - 8, 
+              top: s.dino.y + 8, 
+              bottom: s.dino.y + s.dino.height - 2 
+          };
+          const obsRect = { 
+              left: obs.x + 4, 
+              right: obs.x + obs.width - 4, 
+              top: s.canvasHeight - obs.height - 1, 
+              bottom: s.canvasHeight - 1 
+          };
+
+          if (
+              dinoRect.right > obsRect.left &&
+              dinoRect.left < obsRect.right &&
+              dinoRect.bottom > obsRect.top
+          ) {
+              setGameState('gameOver');
+              if (dieSound.current) {
+                  dieSound.current.play().catch(() => {});
+              }
+              setHighScore(prev => {
+                  const newHigh = Math.max(prev, Math.floor(s.score));
+                  localStorage.setItem('odyssey-high-score', newHigh.toString());
+                  return newHigh;
+              });
           }
-      }
 
-      // Smooth Acceleration (Tapers off as it hits MAX_SPEED)
-      const MAX_SPEED = 20;
-      const BASE_ACCEL = 0.0008; 
-      const speedFactor = 1 - (s.gameSpeed / MAX_SPEED);
-      if (s.gameSpeed < MAX_SPEED) {
-          s.gameSpeed += BASE_ACCEL * speedFactor;
+          return obs.x + obs.width > 0;
+        });
+
+        // 4. Score & Smooth Acceleration
+        s.score += 0.15;
+        const currentScoreInt = Math.floor(s.score);
+        setScore(currentScoreInt);
+
+        if (currentScoreInt > 0 && currentScoreInt % 100 === 0 && currentScoreInt !== s.lastMilestone) {
+            s.lastMilestone = currentScoreInt;
+            if (pointSound.current) {
+                pointSound.current.play().catch(() => {});
+            }
+        }
+
+        const MAX_SPEED = 20;
+        const BASE_ACCEL = 0.0008; 
+        const speedFactor = 1 - (s.gameSpeed / MAX_SPEED);
+        if (s.gameSpeed < MAX_SPEED) {
+            s.gameSpeed += BASE_ACCEL * speedFactor;
+        }
       }
 
       // 5. Render
@@ -247,12 +249,12 @@ export function TRexRunner() {
       const isDark = document.documentElement.classList.contains('dark');
       const primaryColor = isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.7)';
 
-      // Road
+      // Road (Now integrated as the Footer Line)
       ctx.strokeStyle = primaryColor;
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(0, s.canvasHeight - 10);
-      ctx.lineTo(s.canvasWidth, s.canvasHeight - 10);
+      ctx.moveTo(0, s.canvasHeight - 0.5);
+      ctx.lineTo(s.canvasWidth, s.canvasHeight - 0.5);
       ctx.stroke();
 
       // Dragon
@@ -266,17 +268,17 @@ export function TRexRunner() {
       // Obstacles
       s.obstacles.forEach(obs => {
         if (plantImg.current) {
-          ctx.drawImage(plantImg.current, obs.x, s.canvasHeight - obs.height - 10, obs.width, obs.height);
+          ctx.drawImage(plantImg.current, obs.x, s.canvasHeight - obs.height - 1, obs.width, obs.height);
         } else {
           ctx.fillStyle = primaryColor;
-          ctx.fillRect(obs.x, s.canvasHeight - obs.height - 10, obs.width, obs.height);
+          ctx.fillRect(obs.x, s.canvasHeight - obs.height - 1, obs.width, obs.height);
         }
       });
 
-      rafId = requestAnimationFrame(update);
+      rafId = requestAnimationFrame(render);
     };
 
-    rafId = requestAnimationFrame(update);
+    rafId = requestAnimationFrame(render);
     return () => cancelAnimationFrame(rafId);
   }, [gameState]);
 

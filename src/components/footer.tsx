@@ -58,7 +58,7 @@ function SpotifyIndicator() {
 
 export function Footer() {
   return (
-    <footer className="border-t h-28 sm:h-24 relative overflow-hidden bg-background/50 backdrop-blur-sm">
+    <footer className="h-28 sm:h-24 relative overflow-hidden bg-background/50 backdrop-blur-sm">
       <div className="container relative h-full flex items-center justify-between gap-4">
         {/* Left: Spotify Now Playing */}
         <div className="w-1/4 hidden sm:flex justify-start">
