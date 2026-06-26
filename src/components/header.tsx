@@ -170,13 +170,16 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  // Adaptive nav: Hides the main dock in Light, Spring, Autumn or when the Command Palette is open
+  // Adaptive nav: Hides the main dock in Light, Spring, Autumn, when the palette is open,
+  // or when entering the Contact section/reaching the bottom of the page.
+  const shouldHide = isAtBottom || activeSection === 'contact';
+
   if (theme === 'light' || theme === 'spring' || theme === 'autumn' || isPaletteOpen) {
     return (
       <div 
         className={cn(
           "fixed bottom-8 right-8 z-[110] flex items-center gap-4 transition-all duration-700 ease-in-out transform-gpu",
-          (isAtBottom && !isPaletteOpen) ? "opacity-0 translate-y-10 pointer-events-none" : "opacity-100 translate-y-0"
+          (shouldHide && !isPaletteOpen) ? "opacity-0 translate-y-10 pointer-events-none" : "opacity-100 translate-y-0"
         )}
       >
         <MusicPlayer />
@@ -189,7 +192,7 @@ export function Header() {
     <header 
       className={cn(
         "fixed bottom-6 left-1/2 -translate-x-1/2 z-[110] px-4 transition-all duration-700 ease-in-out transform-gpu",
-        isAtBottom ? "opacity-0 translate-y-10 pointer-events-none" : "opacity-100 translate-y-0"
+        shouldHide ? "opacity-0 translate-y-10 pointer-events-none" : "opacity-100 translate-y-0"
       )}
       onMouseMove={(e) => setMouseX(e.clientX)}
       onMouseLeave={() => setMouseX(null)}
