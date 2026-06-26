@@ -657,8 +657,17 @@ Runner.prototype = {
    * @return boolean.
    */
   isCanvasInView() {
-    return this.containerEl.getBoundingClientRect().top >
-        Runner.config.CANVAS_IN_VIEW_OFFSET;
+    const rect = this.containerEl.getBoundingClientRect();
+    const inViewport = (
+      rect.bottom > 0 &&
+      rect.top < (window.innerHeight || document.documentElement.clientHeight)
+    );
+    const isFocused = typeof document !== 'undefined' && (
+      document.activeElement === this.containerEl ||
+      this.containerEl.contains(document.activeElement)
+    );
+    const isActive = this.playing && !this.crashed;
+    return inViewport && (isFocused || isActive);
   },
 
   /**
@@ -1365,6 +1374,13 @@ Runner.prototype = {
       this.touchController.classList.toggle(HIDDEN_CLASS, !isPlaying);
     }
     this.playing = isPlaying;
+    if (typeof document !== 'undefined') {
+      if (isPlaying) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
   },
 
   /**

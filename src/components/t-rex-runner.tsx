@@ -53,6 +53,9 @@ export function TRexRunner() {
       if (checkInterval) {
         clearInterval(checkInterval);
       }
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = '';
+      }
       if (runnerRef.current) {
         try {
           runnerRef.current.stop();
