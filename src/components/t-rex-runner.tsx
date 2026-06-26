@@ -6,11 +6,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 
 /**
  * TRexRunner - Authentic Chromium Dino Game wrapper.
- * This component acts as a container for the official Chromium Runner engine.
- * It handles dynamic import (client-side only), initialization, and complete lifecycle cleanup.
- * 
- * Enhanced with "Viewport Guard" (Intersection Observer) to ensure the engine only
- * activates and listens for input when visible on the screen.
+ * Enhanced with Viewport Guard (Intersection Observer) and Scroll Lock during active play.
  */
 export function TRexRunner() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,14 +15,14 @@ export function TRexRunner() {
   const [isInView, setIsInView] = useState(false);
   const isMobile = useIsMobile();
 
-  // 1. Viewport Guard - Engagement Observer
+  // 1. Viewport Guard - Only engage the engine when visible on screen
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsInView(entry.isIntersecting);
       },
       { 
-        threshold: 0.1, // Trigger when 10% visible
+        threshold: 0.1,
         rootMargin: '0px' 
       }
     );
@@ -40,21 +36,21 @@ export function TRexRunner() {
     };
   }, []);
 
-  // 2. Engine Lifecycle Management
+  // 2. Engine Lifecycle and Scroll Lock Management
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     let active = true;
     let checkInterval: any = null;
 
-    // Only engage the engine and listeners when in view
+    // Only initialize the engine and listeners if the component is in view
     if (isInView) {
       import('./dino/offline.js')
         .then(({ Runner }) => {
           if (!active) return;
           if (!containerRef.current) return;
 
-          // Reset singleton in case of fast remounts (development HMR/React StrictMode)
+          // Reset singleton for React development stability
           if (Runner.instance_) {
             Runner.instance_ = null;
           }
@@ -63,11 +59,20 @@ export function TRexRunner() {
           const runner = new Runner('#dino-game-container');
           runnerRef.current = runner;
 
-          // Monitor runner state to hide instructions once the user starts playing
+          // High-frequency state monitor
           checkInterval = setInterval(() => {
+            if (!active) return;
+            
+            // Monitor activation to hide initial instructions
             if (runner.activated) {
               setIsActivated(true);
-              clearInterval(checkInterval);
+            }
+
+            // Scroll Lock Logic: Lock body when playing, unlock when idle or game over
+            if (runner.playing && !runner.crashed) {
+              document.body.style.overflow = 'hidden';
+            } else {
+              document.body.style.overflow = '';
             }
           }, 100);
         })
@@ -75,33 +80,38 @@ export function TRexRunner() {
           console.error('Failed to initialize authentic Dino Runner:', err);
         });
     } else {
-      // If the component exits the viewport, we silence the engine to prevent accidental triggers
+      // If exiting viewport, ensure scroll is unlocked and engine is paused
+      document.body.style.overflow = '';
       if (runnerRef.current) {
         try {
           runnerRef.current.stop();
-          runnerRef.current.stopListening();
         } catch (e) {
-          // Suppress teardown errors during viewport exit
+          // Silence teardown errors during viewport toggle
         }
       }
     }
 
-    // Comprehensive Cleanup on unmount or view change
+    // Comprehensive Cleanup
     return () => {
       active = false;
       if (checkInterval) {
         clearInterval(checkInterval);
       }
+      
+      // Ensure scrolling is always restored on unmount
+      document.body.style.overflow = '';
+      
       if (runnerRef.current) {
         try {
           const runner = runnerRef.current;
           runner.stop();
-          // Ensure we don't call stopListening if the container is already detached
+          
+          // CRITICAL FIX: Verify container exists before stopping listeners to prevent null reference errors
           if (runner.containerEl) {
              runner.stopListening();
           }
         } catch (e) {
-          // Suppress teardown errors
+          // Silence cleanup errors
         }
         
         // Reset the singleton instance so a new one can be created when mounting again
