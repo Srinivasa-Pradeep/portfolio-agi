@@ -662,12 +662,7 @@ Runner.prototype = {
       rect.bottom > 0 &&
       rect.top < (window.innerHeight || document.documentElement.clientHeight)
     );
-    const isFocused = typeof document !== 'undefined' && (
-      document.activeElement === this.containerEl ||
-      this.containerEl.contains(document.activeElement)
-    );
-    const isActive = this.playing && !this.crashed;
-    return inViewport && (isFocused || isActive);
+    return inViewport;
   },
 
   /**
