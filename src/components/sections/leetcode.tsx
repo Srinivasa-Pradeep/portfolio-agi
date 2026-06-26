@@ -63,10 +63,10 @@ function FlipNumber({ value, className }: { value: string | number; className?: 
 }
 
 const FALLBACK_STATS = {
-  rating: 2041,
+  rating: 2006,
   globalRanking: 17076,
   totalRanked: "874,223",
-  attended: 39,
+  attended: 44,
   topPercentage: 2.04,
 };
 
@@ -110,6 +110,11 @@ const FALLBACK_HISTORY = [
   { index: 36, rating: 1990 },
   { index: 37, rating: 2006 },
   { index: 38, rating: 2041 },
+  { index: 39, rating: 2053 },
+  { index: 40, rating: 2034 },
+  { index: 41, rating: 2033 },
+  { index: 42, rating: 1997 },
+  { index: 43, rating: 2006 },
 ];
 
 const FALLBACK_PROGRESS = {
