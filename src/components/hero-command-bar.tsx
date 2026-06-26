@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Search, Command, User, NotebookText, Code, Star, Send, CornerDownLeft, Library, Wind } from 'lucide-react';
+import { Search, Command, User, NotebookText, Code, Star, Send, CornerDownLeft, Library, Wind, Gamepad2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -21,6 +21,7 @@ const navLinks = [
     { id: 'contact', label: 'Contact', icon: Send, shortcut: 'C', href: '#contact' },
     { id: 'books', label: 'Volumes (Library)', icon: Library, shortcut: 'V', href: '/books' },
     { id: 'zen', label: 'Zen Mode', icon: Wind, shortcut: 'O', href: '/zen' },
+    { id: 'dino-game-container', label: 'Play Dino', icon: Gamepad2, shortcut: 'D', href: '#dino-game-container' },
     { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'Z', href: 'trigger-liz' },
 ];
 
