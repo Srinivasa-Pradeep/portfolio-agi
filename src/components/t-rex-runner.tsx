@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
@@ -6,112 +5,60 @@ import { useIsMobile } from '@/hooks/use-mobile';
 
 /**
  * TRexRunner - Authentic Chromium Dino Game wrapper.
- * Enhanced with Viewport Guard (Intersection Observer) and Scroll Lock during active play.
+ * This component acts as a container for the official Chromium Runner engine.
+ * It handles dynamic import (client-side only), initialization, and complete lifecycle cleanup.
  */
 export function TRexRunner() {
   const containerRef = useRef<HTMLDivElement>(null);
   const runnerRef = useRef<any>(null);
   const [isActivated, setIsActivated] = useState(false);
-  const [isInView, setIsInView] = useState(false);
   const isMobile = useIsMobile();
 
-  // 1. Viewport Guard - Only engage the engine when visible on screen
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
-      { 
-        threshold: 0.1,
-        rootMargin: '0px' 
-      }
-    );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  // 2. Engine Lifecycle and Scroll Lock Management
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     let active = true;
     let checkInterval: any = null;
 
-    // Only initialize the engine and listeners if the component is in view
-    if (isInView) {
-      import('./dino/offline.js')
-        .then(({ Runner }) => {
-          if (!active) return;
-          if (!containerRef.current) return;
+    // Dynamically import offline.js to ensure browser globals are available
+    import('./dino/offline.js')
+      .then(({ Runner }) => {
+        if (!active) return;
+        if (!containerRef.current) return;
 
-          // Reset singleton for React development stability
-          if (Runner.instance_) {
-            Runner.instance_ = null;
-          }
-
-          // Initialize the Chromium Runner
-          const runner = new Runner('#dino-game-container');
-          runnerRef.current = runner;
-
-          // High-frequency state monitor
-          checkInterval = setInterval(() => {
-            if (!active) return;
-            
-            // Monitor activation to hide initial instructions
-            if (runner.activated) {
-              setIsActivated(true);
-            }
-
-            // Scroll Lock Logic: Lock body when playing, unlock when idle or game over
-            if (runner.playing && !runner.crashed) {
-              document.body.style.overflow = 'hidden';
-            } else {
-              document.body.style.overflow = '';
-            }
-          }, 100);
-        })
-        .catch(err => {
-          console.error('Failed to initialize authentic Dino Runner:', err);
-        });
-    } else {
-      // If exiting viewport, ensure scroll is unlocked and engine is paused
-      document.body.style.overflow = '';
-      if (runnerRef.current) {
-        try {
-          runnerRef.current.stop();
-        } catch (e) {
-          // Silence teardown errors during viewport toggle
+        // Reset singleton in case of fast remounts (development HMR/React StrictMode)
+        if (Runner.instance_) {
+          Runner.instance_ = null;
         }
-      }
-    }
 
-    // Comprehensive Cleanup
+        // Initialize the Chromium Runner
+        const runner = new Runner('#dino-game-container');
+        runnerRef.current = runner;
+
+        // Monitor runner state to hide instructions once the user starts playing
+        checkInterval = setInterval(() => {
+          if (runner.activated) {
+            setIsActivated(true);
+            clearInterval(checkInterval);
+          }
+        }, 100);
+      })
+      .catch(err => {
+        console.error('Failed to initialize authentic Dino Runner:', err);
+      });
+
+    // Cleanup resources on unmount
     return () => {
       active = false;
       if (checkInterval) {
         clearInterval(checkInterval);
       }
-      
-      // Ensure scrolling is always restored on unmount
-      document.body.style.overflow = '';
-      
       if (runnerRef.current) {
         try {
-          const runner = runnerRef.current;
-          runner.stop();
-          
-          // CRITICAL FIX: Verify container exists before stopping listeners to prevent null reference errors
-          if (runner.containerEl) {
-             runner.stopListening();
-          }
+          runnerRef.current.stop();
+          runnerRef.current.stopListening();
         } catch (e) {
-          // Silence cleanup errors
+          // Ignore teardown errors if elements are already unmounted
         }
         
         // Reset the singleton instance so a new one can be created when mounting again
@@ -121,7 +68,7 @@ export function TRexRunner() {
         }
       }
     };
-  }, [isInView]); // Re-run effect when visibility changes
+  }, []);
 
   return (
     <div className="w-full select-none offline flex justify-center items-center pt-2 pb-0 bg-transparent min-h-[140px]">
@@ -198,10 +145,10 @@ export function TRexRunner() {
         }
       `}} />
 
-      <div className="flex flex-col items-center w-full" ref={containerRef}>
-        <div id="dino-game-container" />
+      <div className="flex flex-col items-center w-full">
+        <div id="dino-game-container" ref={containerRef} />
         <div className={`dino-instructions ${isActivated ? 'hidden' : ''}`}>
-          {isMobile ? 'Tap Screen to Play' : 'Press Space to Play'}
+        {isMobile ? 'Tap Screen to Play' : 'Press Space to Play'}
         </div>
       </div>
     </div>
