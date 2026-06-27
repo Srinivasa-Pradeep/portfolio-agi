@@ -12,7 +12,8 @@ const quotes = [
   "\"Man is made by his belief. As he believes, so he is.\"",
   "\"You make your own luck if you stay at it long enough.\"",
   "\"Dreams won't work until you work\"",
-  "\"It is better to live your own destiny imperfectly \n then to live an imitation of somebody else's life with perfection.\""
+  "\"It is better to live your own destiny imperfectly \n then to live an imitation of somebody else's life with perfection.\"",
+  "\"The only way to do great work\nis to love what you do.\nIf you haven't found it yet, keep looking.\nDon't settle. - Steve Jobs\""
 ];
 
 function SpotifyIndicator() {
