@@ -143,7 +143,7 @@ export default function InterviewJourneysPage() {
                                 <TableHeader className="bg-primary/5">
                                     <TableRow className="hover:bg-transparent border-border/10">
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest pl-8">Company</TableHead>
-                                        <TableHead className="font-black uppercase text-[10px] tracking-widest">Protocol</TableHead>
+                                        <TableHead className="font-black uppercase text-[10px] tracking-widest">Method</TableHead>
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">R1</TableHead>
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">R2</TableHead>
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">Advanced</TableHead>
