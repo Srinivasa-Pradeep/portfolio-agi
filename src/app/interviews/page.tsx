@@ -50,8 +50,8 @@ import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
 /**
- * @fileOverview Personal Stories Hub & Job Tracker.
- * Added a dynamic "Job Search" tracker with On-Campus/Off-Campus toggles.
+ * @fileOverview Personal Stories Hub & Personal Job Tracker.
+ * Added a dynamic "Personal Job Tracker" with On-Campus/Off-Campus toggles.
  */
 
 const storyCategories = [
@@ -217,14 +217,14 @@ export default function PersonalStoriesHubPage() {
               })}
             </div>
 
-            {/* Job Search Tracker */}
+            {/* Personal Job Tracker */}
             <div className="max-w-5xl mx-auto">
                 <div className="mb-12 flex flex-col items-center text-center">
                     <div className="flex items-center gap-3 mb-4 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/10">
                         <Navigation className="h-4 w-4 text-primary" />
                         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Live Tracking Hub</span>
                     </div>
-                    <h2 className="font-headline text-3xl font-black italic tracking-tighter uppercase mb-4">Job Search</h2>
+                    <h2 className="font-headline text-3xl font-black italic tracking-tighter uppercase mb-4">Personal Job Tracker</h2>
                 </div>
 
                 <Tabs defaultValue="on-campus" className="w-full">
