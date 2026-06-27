@@ -101,8 +101,8 @@ export default function InterviewJourneysPage() {
                                     <TableRow className="hover:bg-transparent border-border/10">
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest pl-8">Company</TableHead>
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest">Timeline</TableHead>
-                                        <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">R1</TableHead>
-                                        <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">R2</TableHead>
+                                        <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">Screening</TableHead>
+                                        <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">Loops</TableHead>
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">Advanced</TableHead>
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest text-right pr-8">Result</TableHead>
                                     </TableRow>
@@ -144,8 +144,8 @@ export default function InterviewJourneysPage() {
                                     <TableRow className="hover:bg-transparent border-border/10">
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest pl-8">Company</TableHead>
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest">Application</TableHead>
-                                        <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">R1</TableHead>
-                                        <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">R2</TableHead>
+                                        <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">Screening</TableHead>
+                                        <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">Loops</TableHead>
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest text-center">Advanced</TableHead>
                                         <TableHead className="font-black uppercase text-[10px] tracking-widest text-right pr-8">Result</TableHead>
                                     </TableRow>
