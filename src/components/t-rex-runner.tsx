@@ -2,53 +2,20 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { useTheme } from 'next-themes';
 
 /**
  * TRexRunner - Authentic Chromium Dino Game wrapper.
- * Enhanced with:
- * - Viewport Guard: Only active when visible.
- * - Theme Synchronizer: Toggles site theme during "Night Mode" milestones.
- * - Contextual Scroll Lock: Locks body scroll only during active gameplay.
+ * This component acts as a container for the official Chromium Runner engine.
+ * It handles dynamic import (client-side only), initialization, and complete lifecycle cleanup.
  */
 export function TRexRunner() {
   const containerRef = useRef<HTMLDivElement>(null);
   const runnerRef = useRef<any>(null);
   const [isActivated, setIsActivated] = useState(false);
-  const [isInView, setIsInView] = useState(false);
   const isMobile = useIsMobile();
-  const { theme, setTheme, resolvedTheme } = useTheme();
-
-  // Viewport Guard: Monitor visibility to prevent accidental activations
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(containerRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (!isInView) {
-        // Cleanup if we move away
-        if (runnerRef.current) {
-            try {
-                runnerRef.current.stop();
-                runnerRef.current.stopListening();
-            } catch (e) {}
-            const RunnerClass = runnerRef.current.constructor;
-            if (RunnerClass) RunnerClass.instance_ = null;
-            runnerRef.current = null;
-        }
-        return;
-    }
 
     let active = true;
     let checkInterval: any = null;
@@ -56,51 +23,19 @@ export function TRexRunner() {
     // Dynamically import offline.js to ensure browser globals are available
     import('./dino/offline.js')
       .then(({ Runner }) => {
-        if (!active || !containerRef.current) return;
+        if (!active) return;
+        if (!containerRef.current) return;
 
-        // Reset singleton for fresh initialization
+        // Reset singleton in case of fast remounts (development HMR/React StrictMode)
         if (Runner.instance_) {
           Runner.instance_ = null;
         }
 
+        // Initialize the Chromium Runner
         const runner = new Runner('#dino-game-container');
         runnerRef.current = runner;
 
-        /**
-         * THEME SYNCHRONIZER
-         * Overriding the invert function to allow the game to control site-wide mode.
-         */
-        const originalInvert = runner.invert.bind(runner);
-        runner.invert = (reset: boolean) => {
-          if (reset) {
-            // Restore original visual state if game resets
-            originalInvert(true);
-            return;
-          }
-          
-          // Toggle the Next-Themes mode based on current resolved state
-          const targetTheme = resolvedTheme === 'dark' ? 'light' : 'dark';
-          setTheme(targetTheme);
-          
-          // Still call original to handle game-internal state, but we don't want 
-          // to fight over the 'inverted' class since we control via setTheme.
-          // We call it to update the internal this.inverted flag.
-          originalInvert(false);
-        };
-
-        /**
-         * SCROLL LOCK
-         * Ensuring scroll is only locked during active play sessions.
-         */
-        const originalSetPlayStatus = runner.setPlayStatus.bind(runner);
-        runner.setPlayStatus = (isPlaying: boolean) => {
-           originalSetPlayStatus(isPlaying);
-           if (typeof document !== 'undefined') {
-              document.body.style.overflow = isPlaying ? 'hidden' : '';
-           }
-        };
-
-        // Monitor activation state
+        // Monitor runner state to hide instructions once the user starts playing
         checkInterval = setInterval(() => {
           if (runner.activated) {
             setIsActivated(true);
@@ -112,20 +47,31 @@ export function TRexRunner() {
         console.error('Failed to initialize authentic Dino Runner:', err);
       });
 
+    // Cleanup resources on unmount
     return () => {
       active = false;
-      if (checkInterval) clearInterval(checkInterval);
-      if (typeof document !== 'undefined') document.body.style.overflow = '';
+      if (checkInterval) {
+        clearInterval(checkInterval);
+      }
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = '';
+      }
       if (runnerRef.current) {
         try {
           runnerRef.current.stop();
           runnerRef.current.stopListening();
-        } catch (e) {}
+        } catch (e) {
+          // Ignore teardown errors if elements are already unmounted
+        }
+        
+        // Reset the singleton instance so a new one can be created when mounting again
         const RunnerClass = runnerRef.current.constructor;
-        if (RunnerClass) RunnerClass.instance_ = null;
+        if (RunnerClass) {
+          RunnerClass.instance_ = null;
+        }
       }
     };
-  }, [isInView, resolvedTheme, setTheme]);
+  }, []);
 
   return (
     <div className="w-full select-none offline flex justify-center items-center pt-2 pb-0 bg-transparent min-h-[140px]">
@@ -205,7 +151,7 @@ export function TRexRunner() {
       <div className="flex flex-col items-center w-full">
         <div id="dino-game-container" ref={containerRef} />
         <div className={`dino-instructions ${isActivated ? 'hidden' : ''}`}>
-          {isMobile ? 'Tap Screen to Play' : 'Press Space to Play'}
+        {isMobile ? 'Tap Screen to Play' : 'Press Space to Play'}
         </div>
       </div>
     </div>

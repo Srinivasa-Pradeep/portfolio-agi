@@ -317,7 +317,6 @@ export function VaultGame({ isOpen, onOpenChange }: VaultGameProps) {
                 <div className="h-1 w-4 bg-primary/40 rounded-full" />
                 <div className="h-1 w-2 bg-primary/20 rounded-full" />
             </div>
-            <span className="text-[8px] font-mono uppercase tracking-widest">Auth_ID: SRINI_004</span>
         </div>
       </DialogContent>
     </Dialog>
