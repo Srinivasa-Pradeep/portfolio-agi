@@ -69,7 +69,7 @@ export default function InterviewJourneysPage() {
                 Interview Journeys
               </h1>
               <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground lora italic">
-                From technical telemetry to deep-dive reflections. Tracking every turn in the circuit.
+                Reflecting on the lessons and growth found in every step of the journey.
               </p>
             </div>
 
