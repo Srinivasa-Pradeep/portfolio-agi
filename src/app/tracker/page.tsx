@@ -215,7 +215,7 @@ export default function TrackerPage() {
                 <Button asChild variant="ghost" className="-ml-4 group rounded-full text-muted-foreground hover:text-primary">
                     <Link href="/">
                         <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                        Back to Sanctuary
+                        Back to Home
                     </Link>
                 </Button>
                 <div className="flex items-center gap-3">
