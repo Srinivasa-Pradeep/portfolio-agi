@@ -40,6 +40,7 @@ import {
  * - GitHub-style Heatmap
  * - Real-time Streak Telemetry
  * - Date-specific task management
+ * - Forced LeetCode-style green boxes for consistent tracking.
  */
 
 interface Task {
@@ -247,7 +248,7 @@ export default function TrackerPage() {
                     {[
                         { label: 'Total Tasks', value: stats.totalTasks, icon: CheckCircle2, color: 'text-primary' },
                         { label: 'Consistency', value: `${stats.rate}%`, icon: Target, color: 'text-info' },
-                        { label: 'Active Days', value: stats.activeDays, icon: TrendingUp, color: 'text-easy' },
+                        { label: 'Active Days', value: stats.activeDays, icon: TrendingUp, color: 'text-emerald-500' },
                         { label: 'Current Streak', value: stats.currentStreak, icon: Zap, color: 'text-feedback' },
                     ].map((stat, i) => (
                         <Card key={i} className="bg-card/40 backdrop-blur-sm border-border/40 group overflow-hidden">
@@ -267,7 +268,7 @@ export default function TrackerPage() {
                     <CardHeader className="border-b border-border/10 pb-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                                <CalendarIcon className="h-4 w-4 text-primary" />
+                                <CalendarIcon className="h-4 w-4 text-emerald-500" />
                                 <span className="text-xs font-black uppercase tracking-widest opacity-60">Consistency Matrix</span>
                             </div>
                             <div className="flex items-center gap-2">
@@ -275,9 +276,9 @@ export default function TrackerPage() {
                                 {[0, 1, 2, 3, 4].map(l => (
                                     <div key={l} className={cn("h-2.5 w-2.5 rounded-[2px]", 
                                         l === 0 ? "bg-muted/20" : 
-                                        l === 1 ? "bg-primary/20" : 
-                                        l === 2 ? "bg-primary/40" : 
-                                        l === 3 ? "bg-primary/70" : "bg-primary shadow-[0_0_8px_hsl(var(--primary)/0.4)]"
+                                        l === 1 ? "bg-emerald-500/20" : 
+                                        l === 2 ? "bg-emerald-500/40" : 
+                                        l === 3 ? "bg-emerald-500/70" : "bg-emerald-500 shadow-[0_0_8px_#10b981]"
                                     )} />
                                 ))}
                                 <span className="text-[8px] font-bold uppercase text-muted-foreground ml-1">More</span>
@@ -307,12 +308,12 @@ export default function TrackerPage() {
                                                         className={cn(
                                                             "h-3 w-3 sm:h-4 sm:w-4 rounded-[2px] transition-all duration-300 relative",
                                                             level === 0 && "bg-muted/10 hover:bg-muted/30",
-                                                            level === 1 && "bg-primary/20 hover:bg-primary/30",
-                                                            level === 2 && "bg-primary/40 hover:bg-primary/50",
-                                                            level === 3 && "bg-primary/70 hover:bg-primary/80",
-                                                            level === 4 && "bg-primary shadow-[0_0_8px_hsl(var(--primary)/0.4)] hover:scale-110",
+                                                            level === 1 && "bg-emerald-500/20 hover:bg-emerald-500/30",
+                                                            level === 2 && "bg-emerald-500/40 hover:bg-emerald-500/50",
+                                                            level === 3 && "bg-emerald-500/70 hover:bg-emerald-500/80",
+                                                            level === 4 && "bg-emerald-500 shadow-[0_0_8px_#10b981] hover:scale-110",
                                                             isSelected && "ring-2 ring-primary ring-offset-2 ring-offset-background z-10",
-                                                            isCurrentDay && !isSelected && "ring-1 ring-primary/40"
+                                                            isCurrentDay && !isSelected && "ring-1 ring-emerald-500/40"
                                                         )}
                                                     />
                                                 </TooltipTrigger>
@@ -341,7 +342,7 @@ export default function TrackerPage() {
             <div className="space-y-6">
                 <Card className="bg-card/40 backdrop-blur-xl border-border/40 rounded-[32px] h-[calc(100vh-280px)] sticky top-28 overflow-hidden flex flex-col">
                     <CardHeader className="border-b border-border/10">
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary/60 mb-1">
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-500 mb-1">
                             {format(parseISO(selectedDate), 'EEEE')}
                         </span>
                         <CardTitle className="text-xl font-black tracking-tight italic uppercase">
@@ -372,14 +373,14 @@ export default function TrackerPage() {
                                                 onClick={() => toggleTask(task.id)}
                                                 className={cn(
                                                     "h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all",
-                                                    task.completed ? "bg-primary border-primary text-primary-foreground" : "border-primary/20 hover:border-primary/40"
+                                                    task.completed ? "bg-emerald-500 border-emerald-500 text-white" : "border-emerald-500/20 hover:border-emerald-500/40"
                                                 )}
                                             >
                                                 {task.completed && <CheckCircle2 className="h-3.5 w-3.5" />}
                                             </button>
                                             <span className={cn(
                                                 "flex-1 text-sm font-medium transition-all",
-                                                task.completed && "line-through decoration-primary/40 text-muted-foreground"
+                                                task.completed && "line-through decoration-emerald-500/40 text-muted-foreground"
                                             )}>
                                                 {task.text}
                                             </span>
@@ -403,13 +404,13 @@ export default function TrackerPage() {
                                     value={newTaskText}
                                     onChange={(e) => setNewTaskText(e.target.value)}
                                     placeholder="Enter new task..."
-                                    className="h-12 bg-secondary/40 border-none rounded-2xl pr-12 focus-visible:ring-1 ring-primary/20"
+                                    className="h-12 bg-secondary/40 border-none rounded-2xl pr-12 focus-visible:ring-1 ring-emerald-500/20"
                                 />
                                 <Button 
                                     type="submit" 
                                     size="icon" 
                                     disabled={!newTaskText.trim()}
-                                    className="absolute right-1.5 top-1.5 h-9 w-9 rounded-xl transition-all"
+                                    className="absolute right-1.5 top-1.5 h-9 w-9 rounded-xl transition-all bg-emerald-500 hover:bg-emerald-600"
                                 >
                                     <Plus className="h-4 w-4" />
                                 </Button>
@@ -427,4 +428,3 @@ export default function TrackerPage() {
     </div>
   );
 }
-
