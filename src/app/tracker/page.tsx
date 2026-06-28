@@ -72,7 +72,7 @@ export default function TrackerPage() {
     if (isMounted) {
       localStorage.setItem('srini_persistence_data', JSON.stringify({ tasks }));
     }
-  }, [tasks, isMounted]);
+  }, [tasks, iMounted]);
 
   const stats = useMemo(() => {
     const keys = Object.keys(tasks);

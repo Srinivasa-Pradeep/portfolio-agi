@@ -1,8 +1,8 @@
-
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Search, Command, User, NotebookText, Code, Star, Send, CornerDownLeft, Library, Wind, Gamepad2, Activity } from 'lucide-react';
+import { Search, Command, NotebookText, Code, Star, Send, CornerDownLeft, Library, Wind, Gamepad2, Activity } from 'lucide-react';
+import AtSignIcon from './icons/at-sign-icon';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -15,7 +15,7 @@ import { motion, AnimatePresence, useMotionValue, useSpring } from 'framer-motio
 import { useTheme } from 'next-themes';
 
 const navLinks = [
-    { id: 'about', label: 'About', icon: User, shortcut: 'A', href: '#about' },
+    { id: 'about', label: 'About', icon: AtSignIcon, shortcut: 'A', href: '#about' },
     { id: 'blogs', label: 'Blogs', icon: NotebookText, shortcut: 'B', href: '#blogs' },
     { id: 'leetcode', label: 'LeetCode', icon: Code, shortcut: 'L', href: '#leetcode' },
     { id: 'projects', label: 'Projects', icon: Star, shortcut: 'P', href: '#projects' },
@@ -30,14 +30,13 @@ const navLinks = [
 export function HeroCommandBar() {
     const { theme } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
-    const [showLanding, setShowLanding] = useState(false); // Default to false, wait for event
+    const [showLanding, setShowLanding] = useState(false); 
     const [search, setSearch] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const containerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
-    // Magnetic Stretch (Spring Motion)
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     const springConfig = { damping: 25, stiffness: 350 };
@@ -50,7 +49,6 @@ export function HeroCommandBar() {
         ), [search]
     );
 
-    // Sync with global Apple Landing Sequence
     useEffect(() => {
         const handleLandingDone = () => {
             setShowLanding(true);
@@ -59,7 +57,6 @@ export function HeroCommandBar() {
         return () => window.removeEventListener('landing-done', handleLandingDone);
     }, []);
 
-    // Re-trigger the precise landing ring on theme toggle
     useEffect(() => {
         setShowLanding(true);
     }, [theme]);
@@ -92,19 +89,16 @@ export function HeroCommandBar() {
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
-        
-        // Shine Position
         const localX = e.clientX - rect.left;
         const localY = e.clientY - rect.top;
         setMousePos({ x: localX, y: localY });
 
-        // Magnetic Pull (Stretch)
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         const distanceX = localX - centerX;
         const distanceY = localY - centerY;
         
-        mouseX.set(distanceX * 0.08); // Subtle stretch towards mouse
+        mouseX.set(distanceX * 0.08); 
         mouseY.set(distanceY * 0.12);
     };
 
@@ -261,7 +255,7 @@ export function HeroCommandBar() {
                                                 "h-10 w-10 rounded-xl flex items-center justify-center border border-border/20 transition-all",
                                                 isActive ? "bg-primary text-primary-foreground" : "bg-secondary/50 group-hover:bg-primary group-hover:text-primary-foreground"
                                             )}>
-                                                <link.icon className="h-5 w-5" />
+                                                <link.icon size={20} className="transition-all" />
                                             </div>
                                             <div className="flex-1">
                                                 <p className={cn(
