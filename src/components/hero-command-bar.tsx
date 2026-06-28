@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Search, Command, CornerDownLeft, Gamepad2, Activity } from 'lucide-react';
+import { Search, Command, CornerDownLeft, Gamepad2 } from 'lucide-react';
 import AtSignIcon from './icons/at-sign-icon';
 import BookIcon from './icons/book-icon';
 import CodeXmlIcon from './icons/code-xml-icon';
@@ -9,6 +9,7 @@ import StarIcon from './icons/star-icon';
 import SendIcon from './icons/send-icon';
 import LibraryIcon from './icons/library-icon';
 import AlarmClockPlusIcon from './icons/alarm-clock-plus-icon';
+import CheckedIcon from './icons/checked-icon';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -28,7 +29,7 @@ const navLinks = [
     { id: 'contact', label: 'Contact', icon: SendIcon, shortcut: 'C', href: '#contact' },
     { id: 'books', label: 'Volumes (Library)', icon: LibraryIcon, shortcut: 'V', href: '/books' },
     { id: 'zen', label: 'Zen Mode', icon: AlarmClockPlusIcon, shortcut: 'O', href: '/zen' },
-    { id: 'tracker', label: 'Tracker', icon: Activity, shortcut: 'T', href: '/tracker' },
+    { id: 'tracker', label: 'Tracker', icon: CheckedIcon, shortcut: 'T', href: '/tracker' },
     { id: 'dino-game-container', label: 'Play Dino', icon: Gamepad2, shortcut: 'D', href: '#dino-game-container' },
     { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'Z', href: 'trigger-liz' },
 ];
@@ -248,7 +249,7 @@ export function HeroCommandBar() {
                                 filteredLinks.map((link, index) => {
                                     const isActive = index === selectedIndex;
                                     const IconComponent = link.icon;
-                                    const isAnimated = ['about', 'blogs', 'leetcode', 'projects', 'contact', 'books', 'zen'].includes(link.id);
+                                    const isAnimated = ['about', 'blogs', 'leetcode', 'projects', 'contact', 'books', 'zen', 'tracker'].includes(link.id);
 
                                     return (
                                         <button
