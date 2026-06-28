@@ -243,6 +243,8 @@ export function HeroCommandBar() {
                                 filteredLinks.map((link, index) => {
                                     const isActive = index === selectedIndex;
                                     const IconComponent = link.icon;
+                                    const isAnimated = link.id === 'about' || link.id === 'blogs';
+
                                     return (
                                         <button
                                             key={link.id}
@@ -260,7 +262,7 @@ export function HeroCommandBar() {
                                                 <IconComponent 
                                                     size={20} 
                                                     className="transition-all" 
-                                                    active={isActive}
+                                                    {...(isAnimated ? { active: isActive } : {})}
                                                 />
                                             </div>
                                             <div className="flex-1">
