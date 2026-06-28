@@ -224,7 +224,7 @@ export default function TrackerPage() {
                 Persistence<span className="text-primary">.</span>
               </h1>
               <p className="text-muted-foreground text-sm max-w-sm font-medium leading-relaxed italic lora">
-                "Incremental improvements are the only things that compound into remarkable results over time."
+                "Bookmark this page, you can use it as your personal activity tracker."
               </p>
             </div>
 
@@ -244,11 +244,11 @@ export default function TrackerPage() {
 
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-20">
             
-            {/* Section: Momentum Matrix (12 Month Architecture) */}
+            {/* Section: Activity Heat Map (12 Month Architecture) */}
             <div className="xl:col-span-8 space-y-16">
               <div className="flex items-center justify-between border-b border-border/10 pb-6">
                 <div className="flex items-center gap-6">
-                  <h2 className="text-[11px] font-black uppercase tracking-[0.4em] text-foreground/80">Momentum Matrix</h2>
+                  <h2 className="text-[11px] font-black uppercase tracking-[0.4em] text-foreground/80">Activity Heat Map</h2>
                   {/* Streak Telemetry Integrated with Year Selector */}
                   <div className="h-6 w-px bg-border/20" />
                   <TooltipProvider>
@@ -309,7 +309,7 @@ export default function TrackerPage() {
                                   onClick={() => setSelectedDate(day.dateStr)}
                                   className={cn(
                                     "h-3 w-3 rounded-[1px] transition-all duration-300 relative border border-transparent",
-                                    level === 0 && "bg-muted/15 border-border/10 hover:bg-muted/30 hover:border-border/30",
+                                    level === 0 && "bg-muted/20 border-border/20 hover:bg-muted/40 hover:border-border/40",
                                     level === 1 && "bg-emerald-500/20",
                                     level === 2 && "bg-emerald-500/40",
                                     level === 3 && "bg-emerald-500/70",
