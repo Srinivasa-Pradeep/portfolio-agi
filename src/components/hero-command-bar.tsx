@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
@@ -22,7 +21,7 @@ const navLinks = [
     { id: 'contact', label: 'Contact', icon: Send, shortcut: 'C', href: '#contact' },
     { id: 'books', label: 'Volumes (Library)', icon: Library, shortcut: 'V', href: '/books' },
     { id: 'zen', label: 'Zen Mode', icon: Wind, shortcut: 'O', href: '/zen' },
-    { id: 'tracker', label: 'Pulse Tracker', icon: Activity, shortcut: 'T', href: '/tracker' },
+    { id: 'tracker', label: 'Tracker', icon: Activity, shortcut: 'T', href: '/tracker' },
     { id: 'dino-game-container', label: 'Play Dino', icon: Gamepad2, shortcut: 'D', href: '#dino-game-container' },
     { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'Z', href: 'trigger-liz' },
 ];

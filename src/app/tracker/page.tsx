@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
@@ -7,7 +6,6 @@ import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
@@ -21,7 +19,8 @@ import {
   Target, 
   TrendingUp,
   Activity,
-  ArrowLeft
+  ArrowLeft,
+  X
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -34,13 +33,12 @@ import {
 } from '@/components/ui/tooltip';
 
 /**
- * @fileOverview Pulse Tracker - A high-fidelity Habit & Task visualization environment.
+ * @fileOverview Tracker - A high-fidelity Todo & Habit visualization environment.
  * Features:
  * - Persistent Storage (LocalStorage)
- * - GitHub-style Heatmap
- * - Real-time Streak Telemetry
- * - Date-specific task management
- * - Forced LeetCode-style green boxes for consistent tracking.
+ * - GitHub/LeetCode-style Heatmap (Persistent Green)
+ * - Real-time Streak & Consistency Telemetry
+ * - Responsive Task Sidebar
  */
 
 interface Task {
@@ -58,6 +56,7 @@ export default function TrackerPage() {
   const [tasks, setTasks] = useState<DailyTasks>({});
   const [newTaskText, setNewTaskText] = useState('');
   const [isMounted, setIsMounted] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Persistence: Load
   useEffect(() => {
@@ -85,8 +84,6 @@ export default function TrackerPage() {
     const start = startOfYear(new Date(currentYear, 0, 1));
     const end = endOfYear(new Date(currentYear, 0, 1));
     const days = eachDayOfInterval({ start, end });
-    
-    // Padding for first week
     const padding = getDay(start);
     return { days, padding };
   }, [currentYear]);
@@ -119,7 +116,6 @@ export default function TrackerPage() {
     let tempStreak = 0;
 
     if (completedDates.length > 0) {
-      // Longest
       completedDates.forEach((d, i) => {
         if (i === 0) {
           tempStreak = 1;
@@ -137,14 +133,11 @@ export default function TrackerPage() {
       });
       longestStreak = Math.max(longestStreak, tempStreak);
 
-      // Current
       const todayStr = format(new Date(), 'yyyy-MM-dd');
       const yesterdayStr = format(subDays(new Date(), 1), 'yyyy-MM-dd');
-      
       const isDayComplete = (s: string) => tasks[s] && tasks[s].length > 0 && tasks[s].every(t => t.completed);
       
       let checkDate = isDayComplete(todayStr) ? new Date() : isDayComplete(yesterdayStr) ? subDays(new Date(), 1) : null;
-      
       if (checkDate) {
         while (isDayComplete(format(checkDate, 'yyyy-MM-dd'))) {
           currentStreak++;
@@ -204,6 +197,11 @@ export default function TrackerPage() {
     });
   };
 
+  const handleDateClick = (dateStr: string) => {
+    setSelectedDate(dateStr);
+    setIsSidebarOpen(true);
+  };
+
   if (!isMounted) return null;
 
   return (
@@ -224,7 +222,7 @@ export default function TrackerPage() {
                     <div className="h-12 w-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner">
                         <Activity className="h-6 w-6 text-primary animate-pulse" />
                     </div>
-                    <h1 className="font-headline text-4xl font-black tracking-tighter italic uppercase">Pulse Tracker.</h1>
+                    <h1 className="font-headline text-4xl font-black tracking-tighter italic uppercase">Tracker.</h1>
                 </div>
                 <p className="text-muted-foreground lora italic text-lg max-w-md">"Discipline is the bridge between goals and accomplishment."</p>
              </div>
@@ -263,9 +261,9 @@ export default function TrackerPage() {
                     ))}
                 </div>
 
-                {/* The Grid */}
-                <Card className="bg-card/40 backdrop-blur-xl border-border/40 rounded-[32px] overflow-hidden">
-                    <CardHeader className="border-b border-border/10 pb-4">
+                {/* The Consistency Matrix */}
+                <Card className="bg-card/40 backdrop-blur-xl border-border/40 rounded-[32px] overflow-hidden shadow-2xl">
+                    <CardHeader className="border-b border-border/10 pb-4 bg-primary/5">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <CalendarIcon className="h-4 w-4 text-emerald-500" />
@@ -285,12 +283,11 @@ export default function TrackerPage() {
                             </div>
                         </div>
                     </CardHeader>
-                    <CardContent className="p-8">
+                    <CardContent className="p-8 overflow-visible">
                         <div className="overflow-x-auto pb-4 scrollbar-hide">
                             <div className="inline-grid grid-rows-7 grid-flow-col gap-2">
-                                {/* Padding cells */}
                                 {Array.from({ length: heatmapDays.padding }).map((_, i) => (
-                                    <div key={`pad-${i}`} className="h-3 w-3 sm:h-4 sm:w-4" />
+                                    <div key={`pad-${i}`} className="h-4 w-4" />
                                 ))}
                                 
                                 {heatmapDays.days.map((day) => {
@@ -304,9 +301,10 @@ export default function TrackerPage() {
                                             <Tooltip delayDuration={0}>
                                                 <TooltipTrigger asChild>
                                                     <button
-                                                        onClick={() => setSelectedDate(dateStr)}
+                                                        onClick={() => handleDateClick(dateStr)}
                                                         className={cn(
-                                                            "h-3 w-3 sm:h-4 sm:w-4 rounded-[2px] transition-all duration-300 relative",
+                                                            "h-4 w-4 rounded-[2px] transition-all duration-300 relative",
+                                                            // LeetCode Persistent Green Logic
                                                             level === 0 && "bg-muted/10 hover:bg-muted/30",
                                                             level === 1 && "bg-emerald-500/20 hover:bg-emerald-500/30",
                                                             level === 2 && "bg-emerald-500/40 hover:bg-emerald-500/50",
@@ -338,16 +336,31 @@ export default function TrackerPage() {
                 </Card>
             </div>
 
-            {/* Tasks Sidebar */}
-            <div className="space-y-6">
-                <Card className="bg-card/40 backdrop-blur-xl border-border/40 rounded-[32px] h-[calc(100vh-280px)] sticky top-28 overflow-hidden flex flex-col">
-                    <CardHeader className="border-b border-border/10">
-                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-500 mb-1">
-                            {format(parseISO(selectedDate), 'EEEE')}
-                        </span>
-                        <CardTitle className="text-xl font-black tracking-tight italic uppercase">
-                            {format(parseISO(selectedDate), 'MMM d, yyyy')}
-                        </CardTitle>
+            {/* Tasks Sidebar Overlay (on mobile) or column (on desktop) */}
+            <div className={cn(
+                "lg:relative fixed inset-0 z-[150] lg:z-0 lg:block",
+                isSidebarOpen ? "block" : "hidden"
+            )}>
+                <div 
+                    className="fixed inset-0 bg-background/60 backdrop-blur-md lg:hidden" 
+                    onClick={() => setIsSidebarOpen(false)}
+                />
+                <Card className={cn(
+                    "bg-card/40 backdrop-blur-3xl border-border/40 rounded-[32px] h-full lg:h-[calc(100vh-280px)] lg:sticky top-28 overflow-hidden flex flex-col shadow-2xl relative z-20 transition-all duration-500",
+                    isSidebarOpen ? "translate-y-0" : "translate-y-full lg:translate-y-0"
+                )}>
+                    <CardHeader className="border-b border-border/10 flex flex-row items-start justify-between bg-primary/5">
+                        <div>
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-500 mb-1">
+                                {format(parseISO(selectedDate), 'EEEE')}
+                            </span>
+                            <CardTitle className="text-xl font-black tracking-tight italic uppercase">
+                                {format(parseISO(selectedDate), 'MMM d, yyyy')}
+                            </CardTitle>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(false)} className="lg:hidden rounded-full hover:bg-primary/10">
+                            <X className="h-5 w-5" />
+                        </Button>
                     </CardHeader>
                     
                     <CardContent className="flex-1 overflow-hidden flex flex-col p-6 pt-0">
@@ -358,7 +371,7 @@ export default function TrackerPage() {
                                         <div className="h-12 w-12 rounded-full bg-muted/5 border border-dashed border-border/40 flex items-center justify-center">
                                             <Plus className="h-6 w-6 text-muted-foreground/20" />
                                         </div>
-                                        <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground/40">No entries recorded</p>
+                                        <p className="text-xs font-mono uppercase tracking-widest text-muted-foreground/40">No activities recorded</p>
                                     </div>
                                 ) : (
                                     tasks[selectedDate].map((task) => (
@@ -366,7 +379,7 @@ export default function TrackerPage() {
                                             key={task.id} 
                                             className={cn(
                                                 "group flex items-center gap-3 p-4 rounded-2xl bg-secondary/20 border border-border/20 transition-all duration-300",
-                                                task.completed ? "opacity-60 bg-secondary/10" : "hover:bg-secondary/40"
+                                                task.completed ? "opacity-60 bg-secondary/10" : "hover:bg-secondary/40 shadow-sm"
                                             )}
                                         >
                                             <button 
@@ -403,19 +416,19 @@ export default function TrackerPage() {
                                 <Input 
                                     value={newTaskText}
                                     onChange={(e) => setNewTaskText(e.target.value)}
-                                    placeholder="Enter new task..."
+                                    placeholder="Add task..."
                                     className="h-12 bg-secondary/40 border-none rounded-2xl pr-12 focus-visible:ring-1 ring-emerald-500/20"
                                 />
                                 <Button 
                                     type="submit" 
                                     size="icon" 
                                     disabled={!newTaskText.trim()}
-                                    className="absolute right-1.5 top-1.5 h-9 w-9 rounded-xl transition-all bg-emerald-500 hover:bg-emerald-600"
+                                    className="absolute right-1.5 top-1.5 h-9 w-9 rounded-xl transition-all bg-emerald-500 hover:bg-emerald-600 text-white"
                                 >
                                     <Plus className="h-4 w-4" />
                                 </Button>
                             </form>
-                            <p className="mt-4 text-[8px] font-black uppercase tracking-[0.4em] text-muted-foreground/30 text-center">Auto-Save Active</p>
+                            <p className="mt-4 text-[8px] font-black uppercase tracking-[0.4em] text-muted-foreground/30 text-center">Cloud Sync Active</p>
                         </div>
                     </CardContent>
                 </Card>
