@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Search, Command, CornerDownLeft, Gamepad2 } from 'lucide-react';
+import { Search, Command, CornerDownLeft } from 'lucide-react';
 import AtSignIcon from './icons/at-sign-icon';
 import BookIcon from './icons/book-icon';
 import CodeXmlIcon from './icons/code-xml-icon';
@@ -10,6 +10,7 @@ import SendIcon from './icons/send-icon';
 import LibraryIcon from './icons/library-icon';
 import AlarmClockPlusIcon from './icons/alarm-clock-plus-icon';
 import CheckedIcon from './icons/checked-icon';
+import GamepadIcon from './icons/gamepad-icon';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -30,7 +31,7 @@ const navLinks = [
     { id: 'books', label: 'Volumes (Library)', icon: LibraryIcon, shortcut: 'V', href: '/books' },
     { id: 'zen', label: 'Zen Mode', icon: AlarmClockPlusIcon, shortcut: 'O', href: '/zen' },
     { id: 'tracker', label: 'Tracker', icon: CheckedIcon, shortcut: 'T', href: '/tracker' },
-    { id: 'dino-game-container', label: 'Play Dino', icon: Gamepad2, shortcut: 'D', href: '#dino-game-container' },
+    { id: 'dino-game-container', label: 'Play Dino', icon: GamepadIcon, shortcut: 'D', href: '#dino-game-container' },
     { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'Z', href: 'trigger-liz' },
 ];
 
@@ -249,7 +250,7 @@ export function HeroCommandBar() {
                                 filteredLinks.map((link, index) => {
                                     const isActive = index === selectedIndex;
                                     const IconComponent = link.icon;
-                                    const isAnimated = ['about', 'blogs', 'leetcode', 'projects', 'contact', 'books', 'zen', 'tracker'].includes(link.id);
+                                    const isAnimated = ['about', 'blogs', 'leetcode', 'projects', 'contact', 'books', 'zen', 'tracker', 'dino-game-container'].includes(link.id);
 
                                     return (
                                         <button
@@ -276,7 +277,7 @@ export function HeroCommandBar() {
                                                     "font-bold transition-colors",
                                                     isActive ? "text-primary" : "text-foreground/80 group-hover:text-primary"
                                                 )}>{link.label}</p>
-                                                <p className="text-xs text-muted-foreground opacity-60">Go to {link.id}</p>
+                                                <p className="text-xs text-muted-foreground opacity-60">Go to {link.label}</p>
                                             </div>
                                             <kbd className={cn(
                                                 "h-7 w-7 flex items-center justify-center rounded-sm border border-border/40 bg-muted/40 font-mono text-xs font-black shadow-sm transition-all",
