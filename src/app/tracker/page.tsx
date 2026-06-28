@@ -11,7 +11,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
   ChevronLeft, 
   ChevronRight, 
-  Calendar as CalendarIcon, 
   Plus, 
   Trash2, 
   CheckCircle2, 
@@ -20,11 +19,12 @@ import {
   TrendingUp,
   Activity,
   ArrowLeft,
-  X
+  X,
+  Flame
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { format, startOfYear, endOfYear, eachDayOfInterval, getDay, parseISO, isToday, subDays } from 'date-fns';
+import { format, startOfYear, endOfYear, eachDayOfInterval, parseISO, isToday, subDays, getDaysInMonth, startOfMonth, getDay } from 'date-fns';
 import { 
   Tooltip,
   TooltipContent,
@@ -37,10 +37,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 /**
  * @fileOverview Tracker - A premium macOS-style Todo & Habit environment.
  * Re-engineered for psychological reward:
- * - Confidential strikethrough on tick.
- * - Poppers (Confetti) celebration on task completion.
- * - High-visibility Grid Rest State.
- * - Pure Neat aesthetic.
+ * - 12 Separate Month blocks for perfect alignment.
+ * - Fire Streak Badge in header for momentum tracking.
+ * - High-visibility grid rest state.
  */
 
 interface Task {
@@ -81,15 +80,6 @@ export default function TrackerPage() {
       localStorage.setItem('pulse_tracker_data', JSON.stringify({ tasks }));
     }
   }, [tasks, isMounted]);
-
-  // Heatmap Data Generation
-  const heatmapDays = useMemo(() => {
-    const start = startOfYear(new Date(currentYear, 0, 1));
-    const end = endOfYear(new Date(currentYear, 0, 1));
-    const days = eachDayOfInterval({ start, end });
-    const padding = getDay(start);
-    return { days, padding };
-  }, [currentYear]);
 
   // Telemetry Calculations
   const stats = useMemo(() => {
@@ -223,6 +213,26 @@ export default function TrackerPage() {
     setIsSidebarOpen(true);
   };
 
+  const months = useMemo(() => {
+      return Array.from({ length: 12 }).map((_, i) => {
+          const monthStart = startOfMonth(new Date(currentYear, i, 1));
+          const numDays = getDaysInMonth(monthStart);
+          const padding = getDay(monthStart);
+          const days = Array.from({ length: numDays }).map((_, d) => {
+              const date = new Date(currentYear, i, d + 1);
+              return {
+                  date,
+                  dateStr: format(date, 'yyyy-MM-dd')
+              };
+          });
+          return {
+              name: format(monthStart, 'MMMM'),
+              padding,
+              days
+          };
+      });
+  }, [currentYear]);
+
   const dayTasks = tasks[selectedDate] || [];
   const completedCount = dayTasks.filter(t => t.completed).length;
   const progressPercent = dayTasks.length > 0 ? Math.round((completedCount / dayTasks.length) * 100) : 0;
@@ -231,10 +241,9 @@ export default function TrackerPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background selection:bg-primary/20 relative overflow-hidden">
-      {/* Absolute Plain Backdrop */}
+      {/* Plain Neat Backdrop */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-background" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.02),transparent_70%)]" />
         <div className="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)] opacity-[0.05]" />
       </div>
 
@@ -243,7 +252,7 @@ export default function TrackerPage() {
       <main className="flex-1 pt-24 pb-20 relative z-10">
         <div className="container max-w-7xl px-6">
           {/* Dashboard Header */}
-          <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div className="mb-12 flex flex-col md:flex-row md:items-start justify-between gap-8">
              <div className="space-y-6">
                 <Button asChild variant="ghost" className="-ml-4 group rounded-full text-muted-foreground hover:text-primary transition-all duration-300">
                     <Link href="/">
@@ -255,8 +264,17 @@ export default function TrackerPage() {
                     <div className="h-14 w-14 rounded-[22px] bg-primary/5 flex items-center justify-center border border-primary/10 shadow-inner group overflow-hidden">
                         <Activity className="h-7 w-7 text-primary group-hover:scale-110 transition-transform" />
                     </div>
-                    <div>
+                    <div className="space-y-1">
                         <h1 className="font-headline text-5xl font-black tracking-tighter italic uppercase text-foreground">Tracker.</h1>
+                        {/* Streak Badge Header */}
+                        <div className={cn(
+                            "flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-700",
+                            stats.currentStreak > 0 ? "bg-orange-500/10 border border-orange-500/20 text-orange-500 opacity-100" : "opacity-0 pointer-events-none"
+                        )}>
+                            <Flame className={cn("h-4 w-4 fill-orange-500", stats.currentStreak > 0 && "animate-pulse")} />
+                            <span className="font-black text-sm">{stats.currentStreak}</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">day streak</span>
+                        </div>
                     </div>
                 </div>
              </div>
@@ -281,7 +299,7 @@ export default function TrackerPage() {
                         { label: 'Total Tasks', value: stats.totalTasks, icon: CheckCircle2, color: 'text-primary', sub: 'Calculated' },
                         { label: 'Consistency', value: `${stats.rate}%`, icon: Target, color: 'text-blue-500', sub: 'Reliability' },
                         { label: 'Active Days', value: stats.activeDays, icon: TrendingUp, color: 'text-emerald-500', sub: 'Engagement' },
-                        { label: 'Current Streak', value: stats.currentStreak, icon: Zap, color: 'text-orange-500', sub: 'Consecutive' },
+                        { label: 'Longest Streak', value: stats.longestStreak, icon: Zap, color: 'text-orange-500', sub: 'Consecutive' },
                     ].map((stat, i) => (
                         <Card key={i} className="bg-card/40 backdrop-blur-md border-border/40 group overflow-hidden transition-all duration-500 hover:border-primary/20 hover:-translate-y-1">
                             <CardContent className="p-6 flex flex-col items-center text-center relative">
@@ -296,19 +314,19 @@ export default function TrackerPage() {
                     ))}
                 </div>
 
-                {/* Consistency Matrix (Heatmap) */}
+                {/* Activity Heatmap - Separate Months Architecture */}
                 <Card className="bg-card/40 backdrop-blur-2xl border-border/40 rounded-[40px] overflow-hidden shadow-2xl transition-all duration-700 hover:border-primary/20">
                     <CardHeader className="border-b border-border/10 pb-4 bg-primary/5 px-8">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <CalendarIcon className="h-4 w-4 text-emerald-500" />
-                                <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-80 text-foreground">Consistency Matrix</span>
+                                <TrendingUp className="h-4 w-4 text-emerald-500" />
+                                <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-80 text-foreground">Activity Heatmap</span>
                             </div>
                             <div className="flex items-center gap-3 bg-black/5 dark:bg-black/40 px-3 py-1.5 rounded-full border border-border/40">
                                 <span className="text-[8px] font-bold uppercase text-muted-foreground/40">Less</span>
                                 {[0, 1, 2, 3, 4].map(l => (
                                     <div key={l} className={cn("h-2.5 w-2.5 rounded-[2px] transition-all", 
-                                        l === 0 ? "bg-muted/40 border border-border/20" : 
+                                        l === 0 ? "bg-muted/10 border border-border/20" : 
                                         l === 1 ? "bg-emerald-500/20" : 
                                         l === 2 ? "bg-emerald-500/40" : 
                                         l === 3 ? "bg-emerald-500/70" : "bg-emerald-500 shadow-[0_0_8px_#10b981]"
@@ -319,61 +337,45 @@ export default function TrackerPage() {
                         </div>
                     </CardHeader>
                     <CardContent className="p-10">
-                        <div className="overflow-x-auto pb-6 scrollbar-hide">
-                            <div className="flex flex-col gap-6 min-w-[760px]">
-                                {/* Month Labels */}
-                                <div className="grid grid-cols-[36px_1fr] gap-4">
-                                    <div />
-                                    <div className="grid grid-cols-53 gap-1.5 text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-muted-foreground/30">
-                                        {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((m, i) => (
-                                            <span key={m} style={{ gridColumnStart: Math.floor(i * 4.4) + 1 }}>{m}</span>
-                                        ))}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
+                            {months.map((month) => (
+                                <div key={month.name} className="space-y-4">
+                                    <div className="flex items-center justify-between border-b border-border/5 pb-2">
+                                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/60">{month.name}</h4>
                                     </div>
-                                </div>
-                                
-                                <div className="grid grid-cols-[36px_1fr] gap-4">
-                                    {/* Weekday Labels */}
-                                    <div className="flex flex-col justify-between py-1 text-[9px] font-black text-muted-foreground/30 uppercase text-center h-[114px]">
-                                        <span>Mon</span>
-                                        <span>Wed</span>
-                                        <span>Fri</span>
-                                    </div>
-
-                                    {/* Heatmap Grid Body */}
                                     <div className="inline-grid grid-rows-7 grid-flow-col gap-1.5">
-                                        {Array.from({ length: heatmapDays.padding }).map((_, i) => (
+                                        {Array.from({ length: month.padding }).map((_, i) => (
                                             <div key={`pad-${i}`} className="h-[14px] w-[14px]" />
                                         ))}
                                         
-                                        {heatmapDays.days.map((day) => {
-                                            const dateStr = format(day, 'yyyy-MM-dd');
-                                            const level = getLevel(dateStr);
-                                            const isSelected = selectedDate === dateStr;
-                                            const isCurrentDay = isToday(day);
+                                        {month.days.map((day) => {
+                                            const level = getLevel(day.dateStr);
+                                            const isSelected = selectedDate === day.dateStr;
+                                            const isCurrentDay = isToday(day.date);
 
                                             return (
-                                                <TooltipProvider key={dateStr}>
+                                                <TooltipProvider key={day.dateStr}>
                                                     <Tooltip delayDuration={0}>
                                                         <TooltipTrigger asChild>
                                                             <button
-                                                                onClick={() => handleDateClick(dateStr)}
+                                                                onClick={() => handleDateClick(day.dateStr)}
                                                                 className={cn(
-                                                                    "h-[14px] w-[14px] rounded-[3px] transition-all duration-300 relative transform-gpu border border-transparent",
-                                                                    level === 0 && "bg-muted/40 border-border/10 hover:bg-muted/60",
-                                                                    level === 1 && "bg-emerald-500/20 hover:bg-emerald-500/30",
-                                                                    level === 2 && "bg-emerald-500/40 hover:bg-emerald-500/50",
-                                                                    level === 3 && "bg-emerald-500/70 hover:bg-emerald-500/80",
-                                                                    level === 4 && "bg-emerald-500 shadow-[0_0_10px_#10b981] hover:scale-125 hover:z-20",
+                                                                    "h-[14px] w-[14px] rounded-[3px] transition-all duration-300 relative transform-gpu border",
+                                                                    level === 0 && "bg-muted/5 border-border/10 hover:bg-muted/20",
+                                                                    level === 1 && "bg-emerald-500/20 border-transparent hover:bg-emerald-500/30",
+                                                                    level === 2 && "bg-emerald-500/40 border-transparent hover:bg-emerald-500/50",
+                                                                    level === 3 && "bg-emerald-500/70 border-transparent hover:bg-emerald-500/80",
+                                                                    level === 4 && "bg-emerald-500 border-transparent shadow-[0_0_10px_#10b981] hover:scale-125 hover:z-20",
                                                                     isSelected && "ring-2 ring-primary ring-offset-2 ring-offset-background z-10 scale-110",
                                                                     isCurrentDay && !isSelected && "ring-1 ring-emerald-500/40"
                                                                 )}
                                                             />
                                                         </TooltipTrigger>
                                                         <TooltipContent side="top" className="text-[11px] font-mono p-4 bg-black/90 backdrop-blur-xl border-white/10 shadow-2xl rounded-2xl">
-                                                            <p className="font-black text-white mb-1.5 uppercase tracking-widest">{format(day, 'EEEE, MMM d')}</p>
+                                                            <p className="font-black text-white mb-1.5 uppercase tracking-widest">{format(day.date, 'EEEE, MMM d')}</p>
                                                             <div className="flex items-center gap-3">
                                                                 <div className={cn("h-1.5 w-1.5 rounded-full", level > 0 ? "bg-emerald-500 animate-pulse" : "bg-white/10")} />
-                                                                <p className="text-muted-foreground/60">{tasks[dateStr]?.length || 0} activities recorded</p>
+                                                                <p className="text-muted-foreground/60">{tasks[day.dateStr]?.length || 0} activities recorded</p>
                                                             </div>
                                                         </TooltipContent>
                                                     </Tooltip>
@@ -382,7 +384,7 @@ export default function TrackerPage() {
                                         })}
                                     </div>
                                 </div>
-                            </div>
+                            ))}
                         </div>
                     </CardContent>
                 </Card>
@@ -436,7 +438,7 @@ export default function TrackerPage() {
                             <div className="space-y-5">
                                 {dayTasks.length === 0 ? (
                                     <div className="py-24 text-center flex flex-col items-center gap-6">
-                                        <div className="h-16 w-16 rounded-[24px] bg-muted/20 border border-dashed border-border flex items-center justify-center">
+                                        <div className="h-16 w-16 rounded-[24px] bg-muted/10 border border-dashed border-border flex items-center justify-center">
                                             <Plus className="h-6 w-6 text-muted-foreground/20" />
                                         </div>
                                         <div className="space-y-1">
