@@ -5,7 +5,6 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
@@ -13,15 +12,11 @@ import {
   ChevronRight, 
   Plus, 
   Trash2, 
-  CheckCircle2, 
-  Zap, 
-  Target, 
-  TrendingUp,
   Activity,
   ArrowLeft,
   X,
   Flame,
-  LayoutGrid
+  Check
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -36,11 +31,9 @@ import confetti from 'canvas-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
- * @fileOverview Tracker - A high-fidelity Todo & Habit environment.
- * Reworked for absolute alignment, premium visibility, and addictive rewards.
- * - 12 Separate Month blocks for perfect structural alignment.
- * - High-Intensity "Slow Burn" Fire Streak Badge (Hover Only).
- * - High-Visibility emerald grid rest state.
+ * Persistence Tracker
+ * A high-fidelity environment for engineering discipline.
+ * Stripped of all visual noise. Focused on data, typography, and whitespace.
  */
 
 interface Task {
@@ -59,30 +52,26 @@ export default function TrackerPage() {
   const [newTaskText, setNewTaskText] = useState('');
   const [newTaskCategory, setNewTaskCategory] = useState<'work' | 'personal' | 'growth'>('work');
   const [isMounted, setIsMounted] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // Persistence: Load
   useEffect(() => {
     setIsMounted(true);
-    const saved = localStorage.getItem('pulse_tracker_data');
+    const saved = localStorage.getItem('srini_persistence_data');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         if (parsed.tasks) setTasks(parsed.tasks);
       } catch (e) {
-        console.error('Failed to parse tracker data');
+        console.error('Persistence data corrupted. Resetting.');
       }
     }
   }, []);
 
-  // Persistence: Save
   useEffect(() => {
     if (isMounted) {
-      localStorage.setItem('pulse_tracker_data', JSON.stringify({ tasks }));
+      localStorage.setItem('srini_persistence_data', JSON.stringify({ tasks }));
     }
   }, [tasks, isMounted]);
 
-  // Telemetry Calculations
   const stats = useMemo(() => {
     const keys = Object.keys(tasks);
     let totalTasks = 0;
@@ -98,9 +87,9 @@ export default function TrackerPage() {
       }
     });
 
-    const rate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    const velocity = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
-    // Streak Logic
+    // Streak Calculation
     const completedDates = keys
       .filter(d => tasks[d].length > 0 && tasks[d].every(t => t.completed))
       .sort((a, b) => a.localeCompare(b));
@@ -140,7 +129,7 @@ export default function TrackerPage() {
       }
     }
 
-    return { totalTasks, rate, activeDays, longestStreak, currentStreak };
+    return { totalTasks, velocity, activeDays, currentStreak };
   }, [tasks]);
 
   const getLevel = (dateStr: string) => {
@@ -153,12 +142,12 @@ export default function TrackerPage() {
     return 1;
   };
 
-  const triggerCelebration = useCallback(() => {
+  const triggerReward = useCallback(() => {
     confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.8 },
-      colors: ['#10b981', '#34d399', '#059669', '#ffffff'],
+      particleCount: 40,
+      spread: 40,
+      origin: { y: 0.7 },
+      colors: ['#ffffff', '#10b981', '#059669'],
       disableForReducedMotion: true
     });
   }, []);
@@ -168,7 +157,7 @@ export default function TrackerPage() {
     if (!newTaskText.trim()) return;
 
     const newTask: Task = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: crypto.randomUUID(),
       text: newTaskText,
       completed: false,
       category: newTaskCategory
@@ -187,7 +176,7 @@ export default function TrackerPage() {
       const updated = dayTasks.map(t => {
         if (t.id === id) {
           const nextState = !t.completed;
-          if (nextState) triggerCelebration();
+          if (nextState) triggerReward();
           return { ...t, completed: nextState };
         }
         return t;
@@ -209,11 +198,6 @@ export default function TrackerPage() {
     });
   };
 
-  const handleDateClick = (dateStr: string) => {
-    setSelectedDate(dateStr);
-    setIsSidebarOpen(true);
-  };
-
   const monthsData = useMemo(() => {
       return Array.from({ length: 12 }).map((_, i) => {
           const monthStart = startOfMonth(new Date(currentYear, i, 1));
@@ -227,370 +211,259 @@ export default function TrackerPage() {
               };
           });
           return {
-              name: format(monthStart, 'MMMM'),
+              name: format(monthStart, 'MMM'),
               padding,
               days
           };
       });
   }, [currentYear]);
 
-  const dayTasks = tasks[selectedDate] || [];
-  const completedCount = dayTasks.filter(t => t.completed).length;
-  const progressPercent = dayTasks.length > 0 ? Math.round((completedCount / dayTasks.length) * 100) : 0;
+  const selectedDayTasks = tasks[selectedDate] || [];
+  const completedCount = selectedDayTasks.filter(t => t.completed).length;
+  const progressPercent = selectedDayTasks.length > 0 ? Math.round((completedCount / selectedDayTasks.length) * 100) : 0;
 
   if (!isMounted) return null;
 
   return (
-    <div className="flex min-h-screen flex-col bg-background selection:bg-primary/20 relative overflow-hidden">
-      {/* Precision Backdrop Grid */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-0 bg-background" />
-        <div className="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)] opacity-[0.05]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
-      </div>
-
+    <div className="flex min-h-screen flex-col bg-background selection:bg-primary/10 text-foreground font-body">
       <Header />
       
-      <main className="flex-1 pt-24 pb-20 relative z-10">
-        <div className="container max-w-7xl px-6">
-          {/* High-Contrast Dashboard Header */}
-          <div className="mb-16 flex flex-col md:flex-row md:items-center justify-between gap-8">
-             <div className="space-y-6">
-                <Button asChild variant="ghost" className="-ml-4 group rounded-full text-muted-foreground hover:text-primary transition-all duration-300">
-                    <Link href="/">
-                        <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                        Back to Home
-                    </Link>
-                </Button>
-                <div className="flex items-center gap-5">
-                    <div className="h-16 w-16 rounded-[24px] bg-primary/5 flex items-center justify-center border border-primary/10 shadow-inner group overflow-hidden">
-                        <Activity className="h-8 w-8 text-primary group-hover:scale-110 transition-transform" />
-                    </div>
-                    <div>
-                        <h1 className="font-headline text-5xl font-black tracking-tighter italic uppercase text-foreground">Tracker.</h1>
-                        <p className="text-[10px] font-mono font-bold text-muted-foreground/40 uppercase tracking-[0.4em] mt-1">Consistency_Protocol_v4.0</p>
-                    </div>
-                </div>
-             </div>
-
-             <div className="flex items-center gap-4">
-                {/* Luminous Streak Badge - Cinematic Slow Burn on Hover */}
-                <motion.div 
-                  whileHover="hover"
-                  initial={false}
-                  className={cn(
-                    "group flex items-center gap-4 px-6 py-3 rounded-full transition-all duration-700 bg-orange-500/10 border border-orange-500/20 text-orange-500 shadow-2xl shadow-orange-500/5 cursor-default overflow-hidden",
-                    stats.currentStreak > 0 ? "opacity-100 translate-x-0" : "opacity-0 pointer-events-none translate-x-10"
-                )}>
-                    <motion.div
-                      variants={{
-                        hover: {
-                          rotate: [0, -8, 8, -4, 6, 0],
-                          scale: [1, 1.15, 1.05, 1.2, 1],
-                          y: [0, -4, 0, -2, 0],
-                          transition: { 
-                            duration: 1.8, 
-                            repeat: Infinity, 
-                            ease: "easeInOut" 
-                          }
-                        }
-                      }}
-                    >
-                      <Flame className="h-6 w-6 fill-orange-500 transition-all group-hover:drop-shadow-[0_0_20px_rgba(249,115,22,1)]" />
-                    </motion.div>
-                    <div className="flex flex-col leading-none">
-                        <span className="font-black text-xl italic tracking-tighter">{stats.currentStreak}</span>
-                        <span className="text-[9px] font-black uppercase tracking-[0.2em] opacity-50">Day Momentum</span>
-                    </div>
-                </motion.div>
-
-                <div className="flex items-center gap-4 bg-secondary/20 backdrop-blur-3xl border border-border/40 p-2.5 rounded-[22px] shadow-2xl">
-                    <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev - 1)} className="rounded-xl hover:bg-white/5 h-10 w-10">
-                        <ChevronLeft className="h-5 w-5" />
-                    </Button>
-                    <span className="font-mono font-black text-2xl px-6 tracking-widest text-primary italic">{currentYear}</span>
-                    <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev + 1)} className="rounded-xl hover:bg-white/5 h-10 w-10">
-                        <ChevronRight className="h-5 w-5" />
-                    </Button>
-                </div>
-             </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
-            {/* Main HUD Area */}
-            <div className="lg:col-span-3 space-y-12">
-                {/* Performance HUD Stats */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    {[
-                        { label: 'Total Intent', value: stats.totalTasks, icon: LayoutGrid, color: 'text-primary', sub: 'Tasks Logged' },
-                        { label: 'Consistency', value: `${stats.rate}%`, icon: Target, color: 'text-blue-500', sub: 'Reliability' },
-                        { label: 'Active Laps', value: stats.activeDays, icon: TrendingUp, color: 'text-emerald-500', sub: 'Daily Output' },
-                        { label: 'Max Streak', value: stats.longestStreak, icon: Zap, color: 'text-orange-500', sub: 'Peak Flow' },
-                    ].map((stat, i) => (
-                        <Card key={i} className="bg-card/30 backdrop-blur-3xl border-border/40 group overflow-hidden transition-all duration-700 hover:border-primary/20 hover:-translate-y-2 rounded-[32px] shadow-xl">
-                            <CardContent className="p-8 flex flex-col items-center text-center relative">
-                                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                                    <stat.icon className="h-14 w-14" />
-                                </div>
-                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40 mb-4">{stat.label}</span>
-                                <span className={cn("text-4xl font-black italic tracking-tighter mb-1", stat.color)}>{stat.value}</span>
-                                <span className="text-[9px] font-mono text-muted-foreground/20 uppercase tracking-widest">{stat.sub}</span>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
-
-                {/* Activity Heatmap - Separate Months Gallery Architecture */}
-                <div className="space-y-8">
-                    <div className="flex items-center justify-between px-2">
-                        <div className="flex items-center gap-4">
-                            <div className="h-10 w-10 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
-                                <TrendingUp className="h-5 w-5 text-emerald-500" />
-                            </div>
-                            <div>
-                                <h2 className="text-xl font-bold tracking-tight text-foreground uppercase italic">Activity Heatmap</h2>
-                                <p className="text-[9px] font-mono font-bold text-muted-foreground/30 uppercase tracking-[0.4em]">Visualizing Consistency Density</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4 bg-black/5 dark:bg-black/40 px-4 py-2 rounded-full border border-border/40 shadow-inner">
-                            <span className="text-[8px] font-black uppercase text-muted-foreground/40 tracking-widest">Less</span>
-                            <div className="flex gap-2">
-                                {[0, 1, 2, 3, 4].map(l => (
-                                    <div key={l} className={cn("h-3 w-3 rounded-[3px] transition-all", 
-                                        l === 0 ? "bg-muted/40 border border-border/60" : 
-                                        l === 1 ? "bg-emerald-500/20" : 
-                                        l === 2 ? "bg-emerald-500/40" : 
-                                        l === 3 ? "bg-emerald-500/70" : "bg-emerald-500 shadow-[0_0_12px_#10b981]"
-                                    )} />
-                                ))}
-                            </div>
-                            <span className="text-[8px] font-black uppercase text-muted-foreground/40 tracking-widest">More</span>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
-                        {monthsData.map((month) => (
-                            <Card key={month.name} className="bg-card/20 backdrop-blur-2xl border-border/40 rounded-[35px] overflow-hidden shadow-2xl transition-all duration-700 hover:border-primary/20 hover:bg-card/30 p-8">
-                                <div className="space-y-6">
-                                    <div className="flex items-center justify-between border-b border-border/10 pb-3">
-                                        <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-primary italic opacity-70">{month.name}</h4>
-                                    </div>
-                                    <div className="inline-grid grid-rows-7 grid-flow-col gap-2">
-                                        {Array.from({ length: month.padding }).map((_, i) => (
-                                            <div key={`pad-${i}`} className="h-4 w-4 rounded-[4px] bg-transparent" />
-                                        ))}
-                                        
-                                        {month.days.map((day) => {
-                                            const level = getLevel(day.dateStr);
-                                            const isSelected = selectedDate === day.dateStr;
-                                            const isCurrentDay = isToday(day.date);
-
-                                            return (
-                                                <TooltipProvider key={day.dateStr}>
-                                                    <Tooltip delayDuration={0}>
-                                                        <TooltipTrigger asChild>
-                                                            <button
-                                                                onClick={() => handleDateClick(day.dateStr)}
-                                                                className={cn(
-                                                                    "h-4 w-4 rounded-[4px] transition-all duration-300 relative transform-gpu border",
-                                                                    level === 0 && "bg-muted/40 border-border/60 hover:bg-muted/60",
-                                                                    level === 1 && "bg-emerald-500/20 border-transparent hover:bg-emerald-500/30",
-                                                                    level === 2 && "bg-emerald-500/40 border-transparent hover:bg-emerald-500/50",
-                                                                    level === 3 && "bg-emerald-500/70 border-transparent hover:bg-emerald-500/80",
-                                                                    level === 4 && "bg-emerald-500 border-transparent shadow-[0_0_10px_#10b981] hover:scale-125 hover:z-20",
-                                                                    isSelected && "ring-2 ring-primary ring-offset-2 ring-offset-background z-10 scale-110",
-                                                                    isCurrentDay && !isSelected && "ring-1 ring-emerald-500/50"
-                                                                )}
-                                                            />
-                                                        </TooltipTrigger>
-                                                        <TooltipContent side="top" className="text-[11px] font-mono p-4 bg-black/90 backdrop-blur-xl border-white/10 shadow-2xl rounded-2xl">
-                                                            <p className="font-black text-white mb-2 uppercase tracking-widest">{format(day.date, 'EEEE, MMM d')}</p>
-                                                            <div className="flex items-center gap-3">
-                                                                <div className={cn("h-1.5 w-1.5 rounded-full", level > 0 ? "bg-emerald-500 animate-pulse" : "bg-white/10")} />
-                                                                <p className="text-muted-foreground/60">{tasks[day.dateStr]?.length || 0} activities recorded</p>
-                                                            </div>
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-                            </Card>
-                        ))}
-                    </div>
-                </div>
+      <main className="flex-1 pt-32 pb-20 px-6 sm:px-12">
+        <div className="max-w-6xl mx-auto">
+          
+          {/* Section: Header Telemetry */}
+          <header className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-12">
+            <div className="space-y-6">
+              <Link href="/" className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground hover:text-primary transition-colors group">
+                <ArrowLeft className="mr-2 h-3 w-3 transition-transform group-hover:-translate-x-1" />
+                Return to Core
+              </Link>
+              <h1 className="text-6xl sm:text-7xl font-bold tracking-tighter leading-none">
+                Persistence<span className="text-primary">.</span>
+              </h1>
+              <p className="text-muted-foreground text-sm max-w-md font-medium leading-relaxed italic lora">
+                "The focus is on the compound effect of small, intentional commits to the self."
+              </p>
             </div>
 
-            {/* Premium Control Sidebar */}
-            <div className={cn(
-                "lg:relative fixed inset-0 z-[150] lg:z-0 lg:block transition-all duration-700",
-                isSidebarOpen ? "block" : "hidden pointer-events-none lg:pointer-events-auto"
-            )}>
-                <div 
-                    className="fixed inset-0 bg-background/80 backdrop-blur-md lg:hidden" 
-                    onClick={() => setIsSidebarOpen(false)}
-                />
-                <Card className={cn(
-                    "bg-card/40 backdrop-blur-3xl border border-border/40 rounded-[50px] h-full lg:h-[calc(100vh-220px)] lg:sticky top-28 overflow-hidden flex flex-col shadow-2xl relative z-20 transition-all duration-1000 transform-gpu",
-                    isSidebarOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0 lg:translate-y-0 lg:opacity-100"
-                )}>
-                    <CardHeader className="border-b border-border/10 p-10 bg-primary/5">
-                        <div className="flex items-start justify-between">
-                            <div className="space-y-2">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-[11px] font-black uppercase tracking-[0.4em] text-emerald-500 animate-pulse">
-                                        {format(parseISO(selectedDate), 'EEEE')}
-                                    </span>
-                                </div>
-                                <CardTitle className="text-3xl font-black tracking-tighter italic uppercase text-foreground leading-none">
-                                    {format(parseISO(selectedDate), 'MMM d, yyyy')}
-                                </CardTitle>
-                            </div>
-                            <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(false)} className="lg:hidden rounded-full hover:bg-white/5 h-12 w-12">
-                                <X className="h-6 w-6" />
-                            </Button>
-                        </div>
-                    </CardHeader>
-                    
-                    <CardContent className="flex-1 overflow-hidden flex flex-col p-10 pt-0">
-                        {/* Interactive Velocity Module */}
-                        <div className="py-8 space-y-4">
-                            <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/30">
-                                <span>Session Velocity</span>
-                                <span className="text-emerald-500 italic">{progressPercent}% Optimized</span>
-                            </div>
-                            <div className="h-2 w-full bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm border border-white/5">
-                                <div 
-                                    className="h-full bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-500 transition-all duration-1000 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_0_15px_#10b981]"
-                                    style={{ width: `${progressPercent}%` }}
+            <div className="flex flex-wrap gap-8 md:gap-16">
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Current Streak</p>
+                <div className="flex items-center gap-3">
+                  <span className="text-4xl font-bold tracking-tighter tabular-nums">{stats.currentStreak}</span>
+                  <div className="p-1.5 rounded-full bg-primary/5 text-primary">
+                    <Flame className="h-4 w-4" />
+                  </div>
+                </div>
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Velocity</p>
+                <p className="text-4xl font-bold tracking-tighter tabular-nums">{stats.velocity}%</p>
+              </div>
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">Active Laps</p>
+                <p className="text-4xl font-bold tracking-tighter tabular-nums">{stats.activeDays}</p>
+              </div>
+            </div>
+          </header>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-24">
+            
+            {/* Section: The Matrix (Heatmap) */}
+            <div className="lg:col-span-8 space-y-16">
+              <div className="flex items-center justify-between border-b border-border/40 pb-6">
+                <h2 className="text-sm font-bold uppercase tracking-[0.3em]">Momentum Matrix</h2>
+                <div className="flex items-center gap-4">
+                  <button onClick={() => setCurrentYear(prev => prev - 1)} className="p-1 hover:text-primary transition-colors">
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <span className="font-mono font-bold text-sm tracking-widest">{currentYear}</span>
+                  <button onClick={() => setCurrentYear(prev => prev + 1)} className="p-1 hover:text-primary transition-colors">
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-12 gap-y-16">
+                {monthsData.map((month) => (
+                  <div key={month.name} className="space-y-4">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/40">{month.name}</p>
+                    <div className="grid grid-rows-7 grid-flow-col gap-1.5 w-fit">
+                      {Array.from({ length: month.padding }).map((_, i) => (
+                        <div key={`pad-${i}`} className="h-3 w-3" />
+                      ))}
+                      {month.days.map((day) => {
+                        const level = getLevel(day.dateStr);
+                        const isSelected = selectedDate === day.dateStr;
+                        const isTodayDate = isToday(day.date);
+
+                        return (
+                          <TooltipProvider key={day.dateStr}>
+                            <Tooltip delayDuration={0}>
+                              <TooltipTrigger asChild>
+                                <button
+                                  onClick={() => setSelectedDate(day.dateStr)}
+                                  className={cn(
+                                    "h-3 w-3 rounded-[2px] transition-all duration-300 relative border border-transparent",
+                                    level === 0 && "bg-muted/10 border-border/5 hover:bg-muted/30",
+                                    level === 1 && "bg-emerald-500/20",
+                                    level === 2 && "bg-emerald-500/40",
+                                    level === 3 && "bg-emerald-500/70",
+                                    level === 4 && "bg-emerald-500 shadow-[0_0_8px_#10b981]",
+                                    isSelected && "ring-2 ring-primary ring-offset-2 ring-offset-background z-10",
+                                    isTodayDate && !isSelected && "ring-1 ring-primary/40"
+                                  )}
                                 />
-                            </div>
-                        </div>
+                              </TooltipTrigger>
+                              <TooltipContent side="top" className="bg-black text-white text-[10px] font-mono border-none px-3 py-1.5">
+                                {format(day.date, 'MMM d')} • {tasks[day.dateStr]?.length || 0} Commit(s)
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-                        <ScrollArea className="flex-1 -mx-10 px-10 py-4" data-lenis-prevent>
-                            <AnimatePresence mode="popLayout">
-                                {dayTasks.length === 0 ? (
-                                    <motion.div 
-                                        initial={{ opacity: 0, scale: 0.95 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        className="py-24 text-center flex flex-col items-center gap-8"
-                                    >
-                                        <div className="h-20 w-20 rounded-[30px] bg-muted/5 border-2 border-dashed border-border/20 flex items-center justify-center">
-                                            <Plus className="h-8 w-8 text-muted-foreground/10" />
-                                        </div>
-                                        <div>
-                                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/30">Protocol awaiting entry...</p>
-                                        </div>
-                                    </motion.div>
-                                ) : (
-                                    <div className="space-y-6">
-                                        {dayTasks.map((task) => (
-                                            <motion.div 
-                                                key={task.id} 
-                                                layout
-                                                initial={{ x: -20, opacity: 0 }}
-                                                animate={{ x: 0, opacity: 1 }}
-                                                exit={{ x: 20, opacity: 0 }}
-                                                className={cn(
-                                                    "group flex items-center gap-5 p-6 rounded-[28px] bg-card border border-border/40 transition-all duration-700 hover:scale-[1.03] transform-gpu shadow-lg",
-                                                    task.completed ? "opacity-30 grayscale blur-[0.2px]" : "hover:border-emerald-500/20 hover:shadow-emerald-500/5"
-                                                )}
-                                            >
-                                                <button 
-                                                    onClick={() => toggleTask(task.id)}
-                                                    className={cn(
-                                                        "h-7 w-7 rounded-xl border-2 flex items-center justify-center transition-all duration-500 shrink-0",
-                                                        task.completed ? "bg-emerald-500 border-emerald-500 text-white" : "border-border hover:border-emerald-500/40"
-                                                    )}
-                                                >
-                                                    {task.completed && <CheckCircle2 className="h-4 w-4" />}
-                                                </button>
-                                                <div className="flex-1 flex flex-col gap-1.5 overflow-hidden">
-                                                    <span className={cn(
-                                                        "text-base font-bold tracking-tight transition-all truncate relative",
-                                                        task.completed && "text-muted-foreground"
-                                                    )}>
-                                                        {task.text}
-                                                        {task.completed && (
-                                                          <motion.div 
-                                                            initial={{ width: 0 }}
-                                                            animate={{ width: "100%" }}
-                                                            className="absolute top-1/2 left-0 h-[1.5px] bg-muted-foreground/50"
-                                                          />
-                                                        )}
-                                                    </span>
-                                                    <div className="flex items-center gap-3">
-                                                        <div className={cn(
-                                                            "w-2 h-2 rounded-full",
-                                                            task.category === 'work' ? "bg-purple-500" : task.category === 'personal' ? "bg-blue-500" : "bg-emerald-500"
-                                                        )} />
-                                                        <span className="text-[10px] font-black uppercase tracking-widest opacity-20">{task.category}</span>
-                                                    </div>
-                                                </div>
-                                                <Button 
-                                                    variant="ghost" 
-                                                    size="icon" 
-                                                    onClick={() => deleteTask(task.id)}
-                                                    className="h-10 w-10 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-destructive/10 hover:text-destructive shrink-0"
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </Button>
-                                            </motion.div>
-                                        ))}
-                                    </div>
+            {/* Section: Operations (Daily View) */}
+            <div className="lg:col-span-4 space-y-12">
+              <div className="space-y-2">
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">{format(parseISO(selectedDate), 'EEEE')}</p>
+                <h3 className="text-4xl font-bold tracking-tighter">
+                  {format(parseISO(selectedDate), 'MMM d')}
+                </h3>
+              </div>
+
+              {/* Progress Telemetry */}
+              <div className="space-y-4">
+                <div className="flex justify-between items-end">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/40">Daily Throughput</span>
+                  <span className="text-xs font-mono font-bold">{progressPercent}%</span>
+                </div>
+                <div className="h-0.5 w-full bg-muted/20 overflow-hidden">
+                  <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progressPercent}%` }}
+                    className="h-full bg-primary"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-8">
+                <ScrollArea className="h-[400px] pr-4 -mr-4" data-lenis-prevent>
+                  <AnimatePresence mode="popLayout">
+                    {selectedDayTasks.length === 0 ? (
+                      <div className="py-20 text-center space-y-4 opacity-20">
+                        <Activity className="h-12 w-12 mx-auto stroke-[1px]" />
+                        <p className="text-[10px] font-bold uppercase tracking-[0.4em]">Standby for input</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-6">
+                        {selectedDayTasks.map((task) => (
+                          <motion.div 
+                            key={task.id} 
+                            layout
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 10 }}
+                            className={cn(
+                              "group flex items-start gap-4 transition-all duration-500",
+                              task.completed && "opacity-40"
+                            )}
+                          >
+                            <button 
+                              onClick={() => toggleTask(task.id)}
+                              className={cn(
+                                "mt-1 h-4 w-4 rounded-[3px] border border-border flex items-center justify-center transition-all",
+                                task.completed ? "bg-primary border-primary text-primary-foreground" : "hover:border-primary"
+                              )}
+                            >
+                              {task.completed && <Check className="h-3 w-3 stroke-[3px]" />}
+                            </button>
+                            <div className="flex-1 space-y-1 overflow-hidden">
+                              <p className={cn(
+                                "text-sm font-medium leading-relaxed tracking-tight relative inline-block transition-all duration-700",
+                                task.completed && "italic lora"
+                              )}>
+                                {task.text}
+                                {task.completed && (
+                                  <motion.div 
+                                    initial={{ width: 0 }}
+                                    animate={{ width: '100%' }}
+                                    className="absolute top-1/2 left-0 h-[1px] bg-foreground/60"
+                                  />
                                 )}
-                            </AnimatePresence>
-                        </ScrollArea>
+                              </p>
+                              <div className="flex items-center gap-3">
+                                <span className={cn(
+                                  "text-[8px] font-black uppercase tracking-widest px-1.5 py-0.5 rounded-sm border",
+                                  task.category === 'work' ? "bg-blue-500/5 text-blue-500/60 border-blue-500/10" : 
+                                  task.category === 'personal' ? "bg-purple-500/5 text-purple-500/60 border-purple-500/10" : 
+                                  "bg-emerald-500/5 text-emerald-500/60 border-emerald-500/10"
+                                )}>
+                                  {task.category}
+                                </span>
+                              </div>
+                            </div>
+                            <button 
+                              onClick={() => deleteTask(task.id)}
+                              className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:text-destructive"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </motion.div>
+                        ))}
+                      </div>
+                    )}
+                  </AnimatePresence>
+                </ScrollArea>
 
-                        <div className="pt-10 space-y-8">
-                            <form onSubmit={handleAddTask} className="space-y-6">
-                                <div className="relative">
-                                    <Input 
-                                        value={newTaskText}
-                                        onChange={(e) => setNewTaskText(e.target.value)}
-                                        placeholder="Add mission objective..."
-                                        className="h-16 bg-secondary/20 border-border/40 rounded-[22px] pr-16 focus-visible:ring-1 ring-emerald-500/20 font-bold placeholder:text-muted-foreground/20 italic"
-                                    />
-                                    <Button 
-                                        type="submit" 
-                                        size="icon" 
-                                        disabled={!newTaskText.trim()}
-                                        className="absolute right-3 top-3 h-10 w-10 rounded-xl transition-all bg-emerald-500 hover:bg-emerald-600 text-white shadow-xl shadow-emerald-500/20"
-                                    >
-                                        <Plus className="h-6 w-6" />
-                                    </Button>
-                                </div>
+                <form onSubmit={handleAddTask} className="space-y-4 pt-8 border-t border-border/40">
+                  <div className="relative group">
+                    <Input 
+                      value={newTaskText}
+                      onChange={(e) => setNewTaskText(e.target.value)}
+                      placeholder="Add commit..."
+                      className="border-none bg-transparent h-12 px-0 text-lg font-bold tracking-tighter placeholder:text-muted-foreground/20 focus-visible:ring-0"
+                    />
+                    <div className="h-px w-full bg-border/40 group-focus-within:bg-primary transition-colors" />
+                    <Button 
+                      type="submit" 
+                      size="icon" 
+                      variant="ghost"
+                      disabled={!newTaskText.trim()}
+                      className="absolute right-0 top-1/2 -translate-y-1/2 hover:bg-transparent"
+                    >
+                      <Plus className="h-5 w-5" />
+                    </Button>
+                  </div>
 
-                                <div className="flex items-center justify-between px-2">
-                                    <div className="flex gap-3">
-                                        {(['work', 'personal', 'growth'] as const).map(cat => (
-                                            <button
-                                                key={cat}
-                                                type="button"
-                                                onClick={() => setNewTaskCategory(cat)}
-                                                className={cn(
-                                                    "px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all duration-500 shadow-sm",
-                                                    newTaskCategory === cat 
-                                                        ? "bg-primary text-primary-foreground border-primary scale-105" 
-                                                        : "bg-muted/10 border-border/40 text-muted-foreground/40 hover:bg-muted/20"
-                                                )}
-                                            >
-                                                {cat}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </CardContent>
-                </Card>
+                  <div className="flex gap-4">
+                    {(['work', 'personal', 'growth'] as const).map(cat => (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setNewTaskCategory(cat)}
+                        className={cn(
+                          "text-[10px] font-bold uppercase tracking-[0.2em] transition-colors",
+                          newTaskCategory === cat ? "text-primary" : "text-muted-foreground/40 hover:text-muted-foreground"
+                        )}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );
 }
+
