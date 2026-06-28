@@ -35,8 +35,8 @@ import {
 /**
  * @fileOverview Tracker - A premium macOS-style Todo & Habit environment.
  * Refined for absolute aesthetic clarity:
- * - Removed distracting technical labels.
- * - Subtitled background ambient glows.
+ * - Removed distracting technical labels and background tints.
+ * - Tuned heatmap cells for high visibility during rest states.
  * - Precision-aligned LeetCode-style Heatmap.
  */
 
@@ -211,11 +211,12 @@ export default function TrackerPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background selection:bg-primary/20 relative overflow-hidden">
-      {/* Clean Ambient Background - Subtle Depth */}
+      {/* Absolute Plain Backdrop - Neat and Consistent */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-purple-500/5 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] bg-emerald-500/5 blur-[120px] rounded-full" />
-        <div className="absolute inset-0 bg-background/20" />
+        <div className="absolute inset-0 bg-background" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.02),transparent_70%)]" />
+        {/* Subtle Grid - Consistent with Home Page */}
+        <div className="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)] opacity-[0.05]" />
       </div>
 
       <Header />
@@ -241,7 +242,7 @@ export default function TrackerPage() {
                 </div>
              </div>
 
-             <div className="flex items-center gap-4 bg-secondary/20 backdrop-blur-xl border border-white/5 p-2 rounded-2xl shadow-xl">
+             <div className="flex items-center gap-4 bg-secondary/30 backdrop-blur-xl border border-border/40 p-2 rounded-2xl shadow-xl">
                 <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev - 1)} className="rounded-xl hover:bg-white/5">
                     <ChevronLeft className="h-4 w-4" />
                 </Button>
@@ -258,12 +259,12 @@ export default function TrackerPage() {
                 {/* Stats HUD */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
                     {[
-                        { label: 'Total Tasks', value: stats.totalTasks, icon: CheckCircle2, color: 'text-primary', sub: 'Analyzed' },
+                        { label: 'Total Tasks', value: stats.totalTasks, icon: CheckCircle2, color: 'text-primary', sub: 'Calculated' },
                         { label: 'Consistency', value: `${stats.rate}%`, icon: Target, color: 'text-blue-500', sub: 'Reliability' },
                         { label: 'Active Days', value: stats.activeDays, icon: TrendingUp, color: 'text-emerald-500', sub: 'Engagement' },
                         { label: 'Current Streak', value: stats.currentStreak, icon: Zap, color: 'text-orange-500', sub: 'Consecutive' },
                     ].map((stat, i) => (
-                        <Card key={i} className="bg-white/5 backdrop-blur-md border-white/5 group overflow-hidden transition-all duration-500 hover:border-primary/10 hover:-translate-y-1">
+                        <Card key={i} className="bg-card/40 backdrop-blur-md border-border/40 group overflow-hidden transition-all duration-500 hover:border-primary/20 hover:-translate-y-1">
                             <CardContent className="p-6 flex flex-col items-center text-center relative">
                                 <div className="absolute top-0 right-0 p-2 opacity-5 group-hover:opacity-10 transition-opacity">
                                     <stat.icon className="h-12 w-12" />
@@ -277,18 +278,18 @@ export default function TrackerPage() {
                 </div>
 
                 {/* Consistency Matrix (Heatmap) */}
-                <Card className="bg-white/5 backdrop-blur-2xl border-white/5 rounded-[40px] overflow-hidden shadow-2xl transition-all duration-700 hover:border-primary/10">
-                    <CardHeader className="border-b border-white/5 pb-4 bg-white/5 px-8">
+                <Card className="bg-card/40 backdrop-blur-2xl border-border/40 rounded-[40px] overflow-hidden shadow-2xl transition-all duration-700 hover:border-primary/20">
+                    <CardHeader className="border-b border-border/10 pb-4 bg-primary/5 px-8">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
                                 <CalendarIcon className="h-4 w-4 text-emerald-500" />
                                 <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-80 text-foreground">Consistency Matrix</span>
                             </div>
-                            <div className="flex items-center gap-3 bg-black/30 px-3 py-1.5 rounded-full border border-white/5">
+                            <div className="flex items-center gap-3 bg-black/5 dark:bg-black/40 px-3 py-1.5 rounded-full border border-border/40">
                                 <span className="text-[8px] font-bold uppercase text-muted-foreground/40">Less</span>
                                 {[0, 1, 2, 3, 4].map(l => (
                                     <div key={l} className={cn("h-2.5 w-2.5 rounded-[2px] transition-all", 
-                                        l === 0 ? "bg-white/5" : 
+                                        l === 0 ? "bg-muted/40" : 
                                         l === 1 ? "bg-emerald-500/20" : 
                                         l === 2 ? "bg-emerald-500/40" : 
                                         l === 3 ? "bg-emerald-500/70" : "bg-emerald-500 shadow-[0_0_8px_#10b981]"
@@ -301,7 +302,7 @@ export default function TrackerPage() {
                     <CardContent className="p-10">
                         <div className="overflow-x-auto pb-6 scrollbar-hide">
                             <div className="flex flex-col gap-6 min-w-[760px]">
-                                {/* Month Labels - Aligned with the 53 week grid columns */}
+                                {/* Month Labels */}
                                 <div className="grid grid-cols-[36px_1fr] gap-4">
                                     <div />
                                     <div className="grid grid-cols-53 gap-1.5 text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-muted-foreground/30">
@@ -313,7 +314,7 @@ export default function TrackerPage() {
                                 
                                 <div className="grid grid-cols-[36px_1fr] gap-4">
                                     {/* Weekday Labels */}
-                                    <div className="flex flex-col justify-between py-1 text-[9px] font-black text-muted-foreground/20 uppercase text-center h-[114px]">
+                                    <div className="flex flex-col justify-between py-1 text-[9px] font-black text-muted-foreground/30 uppercase text-center h-[114px]">
                                         <span>Mon</span>
                                         <span>Wed</span>
                                         <span>Fri</span>
@@ -338,8 +339,8 @@ export default function TrackerPage() {
                                                             <button
                                                                 onClick={() => handleDateClick(dateStr)}
                                                                 className={cn(
-                                                                    "h-[14px] w-[14px] rounded-[3px] transition-all duration-300 relative transform-gpu",
-                                                                    level === 0 && "bg-white/5 hover:bg-white/15",
+                                                                    "h-[14px] w-[14px] rounded-[3px] transition-all duration-300 relative transform-gpu border border-transparent",
+                                                                    level === 0 && "bg-muted/40 hover:bg-muted/60",
                                                                     level === 1 && "bg-emerald-500/20 hover:bg-emerald-500/30",
                                                                     level === 2 && "bg-emerald-500/40 hover:bg-emerald-500/50",
                                                                     level === 3 && "bg-emerald-500/70 hover:bg-emerald-500/80",
@@ -378,10 +379,10 @@ export default function TrackerPage() {
                     onClick={() => setIsSidebarOpen(false)}
                 />
                 <Card className={cn(
-                    "bg-white/5 backdrop-blur-3xl border-white/5 rounded-[45px] h-full lg:h-[calc(100vh-280px)] lg:sticky top-28 overflow-hidden flex flex-col shadow-2xl relative z-20 transition-all duration-700 transform-gpu",
+                    "bg-card/60 backdrop-blur-3xl border-border/40 rounded-[45px] h-full lg:h-[calc(100vh-280px)] lg:sticky top-28 overflow-hidden flex flex-col shadow-2xl relative z-20 transition-all duration-700 transform-gpu",
                     isSidebarOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0 lg:translate-y-0 lg:opacity-100"
                 )}>
-                    <CardHeader className="border-b border-white/5 p-8 bg-white/5">
+                    <CardHeader className="border-b border-border/10 p-8 bg-primary/5">
                         <div className="flex items-start justify-between">
                             <div className="space-y-1">
                                 <span className="text-[11px] font-black uppercase tracking-[0.4em] text-emerald-500">
@@ -404,7 +405,7 @@ export default function TrackerPage() {
                                 <span>Day Velocity</span>
                                 <span className="text-emerald-500">{progressPercent}%</span>
                             </div>
-                            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                            <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
                                 <div 
                                     className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-1000 ease-out"
                                     style={{ width: `${progressPercent}%` }}
@@ -424,11 +425,11 @@ export default function TrackerPage() {
 
                                 {dayTasks.length === 0 ? (
                                     <div className="py-24 text-center flex flex-col items-center gap-6">
-                                        <div className="h-16 w-16 rounded-[24px] bg-white/5 border border-dashed border-white/10 flex items-center justify-center">
-                                            <Plus className="h-6 w-6 text-muted-foreground/10" />
+                                        <div className="h-16 w-16 rounded-[24px] bg-muted/20 border border-dashed border-border flex items-center justify-center">
+                                            <Plus className="h-6 w-6 text-muted-foreground/20" />
                                         </div>
                                         <div className="space-y-1">
-                                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/30">Awaiting your next move...</p>
+                                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40">Awaiting your next move...</p>
                                         </div>
                                     </div>
                                 ) : (
@@ -436,15 +437,15 @@ export default function TrackerPage() {
                                         <div 
                                             key={task.id} 
                                             className={cn(
-                                                "group flex items-center gap-4 p-5 rounded-[22px] bg-white/5 border border-white/5 transition-all duration-500 hover:scale-[1.02] transform-gpu",
-                                                task.completed ? "opacity-30 grayscale" : "hover:bg-white/10 hover:border-white/10"
+                                                "group flex items-center gap-4 p-5 rounded-[22px] bg-card border border-border/40 transition-all duration-500 hover:scale-[1.02] transform-gpu",
+                                                task.completed ? "opacity-30 grayscale" : "hover:border-primary/20"
                                             )}
                                         >
                                             <button 
                                                 onClick={() => toggleTask(task.id)}
                                                 className={cn(
                                                     "h-6 w-6 rounded-lg border-2 flex items-center justify-center transition-all duration-500 shrink-0",
-                                                    task.completed ? "bg-emerald-500 border-emerald-500 text-white" : "border-white/10 hover:border-emerald-500/40"
+                                                    task.completed ? "bg-emerald-500 border-emerald-500 text-white" : "border-border hover:border-emerald-500/40"
                                                 )}
                                             >
                                                 {task.completed && <CheckCircle2 className="h-4 w-4" />}
@@ -484,8 +485,8 @@ export default function TrackerPage() {
                                     <Input 
                                         value={newTaskText}
                                         onChange={(e) => setNewTaskText(e.target.value)}
-                                        placeholder="Initialize activity..."
-                                        className="h-14 bg-white/5 border-white/5 rounded-2xl pr-12 focus-visible:ring-1 ring-emerald-500/20 font-bold placeholder:text-muted-foreground/20"
+                                        placeholder="Add new activity..."
+                                        className="h-14 bg-card border-border/40 rounded-2xl pr-12 focus-visible:ring-1 ring-emerald-500/20 font-bold placeholder:text-muted-foreground/30"
                                     />
                                     <Button 
                                         type="submit" 
@@ -508,7 +509,7 @@ export default function TrackerPage() {
                                                     "px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all duration-300",
                                                     newTaskCategory === cat 
                                                         ? "bg-primary/10 border-primary/20 text-primary" 
-                                                        : "bg-white/5 border-white/5 text-muted-foreground/30 hover:bg-white/5"
+                                                        : "bg-muted/20 border-border/40 text-muted-foreground/50 hover:bg-muted/30"
                                                 )}
                                             >
                                                 {cat}
