@@ -38,7 +38,7 @@ import { motion, AnimatePresence } from 'framer-motion';
  * @fileOverview Tracker - A premium macOS-style Todo & Habit environment.
  * Re-engineered for psychological reward:
  * - 12 Separate Month blocks for perfect alignment.
- * - Flickering Fire Streak Badge for momentum tracking.
+ * - Flickering Fire Streak Badge triggers ONLY on hover.
  * - High-visibility grid rest state.
  */
 
@@ -269,27 +269,31 @@ export default function TrackerPage() {
              </div>
 
              <div className="flex items-center gap-4">
-                {/* Streak Badge Header - Flickering Fire Animation */}
-                <div className={cn(
-                    "flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-700 bg-orange-500/10 border border-orange-500/20 text-orange-500 shadow-lg shadow-orange-500/5",
+                {/* Streak Badge Header - Flickering Fire Animation on Hover Only */}
+                <motion.div 
+                  whileHover="hover"
+                  className={cn(
+                    "group flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-700 bg-orange-500/10 border border-orange-500/20 text-orange-500 shadow-lg shadow-orange-500/5 cursor-default",
                     stats.currentStreak > 0 ? "opacity-100 translate-x-0" : "opacity-0 pointer-events-none translate-x-10"
                 )}>
                     <motion.div
-                      animate={{ 
-                        rotate: [0, -10, 10, -5, 5, 0],
-                        scale: [1, 1.1, 1, 1.05, 1],
-                      }}
-                      transition={{ 
-                        duration: 1.5, 
-                        repeat: Infinity, 
-                        ease: "easeInOut" 
+                      variants={{
+                        hover: {
+                          rotate: [0, -15, 15, -10, 10, 0],
+                          scale: [1, 1.2, 1.1, 1.2, 1],
+                          transition: { 
+                            duration: 0.6, 
+                            repeat: Infinity, 
+                            ease: "easeInOut" 
+                          }
+                        }
                       }}
                     >
-                      <Flame className="h-4 w-4 fill-orange-500" />
+                      <Flame className="h-4 w-4 fill-orange-500 transition-all group-hover:drop-shadow-[0_0_8px_rgba(249,115,22,0.6)]" />
                     </motion.div>
                     <span className="font-black text-sm">{stats.currentStreak}</span>
                     <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Day Streak</span>
-                </div>
+                </motion.div>
 
                 <div className="flex items-center gap-4 bg-secondary/30 backdrop-blur-xl border border-border/40 p-2 rounded-2xl shadow-xl">
                     <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev - 1)} className="rounded-xl hover:bg-white/5">
@@ -339,7 +343,7 @@ export default function TrackerPage() {
                                 <span className="text-[8px] font-bold uppercase text-muted-foreground/40">Less</span>
                                 {[0, 1, 2, 3, 4].map(l => (
                                     <div key={l} className={cn("h-2.5 w-2.5 rounded-[2px] transition-all", 
-                                        l === 0 ? "bg-muted/15 border border-border/20" : 
+                                        l === 0 ? "bg-muted/20 border border-border/40" : 
                                         l === 1 ? "bg-emerald-500/20" : 
                                         l === 2 ? "bg-emerald-500/40" : 
                                         l === 3 ? "bg-emerald-500/70" : "bg-emerald-500 shadow-[0_0_8px_#10b981]"
@@ -374,7 +378,7 @@ export default function TrackerPage() {
                                                                 onClick={() => handleDateClick(day.dateStr)}
                                                                 className={cn(
                                                                     "h-[14px] w-[14px] rounded-[3px] transition-all duration-300 relative transform-gpu border",
-                                                                    level === 0 && "bg-muted/15 border-border/30 hover:bg-muted/30",
+                                                                    level === 0 && "bg-muted/20 border-border/40 hover:bg-muted/40",
                                                                     level === 1 && "bg-emerald-500/20 border-transparent hover:bg-emerald-500/30",
                                                                     level === 2 && "bg-emerald-500/40 border-transparent hover:bg-emerald-500/50",
                                                                     level === 3 && "bg-emerald-500/70 border-transparent hover:bg-emerald-500/80",
