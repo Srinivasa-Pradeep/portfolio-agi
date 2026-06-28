@@ -241,6 +241,7 @@ export function HeroCommandBar() {
                             {filteredLinks.length > 0 ? (
                                 filteredLinks.map((link, index) => {
                                     const isActive = index === selectedIndex;
+                                    const IconComponent = link.icon;
                                     return (
                                         <button
                                             key={link.id}
@@ -255,7 +256,12 @@ export function HeroCommandBar() {
                                                 "h-10 w-10 rounded-xl flex items-center justify-center border border-border/20 transition-all",
                                                 isActive ? "bg-primary text-primary-foreground" : "bg-secondary/50 group-hover:bg-primary group-hover:text-primary-foreground"
                                             )}>
-                                                <link.icon size={20} className="transition-all" />
+                                                {/* Pass isActive to the icon. Custom icons (AtSignIcon) will use it, Lucide icons will ignore it. */}
+                                                <IconComponent 
+                                                    size={20} 
+                                                    className="transition-all" 
+                                                    {...(link.id === 'about' ? { active: isActive } : {})} 
+                                                />
                                             </div>
                                             <div className="flex-1">
                                                 <p className={cn(

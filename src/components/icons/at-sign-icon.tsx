@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useImperativeHandle, useEffect } from "react";
 import { motion, useAnimate } from "framer-motion";
 
 export interface AtSignIconProps {
@@ -8,6 +8,7 @@ export interface AtSignIconProps {
   color?: string;
   strokeWidth?: number;
   className?: string;
+  active?: boolean;
 }
 
 export interface AtSignIconHandle {
@@ -17,7 +18,7 @@ export interface AtSignIconHandle {
 
 const AtSignIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
   (
-    { size = 24, color = "currentColor", strokeWidth = 2, className = "" },
+    { size = 24, color = "currentColor", strokeWidth = 2, className = "", active },
     ref,
   ) => {
     const [scope, animate] = useAnimate();
@@ -25,8 +26,10 @@ const AtSignIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
     const start = async () => {
       if (!scope.current) return;
       
+      // Reset state
       animate(".draw", { pathLength: 0, opacity: 0 }, { duration: 0 });
 
+      // Outer ring
       await animate(
         ".outer",
         { pathLength: [0, 1], opacity: [0, 1] },
@@ -35,6 +38,7 @@ const AtSignIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
 
       if (!scope.current) return;
 
+      // The @ path
       await animate(
         ".path",
         { pathLength: [0, 1], opacity: [0, 1] },
@@ -43,6 +47,7 @@ const AtSignIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
 
       if (!scope.current) return;
 
+      // Inner circle
       animate(
         ".inner",
         { pathLength: [0, 1], opacity: [0, 1] },
@@ -52,6 +57,7 @@ const AtSignIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
 
     const stop = () => {
       if (!scope.current) return;
+      // Fade back to static state
       animate(".draw", { pathLength: 1, opacity: 1 }, { duration: 0.2 });
     };
 
@@ -62,19 +68,18 @@ const AtSignIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
       };
     });
 
-    const handleHoverStart = () => {
-      start();
-    };
-
-    const handleHoverEnd = () => {
-      stop();
-    };
+    // Reactive trigger for parent row interaction (keyboard or hover)
+    useEffect(() => {
+      if (active) {
+        start();
+      } else {
+        stop();
+      }
+    }, [active]);
 
     return (
       <motion.svg
         ref={scope}
-        onHoverStart={handleHoverStart}
-        onHoverEnd={handleHoverEnd}
         xmlns="http://www.w3.org/2000/svg"
         width={size}
         height={size}
@@ -84,7 +89,7 @@ const AtSignIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
         strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeLinejoin="round"
-        className={`cursor-pointer ${className}`}
+        className={className}
       >
         <motion.circle
           className="draw inner"

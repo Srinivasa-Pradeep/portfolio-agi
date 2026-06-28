@@ -388,6 +388,7 @@ export default function TrackerPage() {
                               {task.completed && <Check className="h-3 w-3 stroke-[3px]" />}
                             </button>
                             <div className="flex-1 space-y-1.5 overflow-hidden">
+                              {/* Using div instead of p to avoid hydration errors with motion components */}
                               <div className="text-sm font-medium leading-relaxed tracking-tight relative inline-block transition-all duration-700">
                                 {task.text}
                                 {task.completed && (
