@@ -20,7 +20,8 @@ import {
   Activity,
   ArrowLeft,
   X,
-  Flame
+  Flame,
+  LayoutGrid
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -36,10 +37,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 /**
  * @fileOverview Tracker - A high-fidelity Todo & Habit environment.
- * Re-engineered for psychological reward:
- * - 12 Separate Month blocks for perfect alignment.
- * - Slow-Burn Flickering Fire Streak Badge triggers ONLY on hover.
- * - High-visibility grid rest state for absolute clarity.
+ * Reworked for absolute alignment, premium visibility, and addictive rewards.
+ * - 12 Separate Month blocks for perfect structural alignment.
+ * - High-Intensity "Slow Burn" Fire Streak Badge (Hover Only).
+ * - High-Visibility emerald grid rest state.
  */
 
 interface Task {
@@ -132,7 +133,7 @@ export default function TrackerPage() {
       
       let checkDate = isDayComplete(todayStr) ? new Date() : isDayComplete(yesterdayStr) ? subDays(new Date(), 1) : null;
       if (checkDate) {
-        while (isDayComplete(format(checkDate, 'yyyy-MM-dd'))) {
+        while (checkDate && isDayComplete(format(checkDate, 'yyyy-MM-dd'))) {
           currentStreak++;
           checkDate = subDays(checkDate, 1);
         }
@@ -154,10 +155,10 @@ export default function TrackerPage() {
 
   const triggerCelebration = useCallback(() => {
     confetti({
-      particleCount: 80,
-      spread: 60,
+      particleCount: 100,
+      spread: 70,
       origin: { y: 0.8 },
-      colors: ['#10b981', '#34d399', '#FFA116', '#FFFFFF'],
+      colors: ['#10b981', '#34d399', '#059669', '#ffffff'],
       disableForReducedMotion: true
     });
   }, []);
@@ -213,7 +214,7 @@ export default function TrackerPage() {
     setIsSidebarOpen(true);
   };
 
-  const months = useMemo(() => {
+  const monthsData = useMemo(() => {
       return Array.from({ length: 12 }).map((_, i) => {
           const monthStart = startOfMonth(new Date(currentYear, i, 1));
           const numDays = getDaysInMonth(monthStart);
@@ -241,18 +242,19 @@ export default function TrackerPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background selection:bg-primary/20 relative overflow-hidden">
-      {/* Plain Neat Backdrop */}
+      {/* Precision Backdrop Grid */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-background" />
         <div className="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)] opacity-[0.05]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] transition-all duration-1000" />
       </div>
 
       <Header />
       
       <main className="flex-1 pt-24 pb-20 relative z-10">
         <div className="container max-w-7xl px-6">
-          {/* Dashboard Header */}
-          <div className="mb-12 flex flex-col md:flex-row md:items-start justify-between gap-8">
+          {/* High-Contrast Dashboard Header */}
+          <div className="mb-16 flex flex-col md:flex-row md:items-center justify-between gap-8">
              <div className="space-y-6">
                 <Button asChild variant="ghost" className="-ml-4 group rounded-full text-muted-foreground hover:text-primary transition-all duration-300">
                     <Link href="/">
@@ -261,27 +263,31 @@ export default function TrackerPage() {
                     </Link>
                 </Button>
                 <div className="flex items-center gap-5">
-                    <div className="h-14 w-14 rounded-[22px] bg-primary/5 flex items-center justify-center border border-primary/10 shadow-inner group overflow-hidden">
-                        <Activity className="h-7 w-7 text-primary group-hover:scale-110 transition-transform" />
+                    <div className="h-16 w-16 rounded-[24px] bg-primary/5 flex items-center justify-center border border-primary/10 shadow-inner group overflow-hidden">
+                        <Activity className="h-8 w-8 text-primary group-hover:scale-110 transition-transform" />
                     </div>
-                    <h1 className="font-headline text-5xl font-black tracking-tighter italic uppercase text-foreground">Tracker.</h1>
+                    <div>
+                        <h1 className="font-headline text-5xl font-black tracking-tighter italic uppercase text-foreground">Tracker.</h1>
+                        <p className="text-[10px] font-mono font-bold text-muted-foreground/40 uppercase tracking-[0.4em] mt-1">Consistency_Protocol_v4.0</p>
+                    </div>
                 </div>
              </div>
 
              <div className="flex items-center gap-4">
-                {/* Streak Badge Header - High-Fidelity Slow-Burn Animation on Hover Only */}
+                {/* Luminous Streak Badge - Cinematic Slow Burn on Hover */}
                 <motion.div 
                   whileHover="hover"
+                  initial={false}
                   className={cn(
-                    "group flex items-center gap-3 px-5 py-2.5 rounded-full transition-all duration-700 bg-orange-500/10 border border-orange-500/20 text-orange-500 shadow-xl shadow-orange-500/5 cursor-default overflow-hidden",
+                    "group flex items-center gap-4 px-6 py-3 rounded-full transition-all duration-700 bg-orange-500/10 border border-orange-500/20 text-orange-500 shadow-2xl shadow-orange-500/5 cursor-default overflow-hidden",
                     stats.currentStreak > 0 ? "opacity-100 translate-x-0" : "opacity-0 pointer-events-none translate-x-10"
                 )}>
                     <motion.div
                       variants={{
                         hover: {
-                          rotate: [0, -5, 5, -2, 4, 0],
-                          scale: [1, 1.12, 1.05, 1.15, 1],
-                          y: [0, -3, 0, -1, 0],
+                          rotate: [0, -8, 8, -4, 6, 0],
+                          scale: [1, 1.15, 1.05, 1.2, 1],
+                          y: [0, -4, 0, -2, 0],
                           transition: { 
                             duration: 1.8, 
                             repeat: Infinity, 
@@ -290,82 +296,88 @@ export default function TrackerPage() {
                         }
                       }}
                     >
-                      <Flame className="h-5 w-5 fill-orange-500 transition-all group-hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.9)]" />
+                      <Flame className="h-6 w-6 fill-orange-500 transition-all group-hover:drop-shadow-[0_0_20px_rgba(249,115,22,1)]" />
                     </motion.div>
                     <div className="flex flex-col leading-none">
-                        <span className="font-black text-base">{stats.currentStreak}</span>
-                        <span className="text-[8px] font-black uppercase tracking-[0.2em] opacity-50">Day Streak</span>
+                        <span className="font-black text-xl italic tracking-tighter">{stats.currentStreak}</span>
+                        <span className="text-[9px] font-black uppercase tracking-[0.2em] opacity-50">Day Momentum</span>
                     </div>
                 </motion.div>
 
-                <div className="flex items-center gap-4 bg-secondary/30 backdrop-blur-xl border border-border/40 p-2 rounded-2xl shadow-xl">
-                    <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev - 1)} className="rounded-xl hover:bg-white/5">
-                        <ChevronLeft className="h-4 w-4" />
+                <div className="flex items-center gap-4 bg-secondary/20 backdrop-blur-3xl border border-border/40 p-2.5 rounded-[22px] shadow-2xl">
+                    <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev - 1)} className="rounded-xl hover:bg-white/5 h-10 w-10">
+                        <ChevronLeft className="h-5 w-5" />
                     </Button>
-                    <span className="font-mono font-black text-xl px-4 tracking-widest text-primary">{currentYear}</span>
-                    <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev + 1)} className="rounded-xl hover:bg-white/5">
-                        <ChevronRight className="h-4 w-4" />
+                    <span className="font-mono font-black text-2xl px-6 tracking-widest text-primary italic">{currentYear}</span>
+                    <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev + 1)} className="rounded-xl hover:bg-white/5 h-10 w-10">
+                        <ChevronRight className="h-5 w-5" />
                     </Button>
                 </div>
              </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
-            {/* Main Dashboard Area */}
-            <div className="lg:col-span-3 space-y-10">
-                {/* Stats HUD */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
+            {/* Main HUD Area */}
+            <div className="lg:col-span-3 space-y-12">
+                {/* Performance HUD Stats */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                     {[
-                        { label: 'Total Tasks', value: stats.totalTasks, icon: CheckCircle2, color: 'text-primary', sub: 'Calculated' },
+                        { label: 'Total Intent', value: stats.totalTasks, icon: LayoutGrid, color: 'text-primary', sub: 'Tasks Logged' },
                         { label: 'Consistency', value: `${stats.rate}%`, icon: Target, color: 'text-blue-500', sub: 'Reliability' },
-                        { label: 'Active Days', value: stats.activeDays, icon: TrendingUp, color: 'text-emerald-500', sub: 'Engagement' },
-                        { label: 'Longest Streak', value: stats.longestStreak, icon: Zap, color: 'text-orange-500', sub: 'Consecutive' },
+                        { label: 'Active Laps', value: stats.activeDays, icon: TrendingUp, color: 'text-emerald-500', sub: 'Daily Output' },
+                        { label: 'Max Streak', value: stats.longestStreak, icon: Zap, color: 'text-orange-500', sub: 'Peak Flow' },
                     ].map((stat, i) => (
-                        <Card key={i} className="bg-card/40 backdrop-blur-md border-border/40 group overflow-hidden transition-all duration-500 hover:border-primary/20 hover:-translate-y-1">
-                            <CardContent className="p-6 flex flex-col items-center text-center relative">
-                                <div className="absolute top-0 right-0 p-2 opacity-5 group-hover:opacity-10 transition-opacity">
-                                    <stat.icon className="h-12 w-12" />
+                        <Card key={i} className="bg-card/30 backdrop-blur-3xl border-border/40 group overflow-hidden transition-all duration-700 hover:border-primary/20 hover:-translate-y-2 rounded-[32px] shadow-xl">
+                            <CardContent className="p-8 flex flex-col items-center text-center relative">
+                                <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                                    <stat.icon className="h-14 w-14" />
                                 </div>
-                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/50 mb-3">{stat.label}</span>
-                                <span className={cn("text-3xl font-black italic tracking-tighter mb-1", stat.color)}>{stat.value}</span>
-                                <span className="text-[9px] font-mono text-muted-foreground/30 uppercase tracking-widest">{stat.sub}</span>
+                                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40 mb-4">{stat.label}</span>
+                                <span className={cn("text-4xl font-black italic tracking-tighter mb-1", stat.color)}>{stat.value}</span>
+                                <span className="text-[9px] font-mono text-muted-foreground/20 uppercase tracking-widest">{stat.sub}</span>
                             </CardContent>
                         </Card>
                     ))}
                 </div>
 
-                {/* Activity Heatmap - Separate Months Architecture */}
-                <Card className="bg-card/40 backdrop-blur-2xl border-border/40 rounded-[40px] overflow-hidden shadow-2xl transition-all duration-700 hover:border-primary/20">
-                    <CardHeader className="border-b border-border/10 pb-4 bg-primary/5 px-8">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <TrendingUp className="h-4 w-4 text-emerald-500" />
-                                <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-80 text-foreground">Activity Heatmap</span>
+                {/* Activity Heatmap - Separate Months Gallery Architecture */}
+                <div className="space-y-8">
+                    <div className="flex items-center justify-between px-2">
+                        <div className="flex items-center gap-4">
+                            <div className="h-10 w-10 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
+                                <TrendingUp className="h-5 w-5 text-emerald-500" />
                             </div>
-                            <div className="flex items-center gap-3 bg-black/5 dark:bg-black/40 px-3 py-1.5 rounded-full border border-border/40">
-                                <span className="text-[8px] font-bold uppercase text-muted-foreground/40">Less</span>
+                            <div>
+                                <h2 className="text-xl font-bold tracking-tight text-foreground uppercase italic">Activity Heatmap</h2>
+                                <p className="text-[9px] font-mono font-bold text-muted-foreground/30 uppercase tracking-[0.4em]">Visualizing Consistency Density</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-4 bg-black/5 dark:bg-black/40 px-4 py-2 rounded-full border border-border/40 shadow-inner">
+                            <span className="text-[8px] font-black uppercase text-muted-foreground/40 tracking-widest">Less</span>
+                            <div className="flex gap-2">
                                 {[0, 1, 2, 3, 4].map(l => (
-                                    <div key={l} className={cn("h-2.5 w-2.5 rounded-[2px] transition-all", 
+                                    <div key={l} className={cn("h-3 w-3 rounded-[3px] transition-all", 
                                         l === 0 ? "bg-muted/40 border border-border/60" : 
                                         l === 1 ? "bg-emerald-500/20" : 
                                         l === 2 ? "bg-emerald-500/40" : 
-                                        l === 3 ? "bg-emerald-500/70" : "bg-emerald-500 shadow-[0_0_8px_#10b981]"
+                                        l === 3 ? "bg-emerald-500/70" : "bg-emerald-500 shadow-[0_0_12px_#10b981]"
                                     )} />
                                 ))}
-                                <span className="text-[8px] font-bold uppercase text-muted-foreground/40">More</span>
                             </div>
+                            <span className="text-[8px] font-black uppercase text-muted-foreground/40 tracking-widest">More</span>
                         </div>
-                    </CardHeader>
-                    <CardContent className="p-10">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
-                            {months.map((month) => (
-                                <div key={month.name} className="space-y-4">
-                                    <div className="flex items-center justify-between border-b border-border/10 pb-2">
-                                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/60">{month.name}</h4>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
+                        {monthsData.map((month) => (
+                            <Card key={month.name} className="bg-card/20 backdrop-blur-2xl border-border/40 rounded-[35px] overflow-hidden shadow-2xl transition-all duration-700 hover:border-primary/20 hover:bg-card/30 p-8">
+                                <div className="space-y-6">
+                                    <div className="flex items-center justify-between border-b border-border/10 pb-3">
+                                        <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-primary italic opacity-70">{month.name}</h4>
                                     </div>
-                                    <div className="inline-grid grid-rows-7 grid-flow-col gap-1.5">
+                                    <div className="inline-grid grid-rows-7 grid-flow-col gap-2">
                                         {Array.from({ length: month.padding }).map((_, i) => (
-                                            <div key={`pad-${i}`} className="h-[14px] w-[14px]" />
+                                            <div key={`pad-${i}`} className="h-4 w-4 rounded-[4px] bg-transparent" />
                                         ))}
                                         
                                         {month.days.map((day) => {
@@ -380,19 +392,19 @@ export default function TrackerPage() {
                                                             <button
                                                                 onClick={() => handleDateClick(day.dateStr)}
                                                                 className={cn(
-                                                                    "h-[14px] w-[14px] rounded-[3px] transition-all duration-300 relative transform-gpu border",
+                                                                    "h-4 w-4 rounded-[4px] transition-all duration-300 relative transform-gpu border",
                                                                     level === 0 && "bg-muted/40 border-border/60 hover:bg-muted/60",
                                                                     level === 1 && "bg-emerald-500/20 border-transparent hover:bg-emerald-500/30",
                                                                     level === 2 && "bg-emerald-500/40 border-transparent hover:bg-emerald-500/50",
                                                                     level === 3 && "bg-emerald-500/70 border-transparent hover:bg-emerald-500/80",
                                                                     level === 4 && "bg-emerald-500 border-transparent shadow-[0_0_10px_#10b981] hover:scale-125 hover:z-20",
                                                                     isSelected && "ring-2 ring-primary ring-offset-2 ring-offset-background z-10 scale-110",
-                                                                    isCurrentDay && !isSelected && "ring-1 ring-emerald-500/40"
+                                                                    isCurrentDay && !isSelected && "ring-1 ring-emerald-500/50"
                                                                 )}
                                                             />
                                                         </TooltipTrigger>
                                                         <TooltipContent side="top" className="text-[11px] font-mono p-4 bg-black/90 backdrop-blur-xl border-white/10 shadow-2xl rounded-2xl">
-                                                            <p className="font-black text-white mb-1.5 uppercase tracking-widest">{format(day.date, 'EEEE, MMM d')}</p>
+                                                            <p className="font-black text-white mb-2 uppercase tracking-widest">{format(day.date, 'EEEE, MMM d')}</p>
                                                             <div className="flex items-center gap-3">
                                                                 <div className={cn("h-1.5 w-1.5 rounded-full", level > 0 ? "bg-emerald-500 animate-pulse" : "bg-white/10")} />
                                                                 <p className="text-muted-foreground/60">{tasks[day.dateStr]?.length || 0} activities recorded</p>
@@ -404,152 +416,164 @@ export default function TrackerPage() {
                                         })}
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                    </CardContent>
-                </Card>
+                            </Card>
+                        ))}
+                    </div>
+                </div>
             </div>
 
-            {/* Sidebar Management */}
+            {/* Premium Control Sidebar */}
             <div className={cn(
                 "lg:relative fixed inset-0 z-[150] lg:z-0 lg:block transition-all duration-700",
                 isSidebarOpen ? "block" : "hidden pointer-events-none lg:pointer-events-auto"
             )}>
                 <div 
-                    className="fixed inset-0 bg-background/80 backdrop-blur-sm lg:hidden" 
+                    className="fixed inset-0 bg-background/80 backdrop-blur-md lg:hidden" 
                     onClick={() => setIsSidebarOpen(false)}
                 />
                 <Card className={cn(
-                    "bg-card/60 backdrop-blur-3xl border-border/40 rounded-[45px] h-full lg:h-[calc(100vh-280px)] lg:sticky top-28 overflow-hidden flex flex-col shadow-2xl relative z-20 transition-all duration-700 transform-gpu",
+                    "bg-card/40 backdrop-blur-3xl border-border/40 rounded-[50px] h-full lg:h-[calc(100vh-220px)] lg:sticky top-28 overflow-hidden flex flex-col shadow-2xl relative z-20 transition-all duration-1000 transform-gpu",
                     isSidebarOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0 lg:translate-y-0 lg:opacity-100"
                 )}>
-                    <CardHeader className="border-b border-border/10 p-8 bg-primary/5">
+                    <CardHeader className="border-b border-border/10 p-10 bg-primary/5">
                         <div className="flex items-start justify-between">
-                            <div className="space-y-1">
-                                <span className="text-[11px] font-black uppercase tracking-[0.4em] text-emerald-500">
-                                    {format(parseISO(selectedDate), 'EEEE')}
-                                </span>
-                                <CardTitle className="text-2xl font-black tracking-tighter italic uppercase text-foreground">
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[11px] font-black uppercase tracking-[0.4em] text-emerald-500 animate-pulse">
+                                        {format(parseISO(selectedDate), 'EEEE')}
+                                    </span>
+                                </div>
+                                <CardTitle className="text-3xl font-black tracking-tighter italic uppercase text-foreground leading-none">
                                     {format(parseISO(selectedDate), 'MMM d, yyyy')}
                                 </CardTitle>
                             </div>
-                            <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(false)} className="lg:hidden rounded-full hover:bg-white/5 h-10 w-10">
-                                <X className="h-5 w-5" />
+                            <Button variant="ghost" size="icon" onClick={() => setIsSidebarOpen(false)} className="lg:hidden rounded-full hover:bg-white/5 h-12 w-12">
+                                <X className="h-6 w-6" />
                             </Button>
                         </div>
                     </CardHeader>
                     
-                    <CardContent className="flex-1 overflow-hidden flex flex-col p-8 pt-0">
-                        {/* Daily Progress Module */}
-                        <div className="py-6 space-y-3">
-                            <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-muted-foreground/40">
-                                <span>Day Velocity</span>
-                                <span className="text-emerald-500">{progressPercent}%</span>
+                    <CardContent className="flex-1 overflow-hidden flex flex-col p-10 pt-0">
+                        {/* Interactive Velocity Module */}
+                        <div className="py-8 space-y-4">
+                            <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/30">
+                                <span>Session Velocity</span>
+                                <span className="text-emerald-500 italic">{progressPercent}% Optimized</span>
                             </div>
-                            <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden">
+                            <div className="h-2 w-full bg-muted/20 rounded-full overflow-hidden backdrop-blur-sm border border-white/5">
                                 <div 
-                                    className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 transition-all duration-1000 ease-out"
+                                    className="h-full bg-gradient-to-r from-emerald-600 via-emerald-400 to-emerald-500 transition-all duration-1000 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_0_15px_#10b981]"
                                     style={{ width: `${progressPercent}%` }}
                                 />
                             </div>
                         </div>
 
-                        <ScrollArea className="flex-1 -mx-8 px-8 py-2" data-lenis-prevent>
-                            <div className="space-y-5">
+                        <ScrollArea className="flex-1 -mx-10 px-10 py-4" data-lenis-prevent>
+                            <AnimatePresence mode="popLayout">
                                 {dayTasks.length === 0 ? (
-                                    <div className="py-24 text-center flex flex-col items-center gap-6">
-                                        <div className="h-16 w-16 rounded-[24px] bg-muted/10 border border-dashed border-border flex items-center justify-center">
-                                            <Plus className="h-6 w-6 text-muted-foreground/20" />
+                                    <motion.div 
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        className="py-24 text-center flex flex-col items-center gap-8"
+                                    >
+                                        <div className="h-20 w-20 rounded-[30px] bg-muted/5 border-2 border-dashed border-border/20 flex items-center justify-center">
+                                            <Plus className="h-8 w-8 text-muted-foreground/10" />
                                         </div>
-                                        <div className="space-y-1">
-                                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40">Awaiting your next move...</p>
+                                        <div>
+                                            <p className="text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground/30">Protocol awaiting entry...</p>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 ) : (
-                                    dayTasks.map((task) => (
-                                        <div 
-                                            key={task.id} 
-                                            className={cn(
-                                                "group flex items-center gap-4 p-5 rounded-[22px] bg-card border border-border/40 transition-all duration-500 hover:scale-[1.02] transform-gpu",
-                                                task.completed ? "opacity-30 grayscale" : "hover:border-primary/20"
-                                            )}
-                                        >
-                                            <button 
-                                                onClick={() => toggleTask(task.id)}
+                                    <div className="space-y-6">
+                                        {dayTasks.map((task) => (
+                                            <motion.div 
+                                                key={task.id} 
+                                                layout
+                                                initial={{ x: -20, opacity: 0 }}
+                                                animate={{ x: 0, opacity: 1 }}
+                                                exit={{ x: 20, opacity: 0 }}
                                                 className={cn(
-                                                    "h-6 w-6 rounded-lg border-2 flex items-center justify-center transition-all duration-500 shrink-0",
-                                                    task.completed ? "bg-emerald-500 border-emerald-500 text-white" : "border-border hover:border-emerald-500/40"
+                                                    "group flex items-center gap-5 p-6 rounded-[28px] bg-card border border-border/40 transition-all duration-700 hover:scale-[1.03] transform-gpu shadow-lg",
+                                                    task.completed ? "opacity-30 grayscale blur-[0.2px]" : "hover:border-emerald-500/20 hover:shadow-emerald-500/5"
                                                 )}
                                             >
-                                                {task.completed && <CheckCircle2 className="h-4 w-4" />}
-                                            </button>
-                                            <div className="flex-1 flex flex-col gap-1 overflow-hidden">
-                                                <span className={cn(
-                                                    "text-sm font-bold tracking-tight transition-all truncate relative",
-                                                    task.completed && "text-muted-foreground"
-                                                )}>
-                                                    {task.text}
-                                                    {task.completed && (
-                                                      <motion.div 
-                                                        initial={{ width: 0 }}
-                                                        animate={{ width: "100%" }}
-                                                        className="absolute top-1/2 left-0 h-px bg-muted-foreground"
-                                                      />
+                                                <button 
+                                                    onClick={() => toggleTask(task.id)}
+                                                    className={cn(
+                                                        "h-7 w-7 rounded-xl border-2 flex items-center justify-center transition-all duration-500 shrink-0",
+                                                        task.completed ? "bg-emerald-500 border-emerald-500 text-white" : "border-border hover:border-emerald-500/40"
                                                     )}
-                                                </span>
-                                                <div className="flex items-center gap-2">
-                                                    <div className={cn(
-                                                        "w-1.5 h-1.5 rounded-full",
-                                                        task.category === 'work' ? "bg-purple-500" : task.category === 'personal' ? "bg-blue-500" : "bg-emerald-500"
-                                                    )} />
-                                                    <span className="text-[9px] font-black uppercase tracking-widest opacity-30">{task.category}</span>
+                                                >
+                                                    {task.completed && <CheckCircle2 className="h-4 w-4" />}
+                                                </button>
+                                                <div className="flex-1 flex flex-col gap-1.5 overflow-hidden">
+                                                    <span className={cn(
+                                                        "text-base font-bold tracking-tight transition-all truncate relative",
+                                                        task.completed && "text-muted-foreground"
+                                                    )}>
+                                                        {task.text}
+                                                        {task.completed && (
+                                                          <motion.div 
+                                                            initial={{ width: 0 }}
+                                                            animate={{ width: "100%" }}
+                                                            className="absolute top-1/2 left-0 h-[1.5px] bg-muted-foreground/50"
+                                                          />
+                                                        )}
+                                                    </span>
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={cn(
+                                                            "w-2 h-2 rounded-full",
+                                                            task.category === 'work' ? "bg-purple-500" : task.category === 'personal' ? "bg-blue-500" : "bg-emerald-500"
+                                                        )} />
+                                                        <span className="text-[10px] font-black uppercase tracking-widest opacity-20">{task.category}</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <Button 
-                                                variant="ghost" 
-                                                size="icon" 
-                                                onClick={() => deleteTask(task.id)}
-                                                className="h-8 w-8 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-destructive/10 hover:text-destructive shrink-0"
-                                            >
-                                                <Trash2 className="h-3.5 w-3.5" />
-                                            </Button>
-                                        </div>
-                                    ))
+                                                <Button 
+                                                    variant="ghost" 
+                                                    size="icon" 
+                                                    onClick={() => deleteTask(task.id)}
+                                                    className="h-10 w-10 rounded-full opacity-0 group-hover:opacity-100 transition-all hover:bg-destructive/10 hover:text-destructive shrink-0"
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </motion.div>
+                                        ))}
+                                    </div>
                                 )}
-                            </div>
+                            </AnimatePresence>
                         </ScrollArea>
 
-                        <div className="pt-8 space-y-6">
-                            <form onSubmit={handleAddTask} className="space-y-4">
+                        <div className="pt-10 space-y-8">
+                            <form onSubmit={handleAddTask} className="space-y-6">
                                 <div className="relative">
                                     <Input 
                                         value={newTaskText}
                                         onChange={(e) => setNewTaskText(e.target.value)}
-                                        placeholder="Add new activity..."
-                                        className="h-14 bg-card border-border/40 rounded-2xl pr-12 focus-visible:ring-1 ring-emerald-500/20 font-bold placeholder:text-muted-foreground/30"
+                                        placeholder="Add mission objective..."
+                                        className="h-16 bg-secondary/20 border-border/40 rounded-[22px] pr-16 focus-visible:ring-1 ring-emerald-500/20 font-bold placeholder:text-muted-foreground/20 italic"
                                     />
                                     <Button 
                                         type="submit" 
                                         size="icon" 
                                         disabled={!newTaskText.trim()}
-                                        className="absolute right-2 top-2 h-10 w-10 rounded-xl transition-all bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg"
+                                        className="absolute right-3 top-3 h-10 w-10 rounded-xl transition-all bg-emerald-500 hover:bg-emerald-600 text-white shadow-xl shadow-emerald-500/20"
                                     >
-                                        <Plus className="h-5 w-5" />
+                                        <Plus className="h-6 w-6" />
                                     </Button>
                                 </div>
 
                                 <div className="flex items-center justify-between px-2">
-                                    <div className="flex gap-2">
+                                    <div className="flex gap-3">
                                         {(['work', 'personal', 'growth'] as const).map(cat => (
                                             <button
                                                 key={cat}
                                                 type="button"
                                                 onClick={() => setNewTaskCategory(cat)}
                                                 className={cn(
-                                                    "px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all duration-300",
+                                                    "px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all duration-500 shadow-sm",
                                                     newTaskCategory === cat 
-                                                        ? "bg-primary/10 border-primary/20 text-primary" 
-                                                        : "bg-muted/20 border-border/40 text-muted-foreground/50 hover:bg-muted/30"
+                                                        ? "bg-primary text-primary-foreground border-primary scale-105" 
+                                                        : "bg-muted/10 border-border/40 text-muted-foreground/40 hover:bg-muted/20"
                                                 )}
                                             >
                                                 {cat}
