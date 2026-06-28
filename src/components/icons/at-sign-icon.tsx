@@ -23,6 +23,8 @@ const AtSignIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
     const [scope, animate] = useAnimate();
 
     const start = async () => {
+      if (!scope.current) return;
+      
       animate(".draw", { pathLength: 0, opacity: 0 }, { duration: 0 });
 
       await animate(
@@ -31,11 +33,15 @@ const AtSignIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
         { duration: 0.45, ease: "easeOut" },
       );
 
+      if (!scope.current) return;
+
       await animate(
         ".path",
         { pathLength: [0, 1], opacity: [0, 1] },
         { duration: 0.6, ease: "easeOut" },
       );
+
+      if (!scope.current) return;
 
       animate(
         ".inner",
@@ -45,6 +51,7 @@ const AtSignIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
     };
 
     const stop = () => {
+      if (!scope.current) return;
       animate(".draw", { pathLength: 1, opacity: 1 }, { duration: 0.2 });
     };
 
