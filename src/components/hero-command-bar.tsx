@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Search, Command, Code, Star, Send, CornerDownLeft, Library, Wind, Gamepad2, Activity } from 'lucide-react';
+import { Search, Command, Star, Send, CornerDownLeft, Library, Wind, Gamepad2, Activity } from 'lucide-react';
 import AtSignIcon from './icons/at-sign-icon';
 import BookIcon from './icons/book-icon';
+import CodeXmlIcon from './icons/code-xml-icon';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -18,7 +19,7 @@ import { useTheme } from 'next-themes';
 const navLinks = [
     { id: 'about', label: 'About', icon: AtSignIcon, shortcut: 'A', href: '#about' },
     { id: 'blogs', label: 'Blogs', icon: BookIcon, shortcut: 'B', href: '#blogs' },
-    { id: 'leetcode', label: 'LeetCode', icon: Code, shortcut: 'L', href: '#leetcode' },
+    { id: 'leetcode', label: 'LeetCode', icon: CodeXmlIcon, shortcut: 'L', href: '#leetcode' },
     { id: 'projects', label: 'Projects', icon: Star, shortcut: 'P', href: '#projects' },
     { id: 'contact', label: 'Contact', icon: Send, shortcut: 'C', href: '#contact' },
     { id: 'books', label: 'Volumes (Library)', icon: Library, shortcut: 'V', href: '/books' },
@@ -243,7 +244,7 @@ export function HeroCommandBar() {
                                 filteredLinks.map((link, index) => {
                                     const isActive = index === selectedIndex;
                                     const IconComponent = link.icon;
-                                    const isAnimated = link.id === 'about' || link.id === 'blogs';
+                                    const isAnimated = link.id === 'about' || link.id === 'blogs' || link.id === 'leetcode';
 
                                     return (
                                         <button
