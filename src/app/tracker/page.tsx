@@ -432,7 +432,7 @@ export default function TrackerPage() {
                     onClick={() => setIsSidebarOpen(false)}
                 />
                 <Card className={cn(
-                    "bg-card/40 backdrop-blur-3xl border-border/40 rounded-[50px] h-full lg:h-[calc(100vh-220px)] lg:sticky top-28 overflow-hidden flex flex-col shadow-2xl relative z-20 transition-all duration-1000 transform-gpu",
+                    "bg-card/40 backdrop-blur-3xl border border-border/40 rounded-[50px] h-full lg:h-[calc(100vh-220px)] lg:sticky top-28 overflow-hidden flex flex-col shadow-2xl relative z-20 transition-all duration-1000 transform-gpu",
                     isSidebarOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0 lg:translate-y-0 lg:opacity-100"
                 )}>
                     <CardHeader className="border-b border-border/10 p-10 bg-primary/5">
