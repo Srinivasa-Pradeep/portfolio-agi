@@ -308,7 +308,7 @@ export default function TrackerPage() {
                                   onClick={() => setSelectedDate(day.dateStr)}
                                   className={cn(
                                     "h-3 w-3 rounded-[3px] transition-all duration-300 relative border",
-                                    level === 0 && "bg-zinc-200/50 dark:bg-zinc-800/50 border-zinc-300/50 dark:border-zinc-700/50 hover:bg-zinc-300 dark:hover:bg-zinc-700",
+                                    level === 0 && "bg-zinc-200/50 dark:bg-zinc-800/50 border-border/60 hover:bg-zinc-300 dark:hover:bg-zinc-700",
                                     level === 1 && "bg-emerald-500/20 border-emerald-500/10",
                                     level === 2 && "bg-emerald-500/40 border-emerald-500/20",
                                     level === 3 && "bg-emerald-500/70 border-emerald-500/30",

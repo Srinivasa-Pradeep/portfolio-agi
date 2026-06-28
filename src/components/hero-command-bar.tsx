@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Search, Command, CornerDownLeft, Wind, Gamepad2, Activity } from 'lucide-react';
+import { Search, Command, CornerDownLeft, Gamepad2, Activity } from 'lucide-react';
 import AtSignIcon from './icons/at-sign-icon';
 import BookIcon from './icons/book-icon';
 import CodeXmlIcon from './icons/code-xml-icon';
 import StarIcon from './icons/star-icon';
 import SendIcon from './icons/send-icon';
 import LibraryIcon from './icons/library-icon';
+import AlarmClockPlusIcon from './icons/alarm-clock-plus-icon';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -26,7 +27,7 @@ const navLinks = [
     { id: 'projects', label: 'Projects', icon: StarIcon, shortcut: 'P', href: '#projects' },
     { id: 'contact', label: 'Contact', icon: SendIcon, shortcut: 'C', href: '#contact' },
     { id: 'books', label: 'Volumes (Library)', icon: LibraryIcon, shortcut: 'V', href: '/books' },
-    { id: 'zen', label: 'Zen Mode', icon: Wind, shortcut: 'O', href: '/zen' },
+    { id: 'zen', label: 'Zen Mode', icon: AlarmClockPlusIcon, shortcut: 'O', href: '/zen' },
     { id: 'tracker', label: 'Tracker', icon: Activity, shortcut: 'T', href: '/tracker' },
     { id: 'dino-game-container', label: 'Play Dino', icon: Gamepad2, shortcut: 'D', href: '#dino-game-container' },
     { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'Z', href: 'trigger-liz' },
@@ -247,7 +248,7 @@ export function HeroCommandBar() {
                                 filteredLinks.map((link, index) => {
                                     const isActive = index === selectedIndex;
                                     const IconComponent = link.icon;
-                                    const isAnimated = ['about', 'blogs', 'leetcode', 'projects', 'contact', 'books'].includes(link.id);
+                                    const isAnimated = ['about', 'blogs', 'leetcode', 'projects', 'contact', 'books', 'zen'].includes(link.id);
 
                                     return (
                                         <button
@@ -266,7 +267,7 @@ export function HeroCommandBar() {
                                                 <IconComponent 
                                                     size={20} 
                                                     className="transition-all" 
-                                                    {...(isAnimated ? { active: isActive } : {})}
+                                                    active={isAnimated ? isActive : undefined}
                                                 />
                                             </div>
                                             <div className="flex-1">
