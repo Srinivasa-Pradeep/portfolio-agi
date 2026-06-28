@@ -218,7 +218,7 @@ export default function TrackerPage() {
             <div className="space-y-6">
               <Link href="/" className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground hover:text-primary transition-colors group">
                 <ArrowLeft className="mr-2 h-3 w-3 transition-transform group-hover:-translate-x-1" />
-                Return to Core
+                Return to Home
               </Link>
               <h1 className="text-7xl md:text-8xl font-bold tracking-tighter leading-none">
                 Persistence<span className="text-primary">.</span>
@@ -257,9 +257,9 @@ export default function TrackerPage() {
                         <div className="group flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/5 border border-orange-500/10 cursor-default">
                           <motion.div
                             whileHover={{ 
-                              scale: [1, 1.2, 1.1, 1.3, 1],
-                              rotate: [0, -10, 10, -5, 5, 0],
-                              transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
+                              scale: [1, 1.3, 1.2, 1.4, 1],
+                              rotate: [0, -5, 5, -2, 2, 0],
+                              transition: { duration: 1.8, repeat: Infinity, ease: "easeInOut" }
                             }}
                             className="text-orange-500"
                           >
@@ -309,7 +309,7 @@ export default function TrackerPage() {
                                   onClick={() => setSelectedDate(day.dateStr)}
                                   className={cn(
                                     "h-3 w-3 rounded-[1px] transition-all duration-300 relative border border-transparent",
-                                    level === 0 && "bg-zinc-100/10 dark:bg-white/5 border border-zinc-200/20 dark:border-white/10 hover:bg-zinc-100/20 dark:hover:bg-white/10",
+                                    level === 0 && "bg-zinc-100/10 dark:bg-white/10 border border-zinc-200/20 dark:border-white/20 hover:bg-zinc-100/20 dark:hover:bg-white/20",
                                     level === 1 && "bg-emerald-500/20",
                                     level === 2 && "bg-emerald-500/40",
                                     level === 3 && "bg-emerald-500/70",
