@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
@@ -19,8 +20,7 @@ import {
   TrendingUp,
   Activity,
   ArrowLeft,
-  X,
-  Trophy
+  X
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -31,13 +31,16 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import confetti from 'canvas-confetti';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /**
  * @fileOverview Tracker - A premium macOS-style Todo & Habit environment.
- * Refined for absolute aesthetic clarity:
- * - Removed distracting technical labels and background tints.
- * - Tuned heatmap cells for high visibility during rest states.
- * - Precision-aligned LeetCode-style Heatmap.
+ * Re-engineered for psychological reward:
+ * - Confidential strikethrough on tick.
+ * - Poppers (Confetti) celebration on task completion.
+ * - High-visibility Grid Rest State.
+ * - Pure Neat aesthetic.
  */
 
 interface Task {
@@ -159,6 +162,16 @@ export default function TrackerPage() {
     return 1;
   };
 
+  const triggerCelebration = useCallback(() => {
+    confetti({
+      particleCount: 80,
+      spread: 60,
+      origin: { y: 0.8 },
+      colors: ['#10b981', '#34d399', '#FFA116', '#FFFFFF'],
+      disableForReducedMotion: true
+    });
+  }, []);
+
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTaskText.trim()) return;
@@ -178,10 +191,18 @@ export default function TrackerPage() {
   };
 
   const toggleTask = (id: string) => {
-    setTasks(prev => ({
-      ...prev,
-      [selectedDate]: prev[selectedDate].map(t => t.id === id ? { ...t, completed: !t.completed } : t)
-    }));
+    setTasks(prev => {
+      const dayTasks = prev[selectedDate] || [];
+      const updated = dayTasks.map(t => {
+        if (t.id === id) {
+          const nextState = !t.completed;
+          if (nextState) triggerCelebration();
+          return { ...t, completed: nextState };
+        }
+        return t;
+      });
+      return { ...prev, [selectedDate]: updated };
+    });
   };
 
   const deleteTask = (id: string) => {
@@ -205,17 +226,15 @@ export default function TrackerPage() {
   const dayTasks = tasks[selectedDate] || [];
   const completedCount = dayTasks.filter(t => t.completed).length;
   const progressPercent = dayTasks.length > 0 ? Math.round((completedCount / dayTasks.length) * 100) : 0;
-  const isFullyCompleted = dayTasks.length > 0 && completedCount === dayTasks.length;
 
   if (!isMounted) return null;
 
   return (
     <div className="flex min-h-screen flex-col bg-background selection:bg-primary/20 relative overflow-hidden">
-      {/* Absolute Plain Backdrop - Neat and Consistent */}
+      {/* Absolute Plain Backdrop */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-background" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--primary)/0.02),transparent_70%)]" />
-        {/* Subtle Grid - Consistent with Home Page */}
         <div className="absolute inset-0 h-full w-full bg-[linear-gradient(to_right,hsl(var(--border))_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border))_1px,transparent_1px)] bg-[size:6rem_6rem] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)] opacity-[0.05]" />
       </div>
 
@@ -289,7 +308,7 @@ export default function TrackerPage() {
                                 <span className="text-[8px] font-bold uppercase text-muted-foreground/40">Less</span>
                                 {[0, 1, 2, 3, 4].map(l => (
                                     <div key={l} className={cn("h-2.5 w-2.5 rounded-[2px] transition-all", 
-                                        l === 0 ? "bg-muted/40" : 
+                                        l === 0 ? "bg-muted/40 border border-border/20" : 
                                         l === 1 ? "bg-emerald-500/20" : 
                                         l === 2 ? "bg-emerald-500/40" : 
                                         l === 3 ? "bg-emerald-500/70" : "bg-emerald-500 shadow-[0_0_8px_#10b981]"
@@ -340,7 +359,7 @@ export default function TrackerPage() {
                                                                 onClick={() => handleDateClick(dateStr)}
                                                                 className={cn(
                                                                     "h-[14px] w-[14px] rounded-[3px] transition-all duration-300 relative transform-gpu border border-transparent",
-                                                                    level === 0 && "bg-muted/40 hover:bg-muted/60",
+                                                                    level === 0 && "bg-muted/40 border-border/10 hover:bg-muted/60",
                                                                     level === 1 && "bg-emerald-500/20 hover:bg-emerald-500/30",
                                                                     level === 2 && "bg-emerald-500/40 hover:bg-emerald-500/50",
                                                                     level === 3 && "bg-emerald-500/70 hover:bg-emerald-500/80",
@@ -415,14 +434,6 @@ export default function TrackerPage() {
 
                         <ScrollArea className="flex-1 -mx-8 px-8 py-2" data-lenis-prevent>
                             <div className="space-y-5">
-                                {isFullyCompleted && (
-                                    <div className="p-6 rounded-[32px] bg-emerald-500/5 border border-emerald-500/10 text-center animate-in fade-in zoom-in duration-500">
-                                        <Trophy className="h-8 w-8 text-emerald-500 mx-auto mb-3 animate-bounce" />
-                                        <h4 className="text-sm font-black text-emerald-500 uppercase tracking-widest mb-1">Peak Performance</h4>
-                                        <p className="text-[10px] text-muted-foreground/50 lora italic font-medium">"Mastery is a byproduct of consistency."</p>
-                                    </div>
-                                )}
-
                                 {dayTasks.length === 0 ? (
                                     <div className="py-24 text-center flex flex-col items-center gap-6">
                                         <div className="h-16 w-16 rounded-[24px] bg-muted/20 border border-dashed border-border flex items-center justify-center">
@@ -452,10 +463,17 @@ export default function TrackerPage() {
                                             </button>
                                             <div className="flex-1 flex flex-col gap-1 overflow-hidden">
                                                 <span className={cn(
-                                                    "text-sm font-bold tracking-tight transition-all truncate",
-                                                    task.completed && "line-through text-muted-foreground"
+                                                    "text-sm font-bold tracking-tight transition-all truncate relative",
+                                                    task.completed && "text-muted-foreground"
                                                 )}>
                                                     {task.text}
+                                                    {task.completed && (
+                                                      <motion.div 
+                                                        initial={{ width: 0 }}
+                                                        animate={{ width: "100%" }}
+                                                        className="absolute top-1/2 left-0 h-px bg-muted-foreground"
+                                                      />
+                                                    )}
                                                 </span>
                                                 <div className="flex items-center gap-2">
                                                     <div className={cn(
