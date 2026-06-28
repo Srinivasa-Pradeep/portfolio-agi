@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Search, Command, NotebookText, Code, Star, Send, CornerDownLeft, Library, Wind, Gamepad2, Activity } from 'lucide-react';
+import { Search, Command, Code, Star, Send, CornerDownLeft, Library, Wind, Gamepad2, Activity } from 'lucide-react';
 import AtSignIcon from './icons/at-sign-icon';
+import BookIcon from './icons/book-icon';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -16,7 +17,7 @@ import { useTheme } from 'next-themes';
 
 const navLinks = [
     { id: 'about', label: 'About', icon: AtSignIcon, shortcut: 'A', href: '#about' },
-    { id: 'blogs', label: 'Blogs', icon: NotebookText, shortcut: 'B', href: '#blogs' },
+    { id: 'blogs', label: 'Blogs', icon: BookIcon, shortcut: 'B', href: '#blogs' },
     { id: 'leetcode', label: 'LeetCode', icon: Code, shortcut: 'L', href: '#leetcode' },
     { id: 'projects', label: 'Projects', icon: Star, shortcut: 'P', href: '#projects' },
     { id: 'contact', label: 'Contact', icon: Send, shortcut: 'C', href: '#contact' },
@@ -256,11 +257,10 @@ export function HeroCommandBar() {
                                                 "h-10 w-10 rounded-xl flex items-center justify-center border border-border/20 transition-all",
                                                 isActive ? "bg-primary text-primary-foreground" : "bg-secondary/50 group-hover:bg-primary group-hover:text-primary-foreground"
                                             )}>
-                                                {/* Pass isActive to the icon. Custom icons (AtSignIcon) will use it, Lucide icons will ignore it. */}
                                                 <IconComponent 
                                                     size={20} 
                                                     className="transition-all" 
-                                                    {...(link.id === 'about' ? { active: isActive } : {})} 
+                                                    active={isActive}
                                                 />
                                             </div>
                                             <div className="flex-1">
