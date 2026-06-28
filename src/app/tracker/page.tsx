@@ -257,8 +257,8 @@ export default function TrackerPage() {
                         <div className="group flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/5 border border-orange-500/10 cursor-default">
                           <motion.div
                             whileHover={{ 
-                              scale: [1, 1.3, 1.2, 1.4, 1],
-                              rotate: [0, -5, 5, -2, 2, 0],
+                              scale: [1, 1.1, 1, 1.15, 1],
+                              rotate: [0, -2, 2, -1, 1, 0],
                               transition: { duration: 1.8, repeat: Infinity, ease: "easeInOut" }
                             }}
                             className="text-orange-500"
@@ -308,12 +308,12 @@ export default function TrackerPage() {
                                 <button
                                   onClick={() => setSelectedDate(day.dateStr)}
                                   className={cn(
-                                    "h-3 w-3 rounded-[1px] transition-all duration-300 relative border border-transparent",
-                                    level === 0 && "bg-zinc-100/10 dark:bg-white/10 border border-zinc-200/20 dark:border-white/20 hover:bg-zinc-100/20 dark:hover:bg-white/20",
-                                    level === 1 && "bg-emerald-500/20",
-                                    level === 2 && "bg-emerald-500/40",
-                                    level === 3 && "bg-emerald-500/70",
-                                    level === 4 && "bg-emerald-500 shadow-[0_0_8px_#10b981]",
+                                    "h-3 w-3 rounded-[1px] transition-all duration-300 relative border",
+                                    level === 0 && "bg-zinc-100 dark:bg-white/10 border-zinc-200 dark:border-white/20 hover:bg-zinc-200 dark:hover:bg-white/20",
+                                    level === 1 && "bg-emerald-500/20 border-emerald-500/10",
+                                    level === 2 && "bg-emerald-500/40 border-emerald-500/20",
+                                    level === 3 && "bg-emerald-500/70 border-emerald-500/30",
+                                    level === 4 && "bg-emerald-500 border-emerald-600 shadow-[0_0_8px_#10b981]",
                                     isSelected && "ring-1 ring-primary ring-offset-2 ring-offset-background z-10",
                                     isTodayDate && !isSelected && "ring-1 ring-primary/30"
                                   )}
@@ -388,6 +388,7 @@ export default function TrackerPage() {
                               {task.completed && <Check className="h-3 w-3 stroke-[3px]" />}
                             </button>
                             <div className="flex-1 space-y-1.5 overflow-hidden">
+                              {/* Changed to div to fix hydration error with absolute motion.div inside */}
                               <div className="text-sm font-medium leading-relaxed tracking-tight relative inline-block transition-all duration-700">
                                 {task.text}
                                 {task.completed && (
