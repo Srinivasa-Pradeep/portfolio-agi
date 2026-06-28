@@ -309,7 +309,7 @@ export default function TrackerPage() {
                                   onClick={() => setSelectedDate(day.dateStr)}
                                   className={cn(
                                     "h-3 w-3 rounded-[1px] transition-all duration-300 relative border border-transparent",
-                                    level === 0 && "bg-muted/20 border-border/20 hover:bg-muted/40 hover:border-border/40",
+                                    level === 0 && "bg-zinc-100/10 dark:bg-white/5 border border-zinc-200/20 dark:border-white/10 hover:bg-zinc-100/20 dark:hover:bg-white/10",
                                     level === 1 && "bg-emerald-500/20",
                                     level === 2 && "bg-emerald-500/40",
                                     level === 3 && "bg-emerald-500/70",
@@ -388,7 +388,6 @@ export default function TrackerPage() {
                               {task.completed && <Check className="h-3 w-3 stroke-[3px]" />}
                             </button>
                             <div className="flex-1 space-y-1.5 overflow-hidden">
-                              {/* FIXED HYDRATION: Changed 'p' to 'div' to allow 'motion.div' child */}
                               <div className="text-sm font-medium leading-relaxed tracking-tight relative inline-block transition-all duration-700">
                                 {task.text}
                                 {task.completed && (
