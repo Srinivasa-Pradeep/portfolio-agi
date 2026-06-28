@@ -11,6 +11,7 @@ import LibraryIcon from './icons/library-icon';
 import AlarmClockPlusIcon from './icons/alarm-clock-plus-icon';
 import CheckedIcon from './icons/checked-icon';
 import GamepadIcon from './icons/gamepad-icon';
+import SparklesIcon from './icons/sparkles-icon';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -32,7 +33,7 @@ const navLinks = [
     { id: 'zen', label: 'Zen Mode', icon: AlarmClockPlusIcon, shortcut: 'O', href: '/zen' },
     { id: 'tracker', label: 'Tracker', icon: CheckedIcon, shortcut: 'T', href: '/tracker' },
     { id: 'dino-game-container', label: 'Play Dino', icon: GamepadIcon, shortcut: 'D', href: '#dino-game-container' },
-    { id: 'liz', label: 'Talk with Liz', icon: Command, shortcut: 'Z', href: 'trigger-liz' },
+    { id: 'liz', label: 'Talk with Liz', icon: SparklesIcon, shortcut: 'Z', href: 'trigger-liz' },
 ];
 
 export function HeroCommandBar() {
@@ -250,7 +251,7 @@ export function HeroCommandBar() {
                                 filteredLinks.map((link, index) => {
                                     const isActive = index === selectedIndex;
                                     const IconComponent = link.icon;
-                                    const isAnimated = ['about', 'blogs', 'leetcode', 'projects', 'contact', 'books', 'zen', 'tracker', 'dino-game-container'].includes(link.id);
+                                    const isAnimated = ['about', 'blogs', 'leetcode', 'projects', 'contact', 'books', 'zen', 'tracker', 'dino-game-container', 'liz'].includes(link.id);
 
                                     return (
                                         <button
