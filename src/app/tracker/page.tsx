@@ -213,7 +213,7 @@ export default function TrackerPage() {
       <main className="flex-1 pt-32 pb-24 px-6 md:px-16">
         <div className="max-w-7xl mx-auto">
           
-          {/* Section: Precision Header */}
+          {/* Section: Header */}
           <header className="mb-24 flex flex-col lg:flex-row lg:items-end justify-between gap-12">
             <div className="space-y-6">
               <Link href="/" className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground hover:text-primary transition-colors group">
@@ -244,12 +244,11 @@ export default function TrackerPage() {
 
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-20">
             
-            {/* Section: Activity Heat Map (12 Month Architecture) */}
+            {/* Section: Activity Heat Map */}
             <div className="xl:col-span-8 space-y-16">
               <div className="flex items-center justify-between border-b border-border/10 pb-6">
                 <div className="flex items-center gap-6">
                   <h2 className="text-[11px] font-black uppercase tracking-[0.4em] text-foreground/80">Activity Heat Map</h2>
-                  {/* Streak Telemetry Integrated with Year Selector */}
                   <div className="h-6 w-px bg-border/20" />
                   <TooltipProvider>
                     <Tooltip delayDuration={0}>
@@ -332,7 +331,7 @@ export default function TrackerPage() {
               </div>
             </div>
 
-            {/* Section: Daily Operations (Linear-style Interaction) */}
+            {/* Section: Daily Operations */}
             <div className="xl:col-span-4 space-y-12 lg:pl-12 lg:border-l border-border/10">
               <div className="space-y-1">
                 <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">{format(parseISO(selectedDate), 'EEEE')}</p>

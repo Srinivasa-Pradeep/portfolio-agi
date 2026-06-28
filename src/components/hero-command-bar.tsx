@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Search, Command, Star, Send, CornerDownLeft, Library, Wind, Gamepad2, Activity } from 'lucide-react';
+import { Search, Command, Send, CornerDownLeft, Library, Wind, Gamepad2, Activity } from 'lucide-react';
 import AtSignIcon from './icons/at-sign-icon';
 import BookIcon from './icons/book-icon';
 import CodeXmlIcon from './icons/code-xml-icon';
+import StarIcon from './icons/star-icon';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -20,7 +21,7 @@ const navLinks = [
     { id: 'about', label: 'About', icon: AtSignIcon, shortcut: 'A', href: '#about' },
     { id: 'blogs', label: 'Blogs', icon: BookIcon, shortcut: 'B', href: '#blogs' },
     { id: 'leetcode', label: 'LeetCode', icon: CodeXmlIcon, shortcut: 'L', href: '#leetcode' },
-    { id: 'projects', label: 'Projects', icon: Star, shortcut: 'P', href: '#projects' },
+    { id: 'projects', label: 'Projects', icon: StarIcon, shortcut: 'P', href: '#projects' },
     { id: 'contact', label: 'Contact', icon: Send, shortcut: 'C', href: '#contact' },
     { id: 'books', label: 'Volumes (Library)', icon: Library, shortcut: 'V', href: '/books' },
     { id: 'zen', label: 'Zen Mode', icon: Wind, shortcut: 'O', href: '/zen' },
@@ -244,7 +245,7 @@ export function HeroCommandBar() {
                                 filteredLinks.map((link, index) => {
                                     const isActive = index === selectedIndex;
                                     const IconComponent = link.icon;
-                                    const isAnimated = link.id === 'about' || link.id === 'blogs' || link.id === 'leetcode';
+                                    const isAnimated = link.id === 'about' || link.id === 'blogs' || link.id === 'leetcode' || link.id === 'projects';
 
                                     return (
                                         <button

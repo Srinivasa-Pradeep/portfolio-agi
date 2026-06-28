@@ -1,0 +1,100 @@
+'use client';
+
+import { forwardRef, useImperativeHandle, useCallback, useEffect } from "react";
+import { motion, useAnimate } from "framer-motion";
+
+export interface StarIconProps {
+  size?: number;
+  color?: string;
+  strokeWidth?: number;
+  className?: string;
+  active?: boolean;
+}
+
+export interface StarIconHandle {
+  startAnimation: () => void;
+  stopAnimation: () => void;
+}
+
+const StarIcon = forwardRef<StarIconHandle, StarIconProps>(
+  (
+    { size = 24, color = "currentColor", strokeWidth = 2, className = "", active },
+    ref,
+  ) => {
+    const [scope, animate] = useAnimate();
+
+    const start = useCallback(async () => {
+      if (!scope.current) return;
+      animate(
+        ".star-fill",
+        { opacity: [0, 1], scale: [0.8, 1] },
+        { duration: 0.4, ease: "easeOut" },
+      );
+      animate(
+        ".star-outline",
+        { scale: [1, 1.1, 1], rotate: [0, -5, 5, 0] },
+        { duration: 0.5, ease: "easeInOut" },
+      );
+    }, [animate, scope]);
+
+    const stop = useCallback(() => {
+      if (!scope.current) return;
+      animate(
+        ".star-fill",
+        { opacity: [1, 0] },
+        { duration: 0.3, ease: "easeOut" },
+      );
+      animate(
+        ".star-outline",
+        { scale: 1, rotate: 0 },
+        { duration: 0.3, ease: "easeInOut" },
+      );
+    }, [animate, scope]);
+
+    useImperativeHandle(ref, () => ({
+      startAnimation: start,
+      stopAnimation: stop,
+    }));
+
+    useEffect(() => {
+      if (active) {
+        start();
+      } else {
+        stop();
+      }
+    }, [active, start, stop]);
+
+    return (
+      <motion.svg
+        ref={scope}
+        xmlns="http://www.w3.org/2000/svg"
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={color}
+        strokeWidth={strokeWidth}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={className}
+      >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <motion.path
+          className="star-fill"
+          d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"
+          fill={color}
+          initial={{ opacity: 0 }}
+          style={{ transformOrigin: "center" }}
+        />
+        <motion.path
+          className="star-outline"
+          d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"
+          style={{ transformOrigin: "center" }}
+        />
+      </motion.svg>
+    );
+  },
+);
+
+StarIcon.displayName = "StarIcon";
+export default StarIcon;
