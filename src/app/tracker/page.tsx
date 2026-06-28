@@ -308,8 +308,8 @@ export default function TrackerPage() {
                                 <button
                                   onClick={() => setSelectedDate(day.dateStr)}
                                   className={cn(
-                                    "h-3 w-3 rounded-[1px] transition-all duration-300 relative border",
-                                    level === 0 && "bg-zinc-100 dark:bg-white/10 border-zinc-200 dark:border-white/20 hover:bg-zinc-200 dark:hover:bg-white/20",
+                                    "h-3 w-3 rounded-[3px] transition-all duration-300 relative border",
+                                    level === 0 && "bg-zinc-100 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800",
                                     level === 1 && "bg-emerald-500/20 border-emerald-500/10",
                                     level === 2 && "bg-emerald-500/40 border-emerald-500/20",
                                     level === 3 && "bg-emerald-500/70 border-emerald-500/30",
@@ -388,7 +388,6 @@ export default function TrackerPage() {
                               {task.completed && <Check className="h-3 w-3 stroke-[3px]" />}
                             </button>
                             <div className="flex-1 space-y-1.5 overflow-hidden">
-                              {/* Changed to div to fix hydration error with absolute motion.div inside */}
                               <div className="text-sm font-medium leading-relaxed tracking-tight relative inline-block transition-all duration-700">
                                 {task.text}
                                 {task.completed && (
