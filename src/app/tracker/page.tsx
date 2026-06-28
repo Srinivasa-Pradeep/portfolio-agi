@@ -24,12 +24,12 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { format, startOfYear, endOfYear, eachDayOfInterval, parseISO, isToday, subDays, getDaysInMonth, startOfMonth, getDay } from 'date-fns';
+import { format, parseISO, isToday, subDays, getDaysInMonth, startOfMonth, getDay } from 'date-fns';
 import { 
   Tooltip,
-  TooltipContent,
   TooltipProvider,
   TooltipTrigger,
+  TooltipContent,
 } from '@/components/ui/tooltip';
 import confetti from 'canvas-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -38,7 +38,7 @@ import { motion, AnimatePresence } from 'framer-motion';
  * @fileOverview Tracker - A premium macOS-style Todo & Habit environment.
  * Re-engineered for psychological reward:
  * - 12 Separate Month blocks for perfect alignment.
- * - Fire Streak Badge in header for momentum tracking.
+ * - Flickering Fire Streak Badge for momentum tracking.
  * - High-visibility grid rest state.
  */
 
@@ -264,29 +264,42 @@ export default function TrackerPage() {
                     <div className="h-14 w-14 rounded-[22px] bg-primary/5 flex items-center justify-center border border-primary/10 shadow-inner group overflow-hidden">
                         <Activity className="h-7 w-7 text-primary group-hover:scale-110 transition-transform" />
                     </div>
-                    <div className="space-y-1">
-                        <h1 className="font-headline text-5xl font-black tracking-tighter italic uppercase text-foreground">Tracker.</h1>
-                        {/* Streak Badge Header */}
-                        <div className={cn(
-                            "flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-700",
-                            stats.currentStreak > 0 ? "bg-orange-500/10 border border-orange-500/20 text-orange-500 opacity-100" : "opacity-0 pointer-events-none"
-                        )}>
-                            <Flame className={cn("h-4 w-4 fill-orange-500", stats.currentStreak > 0 && "animate-pulse")} />
-                            <span className="font-black text-sm">{stats.currentStreak}</span>
-                            <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">day streak</span>
-                        </div>
-                    </div>
+                    <h1 className="font-headline text-5xl font-black tracking-tighter italic uppercase text-foreground">Tracker.</h1>
                 </div>
              </div>
 
-             <div className="flex items-center gap-4 bg-secondary/30 backdrop-blur-xl border border-border/40 p-2 rounded-2xl shadow-xl">
-                <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev - 1)} className="rounded-xl hover:bg-white/5">
-                    <ChevronLeft className="h-4 w-4" />
-                </Button>
-                <span className="font-mono font-black text-xl px-4 tracking-widest text-primary">{currentYear}</span>
-                <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev + 1)} className="rounded-xl hover:bg-white/5">
-                    <ChevronRight className="h-4 w-4" />
-                </Button>
+             <div className="flex items-center gap-4">
+                {/* Streak Badge Header - Flickering Fire Animation */}
+                <div className={cn(
+                    "flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-700 bg-orange-500/10 border border-orange-500/20 text-orange-500 shadow-lg shadow-orange-500/5",
+                    stats.currentStreak > 0 ? "opacity-100 translate-x-0" : "opacity-0 pointer-events-none translate-x-10"
+                )}>
+                    <motion.div
+                      animate={{ 
+                        rotate: [0, -10, 10, -5, 5, 0],
+                        scale: [1, 1.1, 1, 1.05, 1],
+                      }}
+                      transition={{ 
+                        duration: 1.5, 
+                        repeat: Infinity, 
+                        ease: "easeInOut" 
+                      }}
+                    >
+                      <Flame className="h-4 w-4 fill-orange-500" />
+                    </motion.div>
+                    <span className="font-black text-sm">{stats.currentStreak}</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Day Streak</span>
+                </div>
+
+                <div className="flex items-center gap-4 bg-secondary/30 backdrop-blur-xl border border-border/40 p-2 rounded-2xl shadow-xl">
+                    <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev - 1)} className="rounded-xl hover:bg-white/5">
+                        <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <span className="font-mono font-black text-xl px-4 tracking-widest text-primary">{currentYear}</span>
+                    <Button variant="ghost" size="icon" onClick={() => setCurrentYear(prev => prev + 1)} className="rounded-xl hover:bg-white/5">
+                        <ChevronRight className="h-4 w-4" />
+                    </Button>
+                </div>
              </div>
           </div>
 
@@ -326,7 +339,7 @@ export default function TrackerPage() {
                                 <span className="text-[8px] font-bold uppercase text-muted-foreground/40">Less</span>
                                 {[0, 1, 2, 3, 4].map(l => (
                                     <div key={l} className={cn("h-2.5 w-2.5 rounded-[2px] transition-all", 
-                                        l === 0 ? "bg-muted/10 border border-border/20" : 
+                                        l === 0 ? "bg-muted/15 border border-border/20" : 
                                         l === 1 ? "bg-emerald-500/20" : 
                                         l === 2 ? "bg-emerald-500/40" : 
                                         l === 3 ? "bg-emerald-500/70" : "bg-emerald-500 shadow-[0_0_8px_#10b981]"
@@ -340,7 +353,7 @@ export default function TrackerPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
                             {months.map((month) => (
                                 <div key={month.name} className="space-y-4">
-                                    <div className="flex items-center justify-between border-b border-border/5 pb-2">
+                                    <div className="flex items-center justify-between border-b border-border/10 pb-2">
                                         <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/60">{month.name}</h4>
                                     </div>
                                     <div className="inline-grid grid-rows-7 grid-flow-col gap-1.5">
@@ -361,7 +374,7 @@ export default function TrackerPage() {
                                                                 onClick={() => handleDateClick(day.dateStr)}
                                                                 className={cn(
                                                                     "h-[14px] w-[14px] rounded-[3px] transition-all duration-300 relative transform-gpu border",
-                                                                    level === 0 && "bg-muted/5 border-border/10 hover:bg-muted/20",
+                                                                    level === 0 && "bg-muted/15 border-border/30 hover:bg-muted/30",
                                                                     level === 1 && "bg-emerald-500/20 border-transparent hover:bg-emerald-500/30",
                                                                     level === 2 && "bg-emerald-500/40 border-transparent hover:bg-emerald-500/50",
                                                                     level === 3 && "bg-emerald-500/70 border-transparent hover:bg-emerald-500/80",
