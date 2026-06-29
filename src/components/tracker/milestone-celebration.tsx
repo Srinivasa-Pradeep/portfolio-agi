@@ -1,6 +1,7 @@
+
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { 
   Dialog, 
   DialogContent, 
@@ -8,10 +9,11 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Trophy, Flame, Sparkles, Star, ChevronRight, Share2, Check } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Trophy, Flame, Sparkles, Star, ChevronRight, Share2, Download } from 'lucide-react';
+import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { useToast } from '@/hooks/use-toast';
+import { toPng } from 'html-to-image';
 
 const MILESTONE_DATA: Record<number, { title: string, subtitle: string, quote: string }> = {
   7: { title: "Momentum Phase", subtitle: "One Full Week of Excellence", quote: "Consistency is the DNA of mastery." },
@@ -30,10 +32,10 @@ export function MilestoneCelebration({
   onClose: () => void 
 }) {
   const { toast } = useToast();
+  const captureRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (milestone) {
-      // Premium Confetti Burst
       const duration = 3 * 1000;
       const animationEnd = Date.now() + duration;
       const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
@@ -77,7 +79,6 @@ export function MilestoneCelebration({
         // user cancelled
       }
     } else {
-      // Fallback: Copy to Clipboard
       await navigator.clipboard.writeText(shareText);
       toast({
         title: "Copied to Clipboard",
@@ -90,6 +91,37 @@ export function MilestoneCelebration({
     }
   };
 
+  const handleDownloadImage = async () => {
+    if (!captureRef.current || !milestone) return;
+
+    try {
+      const dataUrl = await toPng(captureRef.current, {
+        cacheBust: true,
+        backgroundColor: '#000000',
+        pixelRatio: 2,
+        style: {
+          borderRadius: '40px',
+        }
+      });
+      
+      const link = document.createElement('a');
+      link.download = `srini-milestone-${milestone}-days.png`;
+      link.href = dataUrl;
+      link.click();
+      
+      toast({
+        title: "Achievement Captured",
+        description: "High-resolution achievement card saved to downloads.",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Capture Error",
+        description: "Failed to generate achievement image. Please try again.",
+      });
+    }
+  };
+
   const data = milestone ? (MILESTONE_DATA[milestone] || { 
     title: "Uncharted Territory", 
     subtitle: `${milestone} Days of Persistence`, 
@@ -98,11 +130,12 @@ export function MilestoneCelebration({
 
   return (
     <Dialog open={!!milestone} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[500px] border-none bg-black/90 text-white p-0 overflow-hidden rounded-[40px] shadow-[0_0_100px_rgba(255,215,0,0.2)]">
+      <DialogContent className="sm:max-w-[500px] border-none bg-black/95 text-white p-0 overflow-hidden rounded-[40px] shadow-[0_0_100px_rgba(255,215,0,0.2)]">
         <DialogHeader className="sr-only">
           <DialogTitle>Achievement Unlocked: {milestone} Day Streak</DialogTitle>
         </DialogHeader>
-        <div className="relative p-10 flex flex-col items-center text-center">
+        
+        <div ref={captureRef} className="relative p-10 flex flex-col items-center text-center bg-black">
             {/* Background Atmosphere */}
             <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
                 <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_40%,rgba(255,215,0,0.15),transparent_70%)]" />
@@ -174,36 +207,44 @@ export function MilestoneCelebration({
                         Every small commit compounds
                     </p>
                 </motion.div>
-
-                <div className="flex flex-col gap-4">
-                    <motion.div
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.9 }}
-                    >
-                        <Button 
-                            onClick={onClose}
-                            className="w-full h-16 rounded-[24px] bg-white text-black hover:bg-white/90 font-black uppercase tracking-widest italic text-sm group"
-                        >
-                            Maintain the Streak <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                        </Button>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 1.1 }}
-                    >
-                        <Button 
-                            variant="ghost"
-                            onClick={handleShare}
-                            className="text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 rounded-full"
-                        >
-                            <Share2 className="mr-2 h-3.5 w-3.5" /> Share & Save Achievement
-                        </Button>
-                    </motion.div>
-                </div>
             </div>
+        </div>
+
+        <div className="p-8 pt-0 space-y-4">
+            <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.9 }}
+            >
+                <Button 
+                    onClick={onClose}
+                    className="w-full h-16 rounded-[24px] bg-white text-black hover:bg-white/90 font-black uppercase tracking-widest italic text-sm group"
+                >
+                    Maintain the Streak <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Button>
+            </motion.div>
+
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.1 }}
+                className="flex gap-4"
+            >
+                <Button 
+                    variant="ghost"
+                    onClick={handleShare}
+                    className="flex-1 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 rounded-2xl h-12"
+                >
+                    <Share2 className="mr-2 h-3.5 w-3.5" /> Share
+                </Button>
+                <Button 
+                    variant="ghost"
+                    onClick={handleDownloadImage}
+                    className="flex-1 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 rounded-2xl h-12"
+                >
+                    <Download className="mr-2 h-3.5 w-3.5" /> Save Image
+                </Button>
+            </motion.div>
         </div>
       </DialogContent>
     </Dialog>
