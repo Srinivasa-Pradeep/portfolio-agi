@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Search, Command, CornerDownLeft } from 'lucide-react';
+import { Command, CornerDownLeft } from 'lucide-react';
 import AtSignIcon from './icons/at-sign-icon';
 import BookIcon from './icons/book-icon';
 import CodeXmlIcon from './icons/code-xml-icon';
@@ -12,6 +12,7 @@ import AlarmClockPlusIcon from './icons/alarm-clock-plus-icon';
 import CheckedIcon from './icons/checked-icon';
 import GamepadIcon from './icons/gamepad-icon';
 import SparklesIcon from './icons/sparkles-icon';
+import MagnifierIcon from './icons/magnifier-icon';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -36,6 +37,8 @@ const navLinks = [
     { id: 'liz', label: 'Talk with Liz', icon: SparklesIcon, shortcut: 'Z', href: 'trigger-liz' },
 ];
 
+const animatedIconIds = ['about', 'blogs', 'leetcode', 'projects', 'contact', 'books', 'zen', 'tracker', 'dino-game-container', 'liz'];
+
 export function HeroCommandBar() {
     const { theme } = useTheme();
     const [isOpen, setIsOpen] = useState(false);
@@ -43,6 +46,7 @@ export function HeroCommandBar() {
     const [search, setSearch] = useState('');
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+    const [isBarHovered, setIsBarHovered] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
@@ -115,6 +119,7 @@ export function HeroCommandBar() {
         setMousePos({ x: 0, y: 0 });
         mouseX.set(0);
         mouseY.set(0);
+        setIsBarHovered(false);
     };
 
     const handleAction = useCallback((item: typeof navLinks[0]) => {
@@ -172,6 +177,7 @@ export function HeroCommandBar() {
                 ref={containerRef}
                 onClick={togglePalette}
                 onMouseMove={handleMouseMove}
+                onMouseEnter={() => setIsBarHovered(true)}
                 onMouseLeave={handleMouseLeave}
                 whileHover={{ scale: 1.02 }}
                 style={{ x: translateX, y: translateY }}
@@ -204,7 +210,11 @@ export function HeroCommandBar() {
                                 />
                             )}
                         </AnimatePresence>
-                        <Search className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors relative z-10" />
+                        <MagnifierIcon 
+                          size={20} 
+                          active={isBarHovered} 
+                          className="text-muted-foreground group-hover:text-primary transition-colors relative z-10" 
+                        />
                     </div>
                     
                     <span className="ml-4 text-muted-foreground/60 font-medium group-hover:text-muted-foreground transition-colors">Search anything...</span>
@@ -226,7 +236,7 @@ export function HeroCommandBar() {
                     <DialogHeader className="p-4 border-b border-border/20">
                         <DialogTitle className="sr-only">Command Palette</DialogTitle>
                         <div className="flex items-center gap-3 px-2 pr-20">
-                            <Search className="h-5 w-5 text-muted-foreground" />
+                            <MagnifierIcon size={20} active={isOpen} className="text-muted-foreground" />
                             <input 
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
@@ -251,7 +261,7 @@ export function HeroCommandBar() {
                                 filteredLinks.map((link, index) => {
                                     const isActive = index === selectedIndex;
                                     const IconComponent = link.icon;
-                                    const isAnimated = ['about', 'blogs', 'leetcode', 'projects', 'contact', 'books', 'zen', 'tracker', 'dino-game-container', 'liz'].includes(link.id);
+                                    const isAnimated = animatedIconIds.includes(link.id);
 
                                     return (
                                         <button

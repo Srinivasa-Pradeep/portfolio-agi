@@ -170,11 +170,11 @@ export function Header() {
 
   if (!isMounted) return null;
 
-  // Adaptive nav: Hides the main dock in Light, Spring, Autumn, when the palette is open,
+  // Adaptive nav: Hides the main dock in Light, Spring, Autumn, on the Tracker page, when the palette is open,
   // or when entering the Contact section/reaching the bottom of the page.
   const shouldHide = isAtBottom || activeSection === 'contact';
 
-  if (theme === 'light' || theme === 'spring' || theme === 'autumn' || isPaletteOpen) {
+  if (theme === 'light' || theme === 'spring' || theme === 'autumn' || isPaletteOpen || pathname === '/tracker') {
     return (
       <div 
         className={cn(
