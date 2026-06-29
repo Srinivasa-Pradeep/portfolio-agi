@@ -12,11 +12,12 @@ import {
 } from '@/components/ui/tooltip';
 import BatteryChargingIcon from '@/components/icons/battery-charging-icon';
 import RocketIcon from '@/components/icons/rocket-icon';
+import HeartIcon from '@/components/icons/heart-icon';
 
 const MILESTONES = [
   { days: 7, label: 'Early Gains', icon: BatteryChargingIcon, color: 'text-blue-400', isAnimated: true },
   { days: 15, label: 'Momentum', icon: RocketIcon, color: 'text-emerald-400', isAnimated: true },
-  { days: 30, label: 'Habit Anchor', icon: Star, color: 'text-purple-400', isAnimated: false },
+  { days: 30, label: 'Habit Anchor', icon: HeartIcon, color: 'text-purple-400', isAnimated: true },
   { days: 50, label: 'Precision', icon: Award, color: 'text-indigo-400', isAnimated: false },
   { days: 100, label: 'Centurion', icon: Trophy, color: 'text-yellow-400', isAnimated: false },
   { days: 365, label: 'Legendary', icon: Gem, color: 'text-pink-400', isAnimated: false },
