@@ -6,7 +6,7 @@ import { motion, useAnimate } from "framer-motion";
 
 const BatteryChargingIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
   (
-    { size = 24, color = "currentColor", strokeWidth = 2.5, className = "", active },
+    { size = 24, color = "currentColor", strokeWidth = 2.5, className = "", active, ...props },
     ref,
   ) => {
     const [scope, animate] = useAnimate();
@@ -70,7 +70,10 @@ const BatteryChargingIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
     return (
       <motion.div
         ref={scope}
+        onHoverStart={start}
+        onHoverEnd={stop}
         className={`inline-flex items-center justify-center ${className}`}
+        {...props}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

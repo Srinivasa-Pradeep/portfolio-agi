@@ -6,7 +6,7 @@ import { motion, useAnimate } from "framer-motion";
 
 const LeftChevron = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
   (
-    { size = 24, color = "currentColor", strokeWidth = 2, className = "", active },
+    { size = 24, color = "currentColor", strokeWidth = 2, className = "", active, ...props },
     ref,
   ) => {
     const [scope, animate] = useAnimate();
@@ -16,10 +16,7 @@ const LeftChevron = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
       await animate(
         ".chevron",
         { x: [0, -6, 0] },
-        {
-          duration: 0.8,
-          ease: "easeInOut",
-        },
+        { duration: 0.8, ease: "easeInOut" },
       );
     }, [animate, scope]);
 
@@ -47,6 +44,7 @@ const LeftChevron = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
         className={className}
         onHoverStart={start}
         onHoverEnd={stop}
+        {...props}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

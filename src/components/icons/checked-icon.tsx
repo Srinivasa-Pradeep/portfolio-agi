@@ -1,17 +1,17 @@
 'use client';
 
-import { forwardRef, useImperativeHandle, useEffect } from "react";
+import { forwardRef, useImperativeHandle, useEffect, useCallback } from "react";
 import { motion, useAnimate } from "framer-motion";
-import type { AtSignIconHandle, AtSignIconProps } from "./at-sign-icon";
+import type { AnimatedIconHandle, AnimatedIconProps } from "./types";
 
-const CheckedIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
+const CheckedIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
   (
-    { size = 24, color = "currentColor", strokeWidth = 2, className = "", active },
+    { size = 24, color = "currentColor", strokeWidth = 2, className = "", active, ...props },
     ref,
   ) => {
     const [scope, animate] = useAnimate();
 
-    const start = async () => {
+    const start = useCallback(async () => {
       if (!scope.current) return;
       
       await animate(
@@ -43,13 +43,13 @@ const CheckedIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
         { scale: 1 },
         { duration: 0.2, ease: "easeInOut" },
       );
-    };
+    }, [animate, scope]);
 
-    const stop = () => {
+    const stop = useCallback(() => {
       if (!scope.current) return;
       animate("svg", { scale: 1 }, { duration: 0.2 });
       animate(".check-icon", { pathLength: 1 }, { duration: 0.2 });
-    };
+    }, [animate, scope]);
 
     useImperativeHandle(ref, () => ({
       startAnimation: start,
@@ -62,16 +62,13 @@ const CheckedIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
       } else {
         stop();
       }
-    }, [active]);
-
-    const handleHoverStart = () => start();
-    const handleHoverEnd = () => stop();
+    }, [active, start, stop]);
 
     return (
       <motion.div
         ref={scope}
-        onHoverStart={handleHoverStart}
-        onHoverEnd={handleHoverEnd}
+        onHoverStart={start}
+        onHoverEnd={stop}
         className="inline-flex"
       >
         <motion.svg
@@ -85,6 +82,7 @@ const CheckedIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
           strokeLinecap="round"
           strokeLinejoin="round"
           className={`cursor-pointer ${className}`}
+          {...props}
         >
           <motion.path stroke="none" d="M0 0h24v24H0z" fill="none" />
           <motion.path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
@@ -96,5 +94,4 @@ const CheckedIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
 );
 
 CheckedIcon.displayName = "CheckedIcon";
-
 export default CheckedIcon;

@@ -1,18 +1,18 @@
 'use client';
 
-import { forwardRef, useImperativeHandle, useRef, useEffect } from "react";
-import type { AnimatedIconHandle, AnimatedIconProps } from "./at-sign-icon";
+import { forwardRef, useImperativeHandle, useRef, useEffect, useCallback } from "react";
+import type { AnimatedIconHandle, AnimatedIconProps } from "./types";
 import { motion, useAnimate } from "framer-motion";
 
 const AlarmClockPlusIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
   (
-    { size = 24, color = "currentColor", strokeWidth = 2, className = "", active },
+    { size = 24, color = "currentColor", strokeWidth = 2, className = "", active, ...props },
     ref,
   ) => {
     const [scope, animate] = useAnimate();
     const animationControls = useRef<Array<ReturnType<typeof animate>>>([]);
 
-    const start = async () => {
+    const start = useCallback(async () => {
       if (!scope.current) return;
       
       animationControls.current.forEach((control) => control.stop());
@@ -65,9 +65,9 @@ const AlarmClockPlusIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
         { scale: [1, 1.2, 1] },
         { duration: 0.2, ease: "easeOut" },
       );
-    };
+    }, [animate, scope]);
 
-    const stop = () => {
+    const stop = useCallback(() => {
       if (!scope.current) return;
       
       animationControls.current.forEach((control) => control.stop());
@@ -75,7 +75,7 @@ const AlarmClockPlusIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
 
       animate(".clock", { y: 0, x: 0 }, { duration: 0.4 });
       animate(".bells", { y: 0, x: 0 }, { duration: 0.4 });
-    };
+    }, [animate, scope]);
 
     useImperativeHandle(ref, () => ({
       startAnimation: start,
@@ -88,11 +88,13 @@ const AlarmClockPlusIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
       } else {
         stop();
       }
-    }, [active]);
+    }, [active, start, stop]);
 
     return (
       <motion.svg
         ref={scope}
+        onHoverStart={start}
+        onHoverEnd={stop}
         xmlns="http://www.w3.org/2000/svg"
         width={size}
         height={size}
@@ -104,6 +106,7 @@ const AlarmClockPlusIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
         strokeLinejoin="round"
         className={`cursor-pointer ${className}`}
         style={{ overflow: "visible" }}
+        {...props}
       >
         <motion.circle className="clock" cx="12" cy="13" r="8" />
         <motion.path

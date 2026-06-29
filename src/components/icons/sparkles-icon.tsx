@@ -1,12 +1,12 @@
 'use client';
 
 import { forwardRef, useImperativeHandle, useCallback, useEffect } from "react";
-import type { AtSignIconHandle, AtSignIconProps } from "./at-sign-icon";
+import type { AnimatedIconHandle, AnimatedIconProps } from "./types";
 import { motion, useAnimate } from "framer-motion";
 
-const SparklesIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
+const SparklesIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
   (
-    { size = 24, color = "currentColor", strokeWidth = 2, className = "", active },
+    { size = 24, color = "currentColor", strokeWidth = 2, className = "", active, ...props },
     ref,
   ) => {
     const [scope, animate] = useAnimate();
@@ -14,36 +14,21 @@ const SparklesIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
     const start = useCallback(async () => {
       if (!scope.current) return;
 
-      // main sparkle
       animate(
         ".sparkle-main",
         { rotate: 180, scale: [1, 1.2, 1] },
         { duration: 0.6, ease: "easeInOut" },
       );
 
-      if (!scope.current) return;
-
-      // top sparkle
       animate(
         ".sparkle-top",
-        {
-          rotate: -90,
-          scale: [1, 0.8, 1.1],
-          opacity: [1, 0.6, 1],
-        },
+        { rotate: -90, scale: [1, 0.8, 1.1], opacity: [1, 0.6, 1] },
         { duration: 0.5, ease: "easeInOut", delay: 0.1 },
       );
 
-      if (!scope.current) return;
-
-      // bottom sparkle
       animate(
         ".sparkle-bottom",
-        {
-          rotate: 90,
-          scale: [1, 1.15, 0.9],
-          opacity: [1, 0.7, 1],
-        },
+        { rotate: 90, scale: [1, 1.15, 0.9], opacity: [1, 0.7, 1] },
         { duration: 0.5, ease: "easeInOut", delay: 0.05 },
       );
     }, [animate, scope]);
@@ -52,16 +37,8 @@ const SparklesIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
       if (!scope.current) return;
       
       animate(".sparkle-main", { rotate: 0, scale: 1 }, { duration: 0.25 });
-      animate(
-        ".sparkle-top",
-        { rotate: 0, scale: 1, opacity: 1 },
-        { duration: 0.25 },
-      );
-      animate(
-        ".sparkle-bottom",
-        { rotate: 0, scale: 1, opacity: 1 },
-        { duration: 0.25 },
-      );
+      animate(".sparkle-top", { rotate: 0, scale: 1, opacity: 1 }, { duration: 0.25 });
+      animate(".sparkle-bottom", { rotate: 0, scale: 1, opacity: 1 }, { duration: 0.25 });
     }, [animate, scope]);
 
     useImperativeHandle(ref, () => ({
@@ -93,22 +70,18 @@ const SparklesIcon = forwardRef<AtSignIconHandle, AtSignIconProps>(
         strokeLinejoin="round"
         className={`cursor-pointer ${className}`}
         style={{ overflow: "visible" }}
+        {...props}
       >
-        {/* bottom sparkle */}
         <motion.path
           className="sparkle-bottom"
           d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z"
           style={{ transformOrigin: "18px 18px" }}
         />
-
-        {/* top sparkle */}
         <motion.path
           className="sparkle-top"
           d="M16 6a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2z"
           style={{ transformOrigin: "18px 6px" }}
         />
-
-        {/* main sparkle */}
         <motion.path
           className="sparkle-main"
           d="M9 18a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z"

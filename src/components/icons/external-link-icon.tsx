@@ -1,36 +1,41 @@
 'use client';
 
 import { forwardRef, useImperativeHandle, useCallback, useEffect } from "react";
-import { motion, useAnimate } from "framer-motion";
 import type { AnimatedIconHandle, AnimatedIconProps } from "./types";
+import { motion, useAnimate } from "framer-motion";
 
-const LibraryIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
+const ExternalLinkIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
   (
     { size = 24, color = "currentColor", strokeWidth = 2, className = "", active, ...props },
     ref,
   ) => {
     const [scope, animate] = useAnimate();
 
-    const start = useCallback(() => {
+    const start = useCallback(async () => {
       if (!scope.current) return;
       
+      // Arrow moves up and right
       animate(
-        ".book-2",
-        { y: -3, rotate: -8 },
-        { duration: 0.4, ease: [0.175, 0.885, 0.32, 1.275] },
+        ".external-arrow",
+        { x: 2, y: -2, scale: 1.1 },
+        { duration: 0.3, ease: "easeOut" },
       );
 
-      animate(".book-3", { rotate: -12 }, { duration: 0.4, ease: "easeOut" });
-      animate(".book-4", { rotate: -5 }, { duration: 0.4, ease: "easeOut" });
-      animate(".book-1", { rotate: 12 }, { duration: 0.4, ease: "easeOut" });
+      // Box slightly shrinks
+      animate(
+        ".external-box",
+        { scale: 0.95 },
+        { duration: 0.3, ease: "easeOut" },
+      );
     }, [animate, scope]);
 
     const stop = useCallback(() => {
       if (!scope.current) return;
+      
       animate(
-        ".book-1, .book-2, .book-3, .book-4",
-        { rotate: 0, y: 0 },
-        { duration: 0.3, ease: "easeInOut" },
+        ".external-arrow, .external-box",
+        { x: 0, y: 0, scale: 1 },
+        { duration: 0.25, ease: "easeInOut" },
       );
     }, [animate, scope]);
 
@@ -62,33 +67,27 @@ const LibraryIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
         strokeLinecap="round"
         strokeLinejoin="round"
         className={`cursor-pointer ${className}`}
-        style={{ overflow: "visible" }}
         {...props}
       >
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+
         <motion.path
-          className="book-1"
-          d="m16 6 4 14"
-          style={{ transformOrigin: "18px 20px" }}
+          d="M12 6h-6a2 2 0 0 0 -2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-6"
+          className="external-box"
+          style={{ transformOrigin: "50% 50%" }}
         />
-        <motion.path
-          className="book-2"
-          d="M12 6v14"
-          style={{ transformOrigin: "12px 20px" }}
-        />
-        <motion.path
-          className="book-3"
-          d="M8 8v12"
-          style={{ transformOrigin: "8px 20px" }}
-        />
-        <motion.path
-          className="book-4"
-          d="M4 4v16"
-          style={{ transformOrigin: "4px 20px" }}
-        />
+
+        <motion.g
+          className="external-arrow"
+          style={{ transformOrigin: "50% 50%" }}
+        >
+          <path d="M11 13l9 -9" />
+          <path d="M15 4h5v5" />
+        </motion.g>
       </motion.svg>
     );
   },
 );
 
-LibraryIcon.displayName = "LibraryIcon";
-export default LibraryIcon;
+ExternalLinkIcon.displayName = "ExternalLinkIcon";
+export default ExternalLinkIcon;
