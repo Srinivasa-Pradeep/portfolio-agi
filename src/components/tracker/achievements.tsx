@@ -11,10 +11,11 @@ import {
   TooltipContent,
 } from '@/components/ui/tooltip';
 import BatteryChargingIcon from '@/components/icons/battery-charging-icon';
+import RocketIcon from '@/components/icons/rocket-icon';
 
 const MILESTONES = [
   { days: 7, label: 'Early Gains', icon: BatteryChargingIcon, color: 'text-blue-400', isAnimated: true },
-  { days: 15, label: 'Momentum', icon: ShieldCheck, color: 'text-emerald-400', isAnimated: false },
+  { days: 15, label: 'Momentum', icon: RocketIcon, color: 'text-emerald-400', isAnimated: true },
   { days: 30, label: 'Habit Anchor', icon: Star, color: 'text-purple-400', isAnimated: false },
   { days: 50, label: 'Precision', icon: Award, color: 'text-indigo-400', isAnimated: false },
   { days: 100, label: 'Centurion', icon: Trophy, color: 'text-yellow-400', isAnimated: false },
@@ -64,7 +65,6 @@ export function Achievements({
                         <Icon 
                           size={24} 
                           className="transition-colors"
-                          // Only pass 'active' to components that support it to avoid DOM errors
                           {...(m.isAnimated ? { active: hoveredDays === m.days } : {})}
                         />
                     </div>
