@@ -13,12 +13,12 @@ import {
 import BatteryChargingIcon from '@/components/icons/battery-charging-icon';
 
 const MILESTONES = [
-  { days: 7, label: 'Early Gains', icon: BatteryChargingIcon, color: 'text-blue-400' },
-  { days: 15, label: 'Momentum', icon: ShieldCheck, color: 'text-emerald-400' },
-  { days: 30, label: 'Habit Anchor', icon: Star, color: 'text-purple-400' },
-  { days: 50, label: 'Precision', icon: Award, color: 'text-indigo-400' },
-  { days: 100, label: 'Centurion', icon: Trophy, color: 'text-yellow-400' },
-  { days: 365, label: 'Legendary', icon: Gem, color: 'text-pink-400' },
+  { days: 7, label: 'Early Gains', icon: BatteryChargingIcon, color: 'text-blue-400', isAnimated: true },
+  { days: 15, label: 'Momentum', icon: ShieldCheck, color: 'text-emerald-400', isAnimated: false },
+  { days: 30, label: 'Habit Anchor', icon: Star, color: 'text-purple-400', isAnimated: false },
+  { days: 50, label: 'Precision', icon: Award, color: 'text-indigo-400', isAnimated: false },
+  { days: 100, label: 'Centurion', icon: Trophy, color: 'text-yellow-400', isAnimated: false },
+  { days: 365, label: 'Legendary', icon: Gem, color: 'text-pink-400', isAnimated: false },
 ];
 
 export function Achievements({ 
@@ -61,17 +61,12 @@ export function Achievements({
                         "p-3 rounded-2xl transition-all duration-1000",
                         isUnlocked ? `bg-primary/5 ${m.color}` : "bg-muted/10 text-muted-foreground"
                     )}>
-                        {/* Render animated icon if available, otherwise fallback to static */}
-                        {typeof Icon === 'function' || (Icon as any).displayName ? (
-                          <Icon 
-                            size={24} 
-                            active={hoveredDays === m.days} 
-                            className="transition-colors"
-                          />
-                        ) : (
-                          // Fallback for standard Lucide icons
-                          <Icon className="h-6 w-6" />
-                        )}
+                        <Icon 
+                          size={24} 
+                          className="transition-colors"
+                          // Only pass 'active' to components that support it to avoid DOM errors
+                          {...(m.isAnimated ? { active: hoveredDays === m.days } : {})}
+                        />
                     </div>
                     <span className="mt-3 text-[8px] font-black uppercase tracking-widest text-foreground/60">{m.days}D</span>
                     

@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, useImperativeHandle, useEffect, useCallback } from "react";
+import { forwardRef, useImperativeHandle, useEffect, useCallback, useRef } from "react";
 import type { AnimatedIconHandle, AnimatedIconProps } from "./types";
 import { motion, useAnimate } from "framer-motion";
 
@@ -10,14 +10,16 @@ const BatteryChargingIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
     ref,
   ) => {
     const [scope, animate] = useAnimate();
+    const isAnimating = useRef(false);
 
     const start = useCallback(async () => {
-      if (!scope.current) return;
+      if (!scope.current || isAnimating.current) return;
+      isAnimating.current = true;
 
       await animate(
         ".battery-bar-1",
         { opacity: 1 },
-        { duration: 0.15, ease: "easeOut" },
+        { duration: 0.15, ease: "easeOut" }
       );
 
       if (!scope.current) return;
@@ -25,7 +27,7 @@ const BatteryChargingIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
       await animate(
         ".battery-bar-2",
         { opacity: 1 },
-        { duration: 0.15, ease: "easeOut" },
+        { duration: 0.15, ease: "easeOut" }
       );
 
       if (!scope.current) return;
@@ -33,7 +35,7 @@ const BatteryChargingIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
       await animate(
         ".battery-bar-3",
         { opacity: 1 },
-        { duration: 0.15, ease: "easeOut" },
+        { duration: 0.15, ease: "easeOut" }
       );
 
       if (!scope.current) return;
@@ -41,16 +43,20 @@ const BatteryChargingIcon = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
       await animate(
         ".battery-bar-4",
         { opacity: 1 },
-        { duration: 0.15, ease: "easeOut" },
+        { duration: 0.15, ease: "easeOut" }
       );
+      
+      isAnimating.current = false;
     }, [animate, scope]);
 
     const stop = useCallback(async () => {
       if (!scope.current) return;
+      isAnimating.current = false;
+      
       await animate(
         ".battery-bar-1, .battery-bar-2, .battery-bar-3, .battery-bar-4",
         { opacity: 0 },
-        { duration: 0.2, ease: "easeInOut" },
+        { duration: 0.2, ease: "easeInOut" }
       );
     }, [animate, scope]);
 
