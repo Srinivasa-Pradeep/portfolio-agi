@@ -1,7 +1,6 @@
-
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Trophy, ShieldCheck, Star, Award, Zap, Gem, CheckCircle2, Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
@@ -11,9 +10,10 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip';
+import BatteryChargingIcon from '@/components/icons/battery-charging-icon';
 
 const MILESTONES = [
-  { days: 7, label: 'Early Gains', icon: Zap, color: 'text-blue-400' },
+  { days: 7, label: 'Early Gains', icon: BatteryChargingIcon, color: 'text-blue-400' },
   { days: 15, label: 'Momentum', icon: ShieldCheck, color: 'text-emerald-400' },
   { days: 30, label: 'Habit Anchor', icon: Star, color: 'text-purple-400' },
   { days: 50, label: 'Precision', icon: Award, color: 'text-indigo-400' },
@@ -28,6 +28,8 @@ export function Achievements({
   currentStreak: number, 
   unlockedMilestones: number[] 
 }) {
+  const [hoveredDays, setHoveredDays] = useState<number | null>(null);
+
   return (
     <div className="space-y-10">
       <div className="flex items-center gap-6">
@@ -45,6 +47,8 @@ export function Achievements({
               <Tooltip key={m.days}>
                 <TooltipTrigger asChild>
                   <motion.div 
+                    onHoverStart={() => isUnlocked && setHoveredDays(m.days)}
+                    onHoverEnd={() => setHoveredDays(null)}
                     whileHover={isUnlocked ? { y: -5, scale: 1.05 } : {}}
                     className={cn(
                         "relative aspect-square flex flex-col items-center justify-center rounded-[32px] border transition-all duration-700",
@@ -57,7 +61,17 @@ export function Achievements({
                         "p-3 rounded-2xl transition-all duration-1000",
                         isUnlocked ? `bg-primary/5 ${m.color}` : "bg-muted/10 text-muted-foreground"
                     )}>
-                        <Icon className="h-6 w-6" />
+                        {/* Render animated icon if available, otherwise fallback to static */}
+                        {typeof Icon === 'function' || (Icon as any).displayName ? (
+                          <Icon 
+                            size={24} 
+                            active={hoveredDays === m.days} 
+                            className="transition-colors"
+                          />
+                        ) : (
+                          // Fallback for standard Lucide icons
+                          <Icon className="h-6 w-6" />
+                        )}
                     </div>
                     <span className="mt-3 text-[8px] font-black uppercase tracking-widest text-foreground/60">{m.days}D</span>
                     
