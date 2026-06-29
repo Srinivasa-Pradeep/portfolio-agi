@@ -509,10 +509,10 @@ export function About() {
                           <TypingEffect
                             sequences={[
                                 { text: 'Srinivasa Pradeep', className: 'font-signature text-3xl text-foreground/90' },
+                                { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'font-tiro-kannada text-xs text-foreground/90' },
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
-                                { text: 'ശ്രീനിവാസ പ്രതീപ്', className: 'font-malayalam text-xs text-foreground/90' },
-                                { text: 'ಶ್ರೀನಿವಾಸ ಪ್ರದೀಪ್', className: 'font-tiro-kannada text-xs text-foreground/90' },
+                                { text: 'ശ്രീನಿവാസ പ്രതീപ്', className: 'font-malayalam text-xs text-foreground/90' },
                                 { text: 'శ్రీనివాస ಪ್ರದೀಪ್', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
                           />
@@ -734,7 +734,7 @@ export function About() {
 
             <div className="mt-20">
               <h3 className="font-headline text-2xl font-semibold text-primary mb-6">
-                More Info
+                Beyond the Resume
               </h3>
               <div className="space-y-0">
                 {manifestoItems.map((item, index) => (
