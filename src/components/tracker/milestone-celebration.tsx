@@ -5,6 +5,8 @@ import React, { useEffect } from 'react';
 import { 
   Dialog, 
   DialogContent, 
+  DialogHeader,
+  DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Trophy, Flame, Sparkles, Star, ChevronRight } from 'lucide-react';
@@ -63,6 +65,9 @@ export function MilestoneCelebration({
   return (
     <Dialog open={!!milestone} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[500px] border-none bg-black/90 text-white p-0 overflow-hidden rounded-[40px] shadow-[0_0_100px_rgba(255,215,0,0.2)]">
+        <DialogHeader className="sr-only">
+          <DialogTitle>Achievement Unlocked: {milestone} Day Streak</DialogTitle>
+        </DialogHeader>
         <div className="relative p-10 flex flex-col items-center text-center">
             {/* Background Atmosphere */}
             <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
@@ -154,4 +159,3 @@ export function MilestoneCelebration({
     </Dialog>
   );
 }
-
