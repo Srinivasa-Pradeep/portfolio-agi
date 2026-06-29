@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import { Command, CornerDownLeft } from 'lucide-react';
 import AtSignIcon from './icons/at-sign-icon';
 import BookIcon from './icons/book-icon';
-import CodeXmlIcon from './icons/code-xml-icon';
+import TerminalIcon from './icons/terminal-icon';
 import StarIcon from './icons/star-icon';
 import SendIcon from './icons/send-icon';
 import LibraryIcon from './icons/library-icon';
@@ -27,7 +27,7 @@ import { useTheme } from 'next-themes';
 const navLinks = [
     { id: 'about', label: 'About', icon: AtSignIcon, shortcut: 'A', href: '#about' },
     { id: 'blogs', label: 'Blogs', icon: BookIcon, shortcut: 'B', href: '#blogs' },
-    { id: 'leetcode', label: 'LeetCode', icon: CodeXmlIcon, shortcut: 'L', href: '#leetcode' },
+    { id: 'leetcode', label: 'LeetCode', icon: TerminalIcon, shortcut: 'L', href: '#leetcode' },
     { id: 'projects', label: 'Projects', icon: StarIcon, shortcut: 'P', href: '#projects' },
     { id: 'contact', label: 'Contact', icon: SendIcon, shortcut: 'C', href: '#contact' },
     { id: 'books', label: 'Volumes (Library)', icon: LibraryIcon, shortcut: 'V', href: '/books' },
