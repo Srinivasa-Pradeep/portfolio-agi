@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useEffect } from 'react';
@@ -9,9 +8,10 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Trophy, Flame, Sparkles, Star, ChevronRight } from 'lucide-react';
+import { Trophy, Flame, Sparkles, Star, ChevronRight, Share2, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { useToast } from '@/hooks/use-toast';
 
 const MILESTONE_DATA: Record<number, { title: string, subtitle: string, quote: string }> = {
   7: { title: "Momentum Phase", subtitle: "One Full Week of Excellence", quote: "Consistency is the DNA of mastery." },
@@ -29,6 +29,8 @@ export function MilestoneCelebration({
   milestone: number | null, 
   onClose: () => void 
 }) {
+  const { toast } = useToast();
+
   useEffect(() => {
     if (milestone) {
       // Premium Confetti Burst
@@ -53,8 +55,40 @@ export function MilestoneCelebration({
       if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
         window.navigator.vibrate([100, 50, 100]);
       }
+
+      return () => clearInterval(interval);
     }
   }, [milestone]);
+
+  const handleShare = async () => {
+    if (!milestone) return;
+    const data = MILESTONE_DATA[milestone] || { title: "Milestone", subtitle: `${milestone} Days` };
+    const shareText = `I just reached the ${milestone} Day Milestone on my Persistence Tracker! 🔥\n"${data.quote}"\nJoin me in the build. #Discipline #Consistency`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `Milestone Unlocked: ${data.title}`,
+          text: shareText,
+          url: window.location.href,
+        });
+        toast({ title: "Shared Successfully", description: "Your achievement has been broadcasted." });
+      } catch (err) {
+        // user cancelled
+      }
+    } else {
+      // Fallback: Copy to Clipboard
+      await navigator.clipboard.writeText(shareText);
+      toast({
+        title: "Copied to Clipboard",
+        description: "Achievement text saved. You can now share it anywhere.",
+      });
+    }
+
+    if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
+      window.navigator.vibrate(24);
+    }
+  };
 
   const data = milestone ? (MILESTONE_DATA[milestone] || { 
     title: "Uncharted Territory", 
@@ -141,18 +175,34 @@ export function MilestoneCelebration({
                     </p>
                 </motion.div>
 
-                <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.9 }}
-                >
-                    <Button 
-                        onClick={onClose}
-                        className="w-full h-16 rounded-[24px] bg-white text-black hover:bg-white/90 font-black uppercase tracking-widest italic text-sm group"
+                <div className="flex flex-col gap-4">
+                    <motion.div
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.9 }}
                     >
-                        Maintain the Streak <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Button>
-                </motion.div>
+                        <Button 
+                            onClick={onClose}
+                            className="w-full h-16 rounded-[24px] bg-white text-black hover:bg-white/90 font-black uppercase tracking-widest italic text-sm group"
+                        >
+                            Maintain the Streak <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        </Button>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1.1 }}
+                    >
+                        <Button 
+                            variant="ghost"
+                            onClick={handleShare}
+                            className="text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 rounded-full"
+                        >
+                            <Share2 className="mr-2 h-3.5 w-3.5" /> Share & Save Achievement
+                        </Button>
+                    </motion.div>
+                </div>
             </div>
         </div>
       </DialogContent>

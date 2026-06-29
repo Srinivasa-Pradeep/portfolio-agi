@@ -28,10 +28,12 @@ const MILESTONES = [
 
 export function Achievements({ 
   currentStreak, 
-  unlockedMilestones 
+  unlockedMilestones,
+  onBadgeClick
 }: { 
   currentStreak: number, 
-  unlockedMilestones: number[] 
+  unlockedMilestones: number[],
+  onBadgeClick?: (milestone: number) => void
 }) {
   const [hoveredDays, setHoveredDays] = useState<number | null>(null);
 
@@ -54,11 +56,13 @@ export function Achievements({
                   <motion.div 
                     onHoverStart={() => isUnlocked && setHoveredDays(m.days)}
                     onHoverEnd={() => setHoveredDays(null)}
+                    onClick={() => isUnlocked && onBadgeClick?.(m.days)}
                     whileHover={isUnlocked ? { y: -5, scale: 1.05 } : {}}
+                    whileTap={isUnlocked ? { scale: 0.95 } : {}}
                     className={cn(
                         "relative aspect-square flex flex-col items-center justify-center rounded-[32px] border transition-all duration-700",
                         isUnlocked 
-                            ? "bg-secondary/30 border-primary/10 shadow-xl" 
+                            ? "bg-secondary/30 border-primary/10 shadow-xl cursor-pointer" 
                             : "bg-transparent border-border/10 opacity-40 grayscale"
                     )}
                   >
@@ -87,7 +91,11 @@ export function Achievements({
                           {m.label}
                         </p>
                         <p className="text-xs font-medium text-zinc-100">{m.days} Day Commitment</p>
-                        {!isUnlocked && (
+                        {isUnlocked ? (
+                            <div className="mt-2 pt-2 border-t border-white/5">
+                                <p className="text-[8px] font-mono text-zinc-400 uppercase tracking-widest">Click to relived</p>
+                            </div>
+                        ) : (
                             <div className="flex items-center justify-center gap-1.5 mt-2 pt-2 border-t border-white/5">
                                 <Lock className="h-3 w-3 text-zinc-500" />
                                 <span className="text-[9px] font-mono text-zinc-500 uppercase">Locked</span>

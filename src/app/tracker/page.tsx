@@ -25,7 +25,6 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip';
-import confetti from 'canvas-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
 import { WeeklyPlanner } from '@/components/tracker/weekly-planner';
 import { MilestoneCelebration } from '@/components/tracker/milestone-celebration';
@@ -97,7 +96,6 @@ export default function TrackerPage() {
   }, [tasks, templates, celebratedMilestones, isMounted]);
 
   // Template Injection Logic
-  // When a date is selected, if it has no tasks, we inject templates.
   useEffect(() => {
     if (!isMounted) return;
 
@@ -122,7 +120,7 @@ export default function TrackerPage() {
         }));
       }
     }
-  }, [selectedDate, templates, isMounted]);
+  }, [selectedDate, templates, isMounted, tasks]);
 
   const stats = useMemo(() => {
     const keys = Object.keys(tasks);
@@ -150,7 +148,6 @@ export default function TrackerPage() {
       return dayTasks && dayTasks.length > 0 && dayTasks.every(t => t.completed);
     };
 
-    // Check if today is complete, if not, check if yesterday was the start of the streak
     if (!isDayComplete(format(checkDate, 'yyyy-MM-dd'))) {
       checkDate = subDays(checkDate, 1);
     }
@@ -332,7 +329,11 @@ export default function TrackerPage() {
 
               {/* Achievements Grid */}
               <div className="pt-20">
-                <Achievements currentStreak={stats.currentStreak} unlockedMilestones={celebratedMilestones} />
+                <Achievements 
+                  currentStreak={stats.currentStreak} 
+                  unlockedMilestones={celebratedMilestones}
+                  onBadgeClick={(milestone) => setActiveMilestone(milestone)}
+                />
               </div>
             </div>
 
