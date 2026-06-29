@@ -93,7 +93,7 @@ export function Achievements({
                         <p className="text-xs font-medium text-zinc-100">{m.days} Day Commitment</p>
                         {isUnlocked ? (
                             <div className="mt-2 pt-2 border-t border-white/5">
-                                <p className="text-[8px] font-mono text-zinc-400 uppercase tracking-widest">Click to relived</p>
+                                <p className="text-[8px] font-mono text-zinc-400 uppercase tracking-widest">Click to relive</p>
                             </div>
                         ) : (
                             <div className="flex items-center justify-center gap-1.5 mt-2 pt-2 border-t border-white/5">
