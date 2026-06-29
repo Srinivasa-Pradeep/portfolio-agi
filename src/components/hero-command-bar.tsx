@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import { Command, CornerDownLeft } from 'lucide-react';
+import { Search, Command, CornerDownLeft } from 'lucide-react';
 import AtSignIcon from './icons/at-sign-icon';
 import BookIcon from './icons/book-icon';
 import TerminalIcon from './icons/terminal-icon';
@@ -12,7 +12,6 @@ import AlarmClockPlusIcon from './icons/alarm-clock-plus-icon';
 import CheckedIcon from './icons/checked-icon';
 import GamepadIcon from './icons/gamepad-icon';
 import SparklesIcon from './icons/sparkles-icon';
-import MagnifierIcon from './icons/magnifier-icon';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
@@ -210,11 +209,7 @@ export function HeroCommandBar() {
                                 />
                             )}
                         </AnimatePresence>
-                        <MagnifierIcon 
-                          size={20} 
-                          active={isBarHovered} 
-                          className="text-muted-foreground group-hover:text-primary transition-colors relative z-10" 
-                        />
+                        <Search className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors relative z-10" />
                     </div>
                     
                     <span className="ml-4 text-muted-foreground/60 font-medium group-hover:text-muted-foreground transition-colors">Search anything...</span>
@@ -236,8 +231,8 @@ export function HeroCommandBar() {
                     <DialogHeader className="p-4 border-b border-border/20">
                         <DialogTitle className="sr-only">Command Palette</DialogTitle>
                         <div className="flex items-center gap-3 px-2 pr-20">
-                            <MagnifierIcon size={20} active={isOpen} className="text-muted-foreground" />
-                            <input 
+                        <Search className="h-5 w-5 text-muted-foreground" />
+                        <input 
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
                                 placeholder="Type to navigate..."
