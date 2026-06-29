@@ -68,14 +68,16 @@ export function Achievements({
                     )}
                   </motion.div>
                 </TooltipTrigger>
-                <TooltipContent className="bg-black/90 border-white/10 p-3 rounded-xl shadow-2xl">
+                <TooltipContent className="bg-zinc-900/95 border-zinc-800 p-3 rounded-xl shadow-2xl backdrop-blur-xl">
                     <div className="text-center space-y-1">
-                        <p className="text-[10px] font-black uppercase tracking-widest text-primary">{m.label}</p>
-                        <p className="text-xs font-medium text-white/80">{m.days} Day Commitment</p>
+                        <p className={cn("text-[10px] font-black uppercase tracking-widest", m.color)}>
+                          {m.label}
+                        </p>
+                        <p className="text-xs font-medium text-zinc-100">{m.days} Day Commitment</p>
                         {!isUnlocked && (
                             <div className="flex items-center justify-center gap-1.5 mt-2 pt-2 border-t border-white/5">
-                                <Lock className="h-3 w-3 opacity-40" />
-                                <span className="text-[9px] font-mono text-white/40 uppercase">Locked</span>
+                                <Lock className="h-3 w-3 text-zinc-500" />
+                                <span className="text-[9px] font-mono text-zinc-500 uppercase">Locked</span>
                             </div>
                         )}
                     </div>
@@ -88,4 +90,3 @@ export function Achievements({
     </div>
   );
 }
-
