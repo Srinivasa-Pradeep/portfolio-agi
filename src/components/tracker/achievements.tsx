@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Trophy, ShieldCheck, Star, Award, Zap, Gem, CheckCircle2, Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { 
@@ -10,11 +9,13 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip';
+import { CheckCircle2, Lock } from 'lucide-react';
 import BatteryChargingIcon from '@/components/icons/battery-charging-icon';
 import RocketIcon from '@/components/icons/rocket-icon';
 import HeartIcon from '@/components/icons/heart-icon';
 import BrightnessDownIcon from '@/components/icons/brightness-down-icon';
 import TrophyIcon from '@/components/icons/trophy-icon';
+import PartyPopperIcon from '@/components/icons/party-popper-icon';
 
 const MILESTONES = [
   { days: 7, label: 'Early Gains', icon: BatteryChargingIcon, color: 'text-blue-400', isAnimated: true },
@@ -22,7 +23,7 @@ const MILESTONES = [
   { days: 30, label: 'Habit Anchor', icon: HeartIcon, color: 'text-purple-400', isAnimated: true },
   { days: 50, label: 'Golden Iteration', icon: BrightnessDownIcon, color: 'text-amber-500', isAnimated: true },
   { days: 100, label: 'Centurion', icon: TrophyIcon, color: 'text-yellow-400', isAnimated: true },
-  { days: 365, label: 'Legendary', icon: Gem, color: 'text-pink-400', isAnimated: false },
+  { days: 365, label: 'Legendary', icon: PartyPopperIcon, color: 'text-pink-400', isAnimated: true },
 ];
 
 export function Achievements({ 
