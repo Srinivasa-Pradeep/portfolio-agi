@@ -95,6 +95,9 @@ export function MilestoneCelebration({
     if (!captureRef.current || !milestone) return;
 
     try {
+      // Brief delay to ensure styles are perfectly calculated
+      await new Promise(resolve => setTimeout(resolve, 150));
+
       const dataUrl = await toPng(captureRef.current, {
         cacheBust: true,
         backgroundColor: '#000000',
@@ -105,7 +108,7 @@ export function MilestoneCelebration({
       });
       
       const link = document.createElement('a');
-      link.download = `srini-milestone-${milestone}-days.png`;
+      link.download = `Milestone-Card-Day-${milestone}.png`;
       link.href = dataUrl;
       link.click();
       
@@ -113,11 +116,14 @@ export function MilestoneCelebration({
         title: "Achievement Captured",
         description: "High-resolution achievement card saved to downloads.",
       });
-    } catch (error) {
+    } catch (error: any) {
+      console.error('CAPTURE_ERROR:', error);
       toast({
         variant: "destructive",
-        title: "Capture Error",
-        description: "Failed to generate achievement image. Please try again.",
+        title: "Snapshot Failed",
+        description: error.name === 'SecurityError' 
+          ? "Font-policy restriction detected. This sometimes happens in development environments." 
+          : "An unexpected error occurred during rendering. Please try again.",
       });
     }
   };
