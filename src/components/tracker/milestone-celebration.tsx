@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useEffect, useRef } from 'react';
@@ -96,7 +95,7 @@ export function MilestoneCelebration({
 
     try {
       // Brief delay to ensure styles are perfectly calculated
-      await new Promise(resolve => setTimeout(resolve, 150));
+      await new Promise(resolve => setTimeout(resolve, 300));
 
       const dataUrl = await toPng(captureRef.current, {
         cacheBust: true,
@@ -122,7 +121,7 @@ export function MilestoneCelebration({
         variant: "destructive",
         title: "Snapshot Failed",
         description: error.name === 'SecurityError' 
-          ? "Font-policy restriction detected. This sometimes happens in development environments." 
+          ? "Font security policy restriction. This is a browser safeguard—try clicking share instead." 
           : "An unexpected error occurred during rendering. Please try again.",
       });
     }
