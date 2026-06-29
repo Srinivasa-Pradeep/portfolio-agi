@@ -1,0 +1,71 @@
+'use client';
+
+import { forwardRef, useImperativeHandle, useCallback, useEffect } from "react";
+import type { AnimatedIconHandle, AnimatedIconProps } from "./types";
+import { motion, useAnimate } from "framer-motion";
+
+const LeftChevron = forwardRef<AnimatedIconHandle, AnimatedIconProps>(
+  (
+    { size = 24, color = "currentColor", strokeWidth = 2, className = "", active },
+    ref,
+  ) => {
+    const [scope, animate] = useAnimate();
+
+    const start = useCallback(async () => {
+      if (!scope.current) return;
+      await animate(
+        ".chevron",
+        { x: [0, -6, 0] },
+        {
+          duration: 0.8,
+          ease: "easeInOut",
+        },
+      );
+    }, [animate, scope]);
+
+    const stop = useCallback(() => {
+      if (!scope.current) return;
+      animate(".chevron", { x: 0 }, { duration: 0.2, ease: "easeInOut" });
+    }, [animate, scope]);
+
+    useImperativeHandle(ref, () => ({
+      startAnimation: start,
+      stopAnimation: stop,
+    }));
+
+    useEffect(() => {
+      if (active) {
+        start();
+      } else {
+        stop();
+      }
+    }, [active, start, stop]);
+
+    return (
+      <motion.div
+        ref={scope}
+        className={className}
+        onHoverStart={start}
+        onHoverEnd={stop}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width={size}
+          height={size}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke={color}
+          strokeWidth={strokeWidth}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="chevron cursor-pointer"
+        >
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </motion.div>
+    );
+  },
+);
+
+LeftChevron.displayName = "LeftChevron";
+export default LeftChevron;

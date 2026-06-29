@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
@@ -32,6 +31,8 @@ import { WeeklyPlanner } from '@/components/tracker/weekly-planner';
 import { MilestoneCelebration } from '@/components/tracker/milestone-celebration';
 import { Achievements } from '@/components/tracker/achievements';
 import { TaskList } from '@/components/tracker/task-list';
+import LeftChevron from '@/components/icons/left-chevron';
+import RightChevron from '@/components/icons/right-chevron';
 
 /**
  * Persistence Tracker v2.0
@@ -267,10 +268,22 @@ export default function TrackerPage() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <button onClick={() => setCurrentYear(prev => prev - 1)} className="text-muted-foreground hover:text-primary transition-colors text-xs font-bold uppercase tracking-widest">Prev</button>
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={() => setCurrentYear(prev => prev - 1)} 
+                    className="text-muted-foreground hover:text-primary transition-all p-1"
+                    aria-label="Previous Year"
+                  >
+                    <LeftChevron size={18} />
+                  </button>
                   <span className="font-mono font-black text-xs tracking-[0.3em] px-4 py-1 bg-secondary/50 rounded-full">{currentYear}</span>
-                  <button onClick={() => setCurrentYear(prev => prev + 1)} className="text-muted-foreground hover:text-primary transition-colors text-xs font-bold uppercase tracking-widest">Next</button>
+                  <button 
+                    onClick={() => setCurrentYear(prev => prev + 1)} 
+                    className="text-muted-foreground hover:text-primary transition-all p-1"
+                    aria-label="Next Year"
+                  >
+                    <RightChevron size={18} />
+                  </button>
                 </div>
               </div>
 
@@ -352,4 +365,3 @@ export default function TrackerPage() {
     </div>
   );
 }
-
