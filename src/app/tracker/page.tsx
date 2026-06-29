@@ -1,24 +1,25 @@
+
 'use client';
 
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
-  ChevronLeft, 
-  ChevronRight, 
-  Plus, 
   Activity,
   ArrowLeft,
-  X,
   Flame,
-  Check
+  CalendarDays,
+  Trophy,
+  CheckCircle2,
+  Lock,
+  Plus,
+  Trash2,
+  X
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
-import { format, parseISO, isToday, subDays, getDaysInMonth, startOfMonth, getDay } from 'date-fns';
+import { format, parseISO, isToday, subDays, getDaysInMonth, startOfMonth, getDay, isBefore, startOfDay, getDay as getDayOfWeek } from 'date-fns';
 import { 
   Tooltip,
   TooltipProvider,
@@ -27,52 +28,100 @@ import {
 } from '@/components/ui/tooltip';
 import confetti from 'canvas-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
+import { WeeklyPlanner } from '@/components/tracker/weekly-planner';
+import { MilestoneCelebration } from '@/components/tracker/milestone-celebration';
+import { Achievements } from '@/components/tracker/achievements';
+import { TaskList } from '@/components/tracker/task-list';
 
 /**
- * Persistence Tracker
+ * Persistence Tracker v2.0
  * 
- * DESIGN PHILOSOPHY:
- * - Linear.app level precision.
- * - Monochromatic palette with Emerald telemetry.
- * - Typography as the primary visual driver.
- * - Confident whitespace.
+ * FEATURES:
+ * - Weekly Habit Templates
+ * - Streak Tracking & Milestones
+ * - Premium Celebrations
+ * - Achievement Vault
  */
 
-interface Task {
+export interface Task {
   id: string;
   text: string;
   completed: boolean;
   category: 'work' | 'personal' | 'growth';
 }
 
-type DailyTasks = Record<string, Task[]>;
+export interface TaskTemplate {
+  id: string;
+  text: string;
+  category: 'work' | 'personal' | 'growth';
+  days: number[]; // 0-6 (Sun-Sat)
+}
+
+export type DailyTasks = Record<string, Task[]>;
 
 export default function TrackerPage() {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState<string>(format(new Date(), 'yyyy-MM-dd'));
   const [tasks, setTasks] = useState<DailyTasks>({});
-  const [newTaskText, setNewTaskText] = useState('');
-  const [newTaskCategory, setNewTaskCategory] = useState<'work' | 'personal' | 'growth'>('work');
+  const [templates, setTemplates] = useState<TaskTemplate[]>([]);
+  const [celebratedMilestones, setCelebratedMilestones] = useState<number[]>([]);
+  const [activeMilestone, setActiveMilestone] = useState<number | null>(null);
   const [isMounted, setIsMounted] = useState(false);
 
+  // Load Data
   useEffect(() => {
     setIsMounted(true);
-    const saved = localStorage.getItem('srini_persistence_data');
+    const saved = localStorage.getItem('srini_persistence_data_v2');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         if (parsed.tasks) setTasks(parsed.tasks);
+        if (parsed.templates) setTemplates(parsed.templates);
+        if (parsed.celebratedMilestones) setCelebratedMilestones(parsed.celebratedMilestones);
       } catch (e) {
         console.error('Data corrupted. Resetting persistence store.');
       }
     }
   }, []);
 
+  // Save Data
   useEffect(() => {
     if (isMounted) {
-      localStorage.setItem('srini_persistence_data', JSON.stringify({ tasks }));
+      localStorage.setItem('srini_persistence_data_v2', JSON.stringify({ 
+        tasks, 
+        templates, 
+        celebratedMilestones 
+      }));
     }
-  }, [tasks, isMounted]);
+  }, [tasks, templates, celebratedMilestones, isMounted]);
+
+  // Template Injection Logic
+  // When a date is selected, if it has no tasks, we inject templates.
+  useEffect(() => {
+    if (!isMounted) return;
+
+    const date = parseISO(selectedDate);
+    const dayOfWeek = getDayOfWeek(date);
+    
+    // Only inject if tasks for this day don't exist yet
+    if (!tasks[selectedDate] && templates.length > 0) {
+      const applicableTemplates = templates.filter(t => t.days.includes(dayOfWeek));
+      
+      if (applicableTemplates.length > 0) {
+        const newTasks: Task[] = applicableTemplates.map(t => ({
+          id: `template-${t.id}-${selectedDate}`,
+          text: t.text,
+          completed: false,
+          category: t.category
+        }));
+
+        setTasks(prev => ({
+          ...prev,
+          [selectedDate]: newTasks
+        }));
+      }
+    }
+  }, [selectedDate, templates, isMounted]);
 
   const stats = useMemo(() => {
     const keys = Object.keys(tasks);
@@ -91,28 +140,38 @@ export default function TrackerPage() {
 
     const velocity = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
-    // Streak Calculation
-    const completedDates = keys
-      .filter(d => tasks[d].length > 0 && tasks[d].every(t => t.completed))
-      .sort((a, b) => a.localeCompare(b));
-
+    // Accurate Streak Calculation
     let currentStreak = 0;
-    if (completedDates.length > 0) {
-      const todayStr = format(new Date(), 'yyyy-MM-dd');
-      const yesterdayStr = format(subDays(new Date(), 1), 'yyyy-MM-dd');
-      const isDayComplete = (s: string) => tasks[s] && tasks[s].length > 0 && tasks[s].every(t => t.completed);
-      
-      let checkDate = isDayComplete(todayStr) ? new Date() : isDayComplete(yesterdayStr) ? subDays(new Date(), 1) : null;
-      if (checkDate) {
-        while (checkDate && isDayComplete(format(checkDate, 'yyyy-MM-dd'))) {
-          currentStreak++;
-          checkDate = subDays(checkDate, 1);
-        }
-      }
+    let checkDate = startOfDay(new Date());
+    
+    const isDayComplete = (dateStr: string) => {
+      const dayTasks = tasks[dateStr];
+      return dayTasks && dayTasks.length > 0 && dayTasks.every(t => t.completed);
+    };
+
+    // Check if today is complete, if not, check if yesterday was the start of the streak
+    if (!isDayComplete(format(checkDate, 'yyyy-MM-dd'))) {
+      checkDate = subDays(checkDate, 1);
+    }
+
+    while (isDayComplete(format(checkDate, 'yyyy-MM-dd'))) {
+      currentStreak++;
+      checkDate = subDays(checkDate, 1);
     }
 
     return { totalTasks, velocity, activeDays, currentStreak };
   }, [tasks]);
+
+  // Milestone Celebration Trigger
+  useEffect(() => {
+    const milestones = [7, 15, 30, 50, 100, 200, 300, 365, 500, 700, 1000];
+    const current = stats.currentStreak;
+
+    if (current > 0 && milestones.includes(current) && !celebratedMilestones.includes(current)) {
+      setActiveMilestone(current);
+      setCelebratedMilestones(prev => [...prev, current]);
+    }
+  }, [stats.currentStreak, celebratedMilestones]);
 
   const getLevel = (dateStr: string) => {
     const dayTasks = tasks[dateStr] || [];
@@ -124,85 +183,25 @@ export default function TrackerPage() {
     return 1;
   };
 
-  const triggerReward = useCallback(() => {
-    confetti({
-      particleCount: 50,
-      spread: 60,
-      origin: { y: 0.8 },
-      colors: ['#10b981', '#059669', '#ffffff'],
-      disableForReducedMotion: true
-    });
-  }, []);
-
-  const handleAddTask = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newTaskText.trim()) return;
-
-    const newTask: Task = {
-      id: crypto.randomUUID(),
-      text: newTaskText,
-      completed: false,
-      category: newTaskCategory
-    };
-
-    setTasks(prev => ({
-      ...prev,
-      [selectedDate]: [...(prev[selectedDate] || []), newTask]
-    }));
-    setNewTaskText('');
-  };
-
-  const toggleTask = (id: string) => {
-    setTasks(prev => {
-      const dayTasks = prev[selectedDate] || [];
-      const updated = dayTasks.map(t => {
-        if (t.id === id) {
-          const nextState = !t.completed;
-          if (nextState) triggerReward();
-          return { ...t, completed: nextState };
-        }
-        return t;
-      });
-      return { ...prev, [selectedDate]: updated };
-    });
-  };
-
-  const deleteTask = (id: string) => {
-    setTasks(prev => {
-      const updated = prev[selectedDate].filter(t => t.id !== id);
-      const newState = { ...prev };
-      if (updated.length === 0) {
-        delete newState[selectedDate];
-      } else {
-        newState[selectedDate] = updated;
-      }
-      return newState;
-    });
-  };
-
   const monthsData = useMemo(() => {
-      return Array.from({ length: 12 }).map((_, i) => {
-          const monthStart = startOfMonth(new Date(currentYear, i, 1));
-          const numDays = getDaysInMonth(monthStart);
-          const padding = getDay(monthStart);
-          const days = Array.from({ length: numDays }).map((_, d) => {
-              const date = new Date(currentYear, i, d + 1);
-              return {
-                  date,
-                  dateStr: format(date, 'yyyy-MM-dd')
-              };
-          });
-          return {
-              name: format(monthStart, 'MMM'),
-              padding,
-              days
-          };
+    return Array.from({ length: 12 }).map((_, i) => {
+      const monthStart = startOfMonth(new Date(currentYear, i, 1));
+      const numDays = getDaysInMonth(monthStart);
+      const padding = getDay(monthStart);
+      const days = Array.from({ length: numDays }).map((_, d) => {
+        const date = new Date(currentYear, i, d + 1);
+        return {
+          date,
+          dateStr: format(date, 'yyyy-MM-dd')
+        };
       });
+      return {
+        name: format(monthStart, 'MMM'),
+        padding,
+        days
+      };
+    });
   }, [currentYear]);
-
-  const selectedDayTasks = tasks[selectedDate] || [];
-  const completedCount = selectedDayTasks.filter(t => t.completed).length;
-  const progressPercent = selectedDayTasks.length > 0 ? Math.round((completedCount / selectedDayTasks.length) * 100) : 0;
 
   if (!isMounted) return null;
 
@@ -213,7 +212,7 @@ export default function TrackerPage() {
       <main className="flex-1 pt-32 pb-24 px-6 md:px-16">
         <div className="max-w-7xl mx-auto">
           
-          {/* Section: Header */}
+          {/* Header Section */}
           <header className="mb-24 flex flex-col lg:flex-row lg:items-end justify-between gap-12">
             <div className="space-y-6">
               <Link href="/" className="inline-flex items-center text-[10px] font-black uppercase tracking-[0.4em] text-muted-foreground hover:text-primary transition-colors group">
@@ -228,7 +227,7 @@ export default function TrackerPage() {
               </p>
             </div>
 
-            <div className="flex flex-wrap gap-12 md:gap-20">
+            <div className="flex flex-wrap gap-8 items-end">
               <div className="space-y-1">
                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/50">Momentum Velocity</p>
                 <div className="flex items-center gap-3">
@@ -239,51 +238,39 @@ export default function TrackerPage() {
                 <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-muted-foreground/50">Active Iterations</p>
                 <p className="text-5xl font-bold tracking-tighter tabular-nums">{stats.activeDays}</p>
               </div>
+              <div className="ml-4">
+                 <WeeklyPlanner templates={templates} setTemplates={setTemplates} />
+              </div>
             </div>
           </header>
 
           <div className="grid grid-cols-1 xl:grid-cols-12 gap-20">
             
-            {/* Section: Activity Heat Map */}
+            {/* Heat Map Section */}
             <div className="xl:col-span-8 space-y-16">
               <div className="flex items-center justify-between border-b border-border/10 pb-6">
                 <div className="flex items-center gap-6">
                   <h2 className="text-[11px] font-black uppercase tracking-[0.4em] text-foreground/80">Activity Heat Map</h2>
                   <div className="h-6 w-px bg-border/20" />
-                  <TooltipProvider>
-                    <Tooltip delayDuration={0}>
-                      <TooltipTrigger asChild>
-                        <div className="group flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/5 border border-orange-500/10 cursor-default">
-                          <motion.div
-                            whileHover={{ 
-                              scale: [1, 1.1, 1, 1.15, 1],
-                              rotate: [0, -2, 2, -1, 1, 0],
-                              transition: { duration: 1.8, repeat: Infinity, ease: "easeInOut" }
-                            }}
-                            className="text-orange-500"
-                          >
-                            <Flame className="h-3.5 w-3.5 fill-current" />
-                          </motion.div>
-                          <span className="text-[11px] font-bold tabular-nums text-orange-600/80">{stats.currentStreak} day streak</span>
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent side="top" className="bg-orange-600 text-white text-[10px] font-bold border-none">
-                        Maintain Daily Commits
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <div className="group flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/5 border border-orange-500/10 cursor-default">
+                    <motion.div
+                      animate={stats.currentStreak > 0 ? { 
+                        scale: [1, 1.1, 1],
+                        rotate: [0, -5, 5, 0]
+                      } : {}}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="text-orange-500"
+                    >
+                      <Flame className="h-3.5 w-3.5 fill-current" />
+                    </motion.div>
+                    <span className="text-[11px] font-bold tabular-nums text-orange-600/80">{stats.currentStreak} day streak</span>
+                  </div>
                 </div>
 
-                <div className="flex items-center gap-6">
-                  <div className="flex items-center gap-2">
-                    <button onClick={() => setCurrentYear(prev => prev - 1)} className="p-1 hover:text-primary transition-colors">
-                      <ChevronLeft className="h-4 w-4" />
-                    </button>
-                    <span className="font-mono font-black text-xs tracking-[0.3em]">{currentYear}</span>
-                    <button onClick={() => setCurrentYear(prev => prev + 1)} className="p-1 hover:text-primary transition-colors">
-                      <ChevronRight className="h-4 w-4" />
-                    </button>
-                  </div>
+                <div className="flex items-center gap-4">
+                  <button onClick={() => setCurrentYear(prev => prev - 1)} className="text-muted-foreground hover:text-primary transition-colors text-xs font-bold uppercase tracking-widest">Prev</button>
+                  <span className="font-mono font-black text-xs tracking-[0.3em] px-4 py-1 bg-secondary/50 rounded-full">{currentYear}</span>
+                  <button onClick={() => setCurrentYear(prev => prev + 1)} className="text-muted-foreground hover:text-primary transition-colors text-xs font-bold uppercase tracking-widest">Next</button>
                 </div>
               </div>
 
@@ -319,7 +306,7 @@ export default function TrackerPage() {
                                 />
                               </TooltipTrigger>
                               <TooltipContent side="top" className="bg-black text-white text-[10px] font-mono border-none px-3 py-1.5 rounded-none">
-                                {format(day.date, 'MMM d')} — {tasks[day.dateStr]?.length || 0} commit(s)
+                                {format(day.date, 'MMM d')} — {tasks[day.dateStr]?.length || 0} task(s)
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
@@ -329,9 +316,14 @@ export default function TrackerPage() {
                   </div>
                 ))}
               </div>
+
+              {/* Achievements Grid */}
+              <div className="pt-20">
+                <Achievements currentStreak={stats.currentStreak} unlockedMilestones={celebratedMilestones} />
+              </div>
             </div>
 
-            {/* Section: Daily Operations */}
+            {/* Daily Operations Section */}
             <div className="xl:col-span-4 space-y-12 lg:pl-12 lg:border-l border-border/10">
               <div className="space-y-1">
                 <p className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">{format(parseISO(selectedDate), 'EEEE')}</p>
@@ -340,130 +332,24 @@ export default function TrackerPage() {
                 </h3>
               </div>
 
-              {/* Progress HUD */}
-              <div className="space-y-4">
-                <div className="flex justify-between items-end">
-                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">Throughput</span>
-                  <span className="text-xs font-mono font-black">{progressPercent}%</span>
-                </div>
-                <div className="h-0.5 w-full bg-muted/10 overflow-hidden">
-                  <motion.div 
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progressPercent}%` }}
-                    className="h-full bg-primary"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-8">
-                <ScrollArea className="h-[450px] pr-6 -mr-6" data-lenis-prevent>
-                  <AnimatePresence mode="popLayout">
-                    {selectedDayTasks.length === 0 ? (
-                      <div className="py-24 text-center space-y-6 opacity-20 grayscale">
-                        <Activity className="h-10 w-10 mx-auto stroke-[1px]" />
-                        <p className="text-[10px] font-bold uppercase tracking-[0.5em]">Standby for Operations</p>
-                      </div>
-                    ) : (
-                      <div className="space-y-8">
-                        {selectedDayTasks.map((task) => (
-                          <motion.div 
-                            key={task.id} 
-                            layout
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: 10 }}
-                            className={cn(
-                              "group flex items-start gap-4 transition-all duration-700",
-                              task.completed && "opacity-30 grayscale"
-                            )}
-                          >
-                            <button 
-                              onClick={() => toggleTask(task.id)}
-                              className={cn(
-                                "mt-1 h-4 w-4 rounded-[2px] border border-border flex items-center justify-center transition-all",
-                                task.completed ? "bg-primary border-primary text-primary-foreground" : "hover:border-primary active:scale-90"
-                              )}
-                            >
-                              {task.completed && <Check className="h-3 w-3 stroke-[3px]" />}
-                            </button>
-                            <div className="flex-1 space-y-1.5 overflow-hidden">
-                              {/* Using div instead of p to avoid hydration errors with nested motion elements */}
-                              <div className="text-sm font-medium leading-relaxed tracking-tight relative inline-block transition-all duration-700">
-                                {task.text}
-                                {task.completed && (
-                                  <motion.div 
-                                    initial={{ width: 0 }}
-                                    animate={{ width: '100%' }}
-                                    className="absolute top-1/2 left-0 h-[1px] bg-foreground/60"
-                                  />
-                                )}
-                              </div>
-                              <div className="flex items-center gap-3">
-                                <span className={cn(
-                                  "text-[8px] font-black uppercase tracking-[0.2em] px-1.5 py-0.5 rounded-[1px] border",
-                                  task.category === 'work' ? "bg-zinc-500/5 text-zinc-500/60 border-zinc-500/10" : 
-                                  task.category === 'personal' ? "bg-zinc-500/5 text-zinc-500/60 border-zinc-500/10" : 
-                                  "bg-emerald-500/5 text-emerald-500/60 border-emerald-500/10"
-                                )}>
-                                  {task.category}
-                                </span>
-                              </div>
-                            </div>
-                            <button 
-                              onClick={() => deleteTask(task.id)}
-                              className="opacity-0 group-hover:opacity-100 transition-opacity p-1 hover:text-destructive active:scale-90"
-                            >
-                              <X className="h-3 w-3" />
-                            </button>
-                          </motion.div>
-                        ))}
-                      </div>
-                    )}
-                  </AnimatePresence>
-                </ScrollArea>
-
-                <form onSubmit={handleAddTask} className="space-y-6 pt-10 border-t border-border/10">
-                  <div className="relative group">
-                    <Input 
-                      value={newTaskText}
-                      onChange={(e) => setNewTaskText(e.target.value)}
-                      placeholder="Commit new operation..."
-                      className="border-none bg-transparent h-12 px-0 text-lg font-bold tracking-tighter placeholder:text-muted-foreground/10 focus-visible:ring-0 rounded-none"
-                    />
-                    <div className="h-px w-full bg-border/10 group-focus-within:bg-primary/50 transition-colors" />
-                    <Button 
-                      type="submit" 
-                      size="icon" 
-                      variant="ghost"
-                      disabled={!newTaskText.trim()}
-                      className="absolute right-0 top-1/2 -translate-y-1/2 hover:bg-transparent text-muted-foreground hover:text-primary transition-colors"
-                    >
-                      <Plus className="h-5 w-5" />
-                    </Button>
-                  </div>
-
-                  <div className="flex gap-6">
-                    {(['work', 'personal', 'growth'] as const).map(cat => (
-                      <button
-                        key={cat}
-                        type="button"
-                        onClick={() => setNewTaskCategory(cat)}
-                        className={cn(
-                          "text-[9px] font-black uppercase tracking-[0.4em] transition-all",
-                          newTaskCategory === cat ? "text-primary translate-y-[-1px]" : "text-muted-foreground/30 hover:text-muted-foreground"
-                        )}
-                      >
-                        {cat}
-                      </button>
-                    ))}
-                  </div>
-                </form>
-              </div>
+              <TaskList 
+                selectedDate={selectedDate} 
+                tasks={tasks} 
+                setTasks={setTasks} 
+              />
             </div>
           </div>
         </div>
       </main>
+
+      {/* Celebration Modal */}
+      <MilestoneCelebration 
+        milestone={activeMilestone} 
+        onClose={() => setActiveMilestone(null)} 
+      />
+
       <Footer />
     </div>
   );
 }
+
