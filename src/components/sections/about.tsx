@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/tooltip';
 import { useTheme } from 'next-themes';
 import { useEffect, useState, useRef, type ReactNode } from 'react';
-import { ListChecks, BookOpen, ArrowUpRight, Github, ChevronDown, Rocket, Target, Zap } from 'lucide-react';
+import { ListChecks, BookOpenCheck, ArrowUpRight, Github, ChevronDown, Rocket, CircleCheckBig, BookHeart } from 'lucide-react';
 import {
   Accordion,
   AccordionContent,
@@ -206,7 +206,7 @@ const techStack = [
 
 const educationAchievements = [
   { 
-    icon: BookOpen, 
+    icon: BookOpenCheck, 
     text: "Published a research paper titled \"MedQuery AI\" in the prestigious PeerJ Computer Science journal." 
   },
   { 
@@ -218,7 +218,7 @@ const educationAchievements = [
     text: "Showcased progressive leadership within the National Service Scheme (NSS), advancing from Volunteer to Executive Member and ultimately Team Lead." 
   },
   { 
-    icon: BookOpen, 
+    icon: ListChecks, 
     text: "Served as Joint Secretary for the college's Photography Club." 
   },
   { 
@@ -234,7 +234,7 @@ const educationAchievements = [
     text: "Was selected for the prestigious Amazon ML Summer School 2024 program." 
   },
   { 
-    icon: Target, 
+    icon: CircleCheckBig, 
     text: "Successfully converted the summer school experience into a Software Development Engineer internship at Amazon." 
   },
   { 
@@ -242,7 +242,7 @@ const educationAchievements = [
     text: "Maintained a strong CGPA of 8.28 while actively managing a diverse range of extracurricular activities, projects, and open-source contributions." 
   },
   { 
-    icon: Zap, 
+    icon: BookHeart, 
     text: "Honored with the “Overall Excellence” Award by the Department of Computer Science and Engineering for outstanding all-around achievement." 
   },
 ];
