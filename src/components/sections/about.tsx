@@ -206,16 +206,36 @@ const techStack = [
 ];
 
 const educationAchievements = [
-  "Published a research paper titled \"MedQuery AI\" in the prestigious PeerJ Computer Science journal.",
-  "Secured 1st Prize in a competitive code debugging contest hosted by IIT Palakkad.",
-  "Showcased progressive leadership within the National Service Scheme (NSS), advancing from Volunteer to Executive Member and ultimately Team Lead.",
-  "Served as Joint Secretary for the college's Photography Club.",
-  "Successfully organized a major photography event, drawing 54 participants from various colleges.",
-  "Participated twice in the PSG iTech × SAP Hackfest, earning opportunities to work on real-world SAP projects.",
-  "Was selected for the prestigious Amazon ML Summer School 2024 program.",
-  "Successfully converted the summer school experience into a Software Development Engineer internship at Amazon.",
-  "Maintained a strong CGPA of 8.28 while actively managing a diverse range of extracurricular activities, projects, and open-source contributions.",
-  "Honored with the “Overall Excellence” Award by the Department of Computer Science and Engineering for outstanding all-around achievement.",
+  {
+    text: "Published a research paper titled \"MedQuery AI\" in the prestigious PeerJ Computer Science journal."
+  },
+  {
+    text: "Secured 1st Prize in a competitive code debugging contest hosted by IIT Palakkad."
+  },
+  {
+    text: "Showcased progressive leadership within the National Service Scheme (NSS), advancing from Volunteer to Executive Member and ultimately Team Lead."
+  },
+  {
+    text: "Served as Joint Secretary for the college's Photography Club."
+  },
+  {
+    text: "Successfully organized a major photography event, drawing 54 participants from various colleges."
+  },
+  {
+    text: "Participated twice in the PSG iTech × SAP Hackfest, earning opportunities to work on real-world SAP projects."
+  },
+  {
+    text: "Was selected for the prestigious Amazon ML Summer School 2024 program."
+  },
+  {
+    text: "Successfully converted the summer school experience into a Software Development Engineer internship at Amazon."
+  },
+  {
+    text: "Maintained a strong CGPA of 8.28 while actively managing a diverse range of extracurricular activities, projects, and open-source contributions."
+  },
+  {
+    text: "Honored with the “Overall Excellence” Award by the Department of Computer Science and Engineering for outstanding all-around achievement."
+  },
 ];
 
 function ResearchPublication() {
@@ -279,8 +299,8 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
     setMousePos({ x, y });
   };
 
-  const shimmerColor = (mounted && resolvedTheme === 'dark')
-    ? 'hsl(var(--primary) / 0.5)'
+  const shimmerColor = (mounted && resolvedTheme === 'dark') 
+    ? 'hsl(var(--primary) / 0.5)' 
     : 'rgba(255, 255, 255, 0.8)';
 
   return (
@@ -289,12 +309,12 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
       onMouseMove={handleMouseMove}
       className="group relative mt-6 overflow-hidden rounded-lg p-[1px] transition-all duration-300 hover:shadow-2xl w-full"
       style={mounted ? {
-        background: resolvedTheme === 'dark'
+        background: resolvedTheme === 'dark' 
           ? `linear-gradient(to bottom, hsl(var(--border) / 0.5), hsl(var(--border)))`
           : `linear-gradient(to bottom, hsl(var(--border) / 0.8), hsl(var(--border)))`
       } : {}}
     >
-      <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-6 backdrop-blur-sm transition-all duration-500 group-hover:bg-white dark:group-hover:bg-secondary/50">
+      <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-8 backdrop-blur-sm transition-all duration-500 group-hover:bg-white dark:group-hover:bg-secondary/50">
         <div 
           className={cn(
             "absolute inset-0 z-0 transition-opacity duration-500",
@@ -306,7 +326,7 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
             animation: 'shimmer 3s ease-in-out infinite'
           }}
         />
-        <div
+        <div 
           className={cn(
             "absolute inset-0 z-0 transition-opacity duration-500",
             (mounted && resolvedTheme === 'dark') ? "block opacity-20" : "hidden"
@@ -319,15 +339,13 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
         />
 
         <div className="relative z-20">
-          <div className="flex flex-col sm:flex-row items-center gap-8">
-            <div className="relative h-16 w-16 flex-shrink-0">
+          <div className="flex flex-col sm:flex-row items-center gap-10">
+            <div className="relative h-20 w-20 flex-shrink-0">
               {psgLogo && (
-                <Image
+                <img
                   src={psgLogo.imageUrl}
                   alt={psgLogo.description}
                   data-ai-hint={psgLogo.imageHint}
-                  width={64}
-                  height={64}
                   className="h-full w-full object-contain filter grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-110"
                 />
               )}
@@ -335,69 +353,69 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
 
             <div className="flex-grow text-center sm:text-left transition-all duration-300 group-hover:translate-x-2">
               <h4 
-                className="text-lg font-bold text-foreground/90 transition-all duration-300 group-hover:text-primary"
+                className="text-xl font-bold text-foreground/90 transition-all duration-300 group-hover:text-primary"
                 style={mounted ? {
                   maskImage: `linear-gradient(-75deg, rgba(255,255,255,1) calc(${mousePos.x}% + 20%), rgba(255,255,255,0.4) calc(${mousePos.x}% + 30%), rgba(255,255,255,1) calc(${mousePos.x}% + 100%))`
                 } : {}}
               >
                 PSG Institute of Technology and Applied Research
               </h4>
-              <p className="text-base text-muted-foreground transition-all duration-300">
+              <p className="text-lg text-muted-foreground transition-all duration-300">
                 B.E. Computer Science and Engineering
               </p>
-              <p className="text-sm font-medium text-muted-foreground transition-all duration-300">
+              <p className="text-base font-medium text-muted-foreground transition-all duration-300">
                 2021 - 2025 | CGPA: 8.28
               </p>
             </div>
           </div>
 
-          <div className="mt-6 flex flex-col items-center sm:items-start">
+          <div className="mt-8 flex flex-col items-center sm:items-start">
             <button 
-              onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
-              className={cn(
-                "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:text-primary transition-all duration-500 group/btn",
-                isExpanded ? "opacity-100" : "opacity-40"
-              )}
+                onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
+                className={cn(
+                  "flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] text-primary hover:text-primary transition-all duration-500 group/btn",
+                  isExpanded ? "opacity-100" : "opacity-40"
+                )}
             >
-              View Notable Achievements
-              <ChevronDown className={cn("h-3 w-3 transition-transform duration-500", isExpanded && "rotate-180")} />
+                View Notable Achievements
+                <ChevronDown className={cn("h-4 w-4 transition-transform duration-500", isExpanded && "rotate-180")} />
             </button>
 
             <AnimatePresence initial={false}>
-              {isExpanded && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                  animate={{ height: 'auto', opacity: 1, marginTop: 16 }}
-                  exit={{ height: 0, opacity: 0, marginTop: 0 }}
-                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="overflow-hidden w-full"
-                >
-                  <div className="space-y-4 pt-4 border-t border-border/10">
-                    {educationAchievements.map((item, i) => (
-                      <motion.div 
-                        key={i}
-                        initial={{ x: -10, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ delay: i * 0.05 + 0.1, duration: 0.5 }}
-                        onMouseEnter={() => setHoveredIdx(i)}
-                        onMouseLeave={() => setHoveredIdx(null)}
-                        className="flex items-start gap-4 group/item"
-                      >
-                        <div className="mt-0.5 flex-shrink-0 transition-colors">
-                          <UnorderedListIcon 
-                            size={16}
-                            active={hoveredIdx === i}
-                            className="text-primary/70"
-                          />
+                {isExpanded && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0, marginTop: 0 }}
+                        animate={{ height: 'auto', opacity: 1, marginTop: 24 }}
+                        exit={{ height: 0, opacity: 0, marginTop: 0 }}
+                        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden w-full"
+                    >
+                        <div className="space-y-5 pt-6 border-t border-border/10">
+                            {educationAchievements.map((item, i) => (
+                                <motion.div 
+                                    key={i}
+                                    initial={{ x: -10, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: i * 0.05 + 0.1, duration: 0.5 }}
+                                    onMouseEnter={() => setHoveredIdx(i)}
+                                    onMouseLeave={() => setHoveredIdx(null)}
+                                    className="flex items-start gap-5 group/item"
+                                >
+                                    <div className="mt-1 flex-shrink-0 transition-colors">
+                                        <UnorderedListIcon 
+                                          size={18} 
+                                          active={hoveredIdx === i}
+                                          className="text-primary/70"
+                                        />
+                                    </div>
+                                    <p className="text-base text-muted-foreground/80 leading-relaxed lora italic font-medium group-hover/item:text-foreground/90 transition-colors">
+                                        {item.text}
+                                    </p>
+                                </motion.div>
+                            ))}
                         </div>
-                        <p className="text-sm text-muted-foreground/80 leading-relaxed lora italic font-medium group-hover/item:text-foreground/90 transition-colors">
-                          {item}
-                        </p>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
+                    </motion.div>
+                )}
             </AnimatePresence>
           </div>
         </div>
@@ -494,7 +512,7 @@ export function About() {
                                 { text: 'ஸ்ரீனிவாச பிரதீப்', className: 'font-tiro-tamil italic text-xs text-foreground/90' },
                                 { text: 'श्रीनिवास प्रदीप', className: 'font-tiro-hindi text-xs text-foreground/90' },
                                 { text: 'ശ്രീനിവാസ പ്രതീപ്', className: 'font-malayalam text-xs text-foreground/90' },
-                                { text: 'శ్రీనివాస ಪ್ರದೀಪ್', className: 'font-tiro-telugu text-xs text-foreground/90' }
+                                { text: 'శ్రీనివాస ಪ್ರదీಪ್', className: 'font-tiro-telugu text-xs text-foreground/90' }
                             ]}
                           />
                       </div>
@@ -521,22 +539,22 @@ export function About() {
 
         {/* Centered Content Block: Unified architectural center for all sections below Bio */}
         <div className="max-w-4xl mx-auto space-y-32">
-          {/* Education Content - Centered narrative track */}
+          {/* Education Content - Now perfectly centered */}
           <div className="w-full">
-            <h3 className="font-headline text-2xl font-semibold text-primary mb-8 text-left">
+            <h3 className="font-headline text-2xl font-semibold text-primary mb-8 text-center">
               Education
             </h3>
             <PremiumEducationCard psgLogo={psgLogo} />
           </div>
 
-          {/* Experience Section - Centered narrative track */}
+          {/* Experience Section - Perfectly centered */}
           <div className="w-full relative overflow-visible">
-            <h3 className="font-headline text-2xl font-semibold text-primary mb-16 text-left">
+            <h3 className="font-headline text-2xl font-semibold text-primary mb-16 text-center">
               Experience
             </h3>
             
-            <div className="relative flex flex-col items-start overflow-visible">
-              <div className="flex items-center justify-start gap-12 md:gap-24 mb-6 w-full">
+            <div className="relative flex flex-col items-center overflow-visible">
+              <div className="flex items-center justify-center gap-12 md:gap-24 mb-6">
                   {companies.map((company) => {
                       const logoId = company.id === 'amazon' ? amazonLogoId : company.imageId;
                       const logoImage = PlaceHolderImages.find(p => p.id === logoId);
@@ -566,13 +584,13 @@ export function About() {
                   })}
               </div>
 
-              {/* Timeline Baseline */}
-              <div className="relative w-full h-[1px] bg-border/20 mb-12 overflow-visible">
+              {/* Shining Hero Timeline Baseline - Centered Track */}
+              <div className="relative w-full max-w-2xl h-[1px] bg-border/20 mb-12 overflow-visible mx-auto">
                  <div className="absolute inset-0 overflow-hidden rounded-full pointer-events-none">
                     <div className="absolute top-0 bottom-0 left-[-20%] w-[40%] bg-gradient-to-r from-transparent via-primary/30 to-transparent animate-flow-line" />
                  </div>
 
-                 <div className="absolute inset-0 flex items-center justify-start w-full gap-12 md:gap-24">
+                 <div className="absolute inset-0 flex items-center justify-between w-full px-2">
                     {companies.map((company) => {
                         const isSelected = selectedExpId === company.id;
                         const shouldPulse = isSelected || (selectedExpId === null && company.id === 'mercedes');
@@ -595,96 +613,105 @@ export function About() {
                  </div>
               </div>
 
-              <div className="relative w-full flex flex-col items-start overflow-visible">
+              <div className="relative w-full flex flex-col items-center overflow-visible">
                   <AnimatePresence mode="wait">
                       {selectedExp && (
-                          <motion.div
-                              key={selectedExp.id}
-                              initial={{ opacity: 0, filter: 'blur(20px)', y: -10 }}
-                              animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-                              exit={{ opacity: 0, filter: 'blur(20px)', y: -10 }}
-                              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                              className="w-full relative"
-                          >
-                              <div className="flex flex-col gap-10">
-                                  <motion.div custom={0} variants={staggeredVariants} initial="hidden" animate="visible" className="text-left">
-                                      <h4 className="font-headline text-3xl font-black tracking-tighter text-foreground italic">
-                                        {selectedExp.name}
-                                      </h4>
-                                      <div className="mt-2 flex flex-col sm:flex-row sm:items-center justify-start gap-2 sm:gap-6">
-                                          <p className="text-xl font-bold text-foreground/90 tracking-tight">{selectedExp.designation}</p>
-                                          <div className="hidden sm:block h-1 w-1 rounded-full bg-border" />
-                                          <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em] opacity-50">{selectedExp.timeline}</p>
-                                      </div>
-                                  </motion.div>
+                          <>
+                              <motion.div 
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 40, opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  className="w-px bg-gradient-to-b from-primary/30 to-transparent"
+                              />
 
-                                  <motion.div custom={1} variants={staggeredVariants} initial="hidden" animate="visible" className="flex flex-wrap justify-start gap-x-12 gap-y-6">
-                                      {selectedExp.metrics.map((m, i) => (
-                                          <div key={i} className="flex flex-col items-start gap-1 group/metric relative">
-                                              <span className="text-[9px] font-black text-muted-foreground/40 tracking-[0.4em] uppercase">{m.label}</span>
-                                              <div className="flex items-center gap-3">
-                                                  <span className="text-base font-black text-primary italic">{m.value}</span>
-                                                  <div className="h-px w-8 bg-primary/10 group-hover/metric:bg-primary/40 transition-colors" />
-                                              </div>
+                              <motion.div
+                                  key={selectedExp.id}
+                                  initial={{ opacity: 0, filter: 'blur(20px)', y: -10, scale: 0.98 }}
+                                  animate={{ opacity: 1, filter: 'blur(0px)', y: 0, scale: 1 }}
+                                  exit={{ opacity: 0, filter: 'blur(20px)', y: -10, scale: 0.98 }}
+                                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                                  className="w-full relative px-4"
+                              >
+                                  <div className="flex flex-col gap-10">
+                                      <motion.div custom={0} variants={staggeredVariants} initial="hidden" animate="visible" className="text-center">
+                                          <h4 className="font-headline text-3xl font-black tracking-tighter text-foreground italic">
+                                            {selectedExp.name}
+                                          </h4>
+                                          <div className="mt-2 flex flex-col sm:flex-row sm:items-center justify-center gap-2 sm:gap-6">
+                                              <p className="text-xl font-bold text-foreground/90 tracking-tight">{selectedExp.designation}</p>
+                                              <div className="hidden sm:block h-1 w-1 rounded-full bg-border" />
+                                              <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-[0.3em] opacity-50">{selectedExp.timeline}</p>
                                           </div>
-                                      ))}
-                                  </motion.div>
+                                      </motion.div>
 
-                                  <div className="space-y-6">
-                                      {selectedExp.impact.map((point, i) => (
-                                          <motion.div 
-                                              key={i} 
-                                              custom={i + 2} 
-                                              variants={staggeredVariants} 
-                                              initial="hidden" 
-                                              animate="visible"
-                                              className="relative pl-10 group"
-                                          >
-                                              <div className="absolute left-0 top-3.5 w-6 h-[1px] bg-primary/10 group-hover:bg-primary/40 transition-colors duration-500" />
-                                              <p className="text-lg text-foreground/80 leading-relaxed lora italic font-medium group-hover:text-foreground transition-colors duration-500 text-left">
-                                                  {point}
-                                              </p>
-                                          </motion.div>
-                                      ))}
-                                  </div>
+                                      <motion.div custom={1} variants={staggeredVariants} initial="hidden" animate="visible" className="flex flex-wrap justify-center gap-x-12 gap-y-6">
+                                          {selectedExp.metrics.map((m, i) => (
+                                              <div key={i} className="flex flex-col items-center gap-1 group/metric relative">
+                                                  <span className="text-[9px] font-black text-muted-foreground/40 tracking-[0.4em] uppercase">{m.label}</span>
+                                                  <div className="flex items-center gap-3">
+                                                      <span className="text-base font-black text-primary italic">{m.value}</span>
+                                                      <div className="h-px w-8 bg-primary/10 group-hover/metric:bg-primary/40 transition-colors" />
+                                                  </div>
+                                              </div>
+                                          ))}
+                                      </motion.div>
 
-                                  <motion.div custom={selectedExp.impact.length + 2} variants={staggeredVariants} initial="hidden" animate="visible" className="pt-8 border-t border-border/5 flex justify-start">
-                                      <div className="flex items-center gap-8 px-8 py-4 rounded-full bg-secondary/10 backdrop-blur-3xl border border-white/5 w-fit">
-                                          {selectedExp.techStack.map((tech) => (
-                                              <TooltipProvider key={tech.name}>
-                                                  <Tooltip delayDuration={0}>
-                                                      <TooltipTrigger asChild>
-                                                          <div className="group/tech transition-transform duration-500 hover:-translate-y-1">
-                                                              <tech.Icon className="h-5 w-5 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500" style={{ color: tech.color }} />
-                                                          </div>
-                                                      </TooltipTrigger>
-                                                      <TooltipContent className="bg-black/90 backdrop-blur-xl border-white/10">
-                                                          <p className="text-[10px] font-black uppercase tracking-widest text-white">{tech.name}</p>
-                                                      </TooltipContent>
-                                                  </Tooltip>
-                                              </TooltipProvider>
+                                      <div className="space-y-6">
+                                          {selectedExp.impact.map((point, i) => (
+                                              <motion.div 
+                                                  key={i} 
+                                                  custom={i + 2} 
+                                                  variants={staggeredVariants} 
+                                                  initial="hidden" 
+                                                  animate="visible"
+                                                  className="relative pl-10 group"
+                                              >
+                                                  <div className="absolute left-0 top-3.5 w-6 h-[1px] bg-primary/10 group-hover:bg-primary/40 transition-colors duration-500" />
+                                                  <p className="text-lg text-foreground/80 leading-relaxed lora italic font-medium group-hover:text-foreground transition-colors duration-500 text-left">
+                                                      {point}
+                                                  </p>
+                                              </motion.div>
                                           ))}
                                       </div>
-                                  </motion.div>
-                              </div>
-                          </motion.div>
+
+                                      <motion.div custom={selectedExp.impact.length + 2} variants={staggeredVariants} initial="hidden" animate="visible" className="pt-8 border-t border-border/5 flex justify-center">
+                                          <div className="flex items-center gap-8 px-8 py-4 rounded-full bg-secondary/10 backdrop-blur-3xl border border-white/5 w-fit">
+                                              {selectedExp.techStack.map((tech) => (
+                                                  <TooltipProvider key={tech.name}>
+                                                      <Tooltip delayDuration={0}>
+                                                          <TooltipTrigger asChild>
+                                                              <div className="group/tech transition-transform duration-500 hover:-translate-y-1">
+                                                                  <tech.Icon className="h-5 w-5 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-500" style={{ color: tech.color }} />
+                                                              </div>
+                                                          </TooltipTrigger>
+                                                          <TooltipContent className="bg-black/90 backdrop-blur-xl border-white/10">
+                                                              <p className="text-[10px] font-black uppercase tracking-widest text-white">{tech.name}</p>
+                                                          </TooltipContent>
+                                                      </Tooltip>
+                                                  </TooltipProvider>
+                                              ))}
+                                          </div>
+                                      </motion.div>
+                                  </div>
+                              </motion.div>
+                          </>
                       )}
                   </AnimatePresence>
               </div>
             </div>
           </div>
 
-          {/* Research Section - Centered narrative track */}
+          {/* Research Section - Perfectly centered */}
           <div className="w-full">
-            <h3 className="font-headline text-2xl font-semibold text-primary text-left mb-8">
+            <h3 className="font-headline text-2xl font-semibold text-primary text-center mb-8">
               Research & Publications
             </h3>
             <ResearchPublication />
           </div>
           
-          {/* Skills Section - Centered narrative track */}
+          {/* Skills Section - Perfectly centered */}
           <div className="w-full">
-            <h3 className="font-headline text-2xl font-semibold text-primary text-left">
+            <h3 className="font-headline text-2xl font-semibold text-primary text-center">
               Skills
             </h3>
             <div
@@ -710,9 +737,9 @@ export function About() {
             </div>
           </div>
 
-          {/* Beyond the Resume Section - Centered narrative track */}
+          {/* Beyond the Resume Section - Perfectly centered */}
           <div className="w-full">
-            <h3 className="font-headline text-2xl font-semibold text-primary mb-12 text-left">
+            <h3 className="font-headline text-2xl font-semibold text-primary mb-12 text-center">
               Beyond the Resume
             </h3>
             <div className="space-y-0">
