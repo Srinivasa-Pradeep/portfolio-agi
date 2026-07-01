@@ -314,7 +314,7 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
           : `linear-gradient(to bottom, hsl(var(--border) / 0.8), hsl(var(--border)))`
       } : {}}
     >
-      <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-8 backdrop-blur-sm transition-all duration-500 group-hover:bg-white dark:group-hover:bg-secondary/50">
+      <div className="relative h-full w-full rounded-[calc(var(--radius)-1px)] bg-secondary/30 p-6 backdrop-blur-sm transition-all duration-500 group-hover:bg-white dark:group-hover:bg-secondary/50">
         <div 
           className={cn(
             "absolute inset-0 z-0 transition-opacity duration-500",
@@ -339,8 +339,8 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
         />
 
         <div className="relative z-20">
-          <div className="flex flex-col sm:flex-row items-center gap-10">
-            <div className="relative h-20 w-20 flex-shrink-0">
+          <div className="flex flex-col sm:flex-row items-center gap-6">
+            <div className="relative h-16 w-16 flex-shrink-0">
               {psgLogo && (
                 <img
                   src={psgLogo.imageUrl}
@@ -353,27 +353,27 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
 
             <div className="flex-grow text-center sm:text-left transition-all duration-300 group-hover:translate-x-2">
               <h4 
-                className="text-xl font-bold text-foreground/90 transition-all duration-300 group-hover:text-primary"
+                className="text-lg font-bold text-foreground/90 transition-all duration-300 group-hover:text-primary"
                 style={mounted ? {
                   maskImage: `linear-gradient(-75deg, rgba(255,255,255,1) calc(${mousePos.x}% + 20%), rgba(255,255,255,0.4) calc(${mousePos.x}% + 30%), rgba(255,255,255,1) calc(${mousePos.x}% + 100%))`
                 } : {}}
               >
                 PSG Institute of Technology and Applied Research
               </h4>
-              <p className="text-lg text-muted-foreground transition-all duration-300">
+              <p className="text-base text-muted-foreground transition-all duration-300">
                 B.E. Computer Science and Engineering
               </p>
-              <p className="text-base font-medium text-muted-foreground transition-all duration-300">
+              <p className="text-sm font-medium text-muted-foreground transition-all duration-300">
                 2021 - 2025 | CGPA: 8.28
               </p>
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col items-center sm:items-start">
+          <div className="mt-6 flex flex-col items-center sm:items-start">
             <button 
                 onClick={(e) => { e.preventDefault(); setIsExpanded(!isExpanded); }}
                 className={cn(
-                  "flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.3em] text-primary hover:text-primary transition-all duration-500 group/btn",
+                  "flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-primary hover:text-primary transition-all duration-500 group/btn",
                   isExpanded ? "opacity-100" : "opacity-40"
                 )}
             >
@@ -385,12 +385,12 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
                 {isExpanded && (
                     <motion.div
                         initial={{ height: 0, opacity: 0, marginTop: 0 }}
-                        animate={{ height: 'auto', opacity: 1, marginTop: 24 }}
+                        animate={{ height: 'auto', opacity: 1, marginTop: 8 }}
                         exit={{ height: 0, opacity: 0, marginTop: 0 }}
                         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                         className="overflow-hidden w-full"
                     >
-                        <div className="space-y-5 pt-6 border-t border-border/10">
+                        <div className="space-y-3 pt-4 border-t border-border/10">
                             {educationAchievements.map((item, i) => (
                                 <motion.div 
                                     key={i}
@@ -399,16 +399,16 @@ function PremiumEducationCard({ psgLogo }: { psgLogo?: ImagePlaceholder }) {
                                     transition={{ delay: i * 0.05 + 0.1, duration: 0.5 }}
                                     onMouseEnter={() => setHoveredIdx(i)}
                                     onMouseLeave={() => setHoveredIdx(null)}
-                                    className="flex items-start gap-5 group/item"
+                                    className="flex items-start gap-4 group/item"
                                 >
                                     <div className="mt-1 flex-shrink-0 transition-colors">
                                         <UnorderedListIcon 
-                                          size={18} 
+                                          size={16} 
                                           active={hoveredIdx === i}
                                           className="text-primary/70"
                                         />
                                     </div>
-                                    <p className="text-base text-muted-foreground/80 leading-relaxed lora italic font-medium group-hover/item:text-foreground/90 transition-colors">
+                                    <p className="text-sm text-muted-foreground/80 leading-relaxed lora italic font-medium group-hover/item:text-foreground/90 transition-colors">
                                         {item.text}
                                     </p>
                                 </motion.div>
